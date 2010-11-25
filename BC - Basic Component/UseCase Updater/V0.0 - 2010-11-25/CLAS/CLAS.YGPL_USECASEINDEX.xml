@@ -1,0 +1,633 @@
+<?xml version="1.0" encoding="utf-16"?>
+<ZL_OBJECT CHECKSUM="6194B192197380A568641B09DC3DE14D" CODE_SIGNATURE="BCFE7E68AA320C28B04C225F2C6A8658" CONNECTOR="39AC0A4B07A5A05AE1000000AC120173" NAME="YGPL_USECASEINDEX" TYPE="CLAS" VERSION="1.01">
+ <DIRECTORY DEVCLASS="YGPL-USECASEINDEX" MASTERLANG="E"/>
+ <RAW>
+  <A0_MAINDATA VERSION="1" LANGU="E" EXPOSURE="2" STATE="1" CLSCCINCL="X" FIXPT="X" UNICODE="X" MSG_ID="YGPL_USECASEINDEX">
+   <TEXTS>
+    <ITEM LANG="E" TEXT="Update UseCase Indexes (standalone)">U1&amp;FUNCTIONALITY&amp;
+ASThis class allows to update the &quot;UseCase&quot; indexes. This indexes are
+  build form the target (where component is used) and not from the source
+  (used component) there for you can&apos;t ask for usecase update of a
+  specific component but update use case index for a development class
+  because you know that this component is only used there.
+U1&amp;RELATIONS&amp;
+ASThis class is a standalone version of the same functionality in ZAPLINK
+  framework.
+U1&amp;EXAMPLE&amp;
+AS
+U1&amp;HINTS&amp;
+AS
+U1&amp;FURTHER_SOURCES_OF_INF&amp;
+AShttp://code.google.com/p/ygpl/
+U1Memories
+ASThis service/functionality is dedicated to the memory of Pascal CUENIN
+  who died while this class was designed. Rest in peace.</ITEM>
+   </TEXTS>
+  </A0_MAINDATA>
+  <ATTRIBUTS>
+   <ITEM CMPNAME="BLOC_SIZE" STATE="1" ATTDECLTYP="2" ATTVALUE="100" TYPTYPE="1" TYPE="I">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Number of programs updated by one wave"/>
+    </TEXTS>
+   </ITEM>
+   <ITEM CMPNAME="COMPONENTS" EXPOSURE="2" STATE="1" ATTRDONLY="X" TYPTYPE="1" TYPE="TT_GENSETC">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Generation Set for ABAP Objects and BSP Applications"/>
+    </TEXTS>
+   </ITEM>
+   <ITEM CMPNAME="GC_GEN_TYPES" EXPOSURE="1" STATE="1" ATTDECLTYP="2" ATTVALUE="&apos;1CFJKMST&apos;" TYPTYPE="1" TYPE="STRING">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Activable program types"/>
+    </TEXTS>
+   </ITEM>
+   <ITEM CMPNAME="LAST_P" STATE="1" TYPTYPE="1" TYPE="I">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Last Percentage displayed"/>
+    </TEXTS>
+   </ITEM>
+   <ITEM CMPNAME="STEP" STATE="1" TYPTYPE="1" TYPE="I">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Percentage step"/>
+    </TEXTS>
+   </ITEM>
+   <ITEM CMPNAME="T_COUNT" STATE="1" TYPTYPE="1" TYPE="I">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Program Count"/>
+    </TEXTS>
+   </ITEM>
+   <ITEM CMPNAME="T_PROGS" EXPOSURE="1" STATE="1" TYPTYPE="1" TYPE="PROGRAMT">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Table of Program Names"/>
+    </TEXTS>
+   </ITEM>
+  </ATTRIBUTS>
+  <LOCAL>
+   <TYPES>`
+*&quot;* use this source file for any type declarations (class
+*&quot;* definitions, interfaces or data types) you need for method
+*&quot;* implementation or private method&apos;s signature</TYPES>
+   <IMPLEMENTATIONS>`
+*&quot;* local class implementation for public class
+*&quot;* use this source file for the implementation part of
+*&quot;* local helper classes</IMPLEMENTATIONS>
+   <MACROS>`
+*&quot;* use this source file for any macro definitions you need
+*&quot;* in the implementation part of the class</MACROS>
+  </LOCAL>
+  <METHODS>
+   <ITEM CMPNAME="ADD_ENTRIES" EXPOSURE="1" STATE="1">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Add components (internal format)"/>
+    </TEXTS>
+    <PARAMETERS>
+     <ITEM SCONAME="ENTRIES" CMPTYPE="1" PARPASSTYP="1" TYPTYPE="1" TYPE="TT_GENSETC">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="Internal entries format"/>
+      </TEXTS>
+     </ITEM>
+    </PARAMETERS>
+    <SOURCE>`
+  DATA it_gensetc     TYPE tt_gensetc.
+  FIELD-SYMBOLS: &lt;obj&gt; LIKE LINE OF it_gensetc.
+
+  it_gensetc = check_valid_proglist( entries ).
+  LOOP AT it_gensetc ASSIGNING &lt;obj&gt;.     APPEND &lt;obj&gt;-name TO t_progs.       ENDLOOP.
+  APPEND LINES OF it_gensetc TO components.   SORT components BY object objname.    DELETE ADJACENT DUPLICATES FROM components COMPARING object objname.
+  SORT t_progs.   DELETE ADJACENT DUPLICATES FROM t_progs.</SOURCE>
+   </ITEM>
+   <ITEM CMPNAME="ADD_KEYS" EXPOSURE="2" STATE="1">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Add component as keys list"/>
+    </TEXTS>
+    <PARAMETERS>
+     <ITEM SCONAME="KEYS" CMPTYPE="1" PARPASSTYP="1" TYPTYPE="1" TYPE="TT_COMPKEYS"/>
+    </PARAMETERS>
+    <SOURCE>`
+  DATA t_entries    TYPE tt_gensetc.
+
+  t_entries = conv_compkey_2_proglist( keys ).
+  add_entries( t_entries ).</SOURCE>
+   </ITEM>
+   <ITEM CMPNAME="CHECK_VALID_PROGLIST" EXPOSURE="1" STATE="1">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Check that component are valid and activable"/>
+    </TEXTS>
+    <PARAMETERS>
+     <ITEM SCONAME="LIST" CMPTYPE="1" PARPASSTYP="1" TYPTYPE="1" TYPE="TT_GENSETC">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="Generation Set for ABAP Objects and BSP Applications"/>
+      </TEXTS>
+     </ITEM>
+     <ITEM SCONAME="RESULT" CMPTYPE="1" PARDECLTYP="3" TYPTYPE="1" TYPE="TT_GENSETC">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="Generation Set for ABAP Objects and BSP Applications"/>
+      </TEXTS>
+     </ITEM>
+    </PARAMETERS>
+    <SOURCE>`
+  DATA gc_infoline_on TYPE oax.
+  DATA it_gensetc_raw TYPE tt_gensetc.
+  DATA t_trdir TYPE HASHED TABLE OF trdir WITH UNIQUE KEY name.
+  FIELD-SYMBOLS:
+    &lt;dir&gt; LIKE LINE OF t_trdir,
+    &lt;obj&gt; LIKE LINE OF it_gensetc_raw.
+
+  it_gensetc_raw = list.
+* determine the program names on the basis of the TADIR keys *
+  PERFORM  tadir_2_trdir IN PROGRAM rsparagenlod
+           CHANGING it_gensetc_raw.
+* When type doesn&apos;t correspond to a program (or equivalent) name is filled with previous value
+  DELETE ADJACENT DUPLICATES FROM it_gensetc_raw COMPARING NAME.
+* delete non existing or invalid objects from generation set
+  IF LINES( it_gensetc_raw ) &gt; 1000.
+    PERFORM trdir_check IN PROGRAM rsparagenlod
+      USING    gc_infoline_on
+               it_gensetc_raw
+    CHANGING result.
+  ELSE.
+    SELECT * INTO TABLE t_trdir
+      FROM trdir
+      FOR ALL ENTRIES IN it_gensetc_raw
+      WHERE name = it_gensetc_raw-name
+      %_HINTS ORACLE &apos;&amp;max_blocking_factor 50&amp;&apos;.
+    LOOP AT it_gensetc_raw ASSIGNING &lt;obj&gt;.
+      READ TABLE t_trdir ASSIGNING &lt;dir&gt;
+           WITH TABLE KEY name = &lt;obj&gt;-name.
+      CHECK sy-subrc = 0.
+      CHECK &lt;dir&gt;-subc CA gc_gen_types.
+      APPEND &lt;obj&gt; TO result.
+    ENDLOOP.
+  ENDIF.
+
+  SORT result BY pgmid object objname.   DELETE ADJACENT DUPLICATES FROM result COMPARING pgmid object objname.</SOURCE>
+   </ITEM>
+   <ITEM CMPNAME="CONV_COMPKEY_2_PROGLIST" EXPOSURE="1" STATE="1">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Convert compkey to Program list"/>
+    </TEXTS>
+    <PARAMETERS>
+     <ITEM SCONAME="KEYS" CMPTYPE="1" PARPASSTYP="1" TYPTYPE="1" TYPE="TT_COMPKEYS">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="List of component keys"/>
+      </TEXTS>
+     </ITEM>
+     <ITEM SCONAME="RESULT" CMPTYPE="1" PARDECLTYP="3" TYPTYPE="1" TYPE="TT_GENSETC">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="Generation Set for ABAP Objects and BSP Applications"/>
+      </TEXTS>
+     </ITEM>
+    </PARAMETERS>
+    <SOURCE>`
+  DATA s_entry      LIKE LINE OF result.
+  FIELD-SYMBOLS &lt;k&gt; LIKE LINE OF keys.
+
+  LOOP AT keys ASSIGNING &lt;k&gt;.
+    s_entry-pgmid = &apos;R3TR&apos;.     s_entry-object = &lt;k&gt;-type.      s_entry-objname = &lt;k&gt;-name.   APPEND s_entry TO result.
+  ENDLOOP.
+  SORT result. DELETE ADJACENT DUPLICATES FROM result.</SOURCE>
+   </ITEM>
+   <ITEM CMPNAME="DETERMINE_STEP" STATE="1">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Determine Step depending of number of object to process"/>
+    </TEXTS>
+    <SOURCE>`
+  DATA d_string  TYPE string.
+
+  t_count = LINES( t_progs ).
+  step = t_count / bloc_size.
+  IF step &lt; 4.      step = 4.       ENDIF.
+  IF step &gt; 100.    step = 100.     ENDIF.
+  step = step / 100.
+  IF step &lt; 1.      step = 1.       ENDIF.
+  IF step &gt; 100.    step = 100.     ENDIF.
+  IF NOT sy-batch IS INITIAL.
+    d_string = t_count.
+    MESSAGE i001 WITH d_string.
+  ENDIF.</SOURCE>
+   </ITEM>
+   <ITEM CMPNAME="EXTEND_PACKAGE" EXPOSURE="1" STATE="1" MTDDECLTYP="1">
+    <PARAMETERS>
+     <ITEM SCONAME="PACKAGES" CMPTYPE="1" PARPASSTYP="1" TYPTYPE="1" TYPE="TT_PACK">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="Package list"/>
+      </TEXTS>
+     </ITEM>
+     <ITEM SCONAME="RESULT" CMPTYPE="1" PARDECLTYP="3" TYPTYPE="1" TYPE="TT_PACK">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="Package list"/>
+      </TEXTS>
+     </ITEM>
+    </PARAMETERS>
+    <SOURCE>`
+  DATA r_exclu TYPE tr_packages.
+  DATA t_level TYPE tt_pack.
+
+  t_level = result = packages .
+  WHILE NOT t_level[] IS INITIAL.
+    SORT t_level.
+    DELETE ADJACENT DUPLICATES FROM t_level.
+
+    SELECT devclass
+        FROM tdevc
+        INTO TABLE t_level
+           FOR ALL ENTRIES IN t_level
+        WHERE parentcl = t_level-table_line.
+
+    APPEND LINES OF t_level TO result.
+  ENDWHILE.
+
+  SORT result.
+  DELETE ADJACENT DUPLICATES FROM result.</SOURCE>
+   </ITEM>
+   <ITEM CMPNAME="EXTEND_PACKAGES" EXPOSURE="1" STATE="1" MTDDECLTYP="1">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Extend Package to sub_packages"/>
+    </TEXTS>
+    <PARAMETERS>
+     <ITEM SCONAME="PACKAGES" CMPTYPE="1" PARPASSTYP="1" TYPTYPE="1" TYPE="TR_PACKAGES">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="Range of package"/>
+      </TEXTS>
+     </ITEM>
+     <ITEM SCONAME="RESULT" CMPTYPE="1" PARDECLTYP="3" TYPTYPE="1" TYPE="TR_PACKAGES">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="Range of package"/>
+      </TEXTS>
+     </ITEM>
+    </PARAMETERS>
+    <SOURCE>`
+  DATA r_exclu TYPE tr_packages.
+  DATA t_level TYPE tr_packages.
+  DATA s_pack LIKE LINE OF result.
+
+  CHECK NOT packages IS INITIAL.
+  r_exclu = packages.   DELETE r_exclu WHERE sign &lt;&gt; &apos;E&apos;. &quot; Keep only Devcclass to remove
+
+* Package selection
+  result = get_sub_packages( packages ).
+
+  IF NOT r_exclu IS INITIAL.
+    s_pack-sign = &apos;I&apos;.   MODIFY r_exclu FROM s_pack TRANSPORTING sign WHERE sign &lt;&gt; s_pack-sign.
+    r_exclu = get_sub_packages( r_exclu ).
+    DELETE result WHERE low IN r_exclu.
+  ENDIF.
+
+  SORT result.    DELETE ADJACENT DUPLICATES FROM result COMPARING low.
+  s_pack-sign = &apos;I&apos;.  s_pack-option = &apos;EQ&apos;.   MODIFY result FROM s_pack TRANSPORTING sign option WHERE NOT low IS INITIAL.</SOURCE>
+   </ITEM>
+   <ITEM CMPNAME="GET_KEYS_FROM_TADIR" EXPOSURE="2" STATE="1" MTDDECLTYP="1">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Get object list from TADIR : Package, type, author,..."/>
+    </TEXTS>
+    <PARAMETERS>
+     <ITEM SCONAME="AUTHOR" CMPTYPE="1" PARPASSTYP="1" TYPTYPE="1" TYPE="TR_AUTHOR" PAROPTIONL="X">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="Range of author (person reponsible of the component)"/>
+      </TEXTS>
+     </ITEM>
+     <ITEM SCONAME="EXT" CMPTYPE="1" PARPASSTYP="1" TYPTYPE="1" TYPE="ABAP_BOOL" PARVALUE="ABAP_TRUE" PAROPTIONL="X">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="Extend to sub package"/>
+      </TEXTS>
+     </ITEM>
+     <ITEM SCONAME="NAME" CMPTYPE="1" PARPASSTYP="1" TYPTYPE="1" TYPE="TR_COMPNAME" PAROPTIONL="X">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="Range of component name"/>
+      </TEXTS>
+     </ITEM>
+     <ITEM SCONAME="PACKAGES" CMPTYPE="1" PARPASSTYP="1" TYPTYPE="1" TYPE="TR_PACKAGES" PAROPTIONL="X">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="Range of package"/>
+      </TEXTS>
+     </ITEM>
+     <ITEM SCONAME="RESULT" CMPTYPE="1" PARDECLTYP="3" TYPTYPE="1" TYPE="TT_COMPKEYS">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="List of component keys"/>
+      </TEXTS>
+     </ITEM>
+     <ITEM SCONAME="SOFTCOMP" CMPTYPE="1" PARPASSTYP="1" TYPTYPE="1" TYPE="TR_SOFTCOMP" PAROPTIONL="X">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="Range of Software Component"/>
+      </TEXTS>
+     </ITEM>
+     <ITEM SCONAME="SRCSYSTEM" CMPTYPE="1" PARPASSTYP="1" TYPTYPE="1" TYPE="TR_SRCSYSTEM" PAROPTIONL="X">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="Range of source system"/>
+      </TEXTS>
+     </ITEM>
+     <ITEM SCONAME="TYPE" CMPTYPE="1" PARPASSTYP="1" TYPTYPE="1" TYPE="TR_COMPTYPE" PAROPTIONL="X">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="Range of component types"/>
+      </TEXTS>
+     </ITEM>
+    </PARAMETERS>
+    <SOURCE>`
+  TYPES tt_pack TYPE STANDARD TABLE OF tdevc-devclass.
+  DATA r_exclu TYPE tr_packages.
+  DATA t_devc  TYPE tt_pack.
+  DATA t_exclu TYPE tt_pack.
+  FIELD-SYMBOLS: &lt;p&gt; LIKE LINE OF t_exclu.
+  DATA t_ext_pack TYPE tr_packages.
+
+  t_ext_pack = limit_packages( softcomp = softcomp
+                               packages = packages ).
+  IF t_ext_pack IS INITIAL.
+    CHECK srcsystem IS NOT INITIAL OR type IS NOT INITIAL OR name IS NOT INITIAL OR author IS NOT INITIAL. &quot; to prevent extracting all tadir
+    SELECT object obj_name
+      INTO TABLE result
+      FROM tadir
+      WHERE srcsystem IN srcsystem
+        AND object IN type
+        AND obj_name IN name
+        AND author IN author.
+    EXIT.
+  ENDIF.
+
+  IF ext = abap_true.   t_ext_pack = extend_packages( t_ext_pack ).    ENDIF.
+
+  r_exclu = t_ext_pack.     DELETE r_exclu WHERE sign &lt;&gt; &apos;E&apos;. &quot; Keep only Devcclass to remove
+
+* Package selection
+  SELECT devclass
+      FROM tdevc
+      INTO TABLE t_devc
+      WHERE devclass IN t_ext_pack.
+
+  IF NOT ext IS INITIAL.
+    t_devc = extend_package( t_devc ).
+  ENDIF.
+
+* Package selection
+  IF NOT r_exclu IS INITIAL.
+    SELECT devclass
+        FROM tdevc
+        INTO TABLE t_exclu
+        WHERE NOT devclass IN r_exclu.
+
+    t_exclu = extend_package( t_exclu ).
+    LOOP AT t_exclu ASSIGNING &lt;p&gt;.
+      DELETE TABLE t_devc FROM &lt;p&gt;.
+    ENDLOOP.
+  ENDIF.
+
+  IF NOT t_devc IS INITIAL.
+    SELECT object obj_name
+      INTO TABLE result
+      FROM tadir
+        FOR ALL ENTRIES IN t_devc
+      WHERE devclass = t_devc-table_line
+        AND srcsystem IN srcsystem
+        AND object IN type
+        AND obj_name IN name
+        AND author IN author.
+  ENDIF.</SOURCE>
+   </ITEM>
+   <ITEM CMPNAME="GET_SUB_PACKAGES" EXPOSURE="1" STATE="1" MTDDECLTYP="1">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Get Sub Package of packages"/>
+    </TEXTS>
+    <PARAMETERS>
+     <ITEM SCONAME="PACKAGES" CMPTYPE="1" PARPASSTYP="1" TYPTYPE="1" TYPE="TR_PACKAGES">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="Range of package"/>
+      </TEXTS>
+     </ITEM>
+     <ITEM SCONAME="RESULT" CMPTYPE="1" PARDECLTYP="3" TYPTYPE="1" TYPE="TR_PACKAGES">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="Range of package"/>
+      </TEXTS>
+     </ITEM>
+    </PARAMETERS>
+    <SOURCE>`
+  DATA t_level TYPE tr_packages.
+  DATA s_pack LIKE LINE OF result.
+
+  CHECK NOT packages IS INITIAL.
+
+* Package selection
+  SELECT devclass AS low
+      FROM tdevc
+      INTO CORRESPONDING FIELDS OF TABLE result
+      WHERE devclass in packages.
+
+* Package extention
+  t_level = result.
+  WHILE NOT t_level[] IS INITIAL.
+    SORT t_level.
+    DELETE ADJACENT DUPLICATES FROM t_level.
+
+    SELECT devclass AS low
+        FROM tdevc
+        INTO CORRESPONDING FIELDS OF TABLE t_level
+           FOR ALL ENTRIES IN t_level
+        WHERE parentcl = t_level-low.
+
+    APPEND LINES OF t_level TO result.
+  ENDWHILE.
+
+  SORT result.    DELETE ADJACENT DUPLICATES FROM result COMPARING low.
+  s_pack-sign = &apos;I&apos;.  s_pack-option = &apos;EQ&apos;.   MODIFY result FROM s_pack TRANSPORTING sign option WHERE NOT low IS INITIAL.</SOURCE>
+   </ITEM>
+   <ITEM CMPNAME="LIMIT_PACKAGES" EXPOSURE="1" STATE="1" MTDDECLTYP="1">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Limit/extend packages to Software component"/>
+    </TEXTS>
+    <PARAMETERS>
+     <ITEM SCONAME="PACKAGES" CMPTYPE="1" PARPASSTYP="1" TYPTYPE="1" TYPE="TR_PACKAGES">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="Range of package"/>
+      </TEXTS>
+     </ITEM>
+     <ITEM SCONAME="RESULT" CMPTYPE="1" PARDECLTYP="3" TYPTYPE="1" TYPE="TR_PACKAGES">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="Range of package"/>
+      </TEXTS>
+     </ITEM>
+     <ITEM SCONAME="SOFTCOMP" CMPTYPE="1" PARPASSTYP="1" TYPTYPE="1" TYPE="TR_SOFTCOMP">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="Range of Software Component"/>
+      </TEXTS>
+     </ITEM>
+    </PARAMETERS>
+    <SOURCE>`
+  DATA r_exclu TYPE tr_packages.
+  DATA t_level TYPE tr_packages.
+  DATA s_pack LIKE LINE OF result.
+
+  result = packages.
+  CHECK NOT softcomp IS INITIAL.
+
+* Package selection
+  SELECT devclass AS low
+      FROM tdevc
+      INTO CORRESPONDING FIELDS OF TABLE result
+      WHERE devclass IN packages
+        AND dlvunit IN softcomp.
+
+  r_exclu = packages.   DELETE r_exclu WHERE sign &lt;&gt; &apos;E&apos;. &quot; Keep only Devcclass to remove
+
+  SORT result.    DELETE ADJACENT DUPLICATES FROM result COMPARING low.
+  s_pack-sign = &apos;I&apos;.  s_pack-option = &apos;EQ&apos;.   MODIFY result FROM s_pack TRANSPORTING sign option WHERE NOT low IS INITIAL.
+
+  APPEND LINES OF r_exclu TO result.</SOURCE>
+   </ITEM>
+   <ITEM CMPNAME="RESET" EXPOSURE="2" STATE="1">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Reset program list"/>
+    </TEXTS>
+    <SOURCE>`
+  REFRESH t_progs.</SOURCE>
+   </ITEM>
+   <ITEM CMPNAME="SHOW_PROGRESS" STATE="1">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Display progress to user"/>
+    </TEXTS>
+    <PARAMETERS>
+     <ITEM SCONAME="POSITION" CMPTYPE="1" PARPASSTYP="1" TYPTYPE="1" TYPE="I">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="Actual position"/>
+      </TEXTS>
+     </ITEM>
+    </PARAMETERS>
+    <SOURCE>`
+  DATA d_percent TYPE i.
+  DATA d_string  TYPE string.
+  DATA d_delta   TYPE i.
+
+  d_percent = position * 100 / t_count.
+  d_delta = ( d_percent - last_p ).
+
+  IF d_delta &lt; step.   EXIT.   ENDIF.
+
+  d_string = d_percent.   CONDENSE d_string.
+  IF sy-batch IS INITIAL.
+    MESSAGE i000 WITH d_string INTO d_string.
+    CALL FUNCTION &apos;SAPGUI_PROGRESS_INDICATOR&apos;
+      EXPORTING
+        percentage = d_percent
+        text       = d_string.
+  ELSE.
+    MESSAGE i000 WITH d_string.
+  ENDIF.
+  last_p = d_percent.</SOURCE>
+   </ITEM>
+   <ITEM CMPNAME="UPDATE_INDEX" EXPOSURE="2" STATE="1">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Update index"/>
+    </TEXTS>
+    <SOURCE>`
+  DATA t_bloc   TYPE programt.
+  DATA d_index  TYPE i.
+  DATA d_to     TYPE i.
+
+  determine_step( ).
+  d_index = 1.
+  WHILE d_index &lt;= t_count.
+    d_to = d_index + bloc_size.
+    IF d_to &gt; t_count.    d_to = t_count.   ENDIF.
+    CLEAR t_bloc. APPEND LINES OF t_progs FROM d_index TO d_to TO t_bloc.
+    cl_wb_crossreference=&gt;activate_index( t_bloc ).
+    COMMIT WORK.
+    d_index = d_to + 1.
+    show_progress( d_index ).
+    IF d_index &gt; t_count.     EXIT.     ENDIF.
+  ENDWHILE.</SOURCE>
+   </ITEM>
+  </METHODS>
+  <TEXTSPOOL>
+   <ITEM ID="I" KEY="UIP">
+    <TEXTS>
+     <ITEM LANGU="E" ENTRY="Update in progress ..." LENGTH="80 "/>
+    </TEXTS>
+   </ITEM>
+  </TEXTSPOOL>
+  <TYPEGROUPS>
+   <ITEM TYPEGROUP="ABAP" EXPLICIT="X" IMPLICIT="X"/>
+  </TYPEGROUPS>
+  <TYPES>
+   <ITEM CMPNAME="TD_COMPNAME" EXPOSURE="2" STATE="1" TYPTYPE="1" TYPE="STRING">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Object Name"/>
+    </TEXTS>
+   </ITEM>
+   <ITEM CMPNAME="TD_COMPTYPE" EXPOSURE="2" STATE="1" TYPTYPE="1" TYPE="TADIR-OBJECT">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Object Type"/>
+    </TEXTS>
+   </ITEM>
+   <ITEM CMPNAME="TR_AUTHOR" EXPOSURE="2" STATE="1" TYPTYPE="4">
+    tr_author TYPE RANGE OF tadir-author
+`
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Range of author (person reponsible of the component)"/>
+    </TEXTS>
+   </ITEM>
+   <ITEM CMPNAME="TR_COMPNAME" EXPOSURE="2" STATE="1" TYPTYPE="4">
+    tr_compname TYPE RANGE OF tadir-obj_name
+`
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Range of component name"/>
+    </TEXTS>
+   </ITEM>
+   <ITEM CMPNAME="TR_COMPTYPE" EXPOSURE="2" STATE="1" TYPTYPE="4">
+    tr_comptype TYPE RANGE OF td_comptype
+`
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Range of component types"/>
+    </TEXTS>
+   </ITEM>
+   <ITEM CMPNAME="TR_PACKAGES" EXPOSURE="2" STATE="1" TYPTYPE="4">
+    tr_packages TYPE RANGE OF tadir-devclass
+`
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Range of package"/>
+    </TEXTS>
+   </ITEM>
+   <ITEM CMPNAME="TR_SOFTCOMP" EXPOSURE="2" STATE="1" TYPTYPE="4">
+    tr_softcomp TYPE RANGE OF tdevc-DLVUNIT
+`
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Range of Software Component"/>
+    </TEXTS>
+   </ITEM>
+   <ITEM CMPNAME="TR_SRCSYSTEM" EXPOSURE="2" STATE="1" TYPTYPE="4">
+    tr_srcsystem TYPE RANGE OF tadir-srcsystem
+`
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Range of source system"/>
+    </TEXTS>
+   </ITEM>
+   <ITEM CMPNAME="TS_COMPKEY" EXPOSURE="2" STATE="1" TYPTYPE="4">
+    BEGIN OF ts_compkey,
+      type TYPE td_comptype,
+      name TYPE td_compname,
+    END OF ts_compkey
+`
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Component Key (unique)"/>
+    </TEXTS>
+   </ITEM>
+   <ITEM CMPNAME="TT_COMPKEYS" EXPOSURE="2" STATE="1" TYPTYPE="4">
+    tt_compkeys TYPE STANDARD TABLE OF ts_compkey WITH DEFAULT KEY
+`
+    <TEXTS>
+     <ITEM LANG="E" TEXT="List of component keys"/>
+    </TEXTS>
+   </ITEM>
+   <ITEM CMPNAME="TT_GENSETC" EXPOSURE="2" STATE="1" TYPTYPE="4">
+    tt_gensetc TYPE STANDARD TABLE OF gensetc WITH DEFAULT KEY
+`
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Generation Set for ABAP Objects and BSP Applications"/>
+    </TEXTS>
+   </ITEM>
+   <ITEM CMPNAME="TT_PACK" EXPOSURE="1" STATE="1" TYPTYPE="4">
+    tt_pack TYPE STANDARD TABLE OF tdevc-devclass with DEFAULT KEY
+`
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Package list"/>
+    </TEXTS>
+   </ITEM>
+  </TYPES>
+ </RAW>
+</ZL_OBJECT>

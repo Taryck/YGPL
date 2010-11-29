@@ -1,0 +1,1546 @@
+<?xml version="1.0" encoding="utf-16"?>
+<ZL_OBJECT CHECKSUM="49A6B5ABE6FD182E6C2D23BC8EDCDA5F" CODE_SIGNATURE="0DCEAC77304E213F2F4D22369C3414A8" CONNECTOR="39AC0A4B07A5A05AE1000000AC120173" NAME="YGPL_GENERATE" TYPE="CLAS" VERSION="1.01">
+ <DIRECTORY DEVCLASS="YGPL-GENERATION" MASTERLANG="E"/>
+ <RAW>
+  <A0_MAINDATA VERSION="1" LANGU="E" EXPOSURE="2" STATE="1" CLSCCINCL="X" FIXPT="X" UNICODE="X">
+   <TEXTS>
+    <ITEM LANG="E" TEXT="ZAPLink : Activate components">U1&amp;FUNCTIONALITY&amp;
+ASAllow to activate (compile) a component list.
+U1&amp;RELATIONS&amp;
+AS
+U1&amp;EXAMPLE&amp;
+AS
+U1&amp;HINTS&amp;
+AS
+U1&amp;FURTHER_SOURCES_OF_INF&amp;
+AS
+U1Memories
+ASThis application is dedicated to the memories of :
+B2My father : Lamri BENSIALI (1940-2004) without whom I never started
+  programming
+B2My uncle : Jacky BEDU (1934-2009) who died during the completion of this
+  application</ITEM>
+   </TEXTS>
+  </A0_MAINDATA>
+  <ATTRIBUTS>
+   <ITEM CMPNAME="COMPONENT_LIST" EXPOSURE="1" STATE="1" TYPTYPE="1" TYPE="TT_COMPKEYS">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Component list"/>
+    </TEXTS>
+   </ITEM>
+   <ITEM CMPNAME="IT_ITEMS" EXPOSURE="1" STATE="1" TYPTYPE="1" TYPE="TT_ITEMS"/>
+   <ITEM CMPNAME="IT_OBJ_LIST" EXPOSURE="1" STATE="1" TYPTYPE="1" TYPE="TT_OBJLIST">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Objects list"/>
+    </TEXTS>
+   </ITEM>
+  </ATTRIBUTS>
+  <LOCAL>
+   <TYPES>`
+*&quot;* USE THIS SOURCE FILE FOR ANY TYPE DECLARATIONS (CLASS
+*&quot;* definitions, interfaces or data types) you need for method
+*&quot;* IMPLEMENTATION OR PRIVATE METHOD&apos;S SIGNATURE</TYPES>
+   <IMPLEMENTATIONS>`
+*&quot;* LOCAL CLASS IMPLEMENTATION FOR PUBLIC CLASS
+*&quot;* use this source file for the implementation part of
+*&quot;* LOCAL HELPER CLASSES</IMPLEMENTATIONS>
+   <MACROS>`
+*&quot;* USE THIS SOURCE FILE FOR ANY MACRO DEFINITIONS YOU NEED
+*&quot;* IN THE IMPLEMENTATION PART OF THE CLASS</MACROS>
+  </LOCAL>
+  <METHODS>
+   <ITEM CMPNAME="ACTIVATE" EXPOSURE="2" STATE="1">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Activate objects"/>
+    </TEXTS>
+    <PARAMETERS>
+     <ITEM SCONAME="RESULT" CMPTYPE="1" PARDECLTYP="3" TYPTYPE="1" TYPE="TT_COMPKEYS">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="Objects list not activate"/>
+      </TEXTS>
+     </ITEM>
+    </PARAMETERS>
+    <SOURCE>`
+  DATA:
+    lb_actdone TYPE xflag,
+    lc_before  TYPE i,
+    lc_after   TYPE i,
+    it_items   TYPE tt_items,
+    it_progs   TYPE tt_objlist,
+    it_mainp   TYPE tt_mainprogs,
+    _mp        LIKE LINE OF it_mainp,
+    dummy_tab  TYPE tt_items,
+    it_objlist TYPE tt_objlist,
+    it_ddic    TYPE tt_objlist,
+    it_det_obj TYPE tt_det_obj.
+*  FIELD-SYMBOLS:
+*    &lt;mainp&gt; LIKE LINE OF it_mainp,
+*    &lt;item&gt;  LIKE LINE OF it_items,
+*    &lt;obj&gt;   LIKE LINE OF it_obj_list.
+
+  it_obj_list = compkeys_2_objlist( component_list ).
+  SORT it_obj_list BY object obj_name.
+  DELETE ADJACENT DUPLICATES FROM it_obj_list COMPARING object obj_name.
+
+  CALL METHOD split_list
+    EXPORTING
+      obj_list  = it_obj_list
+    IMPORTING
+      ddic      = it_ddic
+      prog_list = it_progs.
+
+* Try mass activation first (usefull for non DDIC objects)
+  activate_ddic( CHANGING it_list = it_ddic ).
+  activate_nonddic( CHANGING it_list = it_progs ).
+  COMMIT WORK AND WAIT.
+
+* do the loop
+  DO.
+    CLEAR lb_actdone.
+
+*Active DDIC
+    IF NOT it_ddic IS INITIAL.
+      lc_before = LINES( it_ddic ).
+      activate_ddic( CHANGING it_list = it_ddic ).
+      lc_after = LINES( it_ddic ).
+      IF lc_after &lt; lc_before.
+        lb_actdone = abap_true.
+        COMMIT WORK AND WAIT.
+      ENDIF.
+    ENDIF.
+
+*Active NON DDIC
+    IF NOT it_progs IS INITIAL.
+      lc_before = LINES( it_progs ).
+      activate_nonddic( EXPORTING one_by_one = &apos;X&apos;
+                         CHANGING    it_list = it_progs ).
+      lc_after = LINES( it_progs ).
+      IF lc_after &gt;= lc_before.
+        activate_nonddic( CHANGING    it_list = it_progs ).    &quot; Try mass activation
+        lc_after = LINES( it_progs ).
+      ENDIF.
+      IF lc_after &lt; lc_before.
+        lb_actdone = abap_true.
+        COMMIT WORK AND WAIT.
+      ENDIF.
+    ENDIF.
+
+    IF lb_actdone IS INITIAL. EXIT. ENDIF.
+  ENDDO.
+
+  APPEND LINES OF it_ddic TO it_objlist.
+  APPEND LINES OF it_progs TO it_objlist.
+  result = objlist_2_compkeys( it_objlist ).
+** Switch into activation and generation
+*  CALL FUNCTION &apos;RS_WORKING_OBJECTS_ACTIVATE&apos;
+*    EXPORTING
+**     SUPPRESS_SYNTAX_CHECK        =
+*      suppress_generation          = &apos;X&apos;
+**     P_WB_MANAGER                 =
+**     SUPPRESS_INSERT              =
+*     activate_ddic_objects        = &apos;X&apos;
+**     WITH_POPUP                   = &apos; &apos;
+*    TABLES
+*      OBJECTS                      = it_det_obj
+*    EXCEPTIONS
+*      excecution_error             = 1
+*      cancelled                    = 2
+*      insert_into_corr_error       = 3
+*      OTHERS                       = 4
+*            .
+*  IF sy-subrc &lt;&gt; 0.
+**    MESSAGE ID sy-msgid TYPE sy-msgty NUMBER sy-msgno
+**            WITH sy-msgv1 sy-msgv2 sy-msgv3 sy-msgv4.
+*  ENDIF.
+*
+*  it_det_obj = get_inactive_objects( it_progs ).
+*
+*  CALL FUNCTION &apos;RS_WORKING_OBJECTS_ACTIVATE&apos;
+*    EXPORTING
+**     SUPPRESS_SYNTAX_CHECK        =
+*      suppress_generation          = &apos;X&apos;
+**     P_WB_MANAGER                 =
+*      SUPPRESS_INSERT              = &apos;X&apos;
+**     ACTIVATE_DDIC_OBJECTS        = &apos; &apos;
+**     WITH_POPUP                   = &apos; &apos;
+*    TABLES
+*      OBJECTS                      = it_det_obj
+*    EXCEPTIONS
+*      excecution_error             = 1
+*      cancelled                    = 2
+*      insert_into_corr_error       = 3
+*      OTHERS                       = 4
+*            .
+*  IF sy-subrc &lt;&gt; 0.
+** MESSAGE ID SY-MSGID TYPE SY-MSGTY NUMBER SY-MSGNO
+**         WITH SY-MSGV1 SY-MSGV2 SY-MSGV3 SY-MSGV4.
+*  ENDIF.
+*
+*  it_items = conv_list( it_progs ).
+*
+** FROM LSEWORKINGAREAF01
+**  PERFORM get_main_programs USING &apos;X&apos; with_popup .
+*  DATA: l_progs TYPE rsnewleng-programm,
+*        l_main TYPE STANDARD TABLE OF rsnewleng-programm WITH NON-UNIQUE DEFAULT KEY,
+*        l_index TYPE i.
+*  FIELD-SYMBOLS:
+*    &lt;pname&gt; LIKE LINE OF l_main.
+*
+** Selektierte für ABAP setzen
+*  CALL FUNCTION &apos;RS_WORKING_AREA_PREPARE&apos;
+*    EXPORTING
+*      suppress_init = &apos;X&apos;
+*    EXCEPTIONS
+*      OTHERS        = 1.
+*
+** FROM LSEWORKINGAREAF01 (366)
+*  REFRESH it_mainp.
+*  CLEAR it_mainp.
+*  LOOP AT it_items ASSIGNING &lt;item&gt;.
+*
+*    CASE &lt;item&gt;-object.
+*      WHEN &apos;CPRI&apos; OR &apos;CPRO&apos; OR &apos;CPUB&apos; OR &apos;CREP&apos; OR &apos;METH&apos; OR &apos;INTF&apos;
+*           OR &apos;CINC&apos; OR &apos;CLAS&apos;.
+**       Geht schneller die Klasse zu bestimmen
+*        _mp-include = &lt;item&gt;-obj_name.
+*        &lt;item&gt;-obj_name = &lt;item&gt;-obj_name(30).
+*        TRANSLATE &lt;item&gt;-obj_name USING &apos;= &apos;.
+*        _mp-master = &lt;item&gt;-obj_name.
+*        _mp-object = &lt;item&gt;-object.
+*        APPEND _mp TO it_mainp.
+*        CONTINUE.
+*      WHEN &apos;WAPD&apos; OR &apos;WAPA&apos;.
+**       BSP-Applikation
+*        _mp-include = &lt;item&gt;-obj_name.
+*        _mp-master  = &lt;item&gt;-obj_name.
+*        _mp-object  = &lt;item&gt;-object.
+*        APPEND _mp TO it_mainp.
+*        CONTINUE.
+*      WHEN &apos;WAPP&apos;.
+**       BSP-Seite
+*        _mp-include = &lt;item&gt;-obj_name+30.
+*        _mp-master  = &lt;item&gt;-obj_name(30).
+*        _mp-object  = &lt;item&gt;-object.
+*        APPEND _mp TO it_mainp.
+*        CONTINUE.
+*      WHEN &apos;WDYN&apos;.
+**       Web Dynpro-Applikation
+*        _mp-include = &lt;item&gt;-obj_name.
+*        _mp-master  = &lt;item&gt;-obj_name.
+*        _mp-object  = &lt;item&gt;-object.
+*        APPEND _mp TO it_mainp.
+*        CONTINUE.
+*      WHEN &apos;WDYD&apos; OR &apos;WDYV&apos; OR &apos;WDYC&apos;.
+**       Web Dynpro
+*        _mp-include = &lt;item&gt;-obj_name+30.
+*        _mp-master  = &lt;item&gt;-obj_name(30).
+*        _mp-object  = &lt;item&gt;-object.
+*        APPEND _mp TO it_mainp.
+*        CONTINUE.
+*
+*      WHEN &apos;ENHO&apos; OR &apos;ENHC&apos; OR &apos;ENHS&apos; OR &apos;ENSC&apos;.
+**       Enhancement Objects
+*        _mp-include = &lt;item&gt;-obj_name.
+*        _mp-master  = &lt;item&gt;-obj_name.
+*        _mp-object  = &lt;item&gt;-object.
+*        APPEND _mp TO it_mainp.
+*        CONTINUE.
+*
+*      WHEN &apos;SFBF&apos; OR &apos;SFSW&apos; OR &apos;SFBS&apos; OR &apos;SF01&apos;.
+**       Switch Framework
+*        _mp-include = &lt;item&gt;-obj_name.
+*        _mp-master  = &lt;item&gt;-obj_name.
+*        _mp-object  = &lt;item&gt;-object.
+*        APPEND _mp TO it_mainp.
+*        CONTINUE.
+*
+*      WHEN &apos;WEBI&apos; OR &apos;WEBS&apos;.
+**       Webservices
+*        _mp-include = &lt;item&gt;-obj_name.
+*        _mp-master  = &lt;item&gt;-obj_name.
+*        _mp-object  = &lt;item&gt;-object.
+*        APPEND _mp TO it_mainp.
+*        CONTINUE.
+*      WHEN &apos;SFPF&apos; OR &apos;SFPI&apos;.
+**       Formulare
+*        _mp-include = &lt;item&gt;-obj_name.
+*        _mp-master  = &lt;item&gt;-obj_name.
+*        _mp-object  = &lt;item&gt;-object.
+*        APPEND _mp TO it_mainp.
+*        CONTINUE.
+*      WHEN OTHERS.
+*        PERFORM convert_object_for_abap IN PROGRAM saplseworkingarea
+*                                          TABLES dummy_tab
+*                                        CHANGING &lt;item&gt;.
+*    ENDCASE.
+*    CHECK &lt;item&gt;-object = &apos;REPS&apos;.
+*    CHECK &lt;item&gt;-obj_name(1) &lt;&gt; &apos;&lt;&apos; AND &lt;item&gt;-obj_name(1) &lt;&gt; &apos;&gt;&apos;.
+*    l_progs = &lt;item&gt;-obj_name.
+**   Type-Pools
+*    IF &lt;item&gt;-obj_name(3) = &apos;%_C&apos;.
+*      _mp-include = &lt;item&gt;-obj_name.
+*      _mp-master = &lt;item&gt;-obj_name.
+*      _mp-object = &lt;item&gt;-object.
+*      APPEND _mp TO it_mainp.
+*      CONTINUE.
+*    ENDIF.
+**   PG030801 wenn Rahmenprogramm zu REPS schon bekannt, kein Dialog
+*    IF &lt;item&gt;-object = &apos;REPS&apos;
+*    AND &lt;item&gt;-main_item_object = &apos;PROG&apos;
+*    AND &lt;item&gt;-main_item NE space.
+*      _mp-include = &lt;item&gt;-obj_name.
+*      _mp-master = &lt;item&gt;-main_item.
+*      _mp-object = &lt;item&gt;-object.
+*      APPEND _mp TO it_mainp.
+*    ELSE.
+**     Rahmenprogramme per Dialog bestimmen
+*      CALL FUNCTION &apos;RS_GET_MAINPROGRAMS&apos;
+*         EXPORTING
+*              fulltab      = &apos;X&apos;
+**             dialog_required = &apos;X&apos;
+*              dialog       = &apos; &apos; &quot;with_dialog  &quot;  &apos;X&apos;
+*              name         = l_progs
+*         IMPORTING
+*              tindex       = l_index
+**              number_of_mainprograms = l_number
+*         TABLES
+*              mainprograms = l_main
+*         EXCEPTIONS
+*              cancelled    = 1
+*              OTHERS       = 2.
+*      IF sy-subrc = 1.
+**        g_cancel_flag = &apos;X&apos;.
+**        work_items[] = l_items[].
+**        working_area[] = l_work[].
+**        EXIT.
+*      ENDIF.
+*      IF l_index &lt;&gt; 0.
+*        READ TABLE l_main INDEX l_index ASSIGNING &lt;pname&gt;.
+*        IF sy-subrc = 0.
+*          _mp-include = &lt;item&gt;-obj_name.
+*          _mp-master = &lt;pname&gt;.
+*          _mp-object = &lt;item&gt;-object.
+*          APPEND _mp TO it_mainp.
+*        ENDIF.
+*      ELSE.
+*        LOOP AT l_main ASSIGNING &lt;pname&gt;.
+*          _mp-include = &lt;item&gt;-obj_name.
+*          _mp-master = &lt;pname&gt;.
+*          _mp-object = &lt;item&gt;-object.
+*          APPEND _mp TO it_mainp.
+*        ENDLOOP.
+*      ENDIF.
+*    ENDIF.
+*  ENDLOOP.
+*
+*  CALL METHOD activate_objects
+*    EXPORTING
+*      programs = it_mainp
+*      items    = it_items.</SOURCE>
+   </ITEM>
+   <ITEM CMPNAME="ACTIVATE_DDIC" EXPOSURE="1" STATE="1" MTDDECLTYP="1">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Activate DDIC"/>
+    </TEXTS>
+    <PARAMETERS>
+     <ITEM SCONAME="IT_LIST" CMPTYPE="1" PARDECLTYP="2" PARPASSTYP="1" TYPTYPE="1" TYPE="TT_OBJLIST">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="Objects list"/>
+      </TEXTS>
+     </ITEM>
+    </PARAMETERS>
+    <SOURCE>`
+  DATA:
+    it_debug TYPE STANDARD TABLE OF ddmsactrc WITH NON-UNIQUE DEFAULT KEY.
+  FIELD-SYMBOLS:
+    &lt;wa&gt; LIKE LINE OF it_debug.
+
+*Active DDIC
+  CALL FUNCTION &apos;SEO_BUFFER_REFRESH&apos;
+   EXPORTING
+*     CIFKEY        =
+*     VERSION       = SEOC_VERSION_INACTIVE
+      force         = &apos;X&apos;.
+  CALL FUNCTION &apos;SEO_BUFFER_REFRESH&apos;
+   EXPORTING
+*     CIFKEY        =
+      version       = 1
+      force         = &apos;X&apos;.
+
+*  CALL FUNCTION &apos;RS_DD_WORKLIST_ACTIVATE&apos; in UPDATE TASK
+*    EXPORTING
+*      p_generate_active_obj = &apos;X&apos;
+*      i_suppress_dialog     = &apos;X&apos;
+*    TABLES
+*      t_worklist            = it_list
+*      t_act_obj             = it_debug.
+  CALL FUNCTION &apos;RS_DD_WORKLIST_ACTIVATE&apos;
+    EXPORTING
+      p_generate_active_obj = &apos;X&apos;
+      i_suppress_dialog     = &apos;X&apos;
+    TABLES
+      t_worklist            = it_list
+      t_act_obj             = it_debug
+    EXCEPTIONS
+      not_all_activated     = 1
+      error_occured         = 2
+      locked                = 3
+      OTHERS                = 4.
+  IF sy-subrc &lt;= 1.
+    LOOP AT it_debug ASSIGNING &lt;wa&gt;.
+      DELETE it_list
+          WHERE pgmid = &lt;wa&gt;-pgmid
+            AND object = &lt;wa&gt;-type
+            AND obj_name = &lt;wa&gt;-name.
+    ENDLOOP.
+  ENDIF.
+  COMMIT WORK AND WAIT.</SOURCE>
+   </ITEM>
+   <ITEM CMPNAME="ACTIVATE_DDIC_V2" EXPOSURE="1" STATE="1" MTDDECLTYP="1">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Activate DDIC V2"/>
+    </TEXTS>
+    <PARAMETERS>
+     <ITEM SCONAME="IT_LIST" CMPTYPE="1" PARDECLTYP="2" PARPASSTYP="1" TYPTYPE="1" TYPE="TT_OBJLIST">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="Objects list"/>
+      </TEXTS>
+     </ITEM>
+     <ITEM SCONAME="ONE_BY_ONE" CMPTYPE="1" PARPASSTYP="1" TYPTYPE="1" TYPE="XFLAG" PAROPTIONL="X">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="Activate objects one by one"/>
+      </TEXTS>
+     </ITEM>
+    </PARAMETERS>
+    <SOURCE>`
+  DATA:
+    _wb_manager TYPE REF TO  if_wb_manager,   &quot;#EC NEEDED
+    it_obj TYPE tt_det_obj,
+    it_det_obj TYPE tt_det_obj.
+*  FIELD-SYMBOLS:
+*    &lt;disable_popup&gt; TYPE data,        &quot; DATA: xcode LIKE rsnewleng-tcode,
+*    &lt;obj&gt; LIKE LINE OF it_det_obj.
+
+*Active NON DDIC
+*  ASSIGN (&apos;(SAPLSEWORKINGAREA)xcode&apos;) TO &lt;disable_popup&gt;.
+*  IF sy-subrc = 0.
+*    &lt;disable_popup&gt; = &apos;CHEC&apos;. &quot; LSEWORKINGAREAFCK from CHECKLIST_EVALUATE line 2134
+*  ENDIF.
+*  it_det_obj = get_inactive_objects( it_list ).
+*  count = LINES( it_det_obj ).
+*  IF one_by_one IS INITIAL.
+**    it_det_obj = conv_list( it_list ).
+  it_det_obj = get_inactive_objects( it_list ).
+  CALL FUNCTION &apos;RS_WORKING_OBJECTS_ACTIVATE&apos;
+    EXPORTING
+*     SUPPRESS_SYNTAX_CHECK        =
+*     SUPPRESS_GENERATION          =
+*     P_WB_MANAGER                 =
+*     SUPPRESS_INSERT              =
+      activate_ddic_objects        = &apos;X&apos;
+*     WITH_POPUP                   = &apos; &apos;
+*     CWB_MODE                     =
+    TABLES
+      OBJECTS                      = it_det_obj
+    EXCEPTIONS
+      excecution_error             = 1
+      cancelled                    = 2
+      insert_into_corr_error       = 3
+      OTHERS                       = 4
+            .
+  IF sy-subrc &lt;&gt; 0.
+* MESSAGE ID SY-MSGID TYPE SY-MSGTY NUMBER SY-MSGNO
+*         WITH SY-MSGV1 SY-MSGV2 SY-MSGV3 SY-MSGV4.
+  ENDIF.
+
+  CALL FUNCTION &apos;RS_MASS_ACTIVATION&apos;
+    EXPORTING
+      p_wb_manager = _wb_manager
+    TABLES
+      OBJECTS      = it_det_obj.
+*  ELSE.
+*    it_det_obj = conv_list( it_list ).
+*    LOOP AT it_det_obj ASSIGNING &lt;obj&gt;.
+*      CLEAR it_obj.
+*      APPEND &lt;obj&gt; TO it_obj.
+*      CALL FUNCTION &apos;RS_MASS_ACTIVATION&apos;
+*        EXPORTING
+*          p_wb_manager = _wb_manager
+*        TABLES
+*          OBJECTS      = it_obj.
+*    ENDLOOP.
+*  ENDIF.
+  check_inactive_objects( CHANGING obj_list = it_list ).</SOURCE>
+   </ITEM>
+   <ITEM CMPNAME="ACTIVATE_NONDDIC" EXPOSURE="1" STATE="1" MTDDECLTYP="1">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Activate NONDDIC"/>
+    </TEXTS>
+    <PARAMETERS>
+     <ITEM SCONAME="IT_LIST" CMPTYPE="1" PARDECLTYP="2" PARPASSTYP="1" TYPTYPE="1" TYPE="TT_OBJLIST">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="Objects list"/>
+      </TEXTS>
+     </ITEM>
+     <ITEM SCONAME="ONE_BY_ONE" CMPTYPE="1" PARPASSTYP="1" TYPTYPE="1" TYPE="XFLAG" PAROPTIONL="X">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="Activate objects one by one"/>
+      </TEXTS>
+     </ITEM>
+    </PARAMETERS>
+    <SOURCE>`
+  DATA:
+    _wb_manager TYPE REF TO  if_wb_manager,   &quot;#EC NEEDED
+    it_obj TYPE tt_det_obj,
+    it_det_obj TYPE tt_det_obj.
+  FIELD-SYMBOLS:
+    &lt;disable_popup&gt; TYPE data,        &quot; DATA: xcode LIKE rsnewleng-tcode,
+    &lt;obj&gt; LIKE LINE OF it_det_obj.
+
+*Active NON DDIC
+  ASSIGN (&apos;(SAPLSEWORKINGAREA)xcode&apos;) TO &lt;disable_popup&gt;.
+  IF sy-subrc = 0.
+    &lt;disable_popup&gt; = &apos;CHEC&apos;. &quot; LSEWORKINGAREAFCK from CHECKLIST_EVALUATE line 2134
+  ENDIF.
+*  it_det_obj = get_inactive_objects( it_list ).
+*  count = LINES( it_det_obj ).
+  IF one_by_one IS INITIAL.
+    it_det_obj = conv_list( it_list ).
+*    it_det_obj = get_inactive_objects( it_list ).
+    CALL FUNCTION &apos;RS_MASS_ACTIVATION&apos;
+      EXPORTING
+        p_wb_manager = _wb_manager
+      TABLES
+        OBJECTS      = it_det_obj.
+  ELSE.
+    it_det_obj = conv_list( it_list ).
+    LOOP AT it_det_obj ASSIGNING &lt;obj&gt;.
+      CLEAR it_obj.
+      APPEND &lt;obj&gt; TO it_obj.
+      CALL FUNCTION &apos;RS_MASS_ACTIVATION&apos;
+        EXPORTING
+          p_wb_manager = _wb_manager
+        TABLES
+          OBJECTS      = it_obj.
+    ENDLOOP.
+  ENDIF.
+  check_inactive_objects( CHANGING obj_list = it_list ).</SOURCE>
+   </ITEM>
+   <ITEM CMPNAME="ACTIVATE_OBJECTS" EXPOSURE="1" STATE="1" MTDDECLTYP="1">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Activate Objects (not DDIC)"/>
+    </TEXTS>
+    <PARAMETERS>
+     <ITEM SCONAME="ITEMS" CMPTYPE="1" PARPASSTYP="1" TYPTYPE="1" TYPE="TT_ITEMS">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="Detailled list of object in Working area"/>
+      </TEXTS>
+     </ITEM>
+     <ITEM SCONAME="PROGRAMS" CMPTYPE="1" PARPASSTYP="1" TYPTYPE="1" TYPE="TT_MAINPROGS">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="List of main programs"/>
+      </TEXTS>
+     </ITEM>
+    </PARAMETERS>
+    <SOURCE>`
+  FIELD-SYMBOLS:
+    &lt;it&gt; LIKE LINE OF it_items,
+    &lt;mp&gt; LIKE LINE OF programs.
+
+* Code from LSEWORKINGAREAFGE (form generate_active_object)
+  DATA: l_w_area TYPE tt_items,
+        l_w_items TYPE tt_items,
+        l_master TYPE rsnewleng-programm,
+        BEGIN OF l_dynp_id,
+          prog TYPE progname,
+          dnum TYPE dynpronr,
+        END OF l_dynp_id,
+        message(240) TYPE c,
+        l_page TYPE seu_objkey,
+        l_imp_name TYPE exit_imp,
+        l_navigate TYPE sy-calld,
+        l_subrc TYPE sy-subrc,
+        l_clskey TYPE seoclskey,
+        l_wapd_class TYPE seoclskey-clsname
+                   VALUE &apos;CL_O2_API_APPLICATION&apos;,
+        l_sfpf_class TYPE seoclskey-clsname
+                   VALUE &apos;CL_FP_WB_HELPER&apos;,
+        l_appl TYPE o2applname,
+        l_obj_name TYPE e071-obj_name,
+        l_exception TYPE REF TO cx_root,
+        l_message_text TYPE string.
+
+  LOOP AT programs ASSIGNING &lt;mp&gt;.
+    IF &lt;mp&gt;-master &lt;&gt; l_master.
+      l_master = &lt;mp&gt;-master.
+      CHECK &lt;mp&gt;-error IS INITIAL.
+      CHECK &lt;mp&gt;-include(1) &lt;&gt; &apos;&lt;&apos; AND
+            &lt;mp&gt;-include(1) &lt;&gt; &apos;&gt;&apos;.
+      CASE &lt;mp&gt;-object.
+        WHEN &apos;REPS&apos;.
+*          data: l_with_dialog type c.
+*          if g_no_dialog is initial.
+*            l_with_dialog = &apos;X&apos;.
+*          endif.
+          CALL FUNCTION &apos;REPS_OBJECT_GENERATE&apos;
+            EXPORTING
+              i_program        = l_master
+*              i_with_dialog    = l_with_dialog
+            IMPORTING
+              o_gen_message    = message
+              o_gen_subrc      = l_subrc
+              o_navigate       = l_navigate
+*              o_cancel         = g_cancel_flag
+            EXCEPTIONS
+              syntax_error     = 1
+              generation_error = 2
+              OTHERS           = 3.
+          IF l_subrc &lt;&gt; 0 OR sy-subrc &lt;&gt; 0.
+*            PERFORM dequeue_objects.
+*            IF l_subrc &gt;= 8.
+** Hier hat ein Roll-Back stattgefunden und hoffentlich nur hier!!!***JR
+*              CALL FUNCTION &apos;RS_WORKING_AREA_INIT&apos;
+*                EXPORTING
+*                  force_initialisation = &apos;X&apos;.
+*            ENDIF.
+*            IF NOT l_navigate IS INITIAL.
+*              PERFORM navigate_to_object.
+*            ENDIF.
+*            IF l_subrc &gt;= 8.
+*              MESSAGE e826(eu) RAISING execution_error.
+*            ENDIF.
+          ENDIF.
+        WHEN &apos;CREP&apos; OR &apos;CPUB&apos; OR &apos;CPRI&apos; OR &apos;CPRO&apos; OR &apos;METH&apos;
+             OR &apos;CINC&apos; OR &apos;CLAS&apos;.
+          l_clskey = l_master.
+          CALL FUNCTION &apos;SEO_CLASS_GENERATE_LOAD&apos;
+            EXPORTING
+              clskey             = l_clskey
+            EXCEPTIONS
+              syntax_error       = 1
+              generation_failure = 2
+              OTHERS             = 3.
+          IF sy-subrc &lt;&gt; 0.
+*            IF NOT sy-msgid IS INITIAL.
+*              g_cancel_flag = &apos;3&apos;.
+*              MESSAGE ID sy-msgid TYPE sy-msgty NUMBER sy-msgno
+*                      WITH sy-msgv1 sy-msgv2 sy-msgv3 sy-msgv4.
+*            ENDIF.
+          ENDIF.
+        WHEN &apos;INTF&apos;.
+          l_clskey = l_master.
+          CALL FUNCTION &apos;SEO_INTERFACE_GENERATE_LOAD&apos;
+            EXPORTING
+              intkey             = l_clskey
+            EXCEPTIONS
+              syntax_error       = 1
+              generation_failure = 2
+              OTHERS             = 3.
+          IF sy-subrc &lt;&gt; 0.
+*            IF NOT sy-msgid IS INITIAL.
+*              g_cancel_flag = &apos;3&apos;.
+*              MESSAGE ID sy-msgid TYPE sy-msgty NUMBER sy-msgno
+*                      WITH sy-msgv1 sy-msgv2 sy-msgv3 sy-msgv4.
+*            ENDIF.
+          ENDIF.
+        WHEN &apos;WAPD&apos; OR &apos;WAPA&apos;.
+** O2-HTML-Seiten
+          l_appl = &lt;it&gt;-obj_name.
+          CALL METHOD (l_wapd_class)=&gt;generate_application
+            EXPORTING
+              p_application = l_appl
+            EXCEPTIONS
+              OTHERS        = 1.
+          IF sy-subrc &lt;&gt; 0.
+*            IF NOT sy-msgid IS INITIAL.
+*              g_cancel_flag = &apos;3&apos;.
+*              MESSAGE ID sy-msgid TYPE sy-msgty NUMBER sy-msgno
+*                      WITH sy-msgv1 sy-msgv2 sy-msgv3 sy-msgv4.
+*            ENDIF.
+          ENDIF.
+        WHEN &apos;WDYN&apos; OR &apos;WDYD&apos; OR &apos;WDYV&apos; OR &apos;WDYC&apos;.
+          l_obj_name = l_master.
+          CALL FUNCTION &apos;WDY_WB_GENERATE&apos;
+            EXPORTING
+              p_object_name        = l_obj_name
+              p_suppress_index_upd = &apos; &apos;
+            EXCEPTIONS
+              not_existing         = 1
+              error_occured        = 2
+              syntax_error         = 3
+              OTHERS               = 4.
+          IF sy-subrc &lt;&gt; 0.
+*            PERFORM dequeue_objects.
+*            IF NOT sy-msgid IS INITIAL.
+*              g_cancel_flag = &apos;3&apos;.
+*              MESSAGE ID sy-msgid TYPE sy-msgty NUMBER sy-msgno
+*                      WITH sy-msgv1 sy-msgv2 sy-msgv3 sy-msgv4.
+*            ENDIF.
+          ENDIF.
+
+** Enhancement Objects:
+        WHEN &apos;ENHO&apos; OR &apos;ENHC&apos; OR &apos;ENHS&apos; OR&apos;ENSC&apos;.
+          l_obj_name = l_master.
+          CALL FUNCTION &apos;ENH_WB_GENERATE&apos;
+            EXPORTING
+              p_object_name        = l_obj_name
+              p_obj_type           = &lt;mp&gt;-object
+              p_suppress_index_upd = &apos; &apos;
+            EXCEPTIONS
+              not_existing         = 1
+              error_occured        = 2
+              syntax_error         = 3
+              OTHERS               = 4.
+          IF sy-subrc &lt;&gt; 0.
+*            PERFORM dequeue_objects.
+*            IF NOT sy-msgid IS INITIAL.
+*              g_cancel_flag = &apos;3&apos;.
+*              MESSAGE ID sy-msgid TYPE sy-msgty NUMBER sy-msgno
+*                      WITH sy-msgv1 sy-msgv2 sy-msgv3 sy-msgv4.
+*            ENDIF.
+          ENDIF.
+
+
+** Switch Framework:
+        WHEN &apos;SFBF&apos; OR &apos;SFSW&apos; OR &apos;SFBS&apos; OR &apos;SF01&apos;.
+          l_obj_name = l_master.
+          CALL FUNCTION &apos;SFW_WB_GENERATE&apos;
+            EXPORTING
+              p_object_name        = l_obj_name
+              p_obj_type           = &lt;mp&gt;-object
+              p_suppress_index_upd = &apos; &apos;
+            EXCEPTIONS
+              not_existing         = 1
+              error_occured        = 2
+              syntax_error         = 3
+              OTHERS               = 4.
+          IF sy-subrc &lt;&gt; 0.
+*            PERFORM dequeue_objects.
+*            IF NOT sy-msgid IS INITIAL.
+*              MESSAGE ID sy-msgid TYPE sy-msgty NUMBER sy-msgno
+*                      WITH sy-msgv1 sy-msgv2 sy-msgv3 sy-msgv4.
+*            ENDIF.
+          ENDIF.
+
+
+
+        WHEN &apos;SFPI&apos;.
+** Formularinterface
+          l_obj_name = &lt;it&gt;-obj_name.
+          TRY.
+              CALL METHOD (l_sfpf_class)=&gt;interface_generate
+                EXPORTING
+                  i_name = l_obj_name.
+            CATCH cx_fp_api_usage
+                  cx_fp_api_repository
+                  cx_fp_api_internal INTO l_exception.
+              CLEAR l_message_text.
+              l_message_text = l_exception-&gt;get_text( ).
+*              IF NOT l_message_text IS INITIAL.
+*                g_cancel_flag = &apos;3&apos;.
+*                MESSAGE l_message_text TYPE &apos;E&apos;.
+*              ENDIF.
+          ENDTRY.
+        WHEN &apos;SFPF&apos;.
+** Formulare
+          l_obj_name = &lt;it&gt;-obj_name.
+          TRY.
+              CALL METHOD (l_sfpf_class)=&gt;form_generate
+                EXPORTING
+                  i_name = l_obj_name.
+            CATCH cx_fp_api_usage
+                  cx_fp_api_repository
+                  cx_fp_api_internal INTO l_exception.
+              CLEAR l_message_text.
+              l_message_text = l_exception-&gt;get_text( ).
+*              IF NOT l_message_text IS INITIAL.
+*                g_cancel_flag = &apos;3&apos;.
+*                MESSAGE l_message_text TYPE &apos;E&apos;.
+*              ENDIF.
+          ENDTRY.
+      ENDCASE.
+    ENDIF.
+  ENDLOOP.
+  LOOP AT items ASSIGNING &lt;it&gt;.
+    CASE &lt;it&gt;-object.
+      WHEN &apos;DYNP&apos;.
+        l_dynp_id = &lt;it&gt;-obj_name.
+        CALL FUNCTION &apos;RS_SCRP_SERVICE&apos;
+             EXPORTING
+                  dynnr           = l_dynp_id-dnum
+                  function        = swbm_c_op_activate
+                  progname        = l_dynp_id-prog
+                  suppress_checks = &apos; &apos;
+*               p_wb_checklist  = l_checklist
+             IMPORTING
+                  error_subrc     = l_subrc
+             EXCEPTIONS
+                  illegal_value   = 1
+                  not_exists      = 2
+                  cancelled       = 3
+                  OTHERS          = 4.
+        IF sy-subrc &lt;&gt; 0 OR l_subrc &lt;&gt; 0 .
+*          g_cancel_flag = &apos;X&apos;.
+*          IF NOT sy-msgid IS INITIAL.
+*            MESSAGE ID sy-msgid TYPE sy-msgty NUMBER sy-msgno
+*                    WITH sy-msgv1 sy-msgv2 sy-msgv3 sy-msgv4
+*                    RAISING execution_error.
+*          ENDIF.
+        ENDIF.
+      WHEN &apos;CUAD&apos;.
+        l_obj_name = &lt;it&gt;-obj_name.
+        CALL FUNCTION &apos;CUAD_OBJECT_GENERATE&apos;
+          EXPORTING
+            object_name       = l_obj_name
+          EXCEPTIONS
+            generation_failed = 1
+            OTHERS            = 2.
+        IF sy-subrc &lt;&gt; 0.
+*          MESSAGE ID sy-msgid TYPE sy-msgty NUMBER sy-msgno
+*                  WITH sy-msgv1 sy-msgv2 sy-msgv3 sy-msgv4
+*                  RAISING execution_error.
+        ENDIF.
+      WHEN &apos;WAPP&apos;.
+        l_page = &lt;it&gt;-obj_name.
+        CALL FUNCTION &apos;O2_GENERATE_PAGE&apos;
+          EXPORTING
+            p_composite_name = l_page
+          EXCEPTIONS
+            not_found        = 1
+            error_occured    = 2
+            OTHERS           = 3.
+        IF sy-subrc &lt;&gt; 0.
+*          g_cancel_flag = &apos;3&apos;.
+*          MESSAGE ID sy-msgid TYPE sy-msgty NUMBER sy-msgno
+*                  WITH sy-msgv1 sy-msgv2 sy-msgv3 sy-msgv4.
+        ENDIF.
+      WHEN &apos;SXCI&apos;.
+        l_imp_name =  &lt;it&gt;-obj_name.
+        CALL FUNCTION &apos;SXO_IMPL_ACTIVE&apos;
+          EXPORTING
+            imp_name                  = l_imp_name
+          EXCEPTIONS
+            badi_not_existing         = 1
+            imp_not_existing          = 2
+            already_active            = 3
+            data_inconsistency        = 4
+            activation_not_admissable = 5
+            action_canceled           = 6
+            access_failure            = 7
+            OTHERS                    = 8.
+        IF sy-subrc &lt;&gt; 0.
+*          g_cancel_flag = &apos;3&apos;.
+*          MESSAGE ID sy-msgid TYPE sy-msgty NUMBER sy-msgno
+*                  WITH sy-msgv1 sy-msgv2 sy-msgv3 sy-msgv4.
+        ENDIF.
+    ENDCASE.
+  ENDLOOP.</SOURCE>
+   </ITEM>
+   <ITEM CMPNAME="ADD_OBJ_TO_WA" EXPOSURE="1" STATE="1">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Add objects to Work area"/>
+    </TEXTS>
+    <SOURCE>`
+  FIELD-SYMBOLS &lt;wa&gt;   LIKE LINE OF it_obj_list.
+
+  LOOP AT it_obj_list ASSIGNING &lt;wa&gt;.
+    CALL FUNCTION &apos;RS_INSERT_INTO_WORKING_AREA&apos;
+      EXPORTING
+        object                  = &lt;wa&gt;-object
+        obj_name                = &lt;wa&gt;-obj_name
+*       DELETED_FLAG            = &apos; &apos;
+*     IMPORTING
+*       OBJECT_INSERTED         =
+      EXCEPTIONS
+        wrong_object_name       = 1
+        OTHERS                  = 2
+              .
+    IF sy-subrc &lt;&gt; 0.
+* MESSAGE ID SY-MSGID TYPE SY-MSGTY NUMBER SY-MSGNO
+*         WITH SY-MSGV1 SY-MSGV2 SY-MSGV3 SY-MSGV4.
+    ENDIF.
+  ENDLOOP.</SOURCE>
+   </ITEM>
+   <ITEM CMPNAME="CHECK_INACTIVE_OBJECTS" EXPOSURE="2" STATE="1" MTDDECLTYP="1">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Get inactive objects"/>
+    </TEXTS>
+    <PARAMETERS>
+     <ITEM SCONAME="OBJ_LIST" CMPTYPE="1" PARDECLTYP="2" PARPASSTYP="1" TYPTYPE="1" TYPE="TT_OBJLIST">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="Objects list"/>
+      </TEXTS>
+     </ITEM>
+    </PARAMETERS>
+    <SOURCE>`
+  DATA my_obj LIKE obj_list.
+  DATA inact TYPE tt_items.
+  FIELD-SYMBOLS &lt;obj&gt; LIKE LINE OF obj_list.
+
+  LOOP AT obj_list ASSIGNING &lt;obj&gt;.
+    REFRESH: my_obj, inact.   APPEND &lt;obj&gt; TO my_obj.
+* Get all inactive Objects of List
+    CALL FUNCTION &apos;RS_INACTIVE_OBJECTS_WARNING&apos;
+      EXPORTING
+        suppress_protocol               = &apos;X&apos;
+*     WITH_PROGRAM_INCLUDES           = &apos; &apos;
+*     SUPPRESS_DICTIONARY_CHECK       = &apos; &apos;
+      TABLES
+        p_e071                          = my_obj
+*     P_XMSG                          =
+        p_dwinactiv                     = inact.
+*     USERNAME                        =
+    IF inact IS INITIAL.    DELETE obj_list.    ENDIF.
+  ENDLOOP.</SOURCE>
+   </ITEM>
+   <ITEM CMPNAME="COMPKEYS_2_GENSET" EXPOSURE="1" STATE="1" MTDDECLTYP="1">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Convert List from Compkeys to Generation Set"/>
+    </TEXTS>
+    <PARAMETERS>
+     <ITEM SCONAME="KEYS" CMPTYPE="1" PARPASSTYP="1" TYPTYPE="1" TYPE="TT_COMPKEYS">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="Component List"/>
+      </TEXTS>
+     </ITEM>
+     <ITEM SCONAME="RESULT" CMPTYPE="1" PARDECLTYP="3" TYPTYPE="1" TYPE="TT_GENSET">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="Generation SET"/>
+      </TEXTS>
+     </ITEM>
+    </PARAMETERS>
+    <SOURCE>`
+  DATA          s_obj LIKE LINE OF result.
+  FIELD-SYMBOLS &lt;k&gt;   LIKE LINE OF keys.
+
+  LOOP AT keys ASSIGNING &lt;k&gt;.
+    CLEAR s_obj.
+    s_obj-object = &lt;k&gt;-type.
+    s_obj-objname = &lt;k&gt;-name.
+    s_obj-pgmid = zaplink_connectors=&gt;get_typekind( &lt;k&gt;-type ).
+*    s_obj-component
+    APPEND s_obj TO result.
+  ENDLOOP.
+* determine the program names on the basis of the TADIR keys *
+  PERFORM tadir_2_trdir IN PROGRAM rsparagenlod
+          CHANGING result.</SOURCE>
+   </ITEM>
+   <ITEM CMPNAME="COMPKEYS_2_OBJLIST" EXPOSURE="1" STATE="1" MTDDECLTYP="1">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Convert List from Compkeys to Objlist"/>
+    </TEXTS>
+    <PARAMETERS>
+     <ITEM SCONAME="KEYS" CMPTYPE="1" PARPASSTYP="1" TYPTYPE="1" TYPE="TT_COMPKEYS">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="Component List"/>
+      </TEXTS>
+     </ITEM>
+     <ITEM SCONAME="RESULT" CMPTYPE="1" PARDECLTYP="3" TYPTYPE="1" TYPE="TT_OBJLIST">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="Objects list"/>
+      </TEXTS>
+     </ITEM>
+    </PARAMETERS>
+    <SOURCE>`
+  DATA          s_obj LIKE LINE OF result.
+  FIELD-SYMBOLS &lt;k&gt;   LIKE LINE OF keys.
+  LOOP AT keys ASSIGNING &lt;k&gt;.   CLEAR s_obj.  s_obj-object = &lt;k&gt;-type.    s_obj-obj_name = &lt;k&gt;-name.  APPEND s_obj TO result.   ENDLOOP.</SOURCE>
+   </ITEM>
+   <ITEM CMPNAME="CONSTRUCTOR" EXPOSURE="2" STATE="1" MTDTYPE="2">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="CONSTRUCTOR"/>
+    </TEXTS>
+    <PARAMETERS>
+     <ITEM SCONAME="OBJ_LIST" CMPTYPE="1" MTDTYPE="2" PARPASSTYP="1" TYPTYPE="1" TYPE="TT_COMPKEYS"/>
+    </PARAMETERS>
+    <SOURCE>`
+  CALL METHOD super-&gt;constructor( ).
+  component_list = obj_list.
+  it_obj_list = compkeys_2_objlist( obj_list ).
+  SORT it_obj_list BY object obj_name.
+  DELETE ADJACENT DUPLICATES FROM it_obj_list COMPARING object obj_name.</SOURCE>
+   </ITEM>
+   <ITEM CMPNAME="CONV_LIST" EXPOSURE="1" STATE="1" MTDDECLTYP="1">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Convert List format"/>
+    </TEXTS>
+    <PARAMETERS>
+     <ITEM SCONAME="ITEM_LIST" CMPTYPE="1" PARDECLTYP="3" TYPTYPE="1" TYPE="TT_ITEMS">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="Detailled list of object in Working area"/>
+      </TEXTS>
+     </ITEM>
+     <ITEM SCONAME="OBJ_LIST" CMPTYPE="1" PARPASSTYP="1" TYPTYPE="1" TYPE="TT_OBJLIST">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="Objects list"/>
+      </TEXTS>
+     </ITEM>
+    </PARAMETERS>
+    <SOURCE>`
+  DATA _item LIKE LINE OF item_list.
+  FIELD-SYMBOLS &lt;obj&gt;   LIKE LINE OF obj_list.
+  LOOP AT obj_list ASSIGNING &lt;obj&gt;.   MOVE-CORRESPONDING &lt;obj&gt; TO _item.    APPEND _item TO item_list.    ENDLOOP.</SOURCE>
+   </ITEM>
+   <ITEM CMPNAME="EXTEND_PACKAGE" EXPOSURE="1" STATE="1" MTDDECLTYP="1">
+    <PARAMETERS>
+     <ITEM SCONAME="PACKAGES" CMPTYPE="1" PARPASSTYP="1" TYPTYPE="1" TYPE="TT_PACK">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="Package list"/>
+      </TEXTS>
+     </ITEM>
+     <ITEM SCONAME="RESULT" CMPTYPE="1" PARDECLTYP="3" TYPTYPE="1" TYPE="TT_PACK">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="Package list"/>
+      </TEXTS>
+     </ITEM>
+    </PARAMETERS>
+    <SOURCE>`
+  DATA r_exclu TYPE tr_packages.
+  DATA t_level TYPE tt_pack.
+
+  t_level = result = packages .
+  WHILE NOT t_level[] IS INITIAL.
+    SORT t_level.
+    DELETE ADJACENT DUPLICATES FROM t_level.
+
+    SELECT devclass
+        FROM tdevc
+        INTO TABLE t_level
+           FOR ALL ENTRIES IN t_level
+        WHERE parentcl = t_level-table_line.
+
+    APPEND LINES OF t_level TO result.
+  ENDWHILE.
+
+  SORT result.
+  DELETE ADJACENT DUPLICATES FROM result.</SOURCE>
+   </ITEM>
+   <ITEM CMPNAME="EXTEND_PACKAGES" EXPOSURE="1" STATE="1" MTDDECLTYP="1">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Extend Package to sub_packages"/>
+    </TEXTS>
+    <PARAMETERS>
+     <ITEM SCONAME="PACKAGES" CMPTYPE="1" PARPASSTYP="1" TYPTYPE="1" TYPE="TR_PACKAGES">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="Range of package"/>
+      </TEXTS>
+     </ITEM>
+     <ITEM SCONAME="RESULT" CMPTYPE="1" PARDECLTYP="3" TYPTYPE="1" TYPE="TR_PACKAGES">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="Range of package"/>
+      </TEXTS>
+     </ITEM>
+    </PARAMETERS>
+    <SOURCE>`
+  DATA r_exclu TYPE tr_packages.
+  DATA t_level TYPE tr_packages.
+  DATA s_pack LIKE LINE OF result.
+
+  CHECK NOT packages IS INITIAL.
+  r_exclu = packages.   DELETE r_exclu WHERE sign &lt;&gt; &apos;E&apos;. &quot; Keep only Devcclass to remove
+
+* Package selection
+  result = get_sub_packages( packages ).
+
+  IF NOT r_exclu IS INITIAL.
+    s_pack-sign = &apos;I&apos;.   MODIFY r_exclu FROM s_pack TRANSPORTING sign WHERE sign &lt;&gt; s_pack-sign.
+    r_exclu = get_sub_packages( r_exclu ).
+    DELETE result WHERE low IN r_exclu.
+  ENDIF.
+
+  SORT result.    DELETE ADJACENT DUPLICATES FROM result COMPARING low.
+  s_pack-sign = &apos;I&apos;.  s_pack-option = &apos;EQ&apos;.   MODIFY result FROM s_pack TRANSPORTING sign option WHERE NOT low IS INITIAL.</SOURCE>
+   </ITEM>
+   <ITEM CMPNAME="GENERATE" EXPOSURE="2" STATE="1">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Generate components"/>
+    </TEXTS>
+    <PARAMETERS>
+     <ITEM SCONAME="RESULT" CMPTYPE="1" PARDECLTYP="3" TYPTYPE="1" TYPE="TT_COMPKEYS">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="Objects list not activate"/>
+      </TEXTS>
+     </ITEM>
+    </PARAMETERS>
+    <SOURCE>`
+  CONSTANTS gc_gen_types(8) TYPE c VALUE &apos;1CFJKMST&apos;.
+  DATA t_genset   TYPE tt_genset.
+  DATA t_trdir    TYPE HASHED TABLE OF trdir WITH UNIQUE KEY name.
+  FIELD-SYMBOLS:
+    &lt;dir&gt; LIKE LINE OF t_trdir,
+    &lt;obj&gt; LIKE LINE OF t_genset.
+
+  t_genset = compkeys_2_genset( component_list ).
+
+* Clean list
+  SORT t_genset BY name.
+  DELETE ADJACENT DUPLICATES FROM t_genset COMPARING name.
+* Remove component type that can&apos;t be generated
+* FROM RSPARAGENLOD(3496) FORM get_component_objects
+  DELETE t_genset WHERE name IS INITIAL
+                    OR NOT ( object = &apos;PROG&apos; OR
+                             object = &apos;FUGR&apos; OR
+                             object = &apos;FUGS&apos; OR
+                             object = &apos;CLAS&apos; OR
+                             object = &apos;INTF&apos; OR
+                             object = &apos;TYPE&apos; OR
+                             object = &apos;LDBA&apos; )
+                   OR NOT pgmid = &apos;R3TR&apos;.
+
+* Remove programs that can&apos;t be generated : Include, ....
+*      PERFORM trdir_check IN PROGRAM rsparagenlod
+  SELECT * INTO TABLE t_trdir
+    FROM trdir
+    FOR ALL ENTRIES IN t_genset
+    WHERE name = t_genset-name
+    %_HINTS ORACLE &apos;&amp;max_blocking_factor 250&amp;&apos;.
+
+  LOOP AT t_genset ASSIGNING &lt;obj&gt;.
+    READ TABLE t_trdir ASSIGNING &lt;dir&gt;
+         WITH TABLE KEY name = &lt;obj&gt;-name.
+    CHECK sy-subrc = 0.
+    If not &lt;dir&gt;-subc CA gc_gen_types.    Clear &lt;obj&gt;-name.     endif.
+  ENDLOOP.
+  DELETE t_genset WHERE name IS INITIAL.
+
+  CALL FUNCTION &apos;SUBST_GENER8_ABAP_LOADS&apos;
+    EXPORTING
+      countmax   = 100    &quot; commit every 100 obejcts
+    TABLES
+      it_gensetc = t_genset.
+
+* Generation Status (X = generated, E/S = error, I = initial)
+  DELETE t_genset WHERE NOT genstatus = &apos;E&apos; AND NOT genstatus = &apos;S&apos;.
+
+  result = genset_2_compkeys( t_genset ).</SOURCE>
+   </ITEM>
+   <ITEM CMPNAME="GENSET_2_COMPKEYS" EXPOSURE="1" STATE="1" MTDDECLTYP="1">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Convert List from Generation Set to Compkeys"/>
+    </TEXTS>
+    <PARAMETERS>
+     <ITEM SCONAME="KEYS" CMPTYPE="1" PARPASSTYP="1" TYPTYPE="1" TYPE="TT_GENSET">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="Generation Set"/>
+      </TEXTS>
+     </ITEM>
+     <ITEM SCONAME="RESULT" CMPTYPE="1" PARDECLTYP="3" TYPTYPE="1" TYPE="TT_COMPKEYS">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="Component List"/>
+      </TEXTS>
+     </ITEM>
+    </PARAMETERS>
+    <SOURCE>`
+  DATA          s_obj LIKE LINE OF result.
+  FIELD-SYMBOLS &lt;k&gt;   LIKE LINE OF keys.
+  LOOP AT keys ASSIGNING &lt;k&gt;.   CLEAR s_obj.  s_obj-type = &lt;k&gt;-object.    s_obj-name = &lt;k&gt;-objname.    APPEND s_obj TO result.   ENDLOOP.</SOURCE>
+   </ITEM>
+   <ITEM CMPNAME="GET_INACTIVE_OBJECTS" EXPOSURE="2" STATE="1" MTDDECLTYP="1">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Get inactive objects"/>
+    </TEXTS>
+    <PARAMETERS>
+     <ITEM SCONAME="INACT" CMPTYPE="1" PARDECLTYP="3" TYPTYPE="1" TYPE="TT_DET_OBJ"/>
+     <ITEM SCONAME="OBJ_LIST" CMPTYPE="1" PARPASSTYP="1" TYPTYPE="1" TYPE="TT_OBJLIST">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="Objects list"/>
+      </TEXTS>
+     </ITEM>
+    </PARAMETERS>
+    <SOURCE>`
+* Get all inactive Objects of List
+  CALL FUNCTION &apos;RS_INACTIVE_OBJECTS_WARNING&apos;
+    EXPORTING
+      SUPPRESS_PROTOCOL               = &apos;X&apos;
+*     WITH_PROGRAM_INCLUDES           = &apos; &apos;
+*     SUPPRESS_DICTIONARY_CHECK       = &apos; &apos;
+    TABLES
+      P_E071                          = OBJ_LIST
+*     P_XMSG                          =
+      P_DWINACTIV                     = INACT.
+*     USERNAME                        =</SOURCE>
+   </ITEM>
+   <ITEM CMPNAME="GET_KEYS_FROM_TADIR" EXPOSURE="2" STATE="1" MTDDECLTYP="1">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Get object list from TADIR : Package, type, author,..."/>
+    </TEXTS>
+    <PARAMETERS>
+     <ITEM SCONAME="AUTHOR" CMPTYPE="1" PARPASSTYP="1" TYPTYPE="1" TYPE="TR_AUTHOR" PAROPTIONL="X">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="Range of author (person reponsible of the component)"/>
+      </TEXTS>
+     </ITEM>
+     <ITEM SCONAME="EXT" CMPTYPE="1" PARPASSTYP="1" TYPTYPE="1" TYPE="ABAP_BOOL" PARVALUE="ABAP_TRUE" PAROPTIONL="X">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="Extend to sub package"/>
+      </TEXTS>
+     </ITEM>
+     <ITEM SCONAME="NAME" CMPTYPE="1" PARPASSTYP="1" TYPTYPE="1" TYPE="TR_COMPNAME" PAROPTIONL="X">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="Range of component name"/>
+      </TEXTS>
+     </ITEM>
+     <ITEM SCONAME="PACKAGES" CMPTYPE="1" PARPASSTYP="1" TYPTYPE="1" TYPE="TR_PACKAGES" PAROPTIONL="X">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="Range of package"/>
+      </TEXTS>
+     </ITEM>
+     <ITEM SCONAME="RESULT" CMPTYPE="1" PARDECLTYP="3" TYPTYPE="1" TYPE="TT_COMPKEYS">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="List of component keys"/>
+      </TEXTS>
+     </ITEM>
+     <ITEM SCONAME="SOFTCOMP" CMPTYPE="1" PARPASSTYP="1" TYPTYPE="1" TYPE="TR_SOFTCOMP" PAROPTIONL="X">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="Range of Software Component"/>
+      </TEXTS>
+     </ITEM>
+     <ITEM SCONAME="SRCSYSTEM" CMPTYPE="1" PARPASSTYP="1" TYPTYPE="1" TYPE="TR_SRCSYSTEM" PAROPTIONL="X">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="Range of source system"/>
+      </TEXTS>
+     </ITEM>
+     <ITEM SCONAME="TYPE" CMPTYPE="1" PARPASSTYP="1" TYPTYPE="1" TYPE="TR_COMPTYPE" PAROPTIONL="X">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="Range of component types"/>
+      </TEXTS>
+     </ITEM>
+    </PARAMETERS>
+    <SOURCE>`
+  TYPES tt_pack TYPE STANDARD TABLE OF tdevc-devclass.
+  DATA r_exclu TYPE tr_packages.
+  DATA t_devc  TYPE tt_pack.
+  DATA t_exclu TYPE tt_pack.
+  FIELD-SYMBOLS: &lt;p&gt; LIKE LINE OF t_exclu.
+  DATA t_ext_pack TYPE tr_packages.
+
+  t_ext_pack = limit_packages( softcomp = softcomp
+                               packages = packages ).
+  IF t_ext_pack IS INITIAL.
+    CHECK srcsystem IS NOT INITIAL OR type IS NOT INITIAL OR name IS NOT INITIAL OR author IS NOT INITIAL. &quot; to prevent extracting all tadir
+    SELECT object obj_name
+      INTO TABLE result
+      FROM tadir
+      WHERE srcsystem IN srcsystem
+        AND object IN type
+        AND obj_name IN name
+        AND author IN author.
+    EXIT.
+  ENDIF.
+
+  IF ext = abap_true.   t_ext_pack = extend_packages( t_ext_pack ).    ENDIF.
+
+  r_exclu = t_ext_pack.     DELETE r_exclu WHERE sign &lt;&gt; &apos;E&apos;. &quot; Keep only Devcclass to remove
+
+* Package selection
+  SELECT devclass
+      FROM tdevc
+      INTO TABLE t_devc
+      WHERE devclass IN t_ext_pack.
+
+  IF NOT ext IS INITIAL.
+    t_devc = extend_package( t_devc ).
+  ENDIF.
+
+* Package selection
+  IF NOT r_exclu IS INITIAL.
+    SELECT devclass
+        FROM tdevc
+        INTO TABLE t_exclu
+        WHERE NOT devclass IN r_exclu.
+
+    t_exclu = extend_package( t_exclu ).
+    LOOP AT t_exclu ASSIGNING &lt;p&gt;.
+      DELETE TABLE t_devc FROM &lt;p&gt;.
+    ENDLOOP.
+  ENDIF.
+
+  IF NOT t_devc IS INITIAL.
+    SELECT object obj_name
+      INTO TABLE result
+      FROM tadir
+        FOR ALL ENTRIES IN t_devc
+      WHERE devclass = t_devc-table_line
+        AND srcsystem IN srcsystem
+        AND object IN type
+        AND obj_name IN name
+        AND author IN author.
+  ENDIF.</SOURCE>
+   </ITEM>
+   <ITEM CMPNAME="GET_SUB_PACKAGES" EXPOSURE="1" STATE="1" MTDDECLTYP="1">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Get Sub Package of packages"/>
+    </TEXTS>
+    <PARAMETERS>
+     <ITEM SCONAME="PACKAGES" CMPTYPE="1" PARPASSTYP="1" TYPTYPE="1" TYPE="TR_PACKAGES">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="Range of package"/>
+      </TEXTS>
+     </ITEM>
+     <ITEM SCONAME="RESULT" CMPTYPE="1" PARDECLTYP="3" TYPTYPE="1" TYPE="TR_PACKAGES">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="Range of package"/>
+      </TEXTS>
+     </ITEM>
+    </PARAMETERS>
+    <SOURCE>`
+  DATA t_level TYPE tr_packages.
+  DATA s_pack LIKE LINE OF result.
+
+  CHECK NOT packages IS INITIAL.
+
+* Package selection
+  SELECT devclass AS low
+      FROM tdevc
+      INTO CORRESPONDING FIELDS OF TABLE result
+      WHERE devclass in packages.
+
+* Package extention
+  t_level = result.
+  WHILE NOT t_level[] IS INITIAL.
+    SORT t_level.
+    DELETE ADJACENT DUPLICATES FROM t_level.
+
+    SELECT devclass AS low
+        FROM tdevc
+        INTO CORRESPONDING FIELDS OF TABLE t_level
+           FOR ALL ENTRIES IN t_level
+        WHERE parentcl = t_level-low.
+
+    APPEND LINES OF t_level TO result.
+  ENDWHILE.
+
+  SORT result.    DELETE ADJACENT DUPLICATES FROM result COMPARING low.
+  s_pack-sign = &apos;I&apos;.  s_pack-option = &apos;EQ&apos;.   MODIFY result FROM s_pack TRANSPORTING sign option WHERE NOT low IS INITIAL.</SOURCE>
+   </ITEM>
+   <ITEM CMPNAME="LIMIT_PACKAGES" EXPOSURE="1" STATE="1" MTDDECLTYP="1">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Limit/extend packages to Software component"/>
+    </TEXTS>
+    <PARAMETERS>
+     <ITEM SCONAME="PACKAGES" CMPTYPE="1" PARPASSTYP="1" TYPTYPE="1" TYPE="TR_PACKAGES">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="Range of package"/>
+      </TEXTS>
+     </ITEM>
+     <ITEM SCONAME="RESULT" CMPTYPE="1" PARDECLTYP="3" TYPTYPE="1" TYPE="TR_PACKAGES">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="Range of package"/>
+      </TEXTS>
+     </ITEM>
+     <ITEM SCONAME="SOFTCOMP" CMPTYPE="1" PARPASSTYP="1" TYPTYPE="1" TYPE="TR_SOFTCOMP">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="Range of Software Component"/>
+      </TEXTS>
+     </ITEM>
+    </PARAMETERS>
+    <SOURCE>`
+  DATA r_exclu TYPE tr_packages.
+  DATA t_level TYPE tr_packages.
+  DATA s_pack LIKE LINE OF result.
+
+  result = packages.
+  CHECK NOT softcomp IS INITIAL.
+
+* Package selection
+  SELECT devclass AS low
+      FROM tdevc
+      INTO CORRESPONDING FIELDS OF TABLE result
+      WHERE devclass IN packages
+        AND dlvunit IN softcomp.
+
+  r_exclu = packages.   DELETE r_exclu WHERE sign &lt;&gt; &apos;E&apos;. &quot; Keep only Devcclass to remove
+
+  SORT result.    DELETE ADJACENT DUPLICATES FROM result COMPARING low.
+  s_pack-sign = &apos;I&apos;.  s_pack-option = &apos;EQ&apos;.   MODIFY result FROM s_pack TRANSPORTING sign option WHERE NOT low IS INITIAL.
+
+  APPEND LINES OF r_exclu TO result.</SOURCE>
+   </ITEM>
+   <ITEM CMPNAME="OBJLIST_2_COMPKEYS" EXPOSURE="1" STATE="1" MTDDECLTYP="1">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Convert List from Objlist to Compkeys"/>
+    </TEXTS>
+    <PARAMETERS>
+     <ITEM SCONAME="KEYS" CMPTYPE="1" PARPASSTYP="1" TYPTYPE="1" TYPE="TT_OBJLIST">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="Objects list"/>
+      </TEXTS>
+     </ITEM>
+     <ITEM SCONAME="RESULT" CMPTYPE="1" PARDECLTYP="3" TYPTYPE="1" TYPE="TT_COMPKEYS">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="Component List"/>
+      </TEXTS>
+     </ITEM>
+    </PARAMETERS>
+    <SOURCE>`
+  DATA          s_obj LIKE LINE OF result.
+  FIELD-SYMBOLS &lt;k&gt;   LIKE LINE OF keys.
+  LOOP AT keys ASSIGNING &lt;k&gt;.   CLEAR s_obj.  s_obj-type = &lt;k&gt;-object.    s_obj-name = &lt;k&gt;-obj_name.    APPEND s_obj TO result.   ENDLOOP.</SOURCE>
+   </ITEM>
+   <ITEM CMPNAME="SPLIT_LIST" EXPOSURE="1" STATE="1" MTDDECLTYP="1">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Split list into DDIC and objects"/>
+    </TEXTS>
+    <PARAMETERS>
+     <ITEM SCONAME="DDIC" CMPTYPE="1" PARDECLTYP="1" PARPASSTYP="1" TYPTYPE="1" TYPE="TT_OBJLIST">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="Objects list"/>
+      </TEXTS>
+     </ITEM>
+     <ITEM SCONAME="OBJ_LIST" CMPTYPE="1" PARPASSTYP="1" TYPTYPE="1" TYPE="TT_OBJLIST">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="Objects list"/>
+      </TEXTS>
+     </ITEM>
+     <ITEM SCONAME="PROG_LIST" CMPTYPE="1" PARDECLTYP="1" PARPASSTYP="1" TYPTYPE="1" TYPE="TT_OBJLIST">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="Objects list"/>
+      </TEXTS>
+     </ITEM>
+    </PARAMETERS>
+    <SOURCE>`
+  FIELD-SYMBOLS &lt;obj&gt;   LIKE LINE OF obj_list.
+  LOOP AT obj_list ASSIGNING &lt;obj&gt;.
+
+    IF &lt;obj&gt;-object = &apos;DTEL&apos; OR
+       &lt;obj&gt;-object = &apos;VIEW&apos; OR
+       &lt;obj&gt;-object = &apos;DOMA&apos; OR
+       &lt;obj&gt;-object = &apos;TTYP&apos; OR
+       &lt;obj&gt;-object = &apos;INDX&apos; OR
+       &lt;obj&gt;-object = &apos;XINX&apos; OR
+       &lt;obj&gt;-object = &apos;SHLP&apos; OR
+       &lt;obj&gt;-object = &apos;ENQU&apos; OR
+       &lt;obj&gt;-object = &apos;MCOB&apos; OR
+       &lt;obj&gt;-object = &apos;TABL&apos; OR
+       &lt;obj&gt;-object = &apos;SQLT&apos; OR
+       &lt;obj&gt;-object = &apos;STRU&apos;.
+      APPEND &lt;obj&gt; TO ddic.
+    ELSE.
+      APPEND &lt;obj&gt; TO prog_list.
+    ENDIF.
+  ENDLOOP.</SOURCE>
+   </ITEM>
+  </METHODS>
+  <TYPEGROUPS>
+   <ITEM TYPEGROUP="ABAP" EXPLICIT="X"/>
+   <ITEM TYPEGROUP="SEWOR" EXPLICIT="X"/>
+   <ITEM TYPEGROUP="SWBM" EXPLICIT="X"/>
+  </TYPEGROUPS>
+  <TYPES>
+   <ITEM CMPNAME="TD_COMPNAME" EXPOSURE="2" STATE="1" TYPTYPE="1" TYPE="STRING">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Object Name"/>
+    </TEXTS>
+   </ITEM>
+   <ITEM CMPNAME="TD_COMPTYPE" EXPOSURE="2" STATE="1" TYPTYPE="1" TYPE="TADIR-OBJECT">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Object Type"/>
+    </TEXTS>
+   </ITEM>
+   <ITEM CMPNAME="TR_AUTHOR" EXPOSURE="2" STATE="1" TYPTYPE="4">
+    tr_author TYPE RANGE OF tadir-author
+`
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Range of author (person reponsible of the component)"/>
+    </TEXTS>
+   </ITEM>
+   <ITEM CMPNAME="TR_COMPNAME" EXPOSURE="2" STATE="1" TYPTYPE="4">
+    tr_compname TYPE RANGE OF tadir-obj_name
+`
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Range of component name"/>
+    </TEXTS>
+   </ITEM>
+   <ITEM CMPNAME="TR_COMPTYPE" EXPOSURE="2" STATE="1" TYPTYPE="4">
+    tr_comptype TYPE RANGE OF td_comptype
+`
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Range of component types"/>
+    </TEXTS>
+   </ITEM>
+   <ITEM CMPNAME="TR_PACKAGES" EXPOSURE="2" STATE="1" TYPTYPE="4">
+    tr_packages TYPE RANGE OF tadir-devclass
+`
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Range of package"/>
+    </TEXTS>
+   </ITEM>
+   <ITEM CMPNAME="TR_SOFTCOMP" EXPOSURE="2" STATE="1" TYPTYPE="4">
+    tr_softcomp TYPE RANGE OF tdevc-DLVUNIT
+`
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Range of Software Component"/>
+    </TEXTS>
+   </ITEM>
+   <ITEM CMPNAME="TR_SRCSYSTEM" EXPOSURE="2" STATE="1" TYPTYPE="4">
+    tr_srcsystem TYPE RANGE OF tadir-srcsystem
+`
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Range of source system"/>
+    </TEXTS>
+   </ITEM>
+   <ITEM CMPNAME="TS_COMPKEY" EXPOSURE="2" STATE="1" TYPTYPE="4">
+    BEGIN OF ts_compkey,
+      type TYPE td_comptype,
+      name TYPE td_compname,
+    END OF ts_compkey
+`
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Component Key (unique)"/>
+    </TEXTS>
+   </ITEM>
+   <ITEM CMPNAME="TT_COMPKEYS" EXPOSURE="2" STATE="1" TYPTYPE="4">
+    tt_compkeys TYPE STANDARD TABLE OF ts_compkey WITH DEFAULT KEY
+`
+    <TEXTS>
+     <ITEM LANG="E" TEXT="List of component keys"/>
+    </TEXTS>
+   </ITEM>
+   <ITEM CMPNAME="TT_DET_OBJ" EXPOSURE="2" STATE="1" TYPTYPE="4">tt_det_obj TYPE STANDARD TABLE OF dwinactiv WITH NON-UNIQUE DEFAULT KEY
+`</ITEM>
+   <ITEM CMPNAME="TT_GENSET" EXPOSURE="2" STATE="1" TYPTYPE="4">
+    tt_genset  TYPE STANDARD TABLE OF gensetc WITH NON-UNIQUE DEFAULT KEY
+`
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Generation Set for ABAP Objects and BSP Applications"/>
+    </TEXTS>
+   </ITEM>
+   <ITEM CMPNAME="TT_ITEMS" EXPOSURE="1" STATE="1" TYPTYPE="4">
+    tt_items TYPE STANDARD TABLE OF sewor_working_area WITH NON-UNIQUE DEFAULT KEY
+`
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Detailled list of object in Working area"/>
+    </TEXTS>
+   </ITEM>
+   <ITEM CMPNAME="TT_MAINPROGS" EXPOSURE="1" STATE="1" TYPTYPE="4">
+    tt_mainprogs TYPE STANDARD TABLE OF t_mainprog WITH NON-UNIQUE DEFAULT KEY
+`
+    <TEXTS>
+     <ITEM LANG="E" TEXT="List of main programs"/>
+    </TEXTS>
+   </ITEM>
+   <ITEM CMPNAME="TT_OBJLIST" EXPOSURE="2" STATE="1" TYPTYPE="4">
+    tt_objlist TYPE STANDARD TABLE OF e071 WITH NON-UNIQUE DEFAULT KEY
+`
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Objects list"/>
+    </TEXTS>
+   </ITEM>
+   <ITEM CMPNAME="TT_PACK" EXPOSURE="1" STATE="1" TYPTYPE="4">tt_pack TYPE STANDARD TABLE OF tdevc-devclass with DEFAULT KEY
+`</ITEM>
+   <ITEM CMPNAME="T_MAINPROG" EXPOSURE="1" STATE="1" TYPTYPE="4">
+    BEGIN OF t_mainprog,
+      master TYPE d010inc-master,
+      include TYPE d010inc-include,
+      object TYPE e071-object,
+      error(1) TYPE c,
+      switch_state(1) TYPE c,
+    END OF t_mainprog
+`
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Line of mainprogram"/>
+    </TEXTS>
+   </ITEM>
+  </TYPES>
+ </RAW>
+</ZL_OBJECT>

@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-16"?>
+<ZL_OBJECT CHECKSUM="5036F786ADA6F67CC8A06529385AD2B8" CODE_SIGNATURE="25DB43E7EACE6F15C45A3A85A9B618A7" CONNECTOR="AAAD0A4B07A5A05AE1000000AC120173" NAME="YGPL_ADVANCED_SGEN" TYPE="PROG" VERSION="1.0">
+ <DIRECTORY DEVCLASS="YGPL-GENERATION" MASTERLANG="E"/>
+ <RAW>
+  <A0_MAINDATA EDTX="X" VARCL="X" SUBC="1" RSTAT="S" RMAND="200" RLOAD="E" UCCHECK="X"/>
+  <SOURCE>`
+*---------------------------------------------------------------------*
+* Report  YGPL_ADVANCED_SGEN
+*---------------------------------------------------------------------*
+
+REPORT  ygpl_advanced_sgen MESSAGE-ID zaplink LINE-SIZE 256.
+
+TABLES: tadir, tdevc.
+TYPE-POOLS: abap, icon.
+
+*TYPES to_synch TYPE REF TO zaplink_raw_data.  &quot; to be the first object meet in standalone generator
+
+SELECT-OPTIONS:
+  s_srcs FOR tadir-srcsystem  DEFAULT sy-sysid,
+  s_soft FOR tdevc-dlvunit,
+  s_type FOR tadir-object,
+  s_name FOR tadir-obj_name,
+  s_pack FOR tadir-devclass.
+PARAMETERS:
+  p_ext TYPE abap_bool AS CHECKBOX DEFAULT abap_true.
+SELECT-OPTIONS:
+  s_author FOR tadir-author DEFAULT sy-uname.
+
+START-OF-SELECTION.
+  DATA t_list      TYPE ygpl_generate=&gt;tt_compkeys.
+  DATA t_list_ko   TYPE ygpl_generate=&gt;tt_compkeys.
+  DATA o_gen    TYPE REF TO ygpl_generate.
+  FIELD-SYMBOLS: &lt;i&gt; LIKE LINE OF t_list.
+
+  t_list = ygpl_usecaseindex=&gt;get_keys_from_tadir(
+                      srcsystem  = s_srcs[]
+                      softcomp   = s_soft[]
+                      type       = s_type[]
+                      name       = s_name[]
+                      packages   = s_pack[]
+                      ext        = p_ext
+                      author     = s_author[] ).
+
+  CREATE OBJECT o_gen
+    EXPORTING
+      obj_list = t_list.
+
+  t_list_ko = o_gen-&gt;generate( ).
+
+  SORT t_list_ko BY type name.
+  WRITE:/ &apos;List of components :&apos;(cpl).
+  LOOP AT t_list ASSIGNING &lt;i&gt;.
+    READ TABLE t_list_ko TRANSPORTING NO FIELDS
+         WITH KEY type = &lt;i&gt;-type
+                  name = &lt;i&gt;-name
+         BINARY SEARCH.
+    IF sy-subrc = 0.
+      WRITE:/ icon_red_light AS ICON.
+    ELSE.
+      WRITE:/ icon_green_light AS ICON.
+    ENDIF.
+    WRITE: &lt;i&gt;-type, &lt;i&gt;-name.
+  ENDLOOP.
+
+END-OF-SELECTION.</SOURCE>
+  <TEXTSPOOL>
+   <ITEM ID="I" KEY="CPL">
+    <TEXTS>
+     <ITEM LANGU="E" ENTRY="List of components :" LENGTH="125 "/>
+    </TEXTS>
+   </ITEM>
+   <ITEM ID="I" KEY="MOD">
+    <TEXTS>
+     <ITEM LANGU="F" ENTRY="Mode d&apos;extraction" LENGTH="20 "/>
+    </TEXTS>
+   </ITEM>
+   <ITEM ID="R">
+    <TEXTS>
+     <ITEM LANGU="E" ENTRY="Avanced SAP Load Generator (SGEN)" LENGTH="33 "/>
+     <ITEM LANGU="F" ENTRY="ZAPLink : Extraction en masse de componsants" LENGTH="70 "/>
+    </TEXTS>
+   </ITEM>
+   <ITEM ID="S" KEY="EM_CNX">
+    <TEXTS>
+     <ITEM LANGU="F" ENTRY="        Connecteurs" LENGTH="19 "/>
+    </TEXTS>
+   </ITEM>
+   <ITEM ID="S" KEY="EM_PACK">
+    <TEXTS>
+     <ITEM LANGU="F" ENTRY="        Hiérarchie par package" LENGTH="35 "/>
+    </TEXTS>
+   </ITEM>
+   <ITEM ID="S" KEY="EM_TYPE">
+    <TEXTS>
+     <ITEM LANGU="F" ENTRY="        Hiérarchie par type" LENGTH="32 "/>
+    </TEXTS>
+   </ITEM>
+   <ITEM ID="S" KEY="P_EXT">
+    <TEXTS>
+     <ITEM LANGU="E" ENTRY="        Extend to sub-packages" LENGTH="30 "/>
+     <ITEM LANGU="F" ENTRY="        Etendre aux sous-packages" LENGTH="33 "/>
+    </TEXTS>
+   </ITEM>
+   <ITEM ID="S" KEY="P_PATH">
+    <TEXTS>
+     <ITEM LANGU="F" ENTRY="        Chemin local de sauvegarde" LENGTH="34 "/>
+    </TEXTS>
+   </ITEM>
+   <ITEM ID="S" KEY="S_AUTHOR">
+    <TEXTS>
+     <ITEM LANGU="E" ENTRY="D       ." LENGTH="26 "/>
+     <ITEM LANGU="F" ENTRY="D       ." LENGTH="26 "/>
+    </TEXTS>
+   </ITEM>
+   <ITEM ID="S" KEY="S_NAME">
+    <TEXTS>
+     <ITEM LANGU="E" ENTRY="D       ." LENGTH="19 "/>
+     <ITEM LANGU="F" ENTRY="D       ." LENGTH="19 "/>
+    </TEXTS>
+   </ITEM>
+   <ITEM ID="S" KEY="S_PACK">
+    <TEXTS>
+     <ITEM LANGU="E" ENTRY="D       ." LENGTH="15 "/>
+     <ITEM LANGU="F" ENTRY="D       ." LENGTH="15 "/>
+    </TEXTS>
+   </ITEM>
+   <ITEM ID="S" KEY="S_SOFT">
+    <TEXTS>
+     <ITEM LANGU="E" ENTRY="D       ." LENGTH="26 "/>
+    </TEXTS>
+   </ITEM>
+   <ITEM ID="S" KEY="S_SRCS">
+    <TEXTS>
+     <ITEM LANGU="E" ENTRY="D       ." LENGTH="23 "/>
+     <ITEM LANGU="F" ENTRY="D       ." LENGTH="23 "/>
+    </TEXTS>
+   </ITEM>
+   <ITEM ID="S" KEY="S_TYPE">
+    <TEXTS>
+     <ITEM LANGU="E" ENTRY="D       ." LENGTH="19 "/>
+     <ITEM LANGU="F" ENTRY="D       ." LENGTH="19 "/>
+    </TEXTS>
+   </ITEM>
+  </TEXTSPOOL>
+ </RAW>
+</ZL_OBJECT>

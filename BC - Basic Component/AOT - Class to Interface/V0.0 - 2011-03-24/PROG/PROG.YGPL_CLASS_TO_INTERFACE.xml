@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-16"?>
+<ZL_OBJECT CHECKSUM="F41D547A8E7DAB5E9E5D597AA7B39867" CODE_SIGNATURE="599B945990CCE61C22EF08F2CADF5EBD" CONNECTOR="AAAD0A4B07A5A05AE1000000AC120173" NAME="YGPL_CLASS_TO_INTERFACE" TYPE="PROG" VERSION="1.0">
+ <DIRECTORY DEVCLASS="YGPL-ABAP_OBJECT_TOOLS" MASTERLANG="E"/>
+ <RAW>
+  <A0_MAINDATA VARCL="X" SUBC="1" RSTAT="K" RMAND="200" RLOAD="E" FIXPT="X" UCCHECK="X"/>
+  <SOURCE>`
+*&amp;---------------------------------------------------------------------*
+*&amp; Report  YGPL_CLASS_TO_INTERFACE
+*&amp;
+*&amp;---------------------------------------------------------------------*
+*&amp;
+*&amp;
+*&amp;---------------------------------------------------------------------*
+
+REPORT  ygpl_class_to_interface MESSAGE-ID ygpl_clas_2_intf.
+
+TYPE-POOLS: abap.
+
+PARAMETERS:
+  p_class TYPE vseoclass-clsname OBLIGATORY,
+  p_full  TYPE abap_bool AS CHECKBOX,
+  p_intf  TYPE vseointerf-clsname OBLIGATORY,
+  p_ow    TYPE abap_bool AS CHECKBOX.
+
+DATA o_cx TYPE REF TO zaplink_cx.
+DATA msg TYPE string.
+DATA o_tools TYPE ygpl_aot_factories=&gt;to_class_to_interface.
+
+INITIALIZATION.
+  o_tools = ygpl_aot_factories=&gt;get_class_to_interface( ).
+
+AT SELECTION-SCREEN.
+  TRY.
+      IF o_tools-&gt;do_class_exists( p_class ) IS INITIAL.
+        MESSAGE e000 WITH p_class.
+      ENDIF.
+
+      IF o_tools-&gt;do_interface_exists( p_intf ) IS NOT INITIAL.
+        IF p_ow IS INITIAL.
+          MESSAGE e001 WITH p_intf.
+        ELSE.
+          o_tools-&gt;delete_interface( p_intf ).
+          MESSAGE s002 WITH p_intf.
+        ENDIF.
+      ENDIF.
+    CATCH zaplink_cx INTO o_cx.
+      msg = o_cx-&gt;get_longtext( ).
+      MESSAGE msg TYPE &apos;E&apos;.
+  ENDTRY.
+
+START-OF-SELECTION.
+  TRY.
+      o_tools-&gt;convert( class = p_class
+                    interface = p_intf
+                  inheritence = p_full ).
+    CATCH zaplink_cx INTO o_cx.
+      msg = o_cx-&gt;get_longtext( ).
+      MESSAGE msg TYPE &apos;E&apos;.
+  ENDTRY.
+
+END-OF-SELECTION.</SOURCE>
+  <TEXTSPOOL>
+   <ITEM ID="R">
+    <TEXTS>
+     <ITEM LANGU="E" ENTRY="Convert ABAP Class to ABAP Interface" LENGTH="36 "/>
+    </TEXTS>
+   </ITEM>
+   <ITEM ID="S" KEY="P_CLASS">
+    <TEXTS>
+     <ITEM LANGU="E" ENTRY="        Class" LENGTH="13 "/>
+    </TEXTS>
+   </ITEM>
+   <ITEM ID="S" KEY="P_FULL">
+    <TEXTS>
+     <ITEM LANGU="E" ENTRY="        Do also inheritence" LENGTH="27 "/>
+    </TEXTS>
+   </ITEM>
+   <ITEM ID="S" KEY="P_INTF">
+    <TEXTS>
+     <ITEM LANGU="E" ENTRY="        Interface" LENGTH="17 "/>
+    </TEXTS>
+   </ITEM>
+   <ITEM ID="S" KEY="P_OW">
+    <TEXTS>
+     <ITEM LANGU="E" ENTRY="        Delete Interface if exists" LENGTH="34 "/>
+    </TEXTS>
+   </ITEM>
+  </TEXTSPOOL>
+ </RAW>
+</ZL_OBJECT>

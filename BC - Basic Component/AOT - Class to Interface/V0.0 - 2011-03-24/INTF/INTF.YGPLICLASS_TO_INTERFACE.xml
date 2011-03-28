@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-16"?>
+<ZL_OBJECT CHECKSUM="39CA47A744429E1A15AC38284F414E36" CODE_SIGNATURE="642E7D38E022F075F4924F9C0B565A21" CONNECTOR="39AC0A4B07A5A05AE1000000AC120173" NAME="YGPLICLASS_TO_INTERFACE" TYPE="INTF" VERSION="1.01">
+ <DIRECTORY DEVCLASS="YGPL-ABAP_OBJECT_TOOLS" MASTERLANG="E"/>
+ <RAW>
+  <A0_MAINDATA VERSION="1" LANGU="E" EXPOSURE="2" STATE="1" UNICODE="X">
+   <TEXTS>
+    <ITEM LANG="E" TEXT="Class to Interface tools (interface)"/>
+   </TEXTS>
+  </A0_MAINDATA>
+  <METHODS>
+   <ITEM CMPNAME="CONVERT" EXPOSURE="2" STATE="1" MTDNEWEXC="X">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Convert Class to Interface"/>
+    </TEXTS>
+    <PARAMETERS>
+     <ITEM SCONAME="CLASS" CMPTYPE="1" PARPASSTYP="1" TYPTYPE="1" TYPE="TD_CLASSNAME">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="Class Name"/>
+      </TEXTS>
+     </ITEM>
+     <ITEM SCONAME="INHERITENCE" CMPTYPE="1" PARPASSTYP="1" TYPTYPE="1" TYPE="TD_BOOLEAN" PAROPTIONL="X">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="handle also class inheritence"/>
+      </TEXTS>
+     </ITEM>
+     <ITEM SCONAME="INTERFACE" CMPTYPE="1" PARPASSTYP="1" TYPTYPE="1" TYPE="TD_INTERFACENAME">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="Interface Name"/>
+      </TEXTS>
+     </ITEM>
+    </PARAMETERS>
+    <EXCEPTIONS>
+     <ITEM SCONAME="ZAPLINK_CX" LANGU="E">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="ZAPlink Framework : Root exception class"/>
+      </TEXTS>
+     </ITEM>
+    </EXCEPTIONS>
+   </ITEM>
+   <ITEM CMPNAME="DELETE_INTERFACE" EXPOSURE="2" STATE="1" MTDNEWEXC="X">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Delete Interface"/>
+    </TEXTS>
+    <PARAMETERS>
+     <ITEM SCONAME="INTERFACE" CMPTYPE="1" PARPASSTYP="1" TYPTYPE="1" TYPE="TD_INTERFACENAME">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="Interface Name"/>
+      </TEXTS>
+     </ITEM>
+    </PARAMETERS>
+    <EXCEPTIONS>
+     <ITEM SCONAME="ZAPLINK_CX" LANGU="E">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="ZAPlink Framework : Root exception class"/>
+      </TEXTS>
+     </ITEM>
+    </EXCEPTIONS>
+   </ITEM>
+   <ITEM CMPNAME="DO_CLASS_EXISTS" EXPOSURE="2" STATE="1" MTDNEWEXC="X">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Check for Class existence"/>
+    </TEXTS>
+    <PARAMETERS>
+     <ITEM SCONAME="CLASS" CMPTYPE="1" PARPASSTYP="1" TYPTYPE="1" TYPE="TD_CLASSNAME">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="Class Name"/>
+      </TEXTS>
+     </ITEM>
+     <ITEM SCONAME="EXISTS" CMPTYPE="1" PARDECLTYP="3" TYPTYPE="1" TYPE="TD_BOOLEAN"/>
+    </PARAMETERS>
+    <EXCEPTIONS>
+     <ITEM SCONAME="ZAPLINK_CX" LANGU="E">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="ZAPlink Framework : Root exception class"/>
+      </TEXTS>
+     </ITEM>
+    </EXCEPTIONS>
+   </ITEM>
+   <ITEM CMPNAME="DO_INTERFACE_EXISTS" EXPOSURE="2" STATE="1" MTDNEWEXC="X">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Check for Interface existence"/>
+    </TEXTS>
+    <PARAMETERS>
+     <ITEM SCONAME="EXISTS" CMPTYPE="1" PARDECLTYP="3" TYPTYPE="1" TYPE="TD_BOOLEAN"/>
+     <ITEM SCONAME="INTERFACE" CMPTYPE="1" PARPASSTYP="1" TYPTYPE="1" TYPE="TD_INTERFACENAME">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="Interface Name"/>
+      </TEXTS>
+     </ITEM>
+    </PARAMETERS>
+    <EXCEPTIONS>
+     <ITEM SCONAME="ZAPLINK_CX" LANGU="E">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="MultyThread : Root exception class"/>
+      </TEXTS>
+     </ITEM>
+    </EXCEPTIONS>
+   </ITEM>
+  </METHODS>
+  <TYPEGROUPS>
+   <ITEM TYPEGROUP="ABAP" EXPLICIT="X" IMPLICIT="X"/>
+  </TYPEGROUPS>
+  <TYPES>
+   <ITEM CMPNAME="TD_BOOLEAN" EXPOSURE="2" STATE="1" TYPTYPE="1" TYPE="ABAP_BOOL">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Boolean : True (X) / False ( )"/>
+    </TEXTS>
+   </ITEM>
+   <ITEM CMPNAME="TD_CLASSNAME" EXPOSURE="2" STATE="1" TYPTYPE="1" TYPE="VSEOCLASS-CLSNAME">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Class Name"/>
+    </TEXTS>
+   </ITEM>
+   <ITEM CMPNAME="TD_INTERFACENAME" EXPOSURE="2" STATE="1" TYPTYPE="1" TYPE="VSEOCLASS-CLSNAME">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Interface Name"/>
+    </TEXTS>
+   </ITEM>
+  </TYPES>
+ </RAW>
+</ZL_OBJECT>

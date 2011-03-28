@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="utf-16"?>
+<ZL_OBJECT CHECKSUM="F89773245ACA0309B67C2021DC423A72" CODE_SIGNATURE="9857FAB9658F0C28D59EF2D8C24DACFF" CONNECTOR="39AC0A4B07A5A05AE1000000AC120173" NAME="YGPL_CLASS_TO_INTERFACE" TYPE="CLAS" VERSION="1.01">
+ <DIRECTORY DEVCLASS="YGPL-ABAP_OBJECT_TOOLS" MASTERLANG="E"/>
+ <RAW>
+  <A0_MAINDATA VERSION="1" LANGU="E" EXPOSURE="2" STATE="1" CLSCCINCL="X" FIXPT="X" UNICODE="X">
+   <TEXTS>
+    <ITEM LANG="E" TEXT="Class to Interface tools"/>
+   </TEXTS>
+  </A0_MAINDATA>
+  <ATTRIBUTS>
+   <ITEM CMPNAME="O_CNX" STATE="1" TYPTYPE="3" TYPE="ZAPLINK_CONNECTOR">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="ZAPLink Class &amp; Interface connector"/>
+    </TEXTS>
+   </ITEM>
+  </ATTRIBUTS>
+  <INTERFACES>
+   <ITEM REFCLSNAME="YGPLICLASS_TO_INTERFACE" EXPOSURE="2" STATE="1" RELTYPE="1">
+    <COMPONENTS>
+     <ITEM MTDNAME="CONVERT">
+      <SOURCE>`
+  DATA o_class TYPE o_cnx-&gt;to_raw. &quot;TO_CLASS
+  DATA o_intf  TYPE o_cnx-&gt;to_raw. &quot;TO_CLASS
+  DATA o_comp  TYPE o_cnx-&gt;to_component.
+  DATA o_itf   TYPE REF TO zaplink_intf_data.
+  DATA o_clas  TYPE REF TO zaplink_clas_data.
+
+  CREATE OBJECT o_comp.
+  o_comp-&gt;set_type( &apos;CLAS&apos; ).
+  o_comp-&gt;set_name( class ).
+  o_class = o_cnx-&gt;read_from_sap( o_comp ).
+
+  o_comp-&gt;set_type( &apos;INTF&apos; ).
+  o_comp-&gt;set_name( interface ).
+  o_intf = o_cnx-&gt;create_new_raw( &apos;INTF&apos; ).
+
+  o_intf-&gt;set_component( o_comp ).
+  o_intf-&gt;connector = o_class-&gt;connector.
+  o_intf-&gt;version = o_class-&gt;version.
+  o_intf-&gt;dependencies = o_class-&gt;dependencies.
+
+  copy( o_source = o_class-&gt;raw
+        o_target = o_intf-&gt;raw ).    &quot; for first table entries
+
+  IF inheritence = abap_true.
+    o_clas ?= o_class-&gt;raw.
+    WHILE o_clas-&gt;a0_maindata-inheritance IS NOT INITIAL.
+      o_comp-&gt;set_type( &apos;CLAS&apos; ).
+      o_comp-&gt;set_name( o_clas-&gt;a0_maindata-inheritance-refclsname ).
+      o_class = o_cnx-&gt;read_from_sap( o_comp ).
+      copy( o_source = o_class-&gt;raw
+            o_target = o_intf-&gt;raw ).
+      o_clas ?= o_class-&gt;raw.
+    ENDWHILE.
+
+    o_comp-&gt;set_type( &apos;CLAS&apos; ).
+    o_comp-&gt;set_name( class ).
+    o_class = o_cnx-&gt;read_from_sap( o_comp ).
+  ENDIF.
+
+  copy( o_source = o_class-&gt;raw
+        o_target = o_intf-&gt;raw ).      &quot; for duplicate structure or attributs
+
+  o_itf ?= o_intf-&gt;raw.
+  DELETE o_itf-&gt;aliases WHERE exposure &lt;&gt; 2.
+  DELETE o_itf-&gt;attributs WHERE exposure &lt;&gt; 2.
+  DELETE o_itf-&gt;events WHERE exposure &lt;&gt; 2.
+  DELETE o_itf-&gt;methods WHERE exposure &lt;&gt; 2.
+  DELETE o_itf-&gt;types WHERE exposure &lt;&gt; 2.
+  DELETE o_itf-&gt;methods WHERE cmpname = &apos;CONSTRUCTOR&apos; OR cmpname = &apos;CLASS_CONSTRUCTOR&apos;.
+
+  o_cnx-&gt;write_to_sap( o_intf ).</SOURCE>
+     </ITEM>
+     <ITEM MTDNAME="DELETE_INTERFACE">
+      <SOURCE>`
+  DATA o_comp  TYPE o_cnx-&gt;to_component.
+
+  CREATE OBJECT o_comp.
+  o_comp-&gt;set_type( &apos;INTF&apos; ).
+  o_comp-&gt;set_name( interface ).
+  o_cnx-&gt;delete_from_sap( o_comp ).</SOURCE>
+     </ITEM>
+     <ITEM MTDNAME="DO_CLASS_EXISTS">
+      <SOURCE>`
+  DATA o_comp  TYPE o_cnx-&gt;to_component.
+
+  CREATE OBJECT o_comp.
+  o_comp-&gt;set_type( &apos;CLAS&apos; ).
+  o_comp-&gt;set_name( class ).
+  exists = o_cnx-&gt;do_exists( o_comp ).</SOURCE>
+     </ITEM>
+     <ITEM MTDNAME="DO_INTERFACE_EXISTS">
+      <SOURCE>`
+  DATA o_comp  TYPE o_cnx-&gt;to_component.
+
+  CREATE OBJECT o_comp.
+  o_comp-&gt;set_type( &apos;INTF&apos; ).
+  o_comp-&gt;set_name( interface ).
+  exists = o_cnx-&gt;do_exists( o_comp ).</SOURCE>
+     </ITEM>
+    </COMPONENTS>
+   </ITEM>
+  </INTERFACES>
+  <LOCAL>
+   <TYPES>`
+*&quot;* use this source file for any type declarations (class
+*&quot;* definitions, interfaces or data types) you need for method
+*&quot;* implementation or private method&apos;s signature</TYPES>
+   <IMPLEMENTATIONS>`
+*&quot;* local class implementation for public class
+*&quot;* use this source file for the implementation part of
+*&quot;* local helper classes</IMPLEMENTATIONS>
+   <MACROS>`
+*&quot;* use this source file for any macro definitions you need
+*&quot;* in the implementation part of the class</MACROS>
+  </LOCAL>
+  <METHODS>
+   <ITEM CMPNAME="CONSTRUCTOR" EXPOSURE="2" STATE="1" MTDTYPE="2">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="CONSTRUCTOR"/>
+    </TEXTS>
+    <SOURCE>`
+  CREATE OBJECT o_cnx TYPE zaplink_object.</SOURCE>
+   </ITEM>
+   <ITEM CMPNAME="COPY" STATE="1">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Copy class attributs"/>
+    </TEXTS>
+    <PARAMETERS>
+     <ITEM SCONAME="O_SOURCE" CMPTYPE="1" PARPASSTYP="1" TYPTYPE="3" TYPE="OBJECT"/>
+     <ITEM SCONAME="O_TARGET" CMPTYPE="1" PARPASSTYP="1" TYPTYPE="3" TYPE="OBJECT"/>
+    </PARAMETERS>
+    <SOURCE>`
+  DATA o_obj   TYPE REF TO cl_abap_classdescr.
+  DATA o_descr TYPE REF TO cl_abap_typedescr.
+  FIELD-SYMBOLS:
+    &lt;s&gt; TYPE ANY,
+    &lt;t&gt; TYPE ANY,
+    &lt;ts&gt; TYPE ANY TABLE,
+    &lt;tt&gt; TYPE ANY TABLE,
+    &lt;a&gt; LIKE LINE OF o_obj-&gt;attributes.
+
+  o_obj ?= cl_abap_classdescr=&gt;describe_by_object_ref( p_object_ref = o_target ).
+  LOOP AT o_obj-&gt;attributes ASSIGNING &lt;a&gt;
+          WHERE is_constant IS INITIAL
+            AND is_class IS INITIAL
+            AND visibility &lt;&gt; cl_abap_classdescr=&gt;private.
+    ASSIGN o_source-&gt;(&lt;a&gt;-name) TO &lt;s&gt;.
+    CHECK sy-subrc = 0 AND &lt;s&gt; IS ASSIGNED.
+    ASSIGN o_target-&gt;(&lt;a&gt;-name) TO &lt;t&gt;.
+    CHECK sy-subrc = 0 AND &lt;s&gt; IS ASSIGNED.
+    o_descr = cl_abap_typedescr=&gt;describe_by_data( &lt;t&gt; ).
+    o_descr = zaplink_easyxml=&gt;get_ref_type( o_descr ).
+    CASE o_descr-&gt;kind.
+      WHEN cl_abap_datadescr=&gt;kind_table.
+        ASSIGN o_source-&gt;(&lt;a&gt;-name) TO &lt;ts&gt;.
+        CHECK sy-subrc = 0 AND &lt;s&gt; IS ASSIGNED.
+        ASSIGN o_target-&gt;(&lt;a&gt;-name) TO &lt;tt&gt;.
+        CHECK sy-subrc = 0 AND &lt;s&gt; IS ASSIGNED.
+        LOOP AT &lt;ts&gt; ASSIGNING &lt;s&gt;.
+          INSERT &lt;s&gt; INTO TABLE &lt;tt&gt;.
+        ENDLOOP.
+*       INSERT LINES OF &lt;ts&gt; INTO TABLE &lt;tt&gt; ACCEPTING DUPLICATE KEYS.   &quot; do not accept duplicate on sorted/hashed table
+      WHEN cl_abap_datadescr=&gt;kind_struct.
+        MOVE-CORRESPONDING &lt;s&gt; TO &lt;t&gt;.
+      WHEN OTHERS.
+        &lt;t&gt; = &lt;s&gt;.
+    ENDCASE.
+  ENDLOOP.</SOURCE>
+   </ITEM>
+  </METHODS>
+  <TYPEGROUPS>
+   <ITEM TYPEGROUP="ABAP" EXPLICIT="X" IMPLICIT="X"/>
+  </TYPEGROUPS>
+  <TYPES>
+   <ITEM CMPNAME="TD_BOOLEAN" EXPOSURE="2" STATE="1" TYPTYPE="1" TYPE="ABAP_BOOL">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Boolean : True (X) / False ( )"/>
+    </TEXTS>
+   </ITEM>
+   <ITEM CMPNAME="TD_CLASSNAME" EXPOSURE="2" STATE="1" TYPTYPE="1" TYPE="VSEOCLASS-CLSNAME">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Class Name"/>
+    </TEXTS>
+   </ITEM>
+   <ITEM CMPNAME="TD_INTERFACENAME" EXPOSURE="2" STATE="1" TYPTYPE="1" TYPE="VSEOCLASS-CLSNAME">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Interface Name"/>
+    </TEXTS>
+   </ITEM>
+  </TYPES>
+ </RAW>
+</ZL_OBJECT>

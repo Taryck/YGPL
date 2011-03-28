@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-16"?>
+<ZL_OBJECT CHECKSUM="5309A0D2E4AF207A0F835E56AF4EDA4A" CODE_SIGNATURE="922D4BFEBFDCB5A5D018DA8D21944DC8" CONNECTOR="39AC0A4B07A5A05AE1000000AC120173" NAME="YGPL_LOCK_RELEASE" TYPE="CLAS" VERSION="1.01">
+ <DIRECTORY DEVCLASS="YGPL-UNLOCK_ON_COMMIT" MASTERLANG="E"/>
+ <RAW>
+  <A0_MAINDATA VERSION="1" LANGU="E" EXPOSURE="2" STATE="1" CLSFINAL="X" CLSCCINCL="X" FIXPT="X" UNICODE="X">
+   <TEXTS>
+    <ITEM LANG="E" TEXT="Lock release on Commit"/>
+   </TEXTS>
+  </A0_MAINDATA>
+  <ATTRIBUTS>
+   <ITEM CMPNAME="F_PERFORMS_REGISTRED" STATE="1" ATTDECLTYP="1" TYPTYPE="1" TYPE="ABAP_BOOL"/>
+   <ITEM CMPNAME="T_REGISTRED_DEQUEUE" STATE="1" ATTDECLTYP="1" TYPTYPE="1" TYPE="TT_FUNCTIONS"/>
+  </ATTRIBUTS>
+  <LOCAL>
+   <TYPES>`
+*&quot;* use this source file for any type declarations (class
+*&quot;* definitions, interfaces or data types) you need for method
+*&quot;* implementation or private method&apos;s signature</TYPES>
+   <IMPLEMENTATIONS>`
+*&quot;* local class implementation for public class
+*&quot;* use this source file for the implementation part of
+*&quot;* local helper classes</IMPLEMENTATIONS>
+   <MACROS>`
+*&quot;* use this source file for any macro definitions you need
+*&quot;* in the implementation part of the class</MACROS>
+  </LOCAL>
+  <METHODS>
+   <ITEM CMPNAME="ADD_PARAMETER" EXPOSURE="2" STATE="1" MTDDECLTYP="1">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Add a parameter"/>
+    </TEXTS>
+    <PARAMETERS>
+     <ITEM SCONAME="KIND" CMPTYPE="1" PARPASSTYP="1" TYPTYPE="1" TYPE="TD_PARAMETER_KIND"/>
+     <ITEM SCONAME="NAME" CMPTYPE="1" PARPASSTYP="1" TYPTYPE="1" TYPE="TD_PARAMETER_NAME"/>
+     <ITEM SCONAME="PARAMETERS" CMPTYPE="1" PARDECLTYP="2" PARPASSTYP="1" TYPTYPE="1" TYPE="TT_FUNCTION_PARAMETERS"/>
+     <ITEM SCONAME="TYPE" CMPTYPE="1" PARPASSTYP="1" TYPTYPE="1" TYPE="TD_TYPE_NAME"/>
+     <ITEM SCONAME="VALUE" CMPTYPE="1" PARPASSTYP="1" TYPTYPE="1" TYPE="ANY" PAROPTIONL="X"/>
+    </PARAMETERS>
+    <SOURCE>`
+  DATA l LIKE LINE OF parameters.
+  FIELD-SYMBOLS &lt;fs&gt; TYPE ANY.
+
+  ASSERT kind = abap_func_exporting OR
+         kind = abap_func_importing OR
+         kind = abap_func_changing.
+  l-kind = kind.
+  l-name = name.
+  CREATE DATA l-value TYPE (type).
+  IF l-kind = abap_func_exporting OR l-kind = abap_func_changing.
+    ASSIGN l-value-&gt;* TO &lt;fs&gt;.
+    &lt;fs&gt; = value.
+  ENDIF.
+  INSERT l INTO TABLE parameters.
+  ASSERT sy-subrc = 0.</SOURCE>
+   </ITEM>
+   <ITEM CMPNAME="ADD_PARAMETERS" EXPOSURE="2" STATE="1" MTDDECLTYP="1" MTDNEWEXC="X">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Add parameters in Structure"/>
+    </TEXTS>
+    <PARAMETERS>
+     <ITEM SCONAME="KIND" CMPTYPE="1" PARPASSTYP="1" TYPTYPE="1" TYPE="TD_PARAMETER_KIND"/>
+     <ITEM SCONAME="PARAMETERS" CMPTYPE="1" PARDECLTYP="2" PARPASSTYP="1" TYPTYPE="1" TYPE="TT_FUNCTION_PARAMETERS"/>
+     <ITEM SCONAME="STRUCTURE" CMPTYPE="1" PARPASSTYP="1" TYPTYPE="1" TYPE="ANY"/>
+    </PARAMETERS>
+    <EXCEPTIONS>
+     <ITEM SCONAME="YGPL_CX_LOCK_RELEASE" LANGU="E">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="Lock Release exception class"/>
+      </TEXTS>
+     </ITEM>
+    </EXCEPTIONS>
+    <SOURCE>`
+  DATA o_desc TYPE REF TO cl_abap_typedescr.
+  DATA o_st   TYPE REF TO cl_abap_structdescr.
+  DATA l      LIKE LINE OF parameters.
+  FIELD-SYMBOLS:
+    &lt;f&gt; TYPE ANY,
+    &lt;v&gt; type any,
+    &lt;c&gt; LIKE LINE OF o_st-&gt;components.
+
+  ASSERT kind = abap_func_exporting OR
+         kind = abap_func_importing OR
+         kind = abap_func_changing.
+
+  o_desc = cl_abap_typedescr=&gt;describe_by_data( structure ).
+  IF o_desc-&gt;kind &lt;&gt; cl_abap_typedescr=&gt;kind_struct.
+    RAISE EXCEPTION TYPE ygpl_cx_lock_release
+          EXPORTING textid = ygpl_cx_lock_release=&gt;not_a_flat_structure
+                 data_name =  o_desc-&gt;absolute_name.
+  ENDIF.
+  o_st ?= o_desc.
+  IF o_st-&gt;struct_kind &lt;&gt; cl_abap_structdescr=&gt;structkind_flat.
+    RAISE EXCEPTION TYPE ygpl_cx_lock_release
+          EXPORTING textid = ygpl_cx_lock_release=&gt;not_a_flat_structure
+                 data_name =  o_st-&gt;absolute_name.
+  ENDIF.
+
+  l-kind = kind.
+  LOOP AT o_st-&gt;components ASSIGNING &lt;c&gt;.
+    l-name = &lt;c&gt;-name.
+    ASSIGN COMPONENT &lt;c&gt;-name OF STRUCTURE structure TO &lt;f&gt;.
+    CREATE DATA l-value LIKE &lt;f&gt;.
+    IF l-kind = abap_func_exporting OR l-kind = abap_func_changing.
+      ASSIGN l-value-&gt;* TO &lt;v&gt;.
+      &lt;v&gt; = &lt;f&gt;.
+    ENDIF.
+    INSERT l INTO TABLE parameters.
+    ASSERT sy-subrc = 0.
+  ENDLOOP.</SOURCE>
+   </ITEM>
+   <ITEM CMPNAME="COMMIT_TRIGGERED" EXPOSURE="2" STATE="1" MTDDECLTYP="1">
+    <SOURCE>`
+  FIELD-SYMBOLS &lt;f&gt; LIKE LINE OF t_registred_dequeue.
+  LOOP AT t_registred_dequeue ASSIGNING &lt;f&gt;.
+    CALL FUNCTION &lt;f&gt;-name
+      PARAMETER-TABLE
+        &lt;f&gt;-parameters.
+  ENDLOOP.
+  CLEAR: t_registred_dequeue, f_performs_registred.</SOURCE>
+   </ITEM>
+   <ITEM CMPNAME="REGISTER_DEQUEUE" EXPOSURE="2" STATE="1" MTDDECLTYP="1">
+    <PARAMETERS>
+     <ITEM SCONAME="DEQUEUE_NAME" CMPTYPE="1" PARPASSTYP="1" TYPTYPE="1" TYPE="TD_FUNCTION_NAME"/>
+     <ITEM SCONAME="PARAMETERS" CMPTYPE="1" PARPASSTYP="1" TYPTYPE="1" TYPE="TT_FUNCTION_PARAMETERS"/>
+    </PARAMETERS>
+    <SOURCE>`
+  DATA s_function LIKE LINE OF t_registred_dequeue.
+  s_function-name = dequeue_name.
+  s_function-parameters = parameters.
+  APPEND s_function TO t_registred_dequeue.
+  register_perform( ).</SOURCE>
+   </ITEM>
+   <ITEM CMPNAME="REGISTER_PERFORM" STATE="1" MTDDECLTYP="1">
+    <SOURCE>`
+  CHECK f_performs_registred IS INITIAL.
+  PERFORM register_form_on_commit IN PROGRAM ygpl_lock_release.
+  f_performs_registred = abap_true.</SOURCE>
+   </ITEM>
+  </METHODS>
+  <TYPEGROUPS>
+   <ITEM TYPEGROUP="ABAP" EXPLICIT="X"/>
+  </TYPEGROUPS>
+  <TYPES>
+   <ITEM CMPNAME="TD_FUNCTION_NAME" EXPOSURE="2" STATE="1" EDITORDER="2 " TYPTYPE="1" TYPE="BU_FNAME"/>
+   <ITEM CMPNAME="TD_PARAMETER_KIND" EXPOSURE="2" STATE="1" EDITORDER="6 " TYPTYPE="1" TYPE="TS_FUNCTION_PARAMETER-KIND"/>
+   <ITEM CMPNAME="TD_PARAMETER_NAME" EXPOSURE="2" STATE="1" EDITORDER="5 " TYPTYPE="1" TYPE="TS_FUNCTION_PARAMETER-NAME"/>
+   <ITEM CMPNAME="TD_TYPE_NAME" EXPOSURE="2" STATE="1" EDITORDER="1 " TYPTYPE="1" TYPE="STRING"/>
+   <ITEM CMPNAME="TS_FUNCTION" EXPOSURE="2" STATE="1" EDITORDER="7 " TYPTYPE="4">BEGIN OF ts_function,
+        name          TYPE td_function_name,
+        parameters    TYPE tt_function_parameters,
+      END OF ts_function
+`</ITEM>
+   <ITEM CMPNAME="TS_FUNCTION_PARAMETER" EXPOSURE="2" STATE="1" EDITORDER="4 " TYPTYPE="4">ts_function_parameter TYPE LINE OF tt_function_parameters
+`</ITEM>
+   <ITEM CMPNAME="TT_FUNCTIONS" EXPOSURE="2" STATE="1" EDITORDER="8 " TYPTYPE="4">tt_functions TYPE STANDARD TABLE OF ts_function WITH DEFAULT KEY
+`</ITEM>
+   <ITEM CMPNAME="TT_FUNCTION_PARAMETERS" EXPOSURE="2" STATE="1" EDITORDER="3 " TYPTYPE="1" TYPE="ABAP_FUNC_PARMBIND_TAB"/>
+  </TYPES>
+ </RAW>
+</ZL_OBJECT>

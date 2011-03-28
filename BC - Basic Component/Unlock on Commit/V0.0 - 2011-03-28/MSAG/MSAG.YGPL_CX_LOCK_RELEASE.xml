@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-16"?>
+<ZL_OBJECT CHECKSUM="98D2479AFDAE9554FF3BCC8B1E8A058C" CONNECTOR="1FAC0A4B07A5A05AE1000000AC120173" NAME="YGPL_CX_LOCK_RELEASE" TYPE="MSAG" VERSION="1.0">
+ <DIRECTORY DEVCLASS="YGPL-UNLOCK_ON_COMMIT" MASTERLANG="E"/>
+ <RAW>
+  <A0_MAINDATA MASTERLANG="E" RESPUSER="TBENSIAL"/>
+  <MESSAGES>
+   <ITEM MSGNR="000" APPLICATION="DOKU" TYP="E" DOKFORM="S_DOCU_SHOW" DOKSTYLE="S_DOCUS1">
+    <TEXTS>
+     <ITEM LANGU="E" SHORT_TXT="Type &apos;&amp;1&apos; is not a flat structure">
+      <LONG_TXT TDFRELES="701" TDLINESIZE="072">U1&amp;CAUSE&amp;
+ASYou called method ADD_PARAMETERS in class YGPL_LOCK_RELEASE with a data
+  type that is not a flat structure
+U1&amp;SYSTEM_RESPONSE&amp;
+ASOnly flat structure are accepted
+U1&amp;WHAT_TO_DO&amp;
+ASCall method with flat structure
+U1&amp;SYS_ADMIN&amp;
+AS</LONG_TXT>
+     </ITEM>
+    </TEXTS>
+   </ITEM>
+  </MESSAGES>
+  <TEXTS>
+   <ITEM LANGU="E" SHORT_TXT="Message for class YGPL_CX_LOCK_RELEASE"/>
+  </TEXTS>
+ </RAW>
+</ZL_OBJECT>

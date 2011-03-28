@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-16"?>
+<ZL_OBJECT CHECKSUM="7C63E0C6BE7DAE2E491DF41D765147B5" CODE_SIGNATURE="273312BBD05D18F991D7BAAE1826244D" CONNECTOR="39AC0A4B07A5A05AE1000000AC120173" NAME="YGPL_AOT_FACTORIES" TYPE="CLAS" VERSION="1.01">
+ <DIRECTORY DEVCLASS="YGPL-ABAP_OBJECT_TOOLS" MASTERLANG="E"/>
+ <RAW>
+  <A0_MAINDATA VERSION="1" LANGU="E" EXPOSURE="2" STATE="1" CLSFINAL="X" CLSCCINCL="X" FIXPT="X" UNICODE="X">
+   <TEXTS>
+    <ITEM LANG="E" TEXT="ABAP Object Tools - Factories"/>
+   </TEXTS>
+  </A0_MAINDATA>
+  <ATTRIBUTS>
+   <ITEM CMPNAME="O_CLASS_TO_INTERFACE_SINGLETON" STATE="1" ATTDECLTYP="1" TYPTYPE="1" TYPE="TO_CLASS_TO_INTERFACE">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Class to Interface tools"/>
+    </TEXTS>
+   </ITEM>
+  </ATTRIBUTS>
+  <LOCAL>
+   <TYPES>`
+*&quot;* use this source file for any type declarations (class
+*&quot;* definitions, interfaces or data types) you need for method
+*&quot;* implementation or private method&apos;s signature</TYPES>
+   <IMPLEMENTATIONS>`
+*&quot;* local class implementation for public class
+*&quot;* use this source file for the implementation part of
+*&quot;* local helper classes</IMPLEMENTATIONS>
+   <MACROS>`
+*&quot;* use this source file for any macro definitions you need
+*&quot;* in the implementation part of the class</MACROS>
+  </LOCAL>
+  <METHODS>
+   <ITEM CMPNAME="GET_CLASS_TO_INTERFACE" EXPOSURE="2" STATE="1" MTDDECLTYP="1">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Factory for Class =&gt; Interface"/>
+    </TEXTS>
+    <PARAMETERS>
+     <ITEM SCONAME="OBJECT" CMPTYPE="1" PARDECLTYP="3" TYPTYPE="1" TYPE="TO_CLASS_TO_INTERFACE">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="Class to Interface tools"/>
+      </TEXTS>
+     </ITEM>
+    </PARAMETERS>
+    <SOURCE>`
+  IF NOT o_class_to_interface_singleton IS BOUND.
+    CREATE OBJECT o_class_to_interface_singleton TYPE ygpl_class_to_interface.
+  ENDIF.
+  object = o_class_to_interface_singleton.</SOURCE>
+   </ITEM>
+  </METHODS>
+  <TYPES>
+   <ITEM CMPNAME="TO_CLASS_TO_INTERFACE" EXPOSURE="2" STATE="1" TYPTYPE="3" TYPE="YGPLICLASS_TO_INTERFACE">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Class to Interface tools (interface)"/>
+    </TEXTS>
+   </ITEM>
+  </TYPES>
+ </RAW>
+</ZL_OBJECT>

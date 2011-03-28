@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-16"?>
+<ZL_OBJECT CHECKSUM="2E8B1DCC39924F7664C7920A9AE1B9B9" CODE_SIGNATURE="D955D804CAA181608FAD633D13FD757C" CONNECTOR="AAAD0A4B07A5A05AE1000000AC120173" NAME="YGPL_LOCK_RELEASE" TYPE="PROG" VERSION="1.0">
+ <DIRECTORY DEVCLASS="YGPL-UNLOCK_ON_COMMIT" MASTERLANG="E"/>
+ <RAW>
+  <A0_MAINDATA VARCL="X" SUBC="S" RSTAT="K" RMAND="200" RLOAD="E" FIXPT="X" UCCHECK="X"/>
+  <SOURCE>`
+*&amp;---------------------------------------------------------------------*
+*&amp; Subroutine Pool   YGPL_LOCK_RELEASE
+*&amp;
+*&amp;---------------------------------------------------------------------*
+*&amp;
+*&amp;
+*&amp;---------------------------------------------------------------------*
+
+PROGRAM  ygpl_lock_release.
+
+*&amp;---------------------------------------------------------------------*
+*&amp;      Form  RELEASE_LOCKS
+*&amp;---------------------------------------------------------------------*
+FORM release_locks.
+  ygpl_lock_release=&gt;commit_triggered( ).
+ENDFORM.                    &quot; CLEAR_FLAG
+
+*&amp;---------------------------------------------------------------------*
+*&amp;      Form  Register_form_on_commit
+*&amp;---------------------------------------------------------------------*
+FORM register_form_on_commit.
+  PERFORM release_locks ON COMMIT.
+  PERFORM release_locks ON ROLLBACK.
+ENDFORM.                    &quot;Register_form_on_commit</SOURCE>
+  <TEXTSPOOL>
+   <ITEM ID="R">
+    <TEXTS>
+     <ITEM LANGU="E" ENTRY="Lock release on commit tools : routine pool" LENGTH="43 "/>
+    </TEXTS>
+   </ITEM>
+  </TEXTSPOOL>
+ </RAW>
+</ZL_OBJECT>

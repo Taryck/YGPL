@@ -1,0 +1,276 @@
+<?xml version="1.0" encoding="utf-16"?>
+<ZL_OBJECT CHECKSUM="077E72E5D9BE8C9FB121CAA7EEB6149F" CODE_SIGNATURE="15CCE9EEBD72A4D6C4920AF954B807AA" CONNECTOR="39AC0A4B07A5A05AE1000000AC120173" NAME="YGPL_READ_TABLE" TYPE="CLAS" VERSION="1.01">
+ <DIRECTORY DEVCLASS="YGPL-TUTORIAL" MASTERLANG="E"/>
+ <RAW>
+  <A0_MAINDATA VERSION="1" LANGU="E" EXPOSURE="2" STATE="1" CLSFINAL="X" CLSCCINCL="X" FIXPT="X" UNICODE="X">
+   <TEXTS>
+    <ITEM LANG="E" TEXT="Test READ TABLE comand"/>
+   </TEXTS>
+  </A0_MAINDATA>
+  <ATTRIBUTS>
+   <ITEM CMPNAME="DURATION" STATE="1" ATTDECLTYP="2" ATTVALUE="3" TYPTYPE="1" TYPE="I">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Read duration by cycle"/>
+    </TEXTS>
+   </ITEM>
+   <ITEM CMPNAME="KEYS_COUNT" STATE="1" ATTDECLTYP="2" ATTVALUE="20" TYPTYPE="1" TYPE="I">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Number of key"/>
+    </TEXTS>
+   </ITEM>
+   <ITEM CMPNAME="READ_COUNT" STATE="1" TYPTYPE="1" TYPE="I">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Read count"/>
+    </TEXTS>
+   </ITEM>
+   <ITEM CMPNAME="START_TIME" STATE="1" TYPTYPE="1" TYPE="TD_TIMESTAMP">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="UTC Time Stamp in Short Form (YYYYMMDDhhmmss)"/>
+    </TEXTS>
+   </ITEM>
+   <ITEM CMPNAME="STEP" STATE="1" TYPTYPE="1" TYPE="I">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Up scale step"/>
+    </TEXTS>
+   </ITEM>
+   <ITEM CMPNAME="STOP_TIME" STATE="1" TYPTYPE="1" TYPE="TD_TIMESTAMP">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="UTC Time Stamp in Short Form (YYYYMMDDhhmmss)"/>
+    </TEXTS>
+   </ITEM>
+   <ITEM CMPNAME="TIME_LIMIT" STATE="1" TYPTYPE="1" TYPE="TD_TIMESTAMP">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="UTC Time Stamp in Short Form (YYYYMMDDhhmmss)"/>
+    </TEXTS>
+   </ITEM>
+   <ITEM CMPNAME="T_KEYS" STATE="1" TYPTYPE="1" TYPE="TT_STD">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Key to search in table"/>
+    </TEXTS>
+   </ITEM>
+   <ITEM CMPNAME="T_STD" STATE="1" TYPTYPE="1" TYPE="TT_STD">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Standard table"/>
+    </TEXTS>
+   </ITEM>
+  </ATTRIBUTS>
+  <LOCAL>
+   <TYPES>`
+*&quot;* use this source file for any type declarations (class
+*&quot;* definitions, interfaces or data types) you need for method
+*&quot;* implementation or private method&apos;s signature</TYPES>
+   <IMPLEMENTATIONS>`
+*&quot;* local class implementation for public class
+*&quot;* use this source file for the implementation part of
+*&quot;* local helper classes</IMPLEMENTATIONS>
+   <MACROS>`
+*&quot;* use this source file for any macro definitions you need
+*&quot;* in the implementation part of the class</MACROS>
+  </LOCAL>
+  <METHODS>
+   <ITEM CMPNAME="ADD_LINES" STATE="1">
+    <PARAMETERS>
+     <ITEM SCONAME="COUNT" CMPTYPE="1" PARPASSTYP="1" TYPTYPE="1" TYPE="I"/>
+    </PARAMETERS>
+    <SOURCE>`
+  DATA lines TYPE i.
+  DATA _step TYPE f.
+  DATA pos   TYPE i.
+  FIELD-SYMBOLS &lt;k&gt; LIKE LINE OF t_std.
+  DATA s_key LIKE LINE OF t_std.
+
+  DO count TIMES.
+    CALL FUNCTION &apos;GUID_CREATE&apos;
+      IMPORTING
+        ev_guid_16       = s_key-key
+*       EV_GUID_22       =
+*       EV_GUID_32       =
+              .
+    APPEND s_key TO t_std.
+  ENDDO.
+
+  CLEAR t_keys.
+  lines = LINES( t_std ).
+  _step = lines / me-&gt;keys_count.
+  pos = 1.
+  DO me-&gt;keys_count TIMES.
+    READ TABLE t_std ASSIGNING &lt;k&gt; INDEX pos.
+    APPEND &lt;k&gt; TO t_keys.
+    ADD _step TO pos.
+  ENDDO.
+  SORT t_std BY key.</SOURCE>
+   </ITEM>
+   <ITEM CMPNAME="DO_READ_HASHED" STATE="1">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Hashed Table"/>
+    </TEXTS>
+    <SOURCE>`
+  DATA t_hash TYPE  tt_hash.
+  FIELD-SYMBOLS: &lt;k&gt; LIKE LINE OF t_keys.
+
+  t_hash = t_std.
+  reset_time( ).
+  DO.
+    LOOP AT t_keys ASSIGNING &lt;k&gt;.
+      READ TABLE t_hash TRANSPORTING NO FIELDS
+          WITH TABLE KEY key = &lt;k&gt;-key.
+      ADD 1 TO read_count.
+      GET TIME STAMP FIELD stop_time.
+      IF stop_time &gt; time_limit.      EXIT.       ENDIF.
+    ENDLOOP.
+    IF stop_time &gt; time_limit.      EXIT.       ENDIF.
+  ENDDO.</SOURCE>
+   </ITEM>
+   <ITEM CMPNAME="DO_READ_SORTED" STATE="1">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Sorted table"/>
+    </TEXTS>
+    <SOURCE>`
+  DATA t_sort TYPE  tt_sort.
+  FIELD-SYMBOLS: &lt;k&gt; LIKE LINE OF t_keys.
+
+  t_sort = t_std.
+  reset_time( ).
+  DO.
+    LOOP AT t_keys ASSIGNING &lt;k&gt;.
+      READ TABLE t_sort TRANSPORTING NO FIELDS
+          WITH TABLE KEY key = &lt;k&gt;-key.
+      ADD 1 TO read_count.
+      GET TIME STAMP FIELD stop_time.
+      IF stop_time &gt; time_limit.      EXIT.       ENDIF.
+    ENDLOOP.
+    IF stop_time &gt; time_limit.      EXIT.       ENDIF.
+  ENDDO.</SOURCE>
+   </ITEM>
+   <ITEM CMPNAME="DO_READ_STD" STATE="1">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Standard"/>
+    </TEXTS>
+    <SOURCE>`
+  FIELD-SYMBOLS: &lt;k&gt; LIKE LINE OF t_keys.
+
+  reset_time( ).
+  DO.
+    LOOP AT t_keys ASSIGNING &lt;k&gt;.
+      READ TABLE t_std TRANSPORTING NO FIELDS
+          BINARY SEARCH
+          WITH KEY key = &lt;k&gt;-key.
+      ADD 1 TO read_count.
+      GET TIME STAMP FIELD stop_time.
+      IF stop_time &gt; time_limit.      EXIT.       ENDIF.
+    ENDLOOP.
+    IF stop_time &gt; time_limit.      EXIT.       ENDIF.
+  ENDDO.</SOURCE>
+   </ITEM>
+   <ITEM CMPNAME="DO_TEST" EXPOSURE="2" STATE="1">
+    <PARAMETERS>
+     <ITEM SCONAME="FROM" CMPTYPE="1" PARPASSTYP="1" TYPTYPE="1" TYPE="I" PARVALUE="100" PAROPTIONL="X"/>
+     <ITEM SCONAME="RESULT" CMPTYPE="1" PARDECLTYP="3" TYPTYPE="1" TYPE="TT_RESULT"/>
+     <ITEM SCONAME="STEP" CMPTYPE="1" PARPASSTYP="1" TYPTYPE="1" TYPE="I" PARVALUE="2" PAROPTIONL="X"/>
+     <ITEM SCONAME="TO" CMPTYPE="1" PARPASSTYP="1" TYPTYPE="1" TYPE="I" PARVALUE="100000" PAROPTIONL="X"/>
+    </PARAMETERS>
+    <SOURCE>`
+  DATA lines TYPE i.
+  DATA s_result LIKE LINE OF result.
+
+  me-&gt;step = step.
+  add_lines( from ).
+  lines = LINES( t_std ).
+  DO.
+    do_read_std( ).
+    s_result-number = lines.
+    s_result-type = &apos;B&apos;.
+    s_result-read = read_count.
+    s_result-duration = elapse( ).
+    APPEND s_result TO result.
+    DO_READ_SORTED( ).
+    s_result-number = lines.
+    s_result-type = &apos;S&apos;.
+    s_result-read = read_count.
+    s_result-duration = elapse( ).
+    APPEND s_result TO result.
+    do_read_hashed( ).
+    s_result-number = lines.
+    s_result-type = &apos;H&apos;.
+    s_result-read = read_count.
+    s_result-duration = elapse( ).
+    APPEND s_result TO result.
+    IF lines &gt; to.    EXIT.     ENDIF.
+    up_scale_table( ).
+    lines = LINES( t_std ).
+  ENDDO.</SOURCE>
+   </ITEM>
+   <ITEM CMPNAME="ELAPSE" STATE="1">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Return Elapse time in Second"/>
+    </TEXTS>
+    <PARAMETERS>
+     <ITEM SCONAME="RESULT" CMPTYPE="1" PARDECLTYP="3" TYPTYPE="1" TYPE="TD_DURATION"/>
+    </PARAMETERS>
+    <SOURCE>`
+  result = cl_abap_tstmp=&gt;subtract( tstmp1 = stop_time
+                                    tstmp2 = start_time ).</SOURCE>
+   </ITEM>
+   <ITEM CMPNAME="RESET_TIME" STATE="1">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Reset time &amp; counter"/>
+    </TEXTS>
+    <SOURCE>`
+  CLEAR read_count.
+  GET TIME STAMP FIELD start_time.
+  time_limit = cl_abap_tstmp=&gt;add( tstmp = start_time
+                                    secs = duration ).</SOURCE>
+   </ITEM>
+   <ITEM CMPNAME="UP_SCALE_TABLE" STATE="1">
+    <SOURCE>`
+  DATA lines TYPE i.
+
+  lines = LINES( t_std ).
+  lines = lines * ( me-&gt;step - 1 ).
+  add_lines( lines ).</SOURCE>
+   </ITEM>
+  </METHODS>
+  <TYPES>
+   <ITEM CMPNAME="TD_DURATION" EXPOSURE="2" STATE="1" EDITORDER="2 " TYPTYPE="1" TYPE="TZNTSTMPL"/>
+   <ITEM CMPNAME="TD_ID" STATE="1" EDITORDER="1 " TYPTYPE="1" TYPE="GUID_16">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="GUID in &apos;RAW&apos; format"/>
+    </TEXTS>
+   </ITEM>
+   <ITEM CMPNAME="TD_TABLE_TYPE" EXPOSURE="2" STATE="1" EDITORDER="1 " TYPTYPE="1" TYPE="CHAR01">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Character Field Length 1"/>
+    </TEXTS>
+   </ITEM>
+   <ITEM CMPNAME="TD_TIMESTAMP" STATE="1" EDITORDER="6 " TYPTYPE="1" TYPE="TIMESTAMPL">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="UTC Time Stamp in Short Form (YYYYMMDDhhmmss)"/>
+    </TEXTS>
+   </ITEM>
+   <ITEM CMPNAME="TS_KEY" STATE="1" EDITORDER="2 " TYPTYPE="4">
+    BEGIN OF ts_key,
+      key TYPE td_id,
+    END OF ts_key
+`
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Key definition"/>
+    </TEXTS>
+   </ITEM>
+   <ITEM CMPNAME="TS_RESULT" EXPOSURE="2" STATE="1" EDITORDER="3 " TYPTYPE="4">BEGIN OF ts_result,
+        number    TYPE i,
+        type      TYPE td_table_type,
+        read      TYPE i,
+        duration  TYPE td_duration,
+      END OF ts_result
+`</ITEM>
+   <ITEM CMPNAME="TT_HASH" STATE="1" EDITORDER="5 " TYPTYPE="4">tt_hash   TYPE HASHED TABLE OF ts_key WITH UNIQUE KEY KEY
+`</ITEM>
+   <ITEM CMPNAME="TT_RESULT" EXPOSURE="2" STATE="1" EDITORDER="4 " TYPTYPE="4">tt_result    TYPE STANDARD TABLE OF ts_result WITH DEFAULT KEY
+`</ITEM>
+   <ITEM CMPNAME="TT_SORT" STATE="1" EDITORDER="4 " TYPTYPE="4">tt_sort   TYPE SORTED TABLE OF ts_key WITH UNIQUE KEY KEY
+`</ITEM>
+   <ITEM CMPNAME="TT_STD" STATE="1" EDITORDER="3 " TYPTYPE="4">tt_std    TYPE STANDARD TABLE OF ts_key WITH DEFAULT KEY
+`</ITEM>
+  </TYPES>
+ </RAW>
+</ZL_OBJECT>

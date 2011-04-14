@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-16"?>
+<ZL_OBJECT CHECKSUM="210AD97B3472597F45FD334433A8A134" CODE_SIGNATURE="2DE38A06F00854EF5BE7EC567930B50F" CONNECTOR="AAAD0A4B07A5A05AE1000000AC120173" NAME="YGPL_READ_TABLE" TYPE="PROG" VERSION="1.0">
+ <DIRECTORY DEVCLASS="YGPL-TUTORIAL" MASTERLANG="E"/>
+ <RAW>
+  <A0_MAINDATA VARCL="X" SUBC="1" RSTAT="T" RMAND="200" RLOAD="E" FIXPT="X" UCCHECK="X"/>
+  <SOURCE>`
+*&amp;---------------------------------------------------------------------*
+*&amp; Report  YGPL_READ_TABLE
+*&amp;
+*&amp;---------------------------------------------------------------------*
+*&amp;
+*&amp;
+*&amp;---------------------------------------------------------------------*
+
+REPORT  ygpl_read_table.
+PARAMETERS:
+  p_from TYPE i DEFAULT 1000,
+  p_to   TYPE i DEFAULT 1000000,
+  p_step TYPE i DEFAULT 2.
+
+START-OF-SELECTION.
+  DATA t_result TYPE ygpl_read_table=&gt;tt_result.
+  FIELD-SYMBOLS &lt;l&gt; LIKE LINE OF t_result.
+  DATA speed TYPE f.
+  DATA o_test TYPE REF TO ygpl_read_table.
+  CREATE OBJECT o_test.
+  t_result = o_test-&gt;do_test( from = p_from
+                                to = p_to
+                              step = p_step ).
+  LOOP AT t_result ASSIGNING &lt;l&gt;.
+    speed = &lt;l&gt;-read / &lt;l&gt;-duration.
+    WRITE:/ &lt;l&gt;-number, &lt;l&gt;-type, speed, &lt;l&gt;-read, &lt;l&gt;-duration.
+  ENDLOOP.
+
+END-OF-SELECTION.</SOURCE>
+  <TEXTSPOOL>
+   <ITEM ID="R">
+    <TEXTS>
+     <ITEM LANGU="E" ENTRY="Program YGPL_READ_TABLE" LENGTH="23 "/>
+    </TEXTS>
+   </ITEM>
+  </TEXTSPOOL>
+ </RAW>
+</ZL_OBJECT>

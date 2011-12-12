@@ -1,0 +1,274 @@
+<?xml version="1.0" encoding="utf-16"?>
+<ZL_OBJECT CHECKSUM="473FAF196BD436759D3083145960202C" CODE_SIGNATURE="F7B840EF32ACF154F5D757E18FDBE380" CONNECTOR="39AC0A4B07A5A05AE1000000AC120173" NAME="YGPL_DS_STORE" TYPE="CLAS" VERSION="1.01">
+ <DIRECTORY DEVCLASS="YGPL-DATA_STORE" MASTERLANG="E"/>
+ <RAW>
+  <A0_MAINDATA VERSION="1" LANGU="E" EXPOSURE="2" STATE="1" CLSFINAL="X" CLSCCINCL="X" FIXPT="X" UNICODE="X">
+   <TEXTS>
+    <ITEM LANG="E" TEXT="Data Store"/>
+   </TEXTS>
+  </A0_MAINDATA>
+  <ALIASES>
+   <ITEM CMPNAME="ADD_INFO" EXPOSURE="2" CMPTYPE="1" REFCLSNAME="YGPLIDS_STORE" REFCMPNAME="ADD_INFO"/>
+   <ITEM CMPNAME="CALLING_PROGRAM" EXPOSURE="2" REFCLSNAME="YGPLIDS_STORE" REFCMPNAME="CALLING_PROGRAM"/>
+   <ITEM CMPNAME="CONFIDENTIAL" EXPOSURE="2" REFCLSNAME="YGPLIDS_STORE" REFCMPNAME="CONFIDENTIAL"/>
+   <ITEM CMPNAME="FLAG_CONF" REFCLSNAME="YGPL_DS_TYPESPOOL" REFCMPNAME="FLAG_CONF"/>
+   <ITEM CMPNAME="GET_INFO" EXPOSURE="2" CMPTYPE="1" REFCLSNAME="YGPLIDS_STORE" REFCMPNAME="GET_INFO"/>
+   <ITEM CMPNAME="GET_INFO_LIST" EXPOSURE="2" CMPTYPE="1" REFCLSNAME="YGPLIDS_STORE" REFCMPNAME="GET_INFO_LIST"/>
+   <ITEM CMPNAME="HOLD_DATE" EXPOSURE="2" REFCLSNAME="YGPLIDS_STORE" REFCMPNAME="HOLD_DATE"/>
+   <ITEM CMPNAME="ID" EXPOSURE="2" REFCLSNAME="YGPLIDS_STORE" REFCMPNAME="ID"/>
+   <ITEM CMPNAME="LOAD" EXPOSURE="2" CMPTYPE="1" REFCLSNAME="YGPLIDS_STORE" REFCMPNAME="LOAD"/>
+   <ITEM CMPNAME="MEMORY_SIZE" EXPOSURE="2" REFCLSNAME="YGPLIDS_STORE" REFCMPNAME="MEMORY_SIZE"/>
+   <ITEM CMPNAME="OWNER" EXPOSURE="2" REFCLSNAME="YGPLIDS_STORE" REFCMPNAME="OWNER"/>
+   <ITEM CMPNAME="SAVE" EXPOSURE="2" CMPTYPE="1" REFCLSNAME="YGPLIDS_STORE" REFCMPNAME="SAVE"/>
+   <ITEM CMPNAME="TD_INFO_NAME" EXPOSURE="2" CMPTYPE="3" REFCLSNAME="YGPLIDS_STORE" REFCMPNAME="TD_INFO_NAME"/>
+   <ITEM CMPNAME="TD_MEMORY_SIZE" EXPOSURE="2" CMPTYPE="3" REFCLSNAME="YGPLIDS_STORE" REFCMPNAME="TD_MEMORY_SIZE"/>
+   <ITEM CMPNAME="TD_STORE_ID" EXPOSURE="2" CMPTYPE="3" REFCLSNAME="YGPLIDS_STORE" REFCMPNAME="TD_STORE_ID"/>
+   <ITEM CMPNAME="TT_LIST" EXPOSURE="2" CMPTYPE="3" REFCLSNAME="YGPLIDS_STORE" REFCMPNAME="TT_LIST"/>
+  </ALIASES>
+  <ATTRIBUTS>
+   <ITEM CMPNAME="INFORMATIONS" EXPOSURE="1" STATE="1" TYPTYPE="1" TYPE="TT_INFOS"/>
+  </ATTRIBUTS>
+  <INTERFACES>
+   <ITEM REFCLSNAME="YGPLIDS_STORE" EXPOSURE="2" STATE="1" RELTYPE="1">
+    <COMPONENTS>
+     <ITEM MTDNAME="ADD_INFO">
+      <SOURCE>`
+  DATA _desc      TYPE REF TO cl_abap_typedescr.
+  DATA s_info     LIKE LINE OF me-&gt;informations.
+  FIELD-SYMBOLS &lt;a&gt; TYPE ANY.
+  DATA o_ref      TYPE REF TO cl_abap_refdescr.
+
+  s_info-name = name.
+  _desc = cl_abap_typedescr=&gt;describe_by_data( p_data = value ).
+  IF _desc-&gt;kind = cl_abap_datadescr=&gt;kind_ref.
+    o_ref ?= _desc.
+    _desc = o_ref-&gt;get_referenced_type( ).
+  ENDIF.
+  CASE _desc-&gt;kind.
+    WHEN cl_abap_datadescr=&gt;kind_ref.
+* Unexpected =&gt; Ignored
+    WHEN cl_abap_datadescr=&gt;kind_elem OR cl_abap_datadescr=&gt;kind_struct OR cl_abap_datadescr=&gt;kind_table.
+*  IF NOT by_ref IS INITIAL.      &quot; do not works when object is serialize referenced data seems to by out of the scope
+*    GET REFERENCE OF value INTO s_info-data.    &quot; Point to the data =&gt; If data change it change into the store also
+*  ELSE.                                         &quot; Data is duplicate (do not work on ref like onject)
+      CREATE DATA s_info-data LIKE value.
+      ASSERT sy-subrc = 0.
+      ASSIGN s_info-data-&gt;* TO &lt;a&gt;.
+      &lt;a&gt; = value.
+*      s_info-size = get_mem_size( &lt;a&gt; ).
+*  ENDIF.
+    WHEN cl_abap_datadescr=&gt;kind_class OR cl_abap_datadescr=&gt;kind_intf.
+      s_info-object = value.
+  ENDCASE.
+  s_info-size = get_mem_size( value ).
+  INSERT s_info INTO TABLE me-&gt;informations.
+  IF sy-subrc &lt;&gt; 0.
+    RAISE EXCEPTION TYPE ygpl_ds_cx_already_exists
+          EXPORTING textid = ygpl_ds_cx_already_exists=&gt;value_already_exists
+                 info_name = name.
+  ENDIF.
+  ADD s_info-size TO memory_size.</SOURCE>
+     </ITEM>
+     <ITEM MTDNAME="GET_INFO">
+      <SOURCE>`
+  FIELD-SYMBOLS:
+    &lt;a&gt; TYPE ANY,
+    &lt;i&gt; LIKE LINE OF me-&gt;informations.
+  DATA _desc      TYPE REF TO cl_abap_typedescr.
+  DATA o_ref      TYPE REF TO cl_abap_refdescr.
+
+  _desc = cl_abap_typedescr=&gt;describe_by_data( p_data = value ).
+  IF _desc-&gt;kind = cl_abap_datadescr=&gt;kind_ref.
+    o_ref ?= _desc.
+    _desc = o_ref-&gt;get_referenced_type( ).
+  ENDIF.
+
+  READ TABLE me-&gt;informations ASSIGNING &lt;i&gt;
+      WITH TABLE KEY name = name.
+  IF sy-subrc &lt;&gt; 0.
+    RAISE EXCEPTION TYPE ygpl_ds_cx_not_found
+          EXPORTING textid = ygpl_ds_cx_not_found=&gt;value_not_found
+                 info_name = name.
+  ENDIF.
+  CASE _desc-&gt;kind.
+    WHEN cl_abap_datadescr=&gt;kind_ref.
+* Unexpected =&gt; Ignored
+    WHEN cl_abap_datadescr=&gt;kind_elem OR cl_abap_datadescr=&gt;kind_struct OR cl_abap_datadescr=&gt;kind_table.
+      ASSERT &lt;i&gt;-object IS INITIAL.
+      ASSIGN &lt;i&gt;-data-&gt;* TO &lt;a&gt;.
+      ASSERT sy-subrc = 0.
+      value = &lt;a&gt;.
+    WHEN cl_abap_datadescr=&gt;kind_class OR cl_abap_datadescr=&gt;kind_intf.
+      ASSERT &lt;i&gt;-data IS INITIAL.
+      value = &lt;i&gt;-object.
+  ENDCASE.</SOURCE>
+     </ITEM>
+     <ITEM MTDNAME="GET_INFO_LIST">
+      <SOURCE>`
+  DATA s_name LIKE LINE OF result.
+  FIELD-SYMBOLS &lt;i&gt; LIKE LINE OF me-&gt;informations.
+  LOOP AT me-&gt;informations ASSIGNING &lt;i&gt;.
+    CLEAR s_name.
+    s_name-name = &lt;i&gt;-name.
+    APPEND s_name TO result.
+  ENDLOOP.</SOURCE>
+     </ITEM>
+     <ITEM MTDNAME="LOAD"/>
+     <ITEM MTDNAME="SAVE">
+      <SOURCE>`
+  ygpl_ds_engine=&gt;save_store( me ).</SOURCE>
+     </ITEM>
+     <ITEM MTDNAME="SET_AS_CONFIDENTIAL">
+      <SOURCE>`
+  CHECK me-&gt;confidential &lt;&gt; flag_conf-is_confidential.
+  IF me-&gt;owner = sy-uname OR me-&gt;confidential IS INITIAL.
+    me-&gt;confidential = flag_conf-is_confidential.
+  ELSE.
+    RAISE EXCEPTION TYPE ygpl_ds_cx_authorization
+          EXPORTING textid = ygpl_ds_cx_authorization=&gt;confidential_store.
+  ENDIF.</SOURCE>
+     </ITEM>
+     <ITEM MTDNAME="SET_HOLD_DATE">
+      <SOURCE>`
+  CHECK value &lt;&gt; me-&gt;hold_date.
+  IF me-&gt;owner = sy-uname OR me-&gt;confidential IS INITIAL.
+    me-&gt;hold_date = value.
+  ELSE.
+    RAISE EXCEPTION TYPE ygpl_ds_cx_authorization
+          EXPORTING textid = ygpl_ds_cx_authorization=&gt;confidential_store.
+  ENDIF.</SOURCE>
+     </ITEM>
+     <ITEM MTDNAME="SET_NOT_CONFIDENTIAL">
+      <SOURCE>`
+  CHECK me-&gt;confidential &lt;&gt; flag_conf-not_confidential.
+  IF me-&gt;owner = sy-uname OR me-&gt;confidential IS INITIAL.
+    me-&gt;confidential = flag_conf-not_confidential.
+  ELSE.
+    RAISE EXCEPTION TYPE ygpl_ds_cx_authorization
+          EXPORTING textid = ygpl_ds_cx_authorization=&gt;confidential_store.
+  ENDIF.</SOURCE>
+     </ITEM>
+    </COMPONENTS>
+   </ITEM>
+  </INTERFACES>
+  <LOCAL>
+   <TYPES>`
+*&quot;* use this source file for any type declarations (class
+*&quot;* definitions, interfaces or data types) you need for method
+*&quot;* implementation or private method&apos;s signature</TYPES>
+   <IMPLEMENTATIONS>`
+*&quot;* local class implementation for public class
+*&quot;* use this source file for the implementation part of
+*&quot;* local helper classes</IMPLEMENTATIONS>
+   <MACROS>`
+*&quot;* use this source file for any macro definitions you need
+*&quot;* in the implementation part of the class</MACROS>
+  </LOCAL>
+  <METHODS>
+   <ITEM CMPNAME="CONSTRUCTOR" EXPOSURE="2" STATE="1" MTDTYPE="2" MTDNEWEXC="X">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="CONSTRUCTOR"/>
+    </TEXTS>
+    <PARAMETERS>
+     <ITEM SCONAME="ID" CMPTYPE="1" MTDTYPE="2" PARPASSTYP="1" TYPTYPE="1" TYPE="TD_STORE_ID" PAROPTIONL="X"/>
+    </PARAMETERS>
+    <EXCEPTIONS>
+     <ITEM SCONAME="YGPL_DS_CX" LANGU="E" MTDTYPE="2">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="DataStore : Root exception class"/>
+      </TEXTS>
+     </ITEM>
+    </EXCEPTIONS>
+    <SOURCE>`
+  IF id IS INITIAL.
+    me-&gt;id = generate_store_id( ).
+    me-&gt;owner = sy-uname.
+    me-&gt;calling_program = sy-cprog.
+  ELSE.
+    me-&gt;id = id.
+    load( ).
+  ENDIF.</SOURCE>
+   </ITEM>
+   <ITEM CMPNAME="GENERATE_STORE_ID" STATE="1" MTDDECLTYP="1" MTDNEWEXC="X">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Create a new Bloc_ID"/>
+    </TEXTS>
+    <PARAMETERS>
+     <ITEM SCONAME="RESULT" CMPTYPE="1" PARDECLTYP="3" TYPTYPE="1" TYPE="TD_STORE_ID"/>
+    </PARAMETERS>
+    <EXCEPTIONS>
+     <ITEM SCONAME="YGPL_DS_CX" LANGU="E"/>
+    </EXCEPTIONS>
+    <SOURCE>`
+**********************************************************************
+* Author : Al&apos;oustad Taryck BENSIALI (taryck.bensiali@gmail.com)     *
+* Date : 2008 December                                               *
+**********************************************************************
+
+  CALL FUNCTION &apos;GUID_CREATE&apos;
+    IMPORTING
+      ev_guid_16 = result.
+*     EV_GUID_22       =
+*     EV_GUID_32       = BLOC_ID.</SOURCE>
+   </ITEM>
+   <ITEM CMPNAME="GET_MEM_SIZE" STATE="1" MTDDECLTYP="1" MTDNEWEXC="X">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Get memory use"/>
+    </TEXTS>
+    <PARAMETERS>
+     <ITEM SCONAME="OBJECT" CMPTYPE="1" PARPASSTYP="1" TYPTYPE="1" TYPE="ANY">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="Object to get size"/>
+      </TEXTS>
+     </ITEM>
+     <ITEM SCONAME="RESULT" CMPTYPE="1" PARDECLTYP="3" TYPTYPE="1" TYPE="TD_MEMORY_SIZE">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="Estimated Memory size of the bloc"/>
+      </TEXTS>
+     </ITEM>
+    </PARAMETERS>
+    <SOURCE>`
+**********************************************************************
+* Author : Al&apos;oustad Taryck BENSIALI (taryck.bensiali@gmail.com)     *
+* Date : 2008 December                                               *
+**********************************************************************
+  DATA xstr TYPE xstring.
+
+  TRY.
+      CALL METHOD cl_abap_memory_utilities=&gt;get_memory_size_of_object
+        EXPORTING
+          object                     = object
+*          ignore_string_sharing      =
+*          ignore_table_sharing       =
+        IMPORTING
+*          bound_size_alloc           =
+          bound_size_used            = result
+*          referenced_size_alloc      =
+*          referenced_size_used       =
+*          is_part_of_non_trivial_szk =
+*          szk_size_alloc             =
+*          szk_size_used              =
+*          low_mem                    =
+*          is_in_shared_memory        =
+*          sizeof_alloc               =
+*          sizeof_used                = size
+          .
+    CATCH cx_root.
+      EXPORT x = object TO DATA BUFFER xstr COMPRESSION OFF.
+      result = XSTRLEN( xstr ).
+  ENDTRY.</SOURCE>
+   </ITEM>
+  </METHODS>
+  <TYPES>
+   <ITEM CMPNAME="TS_INFO" EXPOSURE="1" STATE="1" EDITORDER="1 " TYPTYPE="4">BEGIN OF ts_info,
+      name    TYPE td_info_name,
+      size    TYPE td_memory_size,
+      data    TYPE REF TO data,
+      object  type REF TO object,
+    END OF ts_info
+`</ITEM>
+   <ITEM CMPNAME="TT_INFOS" EXPOSURE="1" STATE="1" EDITORDER="2 " TYPTYPE="4">tt_infos TYPE SORTED TABLE OF ts_info WITH UNIQUE KEY name
+`</ITEM>
+  </TYPES>
+ </RAW>
+</ZL_OBJECT>

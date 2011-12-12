@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-16"?>
+<ZL_OBJECT CHECKSUM="73482C8AB1B2FA69B630F4706087B989" CONNECTOR="5079624B82531D63E1000000AC120173" NAME="YGPL_DS_STORE_ID" TYPE="DOMA" VERSION="1.0">
+ <DIRECTORY DEVCLASS="YGPL-DATA_STORE" MASTERLANG="E"/>
+ <RAW>
+  <A0_MAINDATA DATATYPE="RAW" LENG="000016" OUTPUTLEN="000032"/>
+  <TEXTS>
+   <ITEM LANGU="D" SHORT_TXT="Universal Unique Identifier">
+    <LONG_TXT TDLINESIZE="072">U1&amp;DEFINITION&amp;
+ASEine UUID (&apos;unique universal indentifier&apos;) ist eine Zahl, deren
+  weltweite Eindeutigkeit garantiert werden kann ohne ein zentrales
+  Lookup-Verfahren.
+ASUUIDs werden in R/3 von den Funktionsbausteinen SYSTEM_UUID_CREATE
+  (Binärdarstellung) und SYSTEM_UUID_C_CREATE (Character-Darstellung)
+  vergeben. Es ist garantiert, dass eine von diesen Funktionen vergebene
+  ID kein zweites Mal in diesem oder einem anderen R/3-System
+  vergeben wird.
+ASAus Kompatibilitätsgründen gibt es auch noch den Funktionsbaustein
+  SYSTEM_GET_UNIQUE_ID, der im DCE-Kompatibilitätsmodus
+  SYSTEM_UUID_C_CREATE entspricht.</LONG_TXT>
+   </ITEM>
+   <ITEM LANGU="E" SHORT_TXT="Store ID (Universal Unique Identifier)"/>
+   <ITEM LANGU="F" SHORT_TXT="Identificateur unique universel"/>
+  </TEXTS>
+ </RAW>
+</ZL_OBJECT>

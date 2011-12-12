@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-16"?>
+<ZL_OBJECT CHECKSUM="296A1C64456F1793FD01AC4BFF6B9CB9" CODE_SIGNATURE="DDE1AC2F5DF1B92C82A64DA5257290A3" CONNECTOR="AAAD0A4B07A5A05AE1000000AC120173" NAME="YGPL_DS_TUTORIAL" TYPE="PROG" VERSION="1.0">
+ <DIRECTORY DEVCLASS="YGPL-DATA_STORE.TUTORIAL" MASTERLANG="E"/>
+ <RAW>
+  <A0_MAINDATA EDTX="X" VARCL="X" SUBC="1" RSTAT="T" RMAND="200" RLOAD="E" FIXPT="X" UCCHECK="X"/>
+  <SOURCE>`
+*&amp;---------------------------------------------------------------------*
+*&amp; Report  YTBE_TEST_DS
+*&amp;
+*&amp;---------------------------------------------------------------------*
+*&amp;
+*&amp;
+*&amp;---------------------------------------------------------------------*
+
+REPORT  ygpl_ds_tutorial.
+
+DATA o_ds TYPE REF TO ygplids_store.
+DATA o_ds2 TYPE REF TO ygplids_store.
+DATA s_str  TYPE string.
+DATA s_str2 TYPE string.
+DATA o_dsx TYPE REF TO ygpl_ds_store.
+
+START-OF-SELECTION.
+  BREAK-POINT.
+
+* Create a Store
+  CREATE OBJECT o_dsx.
+  o_ds = ygpl_ds_engine=&gt;new_store( ).
+
+* Add informations
+  s_str = &apos;TEST&apos;.
+  o_ds-&gt;add_info( name = &apos;STR&apos;
+                 value = s_str ).
+  s_str = &apos;HAS Changed&apos;.
+  o_ds-&gt;get_info( EXPORTING name = &apos;STR&apos;
+                  CHANGING value = s_str2 ).
+  WRITE:/ s_str, s_str2.
+
+  WRITE:/ o_ds-&gt;id, o_ds-&gt;memory_size.
+* Save Store to Database
+  o_ds-&gt;save( ).
+  COMMIT WORK AND WAIT .
+
+* Retrieve data with a new object with the same content
+  o_ds2 = ygpl_ds_engine=&gt;get_store( o_ds-&gt;id ).
+  IF o_ds2 = o_ds.
+    WRITE:/ &apos;KO&apos;.
+  ELSE.
+    WRITE:/ &apos;OK&apos;.
+  ENDIF.</SOURCE>
+  <TEXTSPOOL>
+   <ITEM ID="R">
+    <TEXTS>
+     <ITEM LANGU="E" ENTRY="test" LENGTH="4 "/>
+    </TEXTS>
+   </ITEM>
+  </TEXTSPOOL>
+ </RAW>
+</ZL_OBJECT>

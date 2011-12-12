@@ -1,0 +1,489 @@
+<?xml version="1.0" encoding="utf-16"?>
+<ZL_OBJECT CHECKSUM="719B158A7622E14B211457C0D960D447" CODE_SIGNATURE="EE10D78831D38EF3520BB20E1EBF285A" CONNECTOR="39AC0A4B07A5A05AE1000000AC120173" NAME="YGPL_DS_ENGINE" TYPE="CLAS" VERSION="1.01">
+ <DIRECTORY DEVCLASS="YGPL-DATA_STORE" MASTERLANG="E"/>
+ <RAW>
+  <A0_MAINDATA VERSION="1" LANGU="E" EXPOSURE="2" STATE="1" CLSFINAL="X" CLSCCINCL="X" FIXPT="X" UNICODE="X">
+   <TEXTS>
+    <ITEM LANG="E" TEXT="Data Store : Engine"/>
+   </TEXTS>
+  </A0_MAINDATA>
+  <ALIASES>
+   <ITEM CMPNAME="TD_STORE_ID" EXPOSURE="2" CMPTYPE="3" REFCLSNAME="YGPL_DS_TYPESPOOL" REFCMPNAME="TD_STORE_ID"/>
+  </ALIASES>
+  <ATTRIBUTS>
+   <ITEM CMPNAME="DEFAULT_VALIDITY" EXPOSURE="2" STATE="1" ATTDECLTYP="2" ATTVALUE="900" TYPTYPE="1" TYPE="TD_VALIDITY">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Default  validity Time (in sec) of cache : 15 Minutes"/>
+    </TEXTS>
+   </ITEM>
+   <ITEM CMPNAME="FLAG_CLEANUP" STATE="1" ATTDECLTYP="1" TYPTYPE="1" TYPE="ABAP_BOOL">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Is cleanup already done"/>
+    </TEXTS>
+   </ITEM>
+  </ATTRIBUTS>
+  <FRIENDS>
+   <ITEM REFCLSNAME="YGPLIDS_STORE" STATE="1"/>
+  </FRIENDS>
+  <INTERFACES>
+   <ITEM REFCLSNAME="IF_SERIALIZABLE_OBJECT" EXPOSURE="2" STATE="1" RELTYPE="1"/>
+   <ITEM REFCLSNAME="YGPL_DS_TYPESPOOL" EXPOSURE="2" STATE="1" RELTYPE="1"/>
+  </INTERFACES>
+  <LOCAL>
+   <TYPES>`
+*&quot;* use this source file for any type declarations (class
+*&quot;* definitions, interfaces or data types) you need for method
+*&quot;* implementation or private method&apos;s signature</TYPES>
+   <IMPLEMENTATIONS>`
+*&quot;* local class implementation for public class
+*&quot;* use this source file for the implementation part of
+*&quot;* local helper classes</IMPLEMENTATIONS>
+   <MACROS>`
+*&quot;* use this source file for any macro definitions you need
+*&quot;* in the implementation part of the class</MACROS>
+  </LOCAL>
+  <METHODS>
+   <ITEM CMPNAME="CHECK_IS_CHANGEABLE" STATE="1" MTDDECLTYP="1" MTDNEWEXC="X">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Raise exception if store can&apos;t be changed"/>
+    </TEXTS>
+    <PARAMETERS>
+     <ITEM SCONAME="DATA" CMPTYPE="1" PARPASSTYP="1" TYPTYPE="1" TYPE="TS_DATA"/>
+    </PARAMETERS>
+    <EXCEPTIONS>
+     <ITEM SCONAME="YGPL_DS_CX" LANGU="E">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="DataStore : Root exception class"/>
+      </TEXTS>
+     </ITEM>
+    </EXCEPTIONS>
+    <SOURCE>`
+  CHECK data IS NOT INITIAL.
+* Authority check
+  IF data-confidential IS NOT INITIAL AND
+     data-owner &lt;&gt; sy-uname.
+    RAISE EXCEPTION TYPE ygpl_ds_cx_authorization
+          EXPORTING textid = ygpl_ds_cx_authorization=&gt;confidential_store.
+  ENDIF.</SOURCE>
+   </ITEM>
+   <ITEM CMPNAME="CLASS_CONSTRUCTOR" EXPOSURE="2" STATE="1" MTDTYPE="2" MTDDECLTYP="1">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="CLASS_CONSTRUCTOR"/>
+    </TEXTS>
+    <SOURCE>`
+  cleanup( ).</SOURCE>
+   </ITEM>
+   <ITEM CMPNAME="CLEANUP" STATE="1" MTDDECLTYP="1">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Cleanup process : Remove out of date store"/>
+    </TEXTS>
+    <SOURCE>`
+  DATA s_data TYPE ygplds_storage.
+
+  CHECK flag_cleanup IS INITIAL.    &quot; cleanup once for each &quot;session&quot;
+  flag_cleanup = abap_true.         &quot; Mark cleanup as done
+
+* Check that cleanup have not been done today
+  SELECT SINGLE hold
+    INTO s_data-hold
+    FROM ygplds_storage
+    WHERE id = s_data-id.
+  CHECK s_data-hold &lt; sy-datum OR s_data-hold IS INITIAL.
+
+* Update last check date in DB
+  s_data-hold = sy-datum.
+  MODIFY ygplds_storage FROM s_data.
+  ASSERT sy-subrc = 0.
+
+* Do the cleanup
+  clear s_data.
+  DELETE FROM ygplds_storage
+    WHERE hold &lt;&gt; s_data-hold   &quot; initial
+      AND hold &lt; sy-datum.
+  ASSERT sy-subrc = 0 OR  sy-dbcnt = 0.</SOURCE>
+   </ITEM>
+   <ITEM CMPNAME="DELETE_STORE" EXPOSURE="2" STATE="1" MTDDECLTYP="1" MTDNEWEXC="X">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Delete a existinf store from DB"/>
+    </TEXTS>
+    <PARAMETERS>
+     <ITEM SCONAME="ID" CMPTYPE="1" PARPASSTYP="1" TYPTYPE="1" TYPE="TD_STORE_ID"/>
+    </PARAMETERS>
+    <EXCEPTIONS>
+     <ITEM SCONAME="YGPL_DS_CX" LANGU="E">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="DataStore : Root exception class"/>
+      </TEXTS>
+     </ITEM>
+    </EXCEPTIONS>
+    <SOURCE>`
+  DATA d_key TYPE string.
+
+  read_store( id ).
+  DELETE FROM ygplds_storage
+    WHERE id = id.
+  IF sy-dbcnt = 0 OR sy-subrc &lt;&gt; 0.
+    d_key = id.
+    RAISE EXCEPTION TYPE ygpl_ds_cx_database
+      EXPORTING
+        textid = ygpl_ds_cx_database=&gt;delete_error
+           key = d_key.
+  ENDIF.</SOURCE>
+   </ITEM>
+   <ITEM CMPNAME="GET_FROM_CACHE" EXPOSURE="2" STATE="1" MTDDECLTYP="1" MTDNEWEXC="X">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Retrieve Information from Cache (Memory)"/>
+    </TEXTS>
+    <PARAMETERS>
+     <ITEM SCONAME="ID" CMPTYPE="1" PARPASSTYP="1" TYPTYPE="1" TYPE="TD_STORE_ID">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="Cache ID"/>
+      </TEXTS>
+     </ITEM>
+     <ITEM SCONAME="VALUE" CMPTYPE="1" PARDECLTYP="2" PARPASSTYP="1" TYPTYPE="1" TYPE="ANY">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="Data"/>
+      </TEXTS>
+     </ITEM>
+    </PARAMETERS>
+    <EXCEPTIONS>
+     <ITEM SCONAME="YGPL_DS_CX" LANGU="E">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="DataStore : Root exception class"/>
+      </TEXTS>
+     </ITEM>
+    </EXCEPTIONS>
+    <SOURCE>`
+  DATA d_ts_val   TYPE td_timestamp.
+  DATA d_ts_now   TYPE td_timestamp.
+  DATA d_id       TYPE ygplds_cache-id.
+
+  GET TIME STAMP FIELD d_ts_now.
+  d_id = id.
+  TRY.
+      IMPORT validity = d_ts_val
+                 data = value
+             FROM SHARED BUFFER ygplds_cache(__) ID d_id.
+    CATCH cx_sy_import_mismatch_error.
+      RAISE EXCEPTION TYPE ygpl_ds_cx_memory
+            EXPORTING textid = ygpl_ds_cx_memory=&gt;import_error
+                          id = id.
+  ENDTRY.
+  IF sy-subrc &lt;&gt; 0.
+    RAISE EXCEPTION TYPE ygpl_ds_cx_memory
+          EXPORTING textid = ygpl_ds_cx_memory=&gt;import_error
+                        id = id.
+  ENDIF.
+  IF d_ts_val &lt; d_ts_now.
+    RAISE EXCEPTION TYPE ygpl_ds_cx_obsolete
+          EXPORTING &quot; textid = ygpl_ds_cx_not_found=&gt;shared_memory_not_found
+                        id = id.
+  ENDIF.</SOURCE>
+   </ITEM>
+   <ITEM CMPNAME="GET_STORE" EXPOSURE="2" STATE="1" MTDDECLTYP="1" MTDNEWEXC="X">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Retrieve a existing store from DB"/>
+    </TEXTS>
+    <PARAMETERS>
+     <ITEM SCONAME="ID" CMPTYPE="1" PARPASSTYP="1" TYPTYPE="1" TYPE="TD_STORE_ID"/>
+     <ITEM SCONAME="RESULT" CMPTYPE="1" PARDECLTYP="3" TYPTYPE="1" TYPE="TO_STORE">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="Data Store Interface"/>
+      </TEXTS>
+     </ITEM>
+    </PARAMETERS>
+    <EXCEPTIONS>
+     <ITEM SCONAME="YGPL_DS_CX" LANGU="E">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="DataStore : Root exception class"/>
+      </TEXTS>
+     </ITEM>
+    </EXCEPTIONS>
+    <SOURCE>`
+  DATA s_xml      TYPE string.
+  DATA s_data     TYPE ygplds_storage.
+  DATA o_cx       TYPE REF TO cx_root.
+
+  s_data = read_store( id ).
+
+  s_xml = unzip_string( s_data-raw_data ).
+
+  TRY.
+      CALL TRANSFORMATION id SOURCE XML s_xml
+           RESULT store = result.
+    CATCH cx_xslt_serialization_error INTO o_cx.
+      RAISE EXCEPTION TYPE ygpl_ds_cx_serialize
+        EXPORTING
+          textid = ygpl_ds_cx_serialize=&gt;xslt_serialization_error
+          previous = o_cx.
+    CATCH cx_transformation_error INTO o_cx.
+      RAISE EXCEPTION TYPE ygpl_ds_cx_serialize
+        EXPORTING
+          textid = ygpl_ds_cx_serialize=&gt;transformation_error
+          previous = o_cx.
+  ENDTRY.</SOURCE>
+   </ITEM>
+   <ITEM CMPNAME="NEW_STORE" EXPOSURE="2" STATE="1" MTDDECLTYP="1" MTDNEWEXC="X">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Create a new store"/>
+    </TEXTS>
+    <PARAMETERS>
+     <ITEM SCONAME="RESULT" CMPTYPE="1" PARDECLTYP="3" TYPTYPE="1" TYPE="TO_STORE">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="Data Store Interface"/>
+      </TEXTS>
+     </ITEM>
+    </PARAMETERS>
+    <EXCEPTIONS>
+     <ITEM SCONAME="YGPL_DS_CX" LANGU="E">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="DataStore : Root exception class"/>
+      </TEXTS>
+     </ITEM>
+    </EXCEPTIONS>
+    <SOURCE>`
+  CREATE OBJECT result TYPE ygpl_ds_store.</SOURCE>
+   </ITEM>
+   <ITEM CMPNAME="READ_STORE" STATE="1" MTDDECLTYP="1" MTDNEWEXC="X">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Retrieve a existing store from DB"/>
+    </TEXTS>
+    <PARAMETERS>
+     <ITEM SCONAME="ID" CMPTYPE="1" PARPASSTYP="1" TYPTYPE="1" TYPE="TD_STORE_ID"/>
+     <ITEM SCONAME="RESULT" CMPTYPE="1" PARDECLTYP="3" TYPTYPE="1" TYPE="TS_DATA">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="Storage of information as Store object in database"/>
+      </TEXTS>
+     </ITEM>
+    </PARAMETERS>
+    <EXCEPTIONS>
+     <ITEM SCONAME="YGPL_DS_CX" LANGU="E">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="DataStore : Root exception class"/>
+      </TEXTS>
+     </ITEM>
+    </EXCEPTIONS>
+    <SOURCE>`
+  SELECT SINGLE * INTO result
+    FROM ygplds_storage
+    WHERE id = id.
+  IF sy-subrc &lt;&gt; 0.
+    RAISE EXCEPTION TYPE ygpl_ds_cx_not_found
+          EXPORTING textid = ygpl_ds_cx_not_found=&gt;store_not_found
+                        id = id.
+  ENDIF.
+
+  check_is_changeable( result ).</SOURCE>
+   </ITEM>
+   <ITEM CMPNAME="SAVE_STORE" STATE="1" MTDDECLTYP="1" MTDNEWEXC="X">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Save Store object to database"/>
+    </TEXTS>
+    <PARAMETERS>
+     <ITEM SCONAME="O_STORE" CMPTYPE="1" PARPASSTYP="1" TYPTYPE="1" TYPE="TO_STORE">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="Data Store Interface"/>
+      </TEXTS>
+     </ITEM>
+    </PARAMETERS>
+    <EXCEPTIONS>
+     <ITEM SCONAME="YGPL_DS_CX" LANGU="E">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="DataStore : Root exception class"/>
+      </TEXTS>
+     </ITEM>
+    </EXCEPTIONS>
+    <SOURCE>`
+  DATA o_cx       TYPE REF TO cx_root.
+  DATA s_xml      TYPE string.
+  DATA s_data     TYPE ygplds_storage.
+  DATA f_exists   TYPE abap_bool.
+  DATA d_key      TYPE string.
+
+* Check if exists preious one
+  SELECT SINGLE * INTO s_data
+  FROM ygplds_storage
+  WHERE id = o_store-&gt;id.
+  IF sy-subrc = 0.
+    f_exists = abap_true.
+    check_is_changeable( s_data ).
+  ENDIF.
+
+* Create new alue to store
+  s_data-id = o_store-&gt;id.
+  GET TIME STAMP FIELD s_data-timestamp.
+  s_data-owner = o_store-&gt;owner.
+  s_data-cprog = o_store-&gt;calling_program.
+  s_data-confidential = o_store-&gt;confidential.
+  s_data-hold = o_store-&gt;hold_date.
+  s_data-mem_size = o_store-&gt;memory_size.
+
+  TRY.
+      CALL TRANSFORMATION id SOURCE store = o_store
+           RESULT XML s_xml.
+    CATCH cx_xslt_serialization_error INTO o_cx.
+      RAISE EXCEPTION TYPE ygpl_ds_cx_serialize
+        EXPORTING
+          textid = ygpl_ds_cx_serialize=&gt;xslt_serialization_error
+          previous = o_cx.
+    CATCH cx_transformation_error INTO o_cx.
+      RAISE EXCEPTION TYPE ygpl_ds_cx_serialize
+        EXPORTING
+          textid = ygpl_ds_cx_serialize=&gt;transformation_error
+          previous = o_cx.
+  ENDTRY.
+
+  s_data-raw_data = zip_string( s_xml ).
+  s_data-db_size = XSTRLEN( s_data-raw_data ).
+  MODIFY ygplds_storage FROM s_data.
+  IF sy-subrc &lt;&gt; 0.
+    d_key = o_store-&gt;id.
+    IF f_exists = abap_true.
+      RAISE EXCEPTION TYPE ygpl_ds_cx_database
+        EXPORTING
+          textid = ygpl_ds_cx_database=&gt;update_error
+             key = d_key.
+    ELSE.
+      RAISE EXCEPTION TYPE ygpl_ds_cx_database
+        EXPORTING
+          textid = ygpl_ds_cx_database=&gt;insert_error
+             key = d_key.
+    ENDIF.
+  ENDIF.</SOURCE>
+   </ITEM>
+   <ITEM CMPNAME="SAVE_TO_CACHE" EXPOSURE="2" STATE="1" MTDDECLTYP="1" MTDNEWEXC="X">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Save Information into Cache (Memory)"/>
+    </TEXTS>
+    <PARAMETERS>
+     <ITEM SCONAME="ID" CMPTYPE="1" PARPASSTYP="1" TYPTYPE="1" TYPE="TD_STORE_ID">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="Cache ID"/>
+      </TEXTS>
+     </ITEM>
+     <ITEM SCONAME="VALIDITY" CMPTYPE="1" PARPASSTYP="1" TYPTYPE="1" TYPE="TD_VALIDITY" PARVALUE="DEFAULT_VALIDITY">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="Time (in sec) of validity of cache"/>
+      </TEXTS>
+     </ITEM>
+     <ITEM SCONAME="VALUE" CMPTYPE="1" PARPASSTYP="1" TYPTYPE="1" TYPE="ANY">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="Data"/>
+      </TEXTS>
+     </ITEM>
+    </PARAMETERS>
+    <EXCEPTIONS>
+     <ITEM SCONAME="YGPL_DS_CX" LANGU="E">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="DataStore : Root exception class"/>
+      </TEXTS>
+     </ITEM>
+    </EXCEPTIONS>
+    <SOURCE>`
+  DATA d_ts       TYPE td_timestamp.
+  DATA d_id       TYPE ygplds_cache-id.
+
+  GET TIME STAMP FIELD d_ts.
+  IF validity &gt; 0.
+    d_ts = cl_abap_tstmp=&gt;add( tstmp = d_ts
+                                secs = validity ).
+  ENDIF.
+  d_id = id.
+  TRY.
+      EXPORT validity = d_ts
+                 data = value
+             TO SHARED BUFFER ygplds_cache(__) ID d_id COMPRESSION ON.
+    CATCH cx_sy_export_buffer_no_memory.
+      RAISE EXCEPTION TYPE ygpl_ds_cx_memory
+            EXPORTING textid = ygpl_ds_cx_memory=&gt;export_error
+                          id = id.
+  ENDTRY.
+  IF sy-subrc &lt;&gt; 0.
+    RAISE EXCEPTION TYPE ygpl_ds_cx_memory
+          EXPORTING textid = ygpl_ds_cx_memory=&gt;export_error
+                        id = id.
+  ENDIF.</SOURCE>
+   </ITEM>
+   <ITEM CMPNAME="UNZIP_STRING" STATE="1" MTDDECLTYP="1">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="unGZIP String"/>
+    </TEXTS>
+    <PARAMETERS>
+     <ITEM SCONAME="DATA" CMPTYPE="1" PARPASSTYP="1" TYPTYPE="1" TYPE="XSTRING"/>
+     <ITEM SCONAME="RESULT" CMPTYPE="1" PARDECLTYP="3" TYPTYPE="1" TYPE="STRING"/>
+    </PARAMETERS>
+    <SOURCE>`
+  TRY.
+      CALL METHOD cl_abap_gzip=&gt;decompress_text
+        EXPORTING
+          gzip_in      = data
+*          gzip_in_len  = -1
+          conversion   = &apos;DEFAULT&apos;
+        IMPORTING
+*          text_out_len =
+          text_out     = result.
+    CATCH cx_parameter_invalid_range.
+      result = data.
+    CATCH cx_sy_buffer_overflow.
+      result = data.
+    CATCH cx_sy_conversion_codepage.
+      result = data.
+    CATCH cx_sy_compression_error.
+      result = data.
+  ENDTRY.</SOURCE>
+   </ITEM>
+   <ITEM CMPNAME="ZIP_STRING" STATE="1" MTDDECLTYP="1">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="GZIP String"/>
+    </TEXTS>
+    <PARAMETERS>
+     <ITEM SCONAME="DATA" CMPTYPE="1" PARPASSTYP="1" TYPTYPE="1" TYPE="STRING"/>
+     <ITEM SCONAME="RESULT" CMPTYPE="1" PARDECLTYP="3" TYPTYPE="1" TYPE="XSTRING"/>
+    </PARAMETERS>
+    <SOURCE>`
+  TRY.
+      CALL METHOD cl_abap_gzip=&gt;compress_text
+        EXPORTING
+          text_in        = data
+*      text_in_len    = -1
+          compress_level = 9
+          conversion     = &apos;DEFAULT&apos;
+        IMPORTING
+*      gzip_out_len   =
+          gzip_out       = result.
+    CATCH cx_parameter_invalid_range.
+      result = data.
+    CATCH cx_sy_buffer_overflow.
+      result = data.
+    CATCH cx_sy_conversion_codepage.
+      result = data.
+  ENDTRY.</SOURCE>
+   </ITEM>
+  </METHODS>
+  <TYPEGROUPS>
+   <ITEM TYPEGROUP="ABAP" EXPLICIT="X" IMPLICIT="X"/>
+  </TYPEGROUPS>
+  <TYPES>
+   <ITEM CMPNAME="TD_TIMESTAMP" EXPOSURE="1" STATE="1" EDITORDER="1 " TYPTYPE="1" TYPE="TIMESTAMPL">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="UTC Time Stamp in Long Form (YYYYMMDDhhmmssmmmuuun)"/>
+    </TEXTS>
+   </ITEM>
+   <ITEM CMPNAME="TD_VALIDITY" EXPOSURE="2" STATE="1" TYPTYPE="1" TYPE="I">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Time (in sec) of validity of cache"/>
+    </TEXTS>
+   </ITEM>
+   <ITEM CMPNAME="TO_STORE" EXPOSURE="2" STATE="1" TYPTYPE="3" TYPE="YGPLIDS_STORE">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Data Store Interface"/>
+    </TEXTS>
+   </ITEM>
+   <ITEM CMPNAME="TS_DATA" EXPOSURE="2" STATE="1" TYPTYPE="1" TYPE="YGPLDS_STORAGE">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Storage of information as Store object in database"/>
+    </TEXTS>
+   </ITEM>
+  </TYPES>
+ </RAW>
+</ZL_OBJECT>

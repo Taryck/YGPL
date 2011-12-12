@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-16"?>
+<ZL_OBJECT CHECKSUM="3AC2C16BF6F76BEC2703CBAB310993E1" CONNECTOR="5079624B82531D63E1000000AC120173" NAME="YGPL_DS_CREATE_TIMESTAMP" TYPE="DTEL" VERSION="1.0">
+ <DIRECTORY DEVCLASS="YGPL-DATA_STORE" MASTERLANG="E"/>
+ <RAW>
+  <A0_MAINDATA DOMNAME="TZNTSTMPL" HEADLEN="19" SCRLEN1="10" SCRLEN2="15" SCRLEN3="20" DTELMASTER="E" DATATYPE="DEC" LENG="000021" DECIMALS="000007" OUTPUTLEN="000027" REFKIND="D"/>
+  <TEXTS>
+   <ITEM LANGU="D" SHORT_TXT="UTC-Zeitstempel in Langform (JJJJMMTThhmmssmmmuuun)">
+    <LONG_TXT TDLINESIZE="072">U1&amp;DEFINITION&amp;
+ASDer UTC-&lt;DS:ABEN.TIME_STAMP_GLOSRY&gt;Zeitstempel&lt;/&gt; stellt Datum und
+  Uhrzeit bezogen auf &lt;DS:TX.SZTZ_UTC&gt;UTC&lt;/&gt;  (Universal Time Coordinated)
+  dar.
+ASUm lokale Zeiten in einen UTC-Zeitstempel zu normalisieren und somit
+  vergleichbar zu machen, müssen diese unter Angabe ihrer
+  &lt;DS:DE.TZNZONE&gt;Zeitzone&lt;/&gt; konvertiert werden. Hierzu steht der
+  ABAP-Befehl &lt;DS:ABAP.CONVERT_TIME-STAMP&gt;convert&lt;/&gt; zur Verfügung.
+ASAuch wenn sich die dieser Umrechnung zugrundeliegende Zeitzone aus
+  Customizing oder Stammdaten wieder ermitteln läßt, wird empfohlen die
+  Zeitzone redundant mit abzuspeichern.
+ASDie interne Struktur des hochauflösenden UTC-Zeitstempels ist logisch
+  untergliedert in einen Datums- und Uhrzeitteil im gepackten
+  Ziffernformat &lt;JJJJMMTThhmmssmmmuuun&gt;. Es muß beachtet werden, daß die
+  in der Struktur zur Verfügung stehende Auflösung von 100 Nanosekunden in
+  der Regel von der verwendeten Hardware nicht voll unterstützt wird.
+ASSiehe auch &lt;DS:ABAP.GET_TIME-STAMP&gt;GET TIME STAMP&lt;/&gt;
+ASEs steht darüber hinaus auch ein &lt;DS:DE.TZNTSTMPS&gt;normalauflösender
+  UTC-Zeitstempel&lt;/&gt; zur Verfügung.</LONG_TXT>
+   </ITEM>
+   <ITEM LANGU="E" SHORT_TXT="Creation UTC Time Stamp in Long Form (YYYYMMDDhhmmssmmmuuun)">
+    <LONG_TXT TDLINESIZE="072">U1&amp;DEFINITION&amp;
+ASThe UTC &lt;DS:ABEN.TIME_STAMP_GLOSRY&gt;timestamp&lt;/&gt; displays date and time
+  according to &lt;DS:TX.SZTZ_UTC&gt;UTC&lt;/&gt; (Universal Coordinated Time).
+ASIn order to convert local time into a UTC time stamp, which makes it
+  easier to compare times, the local time must be converted according to
+  your &lt;DS:DE.TZNZONE&gt;time zone&lt;/&gt;. The ABAP command
+  &lt;DS:ABAP.CONVERT_TIME-STAMP&gt;convert&lt;/&gt; is available for this purpose.
+ASEven if the time zone that the conversion is based on can be
+  redetermined from Customizing or master data, we still recommend that
+  you save the time zone.
+ASThe internal structure of the high-resolution UTC time stamp is
+  logically organized in date and time sections in a packed decimal format
+  (YYYYMMDDhhmmssmmmuuun), which depicts the year, month, day, hour
+= ,second, millisecond, microsecond and the first decimal of the
+  nanoseconds. Please note that the hardware that is normally used does
+  not fully support a resolution of 100 nanoseconds, which is available in
+  the structure.
+ASSee also &lt;DS:ABAP.GET_TIME-STAMP&gt;GET TIME STAMP&lt;/&gt;
+ASA &lt;DS:DE.TZNTSTMPS&gt;UTC time stamp in short form&lt;/&gt; is also available.</LONG_TXT>
+   </ITEM>
+   <ITEM LANGU="F" SHORT_TXT="Horodatage UTC sous forme étendue (AAAAMMJJhhmmssmmmuuun)">
+    <LONG_TXT TDLINESIZE="072">U1&amp;DEFINITION&amp;
+ASL&apos;&lt;DS:ABEN.TIME_STAMP_GLOSRY&gt;horodatage&lt;/&gt;
+  UTC désigne la date et l&apos;heure en format
+  &lt;DS:TX.SZTZ_UTC&gt;UTC&lt;/&gt; (Universal Coordinated Time).
+ASPour pouvoir normaliser dans le système d&apos;horodatage universel et de la
+  sorte comparer entre elles les heures locales, vous devez convertir
+  celles-ci après saisie préalable de leur &lt;DS:DE.TZNZONE&gt;fuseau horaire
+= &lt;/&gt;. Pour ce faire, vous disposez de l&apos;instruction ABAP
+  &lt;DS:ABAP.CONVERT_TIME-STAMP&gt;convert &lt;/&gt;.
+ASMême si le système est capable de retrouver le fuseau horaire utilisé
+  pour cette conversion à partir du Customizing ou des données de base,
+  SAP vous conseille de saisir une nouvelle fois ce fuseau (de façon
+  redondante).
+ASLa structure interne de cet horodatage universel à haute résolution est
+  subdivisée de manière logique en un partie réservée à la date et en une
+  autre réservée à l&apos;heure, le tout étant présenté en format de chiffres
+  condensé &lt;JJJJMMTThhmmssmmmuuun&gt;. Vous devez tenir compte du fait que
+  la résolution de 100 nanosecondes dont vous disposez n&apos;est généralement
+  pas assistée intégralement par le matériel utilisé.
+ASVoir aussi &lt;DS:ABAP.GET_TIME-STAMP&gt;GET TIME STAMP&lt;/&gt;
+ASOutre cet horodatage universel à haute résolution, vous disposez aussi
+  d&apos;un &lt;DS:DE.TZNTSTMPS&gt;horodatage universel à résolution normale&lt;/&gt;.</LONG_TXT>
+   </ITEM>
+  </TEXTS>
+ </RAW>
+</ZL_OBJECT>

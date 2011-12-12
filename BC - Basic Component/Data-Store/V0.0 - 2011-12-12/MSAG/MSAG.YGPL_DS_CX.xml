@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-16"?>
+<ZL_OBJECT CHECKSUM="DB464E3E57FCBD621E4A0D51975EC199" CONNECTOR="1FAC0A4B07A5A05AE1000000AC120173" NAME="YGPL_DS_CX" TYPE="MSAG" VERSION="1.0">
+ <DIRECTORY DEVCLASS="YGPL-DATA_STORE" MASTERLANG="E"/>
+ <RAW>
+  <A0_MAINDATA MASTERLANG="E" RESPUSER="TBENSIAL"/>
+  <MESSAGES>
+   <ITEM MSGNR="000" SELFDEF="3">
+    <TEXTS>
+     <ITEM LANGU="E" SHORT_TXT="Key &apos;&amp;1&apos; already exists"/>
+    </TEXTS>
+   </ITEM>
+   <ITEM MSGNR="001" SELFDEF="3">
+    <TEXTS>
+     <ITEM LANGU="E" SHORT_TXT="Can&apos;t add value named &apos;&amp;1&apos; in store because already exists with this key"/>
+    </TEXTS>
+   </ITEM>
+   <ITEM MSGNR="010" SELFDEF="3">
+    <TEXTS>
+     <ITEM LANGU="E" SHORT_TXT="Key &apos;&amp;1&apos; not found"/>
+    </TEXTS>
+   </ITEM>
+   <ITEM MSGNR="011" SELFDEF="3">
+    <TEXTS>
+     <ITEM LANGU="E" SHORT_TXT="Can&apos;t get value named &apos;&amp;1&apos; from store because do not exists with this key"/>
+    </TEXTS>
+   </ITEM>
+   <ITEM MSGNR="012" SELFDEF="3">
+    <TEXTS>
+     <ITEM LANGU="E" SHORT_TXT="Can&apos;t read store &apos;&amp;1&apos; from database because it do not exists"/>
+    </TEXTS>
+   </ITEM>
+   <ITEM MSGNR="013" SELFDEF="3">
+    <TEXTS>
+     <ITEM LANGU="E" SHORT_TXT="You&apos;re not authorized to access to the store &apos;&amp;1&apos;"/>
+    </TEXTS>
+   </ITEM>
+   <ITEM MSGNR="014" SELFDEF="3">
+    <TEXTS>
+     <ITEM LANGU="E" SHORT_TXT="Can&apos;t read store &apos;&amp;1&apos; from shared memory"/>
+    </TEXTS>
+   </ITEM>
+   <ITEM MSGNR="020" SELFDEF="3">
+    <TEXTS>
+     <ITEM LANGU="E" SHORT_TXT="Error while serializing Store object"/>
+    </TEXTS>
+   </ITEM>
+   <ITEM MSGNR="021" SELFDEF="3">
+    <TEXTS>
+     <ITEM LANGU="E" SHORT_TXT="Exception XSLT_SERIALIZATION_ERROR while serializing Store object"/>
+    </TEXTS>
+   </ITEM>
+   <ITEM MSGNR="022" SELFDEF="3">
+    <TEXTS>
+     <ITEM LANGU="E" SHORT_TXT="Exception TRANSFORMATION_ERROR while serializing Store object"/>
+    </TEXTS>
+   </ITEM>
+   <ITEM MSGNR="030" SELFDEF="3">
+    <TEXTS>
+     <ITEM LANGU="E" SHORT_TXT="Authorization Error"/>
+    </TEXTS>
+   </ITEM>
+   <ITEM MSGNR="031" SELFDEF="3">
+    <TEXTS>
+     <ITEM LANGU="E" SHORT_TXT="Can&apos;t acces to confidential store when you&apos;re not the owner"/>
+    </TEXTS>
+   </ITEM>
+   <ITEM MSGNR="040" SELFDEF="3">
+    <TEXTS>
+     <ITEM LANGU="E" SHORT_TXT="Database Error"/>
+    </TEXTS>
+   </ITEM>
+   <ITEM MSGNR="041" SELFDEF="3">
+    <TEXTS>
+     <ITEM LANGU="E" SHORT_TXT="Can&apos;t insert record &apos;&amp;1&apos; in table &amp;2"/>
+    </TEXTS>
+   </ITEM>
+   <ITEM MSGNR="042" SELFDEF="3">
+    <TEXTS>
+     <ITEM LANGU="E" SHORT_TXT="Can&apos;t delete record &apos;&amp;1&apos; in table &amp;2"/>
+    </TEXTS>
+   </ITEM>
+   <ITEM MSGNR="043" SELFDEF="3">
+    <TEXTS>
+     <ITEM LANGU="E" SHORT_TXT="Can&apos;t update record &apos;&amp;1&apos; in table &amp;2"/>
+    </TEXTS>
+   </ITEM>
+   <ITEM MSGNR="050" SELFDEF="3">
+    <TEXTS>
+     <ITEM LANGU="E" SHORT_TXT="Validity Error"/>
+    </TEXTS>
+   </ITEM>
+   <ITEM MSGNR="051" SELFDEF="3">
+    <TEXTS>
+     <ITEM LANGU="E" SHORT_TXT="Store &apos;&amp;1&apos; is obsolete in Shared Memory"/>
+    </TEXTS>
+   </ITEM>
+   <ITEM MSGNR="060" SELFDEF="3">
+    <TEXTS>
+     <ITEM LANGU="E" SHORT_TXT="Shared Memory Error"/>
+    </TEXTS>
+   </ITEM>
+   <ITEM MSGNR="061" SELFDEF="3">
+    <TEXTS>
+     <ITEM LANGU="E" SHORT_TXT="Store &apos;&amp;1&apos; can&apos;t be saved in Shared Memory"/>
+    </TEXTS>
+   </ITEM>
+   <ITEM MSGNR="062" SELFDEF="3">
+    <TEXTS>
+     <ITEM LANGU="E" SHORT_TXT="Store &apos;&amp;1&apos; can&apos;t be readed from Shared Memory"/>
+    </TEXTS>
+   </ITEM>
+  </MESSAGES>
+  <TEXTS>
+   <ITEM LANGU="E" SHORT_TXT="Message for Data Store exceptions"/>
+  </TEXTS>
+ </RAW>
+</ZL_OBJECT>

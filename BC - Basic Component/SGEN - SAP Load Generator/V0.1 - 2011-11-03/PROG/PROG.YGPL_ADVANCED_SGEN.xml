@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-16"?>
+<ZL_OBJECT CHECKSUM="9581B1894128DC1C170B276FAF328B56" CODE_SIGNATURE="9E26953A8E4E9990814A212E9CC09C2B" CONNECTOR="AAAD0A4B07A5A05AE1000000AC120173" NAME="YGPL_ADVANCED_SGEN" TYPE="PROG" VERSION="1.0">
+ <DIRECTORY DEVCLASS="YGPL-GENERATION" MASTERLANG="E"/>
+ <RAW>
+  <A0_MAINDATA EDTX="X" VARCL="X" SUBC="1" RSTAT="K" RMAND="200" RLOAD="E" UCCHECK="X"/>
+  <SOURCE>`
+*---------------------------------------------------------------------*
+* Report  YGPL_ADVANCED_SGEN
+*---------------------------------------------------------------------*
+
+REPORT  ygpl_advanced_sgen LINE-SIZE 256.
+
+TABLES: tadir, tdevc.
+TYPE-POOLS: abap, icon.
+
+SELECT-OPTIONS:
+  s_srcs FOR tadir-srcsystem  DEFAULT sy-sysid,
+  s_soft FOR tdevc-dlvunit,
+  s_type FOR tadir-object,
+  s_name FOR tadir-obj_name,
+  s_pack FOR tadir-devclass.
+PARAMETERS:
+  p_ext TYPE abap_bool AS CHECKBOX DEFAULT abap_true.
+SELECT-OPTIONS:
+  s_author FOR tadir-author DEFAULT sy-uname.
+
+START-OF-SELECTION.
+  DATA t_list      TYPE ygpl_tadir_search=&gt;tt_compkeys.
+  DATA t_list_ko   TYPE ygpl_generate=&gt;tt_compkeys.
+  DATA o_gen    TYPE REF TO ygpl_generate.
+  FIELD-SYMBOLS: &lt;i&gt; LIKE LINE OF t_list.
+
+  t_list = ygpl_tadir_search=&gt;get_keys_from_tadir(          &quot; Issue 1
+                      srcsystem  = s_srcs[]
+                      softcomp   = s_soft[]
+                      type       = s_type[]
+                      name       = s_name[]
+                      packages   = s_pack[]
+                      ext        = p_ext
+                      author     = s_author[] ).
+
+  CREATE OBJECT o_gen
+    EXPORTING
+      obj_list = t_list.
+
+  t_list_ko = o_gen-&gt;generate( ).
+
+  SORT t_list_ko BY type name.
+  WRITE:/ &apos;List of components :&apos;(cpl).
+* Red light first
+  LOOP AT t_list ASSIGNING &lt;i&gt;.
+    READ TABLE t_list_ko TRANSPORTING NO FIELDS
+         WITH KEY type = &lt;i&gt;-type
+                  name = &lt;i&gt;-name
+         BINARY SEARCH.
+    CHECK sy-subrc = 0.
+    WRITE:/ icon_red_light AS ICON, &lt;i&gt;-type, &lt;i&gt;-name.
+  ENDLOOP.
+
+* Green light after
+  LOOP AT t_list ASSIGNING &lt;i&gt;.
+    READ TABLE t_list_ko TRANSPORTING NO FIELDS
+         WITH KEY type = &lt;i&gt;-type
+                  name = &lt;i&gt;-name
+         BINARY SEARCH.
+    CHECK sy-subrc &lt;&gt; 0.
+    WRITE:/ icon_green_light AS ICON, &lt;i&gt;-type, &lt;i&gt;-name.
+  ENDLOOP.
+
+END-OF-SELECTION.</SOURCE>
+  <TEXTSPOOL>
+   <ITEM ID="I" KEY="CPL">
+    <TEXTS>
+     <ITEM LANGU="E" ENTRY="List of components :" LENGTH="125 "/>
+     <ITEM LANGU="F" ENTRY="Liste des composants" LENGTH="125 "/>
+    </TEXTS>
+   </ITEM>
+   <ITEM ID="R">
+    <TEXTS>
+     <ITEM LANGU="E" ENTRY="Avanced SAP Load Generator (SGEN) V0.1" LENGTH="38 "/>
+     <ITEM LANGU="F" ENTRY="Extraction en masse de componsants" LENGTH="70 "/>
+    </TEXTS>
+   </ITEM>
+   <ITEM ID="S" KEY="P_EXT">
+    <TEXTS>
+     <ITEM LANGU="E" ENTRY="        Extend to sub-packages" LENGTH="30 "/>
+     <ITEM LANGU="F" ENTRY="        Etendre aux sous-packages" LENGTH="33 "/>
+    </TEXTS>
+   </ITEM>
+   <ITEM ID="S" KEY="S_AUTHOR">
+    <TEXTS>
+     <ITEM LANGU="E" ENTRY="D       ." LENGTH="26 "/>
+     <ITEM LANGU="F" ENTRY="D       ." LENGTH="26 "/>
+    </TEXTS>
+   </ITEM>
+   <ITEM ID="S" KEY="S_NAME">
+    <TEXTS>
+     <ITEM LANGU="E" ENTRY="D       ." LENGTH="19 "/>
+     <ITEM LANGU="F" ENTRY="D       ." LENGTH="19 "/>
+    </TEXTS>
+   </ITEM>
+   <ITEM ID="S" KEY="S_PACK">
+    <TEXTS>
+     <ITEM LANGU="E" ENTRY="D       ." LENGTH="15 "/>
+     <ITEM LANGU="F" ENTRY="D       ." LENGTH="15 "/>
+    </TEXTS>
+   </ITEM>
+   <ITEM ID="S" KEY="S_SOFT">
+    <TEXTS>
+     <ITEM LANGU="E" ENTRY="D       ." LENGTH="26 "/>
+     <ITEM LANGU="F" ENTRY="D       ." LENGTH="26 "/>
+    </TEXTS>
+   </ITEM>
+   <ITEM ID="S" KEY="S_SRCS">
+    <TEXTS>
+     <ITEM LANGU="E" ENTRY="D       ." LENGTH="23 "/>
+     <ITEM LANGU="F" ENTRY="D       ." LENGTH="23 "/>
+    </TEXTS>
+   </ITEM>
+   <ITEM ID="S" KEY="S_TYPE">
+    <TEXTS>
+     <ITEM LANGU="E" ENTRY="D       ." LENGTH="19 "/>
+     <ITEM LANGU="F" ENTRY="D       ." LENGTH="19 "/>
+    </TEXTS>
+   </ITEM>
+  </TEXTSPOOL>
+ </RAW>
+</ZL_OBJECT>

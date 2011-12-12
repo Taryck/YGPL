@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-16"?>
+<ZL_OBJECT CHECKSUM="8D9287CF2577803F1A684F33E75103A4" CODE_SIGNATURE="FD697191B551F458EE24864F0B39A7BA" CONNECTOR="39AC0A4B07A5A05AE1000000AC120173" NAME="YGPL_MT_MY_DATA_DEFINITION" TYPE="INTF" VERSION="1.01">
+ <DIRECTORY DEVCLASS="YGPL-MULTITHREAD.TUTORIAL" MASTERLANG="E"/>
+ <RAW>
+  <A0_MAINDATA VERSION="1" LANGU="E" EXPOSURE="2" STATE="1" UNICODE="X">
+   <TEXTS>
+    <ITEM LANG="E" TEXT="MT Tutorial - Data définition"/>
+   </TEXTS>
+  </A0_MAINDATA>
+  <ATTRIBUTS>
+   <ITEM CMPNAME="MY_CATEGORIES" EXPOSURE="2" STATE="1" ATTDECLTYP="2" TYPTYPE="4">
+    BEGIN OF my_categories,
+      task_param    TYPE ygpl_mt_typespool=&gt;td_category VALUE &apos;PA&apos;, &quot;#EC NOTEXT
+    END OF my_categories
+`
+    <TEXTS>
+     <ITEM LANG="E" TEXT="User specific categories"/>
+    </TEXTS>
+   </ITEM>
+   <ITEM CMPNAME="MY_STATUS" EXPOSURE="2" STATE="1" ATTDECLTYP="2" TYPTYPE="4">
+    BEGIN OF my_status,
+      ok        TYPE ygpl_mt_typespool=&gt;td_user_status VALUE &apos;O&apos;, &quot;#EC NOTEXT
+      ko        TYPE ygpl_mt_typespool=&gt;td_user_status VALUE &apos;K&apos;, &quot;#EC NOTEXT
+      error     TYPE ygpl_mt_typespool=&gt;td_user_status VALUE &apos;E&apos;, &quot;#EC NOTEXT
+    END OF my_status
+`
+    <TEXTS>
+     <ITEM LANG="E" TEXT="User specific Status"/>
+    </TEXTS>
+   </ITEM>
+  </ATTRIBUTS>
+  <DEFERRED>
+   <INTERFACES>
+    <ITEM TYPEGROUP="YGPL_MT_TYPESPOOL" TPUTYPE="2" EXPLICIT="X" IMPLICIT="X"/>
+   </INTERFACES>
+  </DEFERRED>
+  <TYPES>
+   <ITEM CMPNAME="TD_WAITTIME" EXPOSURE="2" STATE="1" EDITORDER="1 " TYPTYPE="1" TYPE="INT4">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Wait time"/>
+    </TEXTS>
+   </ITEM>
+   <ITEM CMPNAME="TS_DATA" EXPOSURE="2" STATE="1" EDITORDER="6 " TYPTYPE="4">
+    BEGIN OF ts_data,
+            msg TYPE t100a-arbgb,
+            lang TYPE tt_lang,
+            weight TYPE i,
+          END OF ts_data
+`
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Message Class With all translation"/>
+    </TEXTS>
+   </ITEM>
+   <ITEM CMPNAME="TS_LANG" EXPOSURE="2" STATE="1" EDITORDER="4 " TYPTYPE="4">
+    BEGIN OF ts_lang,
+          langu TYPE t100t-sprsl,
+          text TYPE string,
+        END OF ts_lang
+`
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Message class description in a language"/>
+    </TEXTS>
+   </ITEM>
+   <ITEM CMPNAME="TS_MY_PROCESS_INFO" EXPOSURE="2" STATE="1" EDITORDER="3 " TYPTYPE="4">
+    BEGIN OF ts_my_process_info,
+      process_id  TYPE ygpl_mt_typespool=&gt;td_process_id,
+      wait_time   TYPE td_waittime,   &quot; for simulating load
+    END OF ts_my_process_info
+`
+    <TEXTS>
+     <ITEM LANG="E" TEXT="My process information"/>
+    </TEXTS>
+   </ITEM>
+   <ITEM CMPNAME="TS_MY_RUN_PARAMETERS" EXPOSURE="2" STATE="1" EDITORDER="2 " TYPTYPE="4">
+    BEGIN OF ts_my_run_parameters,
+      wait_time    TYPE td_waittime,
+      obj_count    TYPE ygpl_mt_typespool=&gt;td_count,
+    END OF ts_my_run_parameters
+`
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Run parameters that task will use"/>
+    </TEXTS>
+   </ITEM>
+   <ITEM CMPNAME="TT_DATA" EXPOSURE="2" STATE="1" EDITORDER="7 " TYPTYPE="4">
+    tt_data TYPE STANDARD TABLE OF ts_data WITH NON-UNIQUE KEY msg
+`
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Set of message class with deep structure"/>
+    </TEXTS>
+   </ITEM>
+   <ITEM CMPNAME="TT_LANG" EXPOSURE="2" STATE="1" EDITORDER="5 " TYPTYPE="4">
+    tt_lang TYPE STANDARD TABLE OF ts_lang WITH NON-UNIQUE KEY langu
+`
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Set of description translations"/>
+    </TEXTS>
+   </ITEM>
+  </TYPES>
+ </RAW>
+</ZL_OBJECT>

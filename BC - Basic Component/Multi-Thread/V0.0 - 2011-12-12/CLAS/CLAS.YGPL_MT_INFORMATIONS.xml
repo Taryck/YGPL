@@ -1,0 +1,600 @@
+<?xml version="1.0" encoding="utf-16"?>
+<ZL_OBJECT CHECKSUM="F7830742F3D04745364F3975824E5638" CODE_SIGNATURE="30DC2A8F0EA12857B36BFF1837F354F1" CONNECTOR="39AC0A4B07A5A05AE1000000AC120173" NAME="YGPL_MT_INFORMATIONS" TYPE="CLAS" VERSION="1.01">
+ <DIRECTORY DEVCLASS="YGPL-MULTITHREAD" MASTERLANG="E"/>
+ <RAW>
+  <A0_MAINDATA VERSION="1" LANGU="E" EXPOSURE="2" STATE="1" CLSCCINCL="X" FIXPT="X" UNICODE="X">
+   <TEXTS>
+    <ITEM LANG="E" TEXT="Information communication between process"/>
+   </TEXTS>
+  </A0_MAINDATA>
+  <ALIASES>
+   <ITEM CMPNAME="CLEAR_INFORMATION" EXPOSURE="2" CMPTYPE="1" REFCLSNAME="YGPLIMT_INFORMATIONS" REFCMPNAME="CLEAR_INFORMATION"/>
+   <ITEM CMPNAME="DELETE_PROCESS" EXPOSURE="2" CMPTYPE="1" REFCLSNAME="YGPLIMT_INFORMATIONS" REFCMPNAME="DELETE_PROCESS"/>
+   <ITEM CMPNAME="GET_INFORMATION" EXPOSURE="2" CMPTYPE="1" REFCLSNAME="YGPLIMT_INFORMATIONS" REFCMPNAME="GET_INFORMATION"/>
+   <ITEM CMPNAME="LOCK_MODES" EXPOSURE="2" REFCLSNAME="YGPL_MT_CONSTANTS" REFCMPNAME="LOCK_MODES"/>
+   <ITEM CMPNAME="O_PROCESS" EXPOSURE="2" REFCLSNAME="YGPLIMT_INFORMATIONS" REFCMPNAME="O_PROCESS"/>
+   <ITEM CMPNAME="SCOPE_MODES" EXPOSURE="2" REFCLSNAME="YGPL_MT_CONSTANTS" REFCMPNAME="SCOPE_MODES"/>
+   <ITEM CMPNAME="SET_INFORMATION" EXPOSURE="2" CMPTYPE="1" REFCLSNAME="YGPLIMT_INFORMATIONS" REFCMPNAME="SET_INFORMATION"/>
+   <ITEM CMPNAME="TD_BOOLEAN" EXPOSURE="2" CMPTYPE="3" REFCLSNAME="YGPL_MT_TYPESPOOL" REFCMPNAME="TD_BOOLEAN"/>
+   <ITEM CMPNAME="TD_CATEGORY" EXPOSURE="2" CMPTYPE="3" REFCLSNAME="YGPL_MT_TYPESPOOL" REFCMPNAME="TD_CATEGORY"/>
+   <ITEM CMPNAME="TD_COUNT" EXPOSURE="2" CMPTYPE="3" REFCLSNAME="YGPL_MT_TYPESPOOL" REFCMPNAME="TD_COUNT"/>
+   <ITEM CMPNAME="TD_DATA_TYPE" EXPOSURE="2" CMPTYPE="3" REFCLSNAME="YGPL_MT_TYPESPOOL" REFCMPNAME="TD_DATA_TYPE"/>
+   <ITEM CMPNAME="TD_DB_TABLE_KEY" EXPOSURE="2" CMPTYPE="3" REFCLSNAME="YGPL_MT_TYPESPOOL" REFCMPNAME="TD_DB_TABLE_KEY"/>
+   <ITEM CMPNAME="TD_DB_TABLE_NAME" EXPOSURE="2" CMPTYPE="3" REFCLSNAME="YGPL_MT_TYPESPOOL" REFCMPNAME="TD_DB_TABLE_NAME"/>
+   <ITEM CMPNAME="TD_LOCK_MODE" EXPOSURE="2" CMPTYPE="3" REFCLSNAME="YGPL_MT_TYPESPOOL" REFCMPNAME="TD_LOCK_MODE"/>
+   <ITEM CMPNAME="TD_PROCESS_ID" EXPOSURE="2" CMPTYPE="3" REFCLSNAME="YGPL_MT_TYPESPOOL" REFCMPNAME="TD_PROCESS_ID"/>
+   <ITEM CMPNAME="TD_RAWDATA" EXPOSURE="2" CMPTYPE="3" REFCLSNAME="YGPL_MT_TYPESPOOL" REFCMPNAME="TD_RAWDATA"/>
+   <ITEM CMPNAME="TD_SCOPE" EXPOSURE="2" CMPTYPE="3" REFCLSNAME="YGPL_MT_TYPESPOOL" REFCMPNAME="TD_SCOPE"/>
+   <ITEM CMPNAME="TD_TIME" EXPOSURE="2" CMPTYPE="3" REFCLSNAME="YGPL_MT_TYPESPOOL" REFCMPNAME="TD_TIME"/>
+   <ITEM CMPNAME="TD_TIMESTAMP" EXPOSURE="2" CMPTYPE="3" REFCLSNAME="YGPL_MT_TYPESPOOL" REFCMPNAME="TD_TIMESTAMP"/>
+   <ITEM CMPNAME="TI_PROCESS" EXPOSURE="2" CMPTYPE="3" REFCLSNAME="YGPL_MT_INTERFACES" REFCMPNAME="TI_PROCESS"/>
+   <ITEM CMPNAME="TR_CATEGORIES" EXPOSURE="2" CMPTYPE="3" REFCLSNAME="YGPL_MT_TYPESPOOL" REFCMPNAME="TR_CATEGORIES"/>
+   <ITEM CMPNAME="TS_MODE" EXPOSURE="2" CMPTYPE="3" REFCLSNAME="YGPL_MT_TYPESPOOL" REFCMPNAME="TS_MODE"/>
+   <ITEM CMPNAME="TS_RUN" EXPOSURE="2" CMPTYPE="3" REFCLSNAME="YGPL_MT_TYPESPOOL" REFCMPNAME="TS_RUN"/>
+   <ITEM CMPNAME="TT_STATUS_LIST" EXPOSURE="2" CMPTYPE="3" REFCLSNAME="YGPL_MT_TYPESPOOL" REFCMPNAME="TT_STATUS_LIST"/>
+  </ALIASES>
+  <ATTRIBUTS>
+   <ITEM CMPNAME="LOCK_SCOPE" STATE="1" ATTDECLTYP="2" ATTVALUE="&apos;1&apos;" TYPTYPE="1" TYPE="TD_SCOPE"/>
+   <ITEM CMPNAME="MY_KEY" STATE="1" TYPTYPE="1" TYPE="TD_DB_TABLE_KEY">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Table Key value"/>
+    </TEXTS>
+   </ITEM>
+   <ITEM CMPNAME="MY_TABLE" STATE="1" ATTDECLTYP="2" ATTVALUE="&apos;YGPLMT_INFOS&apos;" TYPTYPE="1" TYPE="TD_DB_TABLE_NAME">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Table name of the main table used by this component"/>
+    </TEXTS>
+   </ITEM>
+  </ATTRIBUTS>
+  <INTERFACES>
+   <ITEM REFCLSNAME="YGPLIMT_INFORMATIONS" EXPOSURE="2" STATE="1" RELTYPE="1">
+    <COMPONENTS>
+     <ITEM MTDNAME="CLEAR_INFORMATION">
+      <SOURCE>`
+  lock_exclusive( category ).
+
+  DELETE FROM ygplmt_infos
+         WHERE process_id = o_process-&gt;process_id
+           and   CATEGORY = category.
+* Locks released by the next Commit/Roll back</SOURCE>
+     </ITEM>
+     <ITEM MTDNAME="DELETE_PROCESS">
+      <SOURCE>`
+  DATA _key TYPE td_process_id.
+  _lock( process_id = o_process-&gt;process_id
+          lock_mode = ygpl_mt_lock_managment=&gt;lock_modes-exclusive
+           category = &apos;@&apos; ).    &quot; All Categories
+* Locks released by the next Commit/Roll back
+
+  DELETE FROM ygplmt_infos WHERE process_id = o_process-&gt;process_id.
+  IF sy-subrc &lt;&gt; 0.
+    SELECT SINGLE process_id INTO _key
+      FROM ygplmt_infos
+      WHERE process_id = o_process-&gt;process_id.
+    IF sy-subrc = 0.
+      my_key = _key.
+      RAISE EXCEPTION TYPE ygpl_mt_cx_database
+            EXPORTING textid = ygpl_mt_cx_database=&gt;delete_failed
+                   tablename = my_table
+                   key_value = my_key.
+    ENDIF.
+  ENDIF.</SOURCE>
+     </ITEM>
+     <ITEM MTDNAME="GET_INFORMATION">
+      <SOURCE>`
+  CHECK NOT o_process-&gt;conditions-&gt;categories-&gt;is_valid_category( category ) IS INITIAL.
+  _get_information( EXPORTING category = category
+                     CHANGING info     = info ).</SOURCE>
+     </ITEM>
+     <ITEM MTDNAME="SET_INFORMATION">
+      <SOURCE>`
+  CHECK NOT o_process-&gt;conditions-&gt;categories-&gt;is_valid_category( category ) IS INITIAL.
+  _set_information( category = category
+                        info = info ).</SOURCE>
+     </ITEM>
+    </COMPONENTS>
+   </ITEM>
+   <ITEM REFCLSNAME="YGPL_MT_CONSTANTS" EXPOSURE="2" STATE="1" RELTYPE="1"/>
+  </INTERFACES>
+  <LOCAL>
+   <TYPES>`
+*&quot;* use this source file for any type declarations (class
+*&quot;* definitions, interfaces or data types) you need for method
+*&quot;* implementation or private method&apos;s signature</TYPES>
+   <IMPLEMENTATIONS>`
+*&quot;* local class implementation for public class
+*&quot;* use this source file for the implementation part of
+*&quot;* local helper classes</IMPLEMENTATIONS>
+   <MACROS>`
+*&quot;* use this source file for any macro definitions you need
+*&quot;* in the implementation part of the class</MACROS>
+  </LOCAL>
+  <METHODS>
+   <ITEM CMPNAME="CONSTRUCTOR" EXPOSURE="2" STATE="1" MTDTYPE="2">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="CONSTRUCTOR"/>
+    </TEXTS>
+    <PARAMETERS>
+     <ITEM SCONAME="O_PROCESS" CMPTYPE="1" MTDTYPE="2" PARPASSTYP="1" TYPTYPE="1" TYPE="TI_PROCESS">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="Process for MultiThread (with category)"/>
+      </TEXTS>
+     </ITEM>
+    </PARAMETERS>
+    <SOURCE>`
+  ASSERT o_process IS BOUND.
+  SET_PROCESS( o_process ).</SOURCE>
+   </ITEM>
+   <ITEM CMPNAME="DECODE_DATA" STATE="1" MTDDECLTYP="1">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Decode data to buffer"/>
+    </TEXTS>
+    <PARAMETERS>
+     <ITEM SCONAME="ANY" CMPTYPE="1" PARDECLTYP="2" PARPASSTYP="1" TYPTYPE="1" TYPE="ANY"/>
+     <ITEM SCONAME="BUFFER" CMPTYPE="1" TYPTYPE="1" TYPE="TD_BUFFER_DATA">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="Raw Data for export/import to database"/>
+      </TEXTS>
+     </ITEM>
+    </PARAMETERS>
+    <SOURCE>`
+  IMPORT info = any FROM DATA BUFFER buffer.</SOURCE>
+   </ITEM>
+   <ITEM CMPNAME="ENCODE_DATA" STATE="1" MTDDECLTYP="1">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Encode data to buffer"/>
+    </TEXTS>
+    <PARAMETERS>
+     <ITEM SCONAME="ANY" CMPTYPE="1" PARPASSTYP="1" TYPTYPE="1" TYPE="ANY"/>
+     <ITEM SCONAME="RESULT" CMPTYPE="1" PARDECLTYP="3" TYPTYPE="1" TYPE="TD_BUFFER_DATA">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="Raw Data for export/import to database"/>
+      </TEXTS>
+     </ITEM>
+    </PARAMETERS>
+    <SOURCE>`
+  EXPORT info = any TO DATA BUFFER result COMPRESSION ON.</SOURCE>
+   </ITEM>
+   <ITEM CMPNAME="GET_SYSTEM_INFORMATION" EXPOSURE="2" STATE="1" MTDNEWEXC="X">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Read System Information from DB"/>
+    </TEXTS>
+    <PARAMETERS>
+     <ITEM SCONAME="CATEGORY" CMPTYPE="1" PARPASSTYP="1" TYPTYPE="1" TYPE="TD_CATEGORY">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="Information Category"/>
+      </TEXTS>
+     </ITEM>
+     <ITEM SCONAME="INFO" CMPTYPE="1" PARDECLTYP="2" PARPASSTYP="1" TYPTYPE="1" TYPE="ANY">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="Information stored"/>
+      </TEXTS>
+     </ITEM>
+    </PARAMETERS>
+    <EXCEPTIONS>
+     <ITEM SCONAME="YGPL_MT_CX" LANGU="E">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="MultyThread : Root exception class"/>
+      </TEXTS>
+     </ITEM>
+    </EXCEPTIONS>
+    <SOURCE>`
+  CHECK NOT ygpl_mt_categories=&gt;is_system_category( category ) IS INITIAL.
+  CHECK NOT o_process-&gt;is_system_message_allowed( ) IS INITIAL.
+  _get_information( EXPORTING category = category
+                     CHANGING info     = info ).</SOURCE>
+   </ITEM>
+   <ITEM CMPNAME="LOCK_EXCLUSIVE" EXPOSURE="1" STATE="1" MTDNEWEXC="X">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Lock record exclusive"/>
+    </TEXTS>
+    <PARAMETERS>
+     <ITEM SCONAME="CATEGORY" CMPTYPE="1" PARPASSTYP="1" TYPTYPE="1" TYPE="TD_CATEGORY" PAROPTIONL="X">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="Catégorie de donnée supplémentaire"/>
+      </TEXTS>
+     </ITEM>
+    </PARAMETERS>
+    <EXCEPTIONS>
+     <ITEM SCONAME="YGPL_MT_CX" LANGU="E">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="MultyThread : Root exception class"/>
+      </TEXTS>
+     </ITEM>
+    </EXCEPTIONS>
+    <SOURCE>`
+  _lock( lock_mode = ygpl_mt_lock_managment=&gt;lock_modes-write
+        process_id = o_process-&gt;process_id
+          category = category ).</SOURCE>
+   </ITEM>
+   <ITEM CMPNAME="LOCK_WITH_SHARE" EXPOSURE="1" STATE="1" MTDNEWEXC="X">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Lock record &amp; sharing"/>
+    </TEXTS>
+    <PARAMETERS>
+     <ITEM SCONAME="CATEGORY" CMPTYPE="1" PARPASSTYP="1" TYPTYPE="1" TYPE="TD_CATEGORY">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="Information Category"/>
+      </TEXTS>
+     </ITEM>
+    </PARAMETERS>
+    <EXCEPTIONS>
+     <ITEM SCONAME="YGPL_MT_CX" LANGU="E">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="MultyThread : Root exception class"/>
+      </TEXTS>
+     </ITEM>
+    </EXCEPTIONS>
+    <SOURCE>`
+  _lock( lock_mode = ygpl_mt_lock_managment=&gt;lock_modes-read
+        process_id = o_process-&gt;process_id
+          category = category ).</SOURCE>
+   </ITEM>
+   <ITEM CMPNAME="SET_PROCESS" EXPOSURE="2" STATE="1">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Define Process"/>
+    </TEXTS>
+    <PARAMETERS>
+     <ITEM SCONAME="O_PROCESS" CMPTYPE="1" PARPASSTYP="1" TYPTYPE="1" TYPE="TI_PROCESS">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="Process for MultiThread (with category)"/>
+      </TEXTS>
+     </ITEM>
+    </PARAMETERS>
+    <SOURCE>`
+  me-&gt;o_process = o_process.</SOURCE>
+   </ITEM>
+   <ITEM CMPNAME="SET_SYSTEM_INFORMATION" EXPOSURE="2" STATE="1" MTDNEWEXC="X">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Write System Information to DB"/>
+    </TEXTS>
+    <PARAMETERS>
+     <ITEM SCONAME="CATEGORY" CMPTYPE="1" PARPASSTYP="1" TYPTYPE="1" TYPE="TD_CATEGORY">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="Information Category"/>
+      </TEXTS>
+     </ITEM>
+     <ITEM SCONAME="INFO" CMPTYPE="1" PARPASSTYP="1" TYPTYPE="1" TYPE="ANY">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="Information to strore"/>
+      </TEXTS>
+     </ITEM>
+    </PARAMETERS>
+    <EXCEPTIONS>
+     <ITEM SCONAME="YGPL_MT_CX" LANGU="E">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="MultyThread : Root exception class"/>
+      </TEXTS>
+     </ITEM>
+    </EXCEPTIONS>
+    <SOURCE>`
+  CHECK NOT ygpl_mt_categories=&gt;is_system_category( category ) IS INITIAL.
+  CHECK NOT o_process-&gt;is_system_message_allowed( ) IS INITIAL.
+  _set_information( category = category
+                        info = info ).</SOURCE>
+   </ITEM>
+   <ITEM CMPNAME="UNLOCK_EXCLUSIVE" EXPOSURE="1" STATE="1" MTDNEWEXC="X">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Unlock record (with exclusive option)"/>
+    </TEXTS>
+    <PARAMETERS>
+     <ITEM SCONAME="CATEGORY" CMPTYPE="1" PARPASSTYP="1" TYPTYPE="1" TYPE="TD_CATEGORY" PAROPTIONL="X">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="Catégorie de donnée supplémentaire"/>
+      </TEXTS>
+     </ITEM>
+    </PARAMETERS>
+    <EXCEPTIONS>
+     <ITEM SCONAME="YGPL_MT_CX" LANGU="E">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="MultyThread : Root exception class"/>
+      </TEXTS>
+     </ITEM>
+    </EXCEPTIONS>
+    <SOURCE>`
+  _unlock( lock_mode = ygpl_mt_lock_managment=&gt;lock_modes-write
+          process_id = o_process-&gt;process_id
+            category = category ).</SOURCE>
+   </ITEM>
+   <ITEM CMPNAME="UNLOCK_WITH_SHARE" EXPOSURE="1" STATE="1" MTDNEWEXC="X">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Unlock record (lock with sharing option)"/>
+    </TEXTS>
+    <PARAMETERS>
+     <ITEM SCONAME="CATEGORY" CMPTYPE="1" PARPASSTYP="1" TYPTYPE="1" TYPE="TD_CATEGORY">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="Information Category"/>
+      </TEXTS>
+     </ITEM>
+    </PARAMETERS>
+    <EXCEPTIONS>
+     <ITEM SCONAME="YGPL_MT_CX" LANGU="E">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="MultyThread : Root exception class"/>
+      </TEXTS>
+     </ITEM>
+    </EXCEPTIONS>
+    <SOURCE>`
+  _unlock( lock_mode = ygpl_mt_lock_managment=&gt;lock_modes-read
+          process_id = o_process-&gt;process_id
+            category = category ).</SOURCE>
+   </ITEM>
+   <ITEM CMPNAME="_GET_INFORMATION" STATE="1" MTDNEWEXC="X">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Read information from DB"/>
+    </TEXTS>
+    <PARAMETERS>
+     <ITEM SCONAME="CATEGORY" CMPTYPE="1" PARPASSTYP="1" TYPTYPE="1" TYPE="TD_CATEGORY">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="Information Category"/>
+      </TEXTS>
+     </ITEM>
+     <ITEM SCONAME="INFO" CMPTYPE="1" PARDECLTYP="2" PARPASSTYP="1" TYPTYPE="1" TYPE="ANY">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="Information stored"/>
+      </TEXTS>
+     </ITEM>
+    </PARAMETERS>
+    <EXCEPTIONS>
+     <ITEM SCONAME="YGPL_MT_CX" LANGU="E">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="MultyThread : Root exception class"/>
+      </TEXTS>
+     </ITEM>
+    </EXCEPTIONS>
+    <SOURCE>`
+  DATA data_info  TYPE td_buffer_data.
+  DATA o_cx       TYPE REF TO ygpl_mt_cx.
+  DATA my_key     TYPE string.
+
+  lock_with_share( category ).
+  TRY.
+      SELECT SINGLE info_data
+        INTO data_info
+        FROM ygplmt_infos
+        WHERE process_id = o_process-&gt;process_id
+          AND category = category.
+      IF sy-subrc &lt;&gt; 0.
+        my_key = o_process-&gt;process_id.
+        RAISE EXCEPTION TYPE ygpl_mt_cx_database
+              EXPORTING textid = ygpl_mt_cx_database=&gt;not_found
+                     tablename = my_table
+                     key_value = my_key.
+      ENDIF.
+
+      decode_data( EXPORTING buffer = data_info
+                    CHANGING    any = info ).
+
+    CATCH ygpl_mt_cx INTO o_cx.
+      unlock_with_share( category ).
+      RAISE EXCEPTION o_cx.
+  ENDTRY.
+  unlock_with_share( category ).</SOURCE>
+   </ITEM>
+   <ITEM CMPNAME="_LOCK" STATE="1" MTDDECLTYP="1" MTDNEWEXC="X">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Locking"/>
+    </TEXTS>
+    <PARAMETERS>
+     <ITEM SCONAME="CATEGORY" CMPTYPE="1" PARPASSTYP="1" TYPTYPE="1" TYPE="TD_CATEGORY">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="Information Category"/>
+      </TEXTS>
+     </ITEM>
+     <ITEM SCONAME="LOCK_MODE" CMPTYPE="1" PARPASSTYP="1" TYPTYPE="1" TYPE="TD_LOCK_MODE">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="Lock mode (E, S, X)"/>
+      </TEXTS>
+     </ITEM>
+     <ITEM SCONAME="PROCESS_ID" CMPTYPE="1" PARPASSTYP="1" TYPTYPE="1" TYPE="TD_PROCESS_ID">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="Process ID"/>
+      </TEXTS>
+     </ITEM>
+     <ITEM SCONAME="TIMEOUT" CMPTYPE="1" PARPASSTYP="1" TYPTYPE="1" TYPE="TD_TIME" PARVALUE="60">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="Timeout value (second)"/>
+      </TEXTS>
+     </ITEM>
+    </PARAMETERS>
+    <EXCEPTIONS>
+     <ITEM SCONAME="YGPL_MT_CX" LANGU="E">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="MultyThread : Root exception class"/>
+      </TEXTS>
+     </ITEM>
+    </EXCEPTIONS>
+    <SOURCE>`
+  DATA _key TYPE string.
+  DATA user TYPE sy-uname.
+  DATA parameters TYPE ygpl_lock_release=&gt;tt_function_parameters.
+  DATA mode	TYPE ts_mode.
+  DATA:
+    BEGIN OF my_lock,
+      mode_ygplmt_infos TYPE enqmode,
+      _scope            TYPE ddenqscope,
+     process_id         TYPE ygplmt_locks-process_id,
+     category           TYPE ygplmt_infos-category,
+   END OF my_lock.
+
+  ygpl_mt_lock_managment=&gt;check_lock_mode( lock_mode ).
+
+  my_lock-mode_ygplmt_infos = mode-lock = lock_mode.
+  my_lock-_scope = mode-scope = lock_scope.
+  my_lock-process_id = process_id.
+  my_lock-category = category.
+
+  IF mode-lock = lock_modes-read.
+    ygpl_mt_lock_managment=&gt;wait_for_information_clearance( my_lock-process_id ).
+  ELSE.
+    mode-release_on_commit = abap_true.
+    ygpl_mt_lock_managment=&gt;set_information_lock( my_lock-process_id ).
+  ENDIF.
+
+  ygpl_mt_lock_managment=&gt;set_timeout_timestamp( timeout ).
+  DO.
+    CALL FUNCTION &apos;ENQUEUE_EYGPLMT_INFOS&apos;
+      EXPORTING
+        mode_ygplmt_infos = my_lock-mode_ygplmt_infos
+        mandt             = sy-mandt
+        process_id        = my_lock-process_id
+        category          = my_lock-category
+        x_process_id      = abap_true
+        x_category        = abap_true
+        _scope            = my_lock-_scope
+        _wait             = abap_true
+        _collect          = &apos; &apos;
+      EXCEPTIONS
+        foreign_lock      = 1
+        system_failure    = 2
+        OTHERS            = 3.
+    IF sy-subrc = 1.
+      IF ygpl_mt_lock_managment=&gt;check_timeout( ) IS INITIAL.
+        CONTINUE.
+      ELSE.
+        user = sy-msgv1.
+        _key = process_id.
+        CONCATENATE _key &apos;-&apos; category INTO _key.
+        RAISE EXCEPTION TYPE ygpl_mt_cx_locks
+              EXPORTING textid = ygpl_mt_cx_locks=&gt;foreign_lock
+                      object_name = &apos;MT Informations&apos;(lon)
+                       object_key = _key
+                             user = user.
+      ENDIF.
+*  else if sy-subrc &lt;&gt; 0.
+    ELSE.
+      ASSERT sy-subrc = 0.
+    ENDIF.
+    IF mode-release_on_commit = abap_true.
+      ygpl_lock_release=&gt;add_parameters( EXPORTING kind = abap_func_exporting
+                                              structure = my_lock
+                                    CHANGING parameters = parameters ).
+*      ygpl_lock_release=&gt;add_parameter( EXPORTING name = &apos;MODE_YGPLMT_INFOS&apos;
+*                                                  kind = abap_func_exporting
+*                                                  type = &apos;ENQMODE&apos;
+*                                                 value = mode-lock
+*                                   CHANGING parameters = parameters ).
+*      ygpl_lock_release=&gt;add_parameter( EXPORTING name = &apos;PROCESS_ID&apos;
+*                                                  kind = abap_func_exporting
+*                                                  type = &apos;YGPLMT_INFOS-process_id&apos;
+*                                                 value = process_id
+*                                   CHANGING parameters = parameters ).
+*      ygpl_lock_release=&gt;add_parameter( EXPORTING name = &apos;CATEGORY&apos;
+*                                                  kind = abap_func_exporting
+*                                                  type = &apos;YGPLMT_INFOS-CATEGORY&apos;
+*                                                 value = category
+*                                   CHANGING parameters = parameters ).
+      ygpl_lock_release=&gt;register_dequeue( dequeue_name = &apos;DEQUEUE_EYGPLMT_INFOS&apos;
+                                             parameters = parameters ).
+    ENDIF.
+    EXIT.
+  ENDDO.</SOURCE>
+   </ITEM>
+   <ITEM CMPNAME="_SET_INFORMATION" STATE="1" MTDNEWEXC="X">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Write information to DB"/>
+    </TEXTS>
+    <PARAMETERS>
+     <ITEM SCONAME="CATEGORY" CMPTYPE="1" PARPASSTYP="1" TYPTYPE="1" TYPE="TD_CATEGORY">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="Information Category"/>
+      </TEXTS>
+     </ITEM>
+     <ITEM SCONAME="INFO" CMPTYPE="1" PARPASSTYP="1" TYPTYPE="1" TYPE="ANY">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="Information to strore"/>
+      </TEXTS>
+     </ITEM>
+    </PARAMETERS>
+    <EXCEPTIONS>
+     <ITEM SCONAME="YGPL_MT_CX" LANGU="E">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="MultyThread : Root exception class"/>
+      </TEXTS>
+     </ITEM>
+    </EXCEPTIONS>
+    <SOURCE>`
+  DATA _info TYPE ygplmt_infos.
+  DATA o_cx TYPE REF TO ygpl_mt_cx.
+
+  lock_exclusive( category ).
+* Locks released by the next Commit/Roll back
+  TRY.
+
+      _info-process_id = o_process-&gt;process_id.
+      _info-category = category.
+      _info-info_data = encode_data( info ).
+      GET TIME STAMP FIELD _info-timestamp.
+      MODIFY ygplmt_infos FROM _info.
+      ASSERT sy-subrc = 0.
+
+    CATCH ygpl_mt_cx INTO o_cx.
+      unlock_exclusive( category ).
+      RAISE EXCEPTION o_cx.
+  ENDTRY.</SOURCE>
+   </ITEM>
+   <ITEM CMPNAME="_UNLOCK" STATE="1" MTDDECLTYP="1" MTDNEWEXC="X">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Unlocking"/>
+    </TEXTS>
+    <PARAMETERS>
+     <ITEM SCONAME="CATEGORY" CMPTYPE="1" PARPASSTYP="1" TYPTYPE="1" TYPE="TD_CATEGORY" PAROPTIONL="X">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="Information Category"/>
+      </TEXTS>
+     </ITEM>
+     <ITEM SCONAME="LOCK_MODE" CMPTYPE="1" PARPASSTYP="1" TYPTYPE="1" TYPE="TD_LOCK_MODE">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="Lock mode (E, S, X)"/>
+      </TEXTS>
+     </ITEM>
+     <ITEM SCONAME="PROCESS_ID" CMPTYPE="1" PARPASSTYP="1" TYPTYPE="1" TYPE="TD_PROCESS_ID">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="Process ID"/>
+      </TEXTS>
+     </ITEM>
+    </PARAMETERS>
+    <EXCEPTIONS>
+     <ITEM SCONAME="YGPL_MT_CX" LANGU="E">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="MultyThread : Root exception class"/>
+      </TEXTS>
+     </ITEM>
+    </EXCEPTIONS>
+    <SOURCE>`
+  ygpl_mt_lock_managment=&gt;check_lock_mode( lock_mode ).
+
+  CALL FUNCTION &apos;DEQUEUE_EYGPLMT_INFOS&apos;
+    EXPORTING
+      mode_ygplmt_infos = lock_mode
+      mandt             = sy-mandt
+      process_id        = process_id
+      category          = category
+      x_process_id      = abap_true
+      x_category        = abap_true
+      _scope            = lock_scope
+      _synchron         = &apos; &apos;
+      _collect          = &apos; &apos;.
+
+  ygpl_mt_lock_managment=&gt;release_information_clearance( process_id ).</SOURCE>
+   </ITEM>
+  </METHODS>
+  <TEXTSPOOL>
+   <ITEM ID="I" KEY="LON">
+    <TEXTS>
+     <ITEM LANGU="E" ENTRY="MT Informations" LENGTH="20 "/>
+    </TEXTS>
+   </ITEM>
+  </TEXTSPOOL>
+  <TYPEGROUPS>
+   <ITEM TYPEGROUP="ABAP" EXPLICIT="X"/>
+  </TYPEGROUPS>
+  <TYPES>
+   <ITEM CMPNAME="TD_BUFFER_DATA" STATE="1" EDITORDER="1 " TYPTYPE="1" TYPE="YGPLMT_INFOS-INFO_DATA">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Raw Data for export/import to database"/>
+    </TEXTS>
+   </ITEM>
+  </TYPES>
+ </RAW>
+</ZL_OBJECT>

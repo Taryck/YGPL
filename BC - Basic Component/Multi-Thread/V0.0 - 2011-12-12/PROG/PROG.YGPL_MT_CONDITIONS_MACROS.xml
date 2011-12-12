@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-16"?>
+<ZL_OBJECT CHECKSUM="FA5EB9F5FC50FC8D8E8DDC6F6527B104" CODE_SIGNATURE="335B2491019F5EE9B2D58711CD2708C8" CONNECTOR="AAAD0A4B07A5A05AE1000000AC120173" NAME="YGPL_MT_CONDITIONS_MACROS" TYPE="PROG" VERSION="1.0">
+ <DIRECTORY DEVCLASS="YGPL-MULTITHREAD" MASTERLANG="E"/>
+ <RAW>
+  <A0_MAINDATA VARCL="X" SUBC="I" RSTAT="K" RMAND="200" RLOAD="E" UCCHECK="X"/>
+  <SOURCE>`
+*&amp;---------------------------------------------------------------------*
+*&amp;  Include           YGPL_MT_CONDITIONS_MACROS
+*&amp;---------------------------------------------------------------------*
+
+  DEFINE simple_compare.
+    if &amp;2 &lt;&gt; &amp;3.
+      message i016(YGPL_MT) with &amp;1 &amp;2 &amp;3.
+    endif.
+  END-OF-DEFINITION.
+  DEFINE complex_compare.
+    if &amp;2 &lt;&gt; &amp;3.
+      message i017(YGPL_MT) with &amp;1.
+    endif.
+  END-OF-DEFINITION.</SOURCE>
+  <TEXTSPOOL>
+   <ITEM ID="R">
+    <TEXTS>
+     <ITEM LANGU="E" ENTRY="Macros for Conditions" LENGTH="21 "/>
+    </TEXTS>
+   </ITEM>
+  </TEXTSPOOL>
+ </RAW>
+</ZL_OBJECT>

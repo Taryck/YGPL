@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-16"?>
+<ZL_OBJECT CHECKSUM="1BC0C2D7CBC5508F90C73D3CDAB1780F" CONNECTOR="5079624B82531D63E1000000AC120173" NAME="YGPL_MT_BTCJOBCLAS" TYPE="DOMA" VERSION="1.0">
+ <DIRECTORY DEVCLASS="YGPL-MULTITHREAD" MASTERLANG="E"/>
+ <RAW>
+  <A0_MAINDATA DATATYPE="CHAR" LENG="000001" OUTPUTLEN="000001" VALEXI="X"/>
+  <TEXTS>
+   <ITEM LANGU="E" SHORT_TXT="Job classification (no domain for SAP)">
+    <LONG_TXT TDFRELES="701" TDLRELES="701" TDLINESIZE="072">U1&amp;DEFINITION&amp;
+ASComes from MODULE show_jobclasses in program SAPLBTCH.
+ASPossible values are :
+B1A - High priority
+B1B -  Middle priority
+B1C - Low priority</LONG_TXT>
+   </ITEM>
+  </TEXTS>
+  <VALUES>
+   <ITEM VALPOS="0001" DOMVALUE_L="A">
+    <TEXTS>
+     <ITEM LANGU="E" SHORT_TXT="High priority"/>
+    </TEXTS>
+   </ITEM>
+   <ITEM VALPOS="0002" DOMVALUE_L="B">
+    <TEXTS>
+     <ITEM LANGU="E" SHORT_TXT="Middle priority"/>
+    </TEXTS>
+   </ITEM>
+   <ITEM VALPOS="0003" DOMVALUE_L="C">
+    <TEXTS>
+     <ITEM LANGU="E" SHORT_TXT="Low priority"/>
+    </TEXTS>
+   </ITEM>
+  </VALUES>
+ </RAW>
+</ZL_OBJECT>

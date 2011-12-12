@@ -1,0 +1,776 @@
+<?xml version="1.0" encoding="utf-16"?>
+<ZL_OBJECT CHECKSUM="4DDFA75C982FD03BB5000FB95EC15F6C" CODE_SIGNATURE="3610DDAABB18987D849BDB8946F6E550" CONNECTOR="39AC0A4B07A5A05AE1000000AC120173" NAME="YGPL_MT_LOCK_MANAGMENT" TYPE="CLAS" VERSION="1.01">
+ <DEPENDENCIES>
+  <ITEM TYPE="CLAS" NAME="YGPL_MT_CX_LOCKS"/>
+ </DEPENDENCIES>
+ <DIRECTORY DEVCLASS="YGPL-MULTITHREAD" MASTERLANG="E"/>
+ <RAW>
+  <A0_MAINDATA VERSION="1" LANGU="E" EXPOSURE="2" STATE="1" CLSCCINCL="X" FIXPT="X" UNICODE="X">
+   <TEXTS>
+    <ITEM LANG="E" TEXT="MT Framework : Lock Managment"/>
+   </TEXTS>
+  </A0_MAINDATA>
+  <ALIASES>
+   <ITEM CMPNAME="ACTIONS" EXPOSURE="2" REFCLSNAME="YGPL_MT_CONSTANTS" REFCMPNAME="ACTIONS"/>
+   <ITEM CMPNAME="LOCK_MODES" EXPOSURE="2" REFCLSNAME="YGPL_MT_CONSTANTS" REFCMPNAME="LOCK_MODES"/>
+   <ITEM CMPNAME="SCOPE_MODES" EXPOSURE="2" REFCLSNAME="YGPL_MT_CONSTANTS" REFCMPNAME="SCOPE_MODES"/>
+   <ITEM CMPNAME="TD_ACTION" EXPOSURE="2" CMPTYPE="3" REFCLSNAME="YGPL_MT_CONSTANTS" REFCMPNAME="TD_ACTION"/>
+   <ITEM CMPNAME="TD_BOOLEAN" EXPOSURE="2" CMPTYPE="3" REFCLSNAME="YGPL_MT_TYPESPOOL" REFCMPNAME="TD_BOOLEAN"/>
+   <ITEM CMPNAME="TD_LOCK_MODE" EXPOSURE="2" CMPTYPE="3" REFCLSNAME="YGPL_MT_TYPESPOOL" REFCMPNAME="TD_LOCK_MODE"/>
+   <ITEM CMPNAME="TD_PROCESS_ID" EXPOSURE="2" CMPTYPE="3" REFCLSNAME="YGPL_MT_TYPESPOOL" REFCMPNAME="TD_PROCESS_ID"/>
+   <ITEM CMPNAME="TD_SCOPE" EXPOSURE="2" CMPTYPE="3" REFCLSNAME="YGPL_MT_TYPESPOOL" REFCMPNAME="TD_SCOPE"/>
+   <ITEM CMPNAME="TD_TIME" EXPOSURE="2" CMPTYPE="3" REFCLSNAME="YGPL_MT_TYPESPOOL" REFCMPNAME="TD_TIME"/>
+   <ITEM CMPNAME="TD_TIMESTAMP" EXPOSURE="2" CMPTYPE="3" REFCLSNAME="YGPL_MT_TYPESPOOL" REFCMPNAME="TD_TIMESTAMP"/>
+   <ITEM CMPNAME="TS_MODE" EXPOSURE="2" CMPTYPE="3" REFCLSNAME="YGPL_MT_TYPESPOOL" REFCMPNAME="TS_MODE"/>
+  </ALIASES>
+  <ATTRIBUTS>
+   <ITEM CMPNAME="MODES" STATE="1" ATTDECLTYP="2" TYPTYPE="4">
+    begin of MODES,
+      Begin of process,
+        read   type ts_mode VALUE &apos;S1 &apos;,   &quot; Read &amp; Release
+        write  type ts_mode value &apos;E1X&apos;,   &quot; Write &amp; Commit
+      end of process,
+      Begin of information,
+        read   type ts_mode VALUE &apos;S1 &apos;,   &quot; Read &amp; Release
+        write  type ts_mode value &apos;E1X&apos;,   &quot; Write &amp; Commit
+      end of information,
+*      information   type ts_mode VALUE &apos;S1 &apos;,   &quot; Read &amp; Release (clearance only)
+      objects       type ts_mode VALUE &apos;E1 &apos;,   &quot; Write &amp; Release
+      message       type ts_mode VALUE &apos;E1 &apos;,   &quot; Write &amp; Release
+    end of MODES
+`
+    <TEXTS>
+     <ITEM LANG="E" TEXT="All locks modes"/>
+    </TEXTS>
+   </ITEM>
+   <ITEM CMPNAME="TABLE_NAME" STATE="1" ATTDECLTYP="2" ATTVALUE="&apos;YGPLMT_LOCKS&apos;" TYPTYPE="1" TYPE="SEQG3-GNAME">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Elementary Lock of Lock Entry (Table Name)"/>
+    </TEXTS>
+   </ITEM>
+   <ITEM CMPNAME="TIMEOUT" STATE="1" ATTDECLTYP="1" TYPTYPE="1" TYPE="TD_TIMESTAMP">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Tilmestamp of the next timeout"/>
+    </TEXTS>
+   </ITEM>
+  </ATTRIBUTS>
+  <DEFERRED>
+   <CLASSES>
+    <ITEM TYPEGROUP="YGPL_MT_CX_LOCKS" TPUTYPE="1" EXPLICIT="X"/>
+   </CLASSES>
+  </DEFERRED>
+  <INTERFACES>
+   <ITEM REFCLSNAME="YGPL_MT_CONSTANTS" EXPOSURE="2" STATE="1" RELTYPE="1"/>
+  </INTERFACES>
+  <LOCAL>
+   <TYPES>`
+*&quot;* use this source file for any type declarations (class
+*&quot;* definitions, interfaces or data types) you need for method
+*&quot;* implementation or private method&apos;s signature</TYPES>
+   <IMPLEMENTATIONS>`
+*&quot;* local class implementation for public class
+*&quot;* use this source file for the implementation part of
+*&quot;* local helper classes</IMPLEMENTATIONS>
+   <MACROS>`
+*&quot;* use this source file for any macro definitions you need
+*&quot;* in the implementation part of the class</MACROS>
+  </LOCAL>
+  <METHODS>
+   <ITEM CMPNAME="CHECK_EXISTENCE_LOCK" EXPOSURE="1" STATE="1" MTDDECLTYP="1" MTDNEWEXC="X">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Check Existence lock for a process"/>
+    </TEXTS>
+    <PARAMETERS>
+     <ITEM SCONAME="PROCESS_ID" CMPTYPE="1" PARPASSTYP="1" TYPTYPE="1" TYPE="TD_PROCESS_ID">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="Run/Task ID"/>
+      </TEXTS>
+     </ITEM>
+     <ITEM SCONAME="RESULT" CMPTYPE="1" PARDECLTYP="3" TYPTYPE="1" TYPE="TD_BOOLEAN">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="Run/task is running"/>
+      </TEXTS>
+     </ITEM>
+    </PARAMETERS>
+    <EXCEPTIONS>
+     <ITEM SCONAME="YGPL_MT_CX" LANGU="E">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="MultyThread : Root exception class"/>
+      </TEXTS>
+     </ITEM>
+    </EXCEPTIONS>
+    <SOURCE>`
+  result = check_lock_exists( process_id = process_id
+                                  action = actions-existence ).</SOURCE>
+   </ITEM>
+   <ITEM CMPNAME="CHECK_LOCK_EXISTS" STATE="1" MTDDECLTYP="1" MTDNEWEXC="X">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Check if lock exists"/>
+    </TEXTS>
+    <PARAMETERS>
+     <ITEM SCONAME="ACTION" CMPTYPE="1" PARPASSTYP="1" TYPTYPE="1" TYPE="TD_ACTION"/>
+     <ITEM SCONAME="PROCESS_ID" CMPTYPE="1" PARPASSTYP="1" TYPTYPE="1" TYPE="TD_PROCESS_ID">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="Run/Task ID"/>
+      </TEXTS>
+     </ITEM>
+     <ITEM SCONAME="RESULT" CMPTYPE="1" PARDECLTYP="3" TYPTYPE="1" TYPE="TD_BOOLEAN"/>
+    </PARAMETERS>
+    <EXCEPTIONS>
+     <ITEM SCONAME="YGPL_MT_CX" LANGU="E">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="MultyThread : Root exception class"/>
+      </TEXTS>
+     </ITEM>
+    </EXCEPTIONS>
+    <SOURCE>`
+  DATA t_locks TYPE STANDARD TABLE OF seqg3.
+  DATA _arg TYPE seqg3-garg.
+  DATA l_subrc TYPE sy-subrc.
+
+  _arg = process_id.
+  CONCATENATE sy-mandt _arg action INTO _arg.
+
+  CALL FUNCTION &apos;ENQUEUE_READ&apos;
+    EXPORTING
+      gclient                     = sy-mandt
+      gname                       = table_name
+      garg                        = _arg
+      guname                      = &apos;&apos;
+*     LOCAL                       = &apos; &apos;
+*     FAST                        = &apos; &apos;
+    IMPORTING
+*     NUMBER                      =
+      subrc                       = l_subrc
+    TABLES
+      enq                         = t_locks
+    EXCEPTIONS
+      communication_failure       = 1
+      system_failure              = 2
+      OTHERS                      = 3.
+  ASSERT sy-subrc = 0 AND l_subrc = 0.
+
+  IF NOT t_locks IS INITIAL.  result = abap_true.   ENDIF.</SOURCE>
+   </ITEM>
+   <ITEM CMPNAME="CHECK_LOCK_MODE" EXPOSURE="2" STATE="1" MTDDECLTYP="1" MTDNEWEXC="X">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Check Lock mode is correct"/>
+    </TEXTS>
+    <PARAMETERS>
+     <ITEM SCONAME="LOCK_MODE" CMPTYPE="1" PARPASSTYP="1" TYPTYPE="1" TYPE="TD_LOCK_MODE">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="Lock mode (E, S, X)"/>
+      </TEXTS>
+     </ITEM>
+    </PARAMETERS>
+    <EXCEPTIONS>
+     <ITEM SCONAME="YGPL_MT_CX" LANGU="E">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="MultyThread : Root exception class"/>
+      </TEXTS>
+     </ITEM>
+    </EXCEPTIONS>
+    <SOURCE>`
+  IF NOT lock_mode CO &apos;SEX&apos;.
+    RAISE EXCEPTION TYPE ygpl_mt_cx_locks
+          EXPORTING textid = ygpl_mt_cx_locks=&gt;invalid_lock_mode
+                 lock_mode = lock_mode.
+  ENDIF.</SOURCE>
+   </ITEM>
+   <ITEM CMPNAME="CHECK_TIMEOUT" EXPOSURE="2" STATE="1" MTDDECLTYP="1">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Check if timeout is reached"/>
+    </TEXTS>
+    <PARAMETERS>
+     <ITEM SCONAME="RESULT" CMPTYPE="1" PARDECLTYP="3" TYPTYPE="1" TYPE="TD_BOOLEAN">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="Timeout reached"/>
+      </TEXTS>
+     </ITEM>
+    </PARAMETERS>
+    <SOURCE>`
+  DATA _now TYPE td_timestamp.
+  GET TIME STAMP FIELD _now.
+  IF _now &gt; timeout.      result = abap_true.     ENDIF.</SOURCE>
+   </ITEM>
+   <ITEM CMPNAME="FREE_INFORMATION_LOCK" EXPOSURE="2" STATE="1" MTDDECLTYP="1">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Release process information lock"/>
+    </TEXTS>
+    <PARAMETERS>
+     <ITEM SCONAME="PROCESS_ID" CMPTYPE="1" PARPASSTYP="1" TYPTYPE="1" TYPE="TD_PROCESS_ID">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="Run/Task ID"/>
+      </TEXTS>
+     </ITEM>
+    </PARAMETERS>
+    <SOURCE>`
+  unlock_process( process_id = process_id
+                      action = actions-process_data
+                        mode = modes-process-write ).</SOURCE>
+   </ITEM>
+   <ITEM CMPNAME="FREE_PROCESS_LOCK" EXPOSURE="2" STATE="1" MTDDECLTYP="1">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Release process lock"/>
+    </TEXTS>
+    <PARAMETERS>
+     <ITEM SCONAME="PROCESS_ID" CMPTYPE="1" PARPASSTYP="1" TYPTYPE="1" TYPE="TD_PROCESS_ID">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="Run/Task ID"/>
+      </TEXTS>
+     </ITEM>
+    </PARAMETERS>
+    <SOURCE>`
+  unlock_process( process_id = process_id
+                      action = actions-process_data
+                        mode = modes-process-write ).</SOURCE>
+   </ITEM>
+   <ITEM CMPNAME="GET_MESSAGES_SEMAPHORE" EXPOSURE="2" STATE="1" MTDDECLTYP="1" MTDNEWEXC="X">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Get Semaphore for Messages handling"/>
+    </TEXTS>
+    <PARAMETERS>
+     <ITEM SCONAME="PROCESS_ID" CMPTYPE="1" PARPASSTYP="1" TYPTYPE="1" TYPE="TD_PROCESS_ID">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="Run/Task ID"/>
+      </TEXTS>
+     </ITEM>
+     <ITEM SCONAME="TIMEOUT" CMPTYPE="1" PARPASSTYP="1" TYPTYPE="1" TYPE="TD_TIME" PARVALUE="60">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="Timeout value (second)"/>
+      </TEXTS>
+     </ITEM>
+    </PARAMETERS>
+    <EXCEPTIONS>
+     <ITEM SCONAME="YGPL_MT_CX" LANGU="E">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="MultyThread : Root exception class"/>
+      </TEXTS>
+     </ITEM>
+    </EXCEPTIONS>
+    <SOURCE>`
+  lock_process( process_id = process_id
+                    action = actions-messaging
+                      mode = modes-message
+                   timeout = timeout ).</SOURCE>
+   </ITEM>
+   <ITEM CMPNAME="GET_OBJECTS_SEMAPHORE" EXPOSURE="2" STATE="1" MTDDECLTYP="1" MTDNEWEXC="X">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Get Semaphore for Objects processing"/>
+    </TEXTS>
+    <PARAMETERS>
+     <ITEM SCONAME="RUN_ID" CMPTYPE="1" PARPASSTYP="1" TYPTYPE="1" TYPE="TD_PROCESS_ID">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="Run ID"/>
+      </TEXTS>
+     </ITEM>
+     <ITEM SCONAME="TIMEOUT" CMPTYPE="1" PARPASSTYP="1" TYPTYPE="1" TYPE="TD_TIME" PARVALUE="60">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="Timeout value (second)"/>
+      </TEXTS>
+     </ITEM>
+    </PARAMETERS>
+    <EXCEPTIONS>
+     <ITEM SCONAME="YGPL_MT_CX" LANGU="E">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="MultyThread : Root exception class"/>
+      </TEXTS>
+     </ITEM>
+    </EXCEPTIONS>
+    <SOURCE>`
+  lock_process( process_id = run_id
+                    action = actions-object
+                      mode = modes-objects
+                   timeout = timeout ).</SOURCE>
+   </ITEM>
+   <ITEM CMPNAME="LOCK_PROCESS" STATE="1" MTDDECLTYP="1" MTDNEWEXC="X">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Lock Process"/>
+    </TEXTS>
+    <PARAMETERS>
+     <ITEM SCONAME="ACTION" CMPTYPE="1" PARPASSTYP="1" TYPTYPE="1" TYPE="TD_ACTION"/>
+     <ITEM SCONAME="MODE" CMPTYPE="1" PARPASSTYP="1" TYPTYPE="1" TYPE="TS_MODE">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="Lock mode &amp; Scope"/>
+      </TEXTS>
+     </ITEM>
+     <ITEM SCONAME="PROCESS_ID" CMPTYPE="1" PARPASSTYP="1" TYPTYPE="1" TYPE="TD_PROCESS_ID">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="Run/Task ID"/>
+      </TEXTS>
+     </ITEM>
+     <ITEM SCONAME="TIMEOUT" CMPTYPE="1" PARPASSTYP="1" TYPTYPE="1" TYPE="TD_TIME">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="Timeout value (second)"/>
+      </TEXTS>
+     </ITEM>
+    </PARAMETERS>
+    <EXCEPTIONS>
+     <ITEM SCONAME="YGPL_MT_CX" LANGU="E">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="MultyThread : Root exception class"/>
+      </TEXTS>
+     </ITEM>
+    </EXCEPTIONS>
+    <SOURCE>`
+  DATA _key TYPE string.
+  DATA user TYPE sy-uname.
+  DATA parameters TYPE ygpl_lock_release=&gt;tt_function_parameters.
+  DATA object_name TYPE td_object_name.
+  DATA:
+    BEGIN OF my_lock,
+      mode_ygplmt_locks TYPE enqmode,
+      _scope            TYPE ddenqscope,
+     process_id         TYPE ygplmt_locks-process_id,
+     action             TYPE ygplmt_locks-action,
+   END OF my_lock.
+
+  my_lock-mode_ygplmt_locks = mode-lock.
+  my_lock-_scope = mode-scope.
+  my_lock-process_id = process_id.
+  my_lock-action = action.
+  set_timeout_timestamp( timeout ).
+  DO.
+    CALL FUNCTION &apos;ENQUEUE_EYGPLMT_LOCKS&apos;
+      EXPORTING
+        mode_ygplmt_locks       = my_lock-mode_ygplmt_locks
+        mandt                   = sy-mandt
+        process_id              = my_lock-process_id
+        action                  = my_lock-action
+        x_process_id            = abap_true
+        x_action                = abap_true
+        _scope                  = my_lock-_scope
+        _wait                   = abap_true
+*     _COLLECT                = &apos; &apos;
+      EXCEPTIONS
+        foreign_lock            = 1
+        system_failure          = 2
+        OTHERS                  = 3.
+    IF sy-subrc = 1.
+      IF check_timeout( ) IS INITIAL.
+        CONTINUE.
+      ELSE.
+        user = sy-msgv1.
+        _key = process_id.
+        CASE action.
+          WHEN actions-existence.
+            object_name = &apos;General Lock&apos;(tgl).
+          WHEN actions-object.
+            object_name = &apos;Object Semaphore&apos;(tos).
+          WHEN actions-messaging.
+            object_name = &apos;Message Semaphore&apos;(tms).
+          WHEN actions-information.
+            object_name = &apos;MT Information&apos;(tis).
+          WHEN actions-reserve_info.
+            object_name = &apos;Information reservation&apos;(tir).
+          WHEN actions-reserve_process.
+            object_name = &apos;Process reservation&apos;(tpr).
+          WHEN actions-process_data.
+            object_name = &apos;MT Process Data&apos;(tds).
+          WHEN OTHERS.
+            object_name = &apos;Unknow lock kind&apos;(txx).
+        ENDCASE.
+        RAISE EXCEPTION TYPE ygpl_mt_cx_locks
+              EXPORTING textid = ygpl_mt_cx_locks=&gt;foreign_lock
+                      object_name = object_name
+                       object_key = _key
+                             user = user.
+      ENDIF.
+*  else if sy-subrc &lt;&gt; 0.
+    ELSE.
+      ASSERT sy-subrc = 0.
+    ENDIF.
+    IF mode-release_on_commit = abap_true.
+      ygpl_lock_release=&gt;add_parameters( EXPORTING kind = abap_func_exporting
+                                              structure = my_lock
+                                    CHANGING parameters = parameters ).
+*      ygpl_lock_release=&gt;add_parameter( EXPORTING name = &apos;MODE_YGPLMT_LOCKS&apos;
+*                                                  kind = abap_func_exporting
+*                                                  type = &apos;ENQMODE&apos;
+*                                                 value = mode-lock
+*                                   CHANGING parameters = parameters ).
+*      ygpl_lock_release=&gt;add_parameter( EXPORTING name = &apos;PROCESS_ID&apos;
+*                                                  kind = abap_func_exporting
+*                                                  type = &apos;ygplmt_locks-process_id&apos;
+*                                                 value = process_id
+*                                   CHANGING parameters = parameters ).
+*      ygpl_lock_release=&gt;add_parameter( EXPORTING name = &apos;ACTION&apos;
+*                                                  kind = abap_func_exporting
+*                                                  type = &apos;ygplmt_locks-action&apos;
+*                                                 value = actions-process_data
+*                                   CHANGING parameters = parameters ).
+      ygpl_lock_release=&gt;register_dequeue( dequeue_name = &apos;DEQUEUE_EYGPLMT_LOCKS&apos;
+                                             parameters = parameters ).
+    ENDIF.
+    EXIT.
+  ENDDO.</SOURCE>
+   </ITEM>
+   <ITEM CMPNAME="RELEASE_EXISTENCE_LOCK" EXPOSURE="1" STATE="1" MTDDECLTYP="1">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Release Existence lock for a process"/>
+    </TEXTS>
+    <PARAMETERS>
+     <ITEM SCONAME="PROCESS_ID" CMPTYPE="1" PARPASSTYP="1" TYPTYPE="1" TYPE="TD_PROCESS_ID">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="Run/Task ID"/>
+      </TEXTS>
+     </ITEM>
+    </PARAMETERS>
+    <SOURCE>`
+  CALL FUNCTION &apos;DEQUEUE_EYGPLMT_LOCKS&apos;
+    EXPORTING
+      mode_ygplmt_locks       = lock_modes-write
+      mandt                   = sy-mandt
+      process_id              = process_id
+      action                  = actions-existence
+      x_process_id            = abap_true
+      x_action                = abap_true
+      _scope                  = &apos;1&apos;
+*     _SYNCHRON               = &apos; &apos;
+*     _COLLECT                = &apos; &apos;
+            .</SOURCE>
+   </ITEM>
+   <ITEM CMPNAME="RELEASE_INFORMATION_CLEARANCE" EXPOSURE="2" STATE="1" MTDDECLTYP="1">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Release, previously get, information clearance"/>
+    </TEXTS>
+    <PARAMETERS>
+     <ITEM SCONAME="RUN_ID" CMPTYPE="1" PARPASSTYP="1" TYPTYPE="1" TYPE="TD_PROCESS_ID">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="Run ID"/>
+      </TEXTS>
+     </ITEM>
+    </PARAMETERS>
+    <SOURCE>`
+  unlock_process( process_id = run_id
+                      action = actions-information
+                        mode = modes-information-read ).</SOURCE>
+   </ITEM>
+   <ITEM CMPNAME="RELEASE_MESSAGES_SEMAPHORE" EXPOSURE="2" STATE="1" MTDDECLTYP="1">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Release, previously get, Semaphore for Messages handling"/>
+    </TEXTS>
+    <PARAMETERS>
+     <ITEM SCONAME="PROCESS_ID" CMPTYPE="1" PARPASSTYP="1" TYPTYPE="1" TYPE="TD_PROCESS_ID">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="Run/Task ID"/>
+      </TEXTS>
+     </ITEM>
+    </PARAMETERS>
+    <SOURCE>`
+  unlock_process( process_id = process_id
+                      action = actions-messaging
+                        mode = modes-message ).</SOURCE>
+   </ITEM>
+   <ITEM CMPNAME="RELEASE_OBJECTS_SEMAPHORE" EXPOSURE="2" STATE="1" MTDDECLTYP="1">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Release, previously get, Semaphore for Objects processing"/>
+    </TEXTS>
+    <PARAMETERS>
+     <ITEM SCONAME="RUN_ID" CMPTYPE="1" PARPASSTYP="1" TYPTYPE="1" TYPE="TD_PROCESS_ID">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="Run ID"/>
+      </TEXTS>
+     </ITEM>
+    </PARAMETERS>
+    <SOURCE>`
+  unlock_process( process_id = run_id
+                      action = actions-object
+                        mode = modes-objects ).</SOURCE>
+   </ITEM>
+   <ITEM CMPNAME="RELEASE_PROCESS_CLEARANCE" EXPOSURE="2" STATE="1" MTDDECLTYP="1">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Release, previously get, data clearance"/>
+    </TEXTS>
+    <PARAMETERS>
+     <ITEM SCONAME="PROCESS_ID" CMPTYPE="1" PARPASSTYP="1" TYPTYPE="1" TYPE="TD_PROCESS_ID">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="Run/Task ID"/>
+      </TEXTS>
+     </ITEM>
+    </PARAMETERS>
+    <SOURCE>`
+  unlock_process( process_id = process_id
+                      action = actions-process_data
+                        mode = modes-process-read ).</SOURCE>
+   </ITEM>
+   <ITEM CMPNAME="SET_EXISTENCE_LOCK" EXPOSURE="1" STATE="1" MTDDECLTYP="1" MTDNEWEXC="X">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Set Existence lock for a process"/>
+    </TEXTS>
+    <PARAMETERS>
+     <ITEM SCONAME="PROCESS_ID" CMPTYPE="1" PARPASSTYP="1" TYPTYPE="1" TYPE="TD_PROCESS_ID">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="Run/Task ID"/>
+      </TEXTS>
+     </ITEM>
+    </PARAMETERS>
+    <EXCEPTIONS>
+     <ITEM SCONAME="YGPL_MT_CX" LANGU="E">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="MultyThread : Root exception class"/>
+      </TEXTS>
+     </ITEM>
+    </EXCEPTIONS>
+    <SOURCE>`
+  CALL FUNCTION &apos;ENQUEUE_EYGPLMT_LOCKS&apos;
+    EXPORTING
+      mode_ygplmt_locks       = lock_modes-write
+      mandt                   = sy-mandt
+      process_id              = process_id
+      action                  = actions-existence
+      x_process_id            = abap_true
+      x_action                = abap_true
+      _scope                  = &apos;1&apos;
+      _wait                   = abap_true
+*     _COLLECT                = &apos; &apos;
+    EXCEPTIONS
+      foreign_lock            = 1
+      system_failure          = 2
+      OTHERS                  = 3.
+  ASSERT sy-subrc = 0.</SOURCE>
+   </ITEM>
+   <ITEM CMPNAME="SET_INFORMATION_LOCK" EXPOSURE="2" STATE="1" MTDDECLTYP="1" MTDNEWEXC="X">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Lock process information to prevent clearance"/>
+    </TEXTS>
+    <PARAMETERS>
+     <ITEM SCONAME="PROCESS_ID" CMPTYPE="1" PARPASSTYP="1" TYPTYPE="1" TYPE="TD_PROCESS_ID">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="Run/Task ID"/>
+      </TEXTS>
+     </ITEM>
+     <ITEM SCONAME="TIMEOUT" CMPTYPE="1" PARPASSTYP="1" TYPTYPE="1" TYPE="TD_TIME" PARVALUE="60">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="Timeout value (second)"/>
+      </TEXTS>
+     </ITEM>
+    </PARAMETERS>
+    <EXCEPTIONS>
+     <ITEM SCONAME="YGPL_MT_CX" LANGU="E">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="MultyThread : Root exception class"/>
+      </TEXTS>
+     </ITEM>
+    </EXCEPTIONS>
+    <SOURCE>`
+  lock_process( process_id = process_id
+                    action = actions-reserve_info
+                      mode = modes-information-write
+                   timeout = 99999 ).
+  lock_process( process_id = process_id
+                    action = actions-information
+                      mode = modes-information-write
+                   timeout = timeout ).</SOURCE>
+   </ITEM>
+   <ITEM CMPNAME="SET_PROCESS_LOCK" EXPOSURE="2" STATE="1" MTDDECLTYP="1" MTDNEWEXC="X">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Lock Process to prevent clearance"/>
+    </TEXTS>
+    <PARAMETERS>
+     <ITEM SCONAME="PROCESS_ID" CMPTYPE="1" PARPASSTYP="1" TYPTYPE="1" TYPE="TD_PROCESS_ID">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="Run/Task ID"/>
+      </TEXTS>
+     </ITEM>
+     <ITEM SCONAME="TIMEOUT" CMPTYPE="1" PARPASSTYP="1" TYPTYPE="1" TYPE="TD_TIME" PARVALUE="60">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="Timeout value (second)"/>
+      </TEXTS>
+     </ITEM>
+    </PARAMETERS>
+    <EXCEPTIONS>
+     <ITEM SCONAME="YGPL_MT_CX" LANGU="E">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="MultyThread : Root exception class"/>
+      </TEXTS>
+     </ITEM>
+    </EXCEPTIONS>
+    <SOURCE>`
+  lock_process( process_id = process_id
+                    action = actions-reserve_process
+                      mode = modes-process-write
+                   timeout = 99999 ).
+  lock_process( process_id = process_id
+                    action = actions-process_data
+                      mode = modes-process-write
+                   timeout = timeout ).</SOURCE>
+   </ITEM>
+   <ITEM CMPNAME="SET_TIMEOUT_TIMESTAMP" EXPOSURE="2" STATE="1" MTDDECLTYP="1">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Compute timestamp of the timeout"/>
+    </TEXTS>
+    <PARAMETERS>
+     <ITEM SCONAME="TIMEOUT" CMPTYPE="1" PARPASSTYP="1" TYPTYPE="1" TYPE="TD_TIME">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="Delay in second from now"/>
+      </TEXTS>
+     </ITEM>
+    </PARAMETERS>
+    <SOURCE>`
+  GET TIME STAMP FIELD ygpl_mt_lock_managment=&gt;timeout.
+  ygpl_mt_lock_managment=&gt;timeout =  cl_abap_tstmp=&gt;add( tstmp = ygpl_mt_lock_managment=&gt;timeout
+                                                          secs = timeout ).</SOURCE>
+   </ITEM>
+   <ITEM CMPNAME="UNLOCK_PROCESS" STATE="1" MTDDECLTYP="1">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="UnLock Process"/>
+    </TEXTS>
+    <PARAMETERS>
+     <ITEM SCONAME="ACTION" CMPTYPE="1" PARPASSTYP="1" TYPTYPE="1" TYPE="TD_ACTION"/>
+     <ITEM SCONAME="MODE" CMPTYPE="1" PARPASSTYP="1" TYPTYPE="1" TYPE="TS_MODE">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="Lock mode &amp; Scope"/>
+      </TEXTS>
+     </ITEM>
+     <ITEM SCONAME="PROCESS_ID" CMPTYPE="1" PARPASSTYP="1" TYPTYPE="1" TYPE="TD_PROCESS_ID">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="Run/Task ID"/>
+      </TEXTS>
+     </ITEM>
+    </PARAMETERS>
+    <SOURCE>`
+  CALL FUNCTION &apos;DEQUEUE_EYGPLMT_LOCKS&apos;
+    EXPORTING
+      mode_ygplmt_locks = mode-lock
+      mandt             = sy-mandt
+      process_id        = process_id
+      action            = action
+      x_process_id      = abap_true
+      x_action          = abap_true
+      _scope            = mode-scope
+      _synchron         = &apos; &apos;
+      _collect          = &apos; &apos;.</SOURCE>
+   </ITEM>
+   <ITEM CMPNAME="WAIT_FOR_INFORMATION_CLEARANCE" EXPOSURE="2" STATE="1" MTDDECLTYP="1" MTDNEWEXC="X">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Check if actions on Process information is clear/authorized"/>
+    </TEXTS>
+    <PARAMETERS>
+     <ITEM SCONAME="RUN_ID" CMPTYPE="1" PARPASSTYP="1" TYPTYPE="1" TYPE="TD_PROCESS_ID">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="Run ID"/>
+      </TEXTS>
+     </ITEM>
+    </PARAMETERS>
+    <EXCEPTIONS>
+     <ITEM SCONAME="YGPL_MT_CX" LANGU="E">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="MultyThread : Root exception class"/>
+      </TEXTS>
+     </ITEM>
+    </EXCEPTIONS>
+    <SOURCE>`
+  DO.
+    IF check_lock_exists( process_id = run_id
+                              action = actions-reserve_info ) IS INITIAL.
+      EXIT.
+    ENDIF.
+    WAIT UP TO 2 SECONDS.
+  ENDDO.
+  DO.
+    TRY.
+        lock_process( process_id = run_id
+                          action = actions-information
+                            mode = modes-information-read
+                         timeout = 3 ).
+        EXIT.
+      CATCH ygpl_mt_cx_locks.
+        WAIT UP TO 3 SECONDS.
+    ENDTRY.
+  ENDDO.
+* Release lock immediatly
+*  unlock_process( process_id = run_id
+*                      action = actions-information
+*                        mode = modes-information-read ).</SOURCE>
+   </ITEM>
+   <ITEM CMPNAME="WAIT_FOR_PROCESS_CLEARANCE" EXPOSURE="2" STATE="1" MTDDECLTYP="1" MTDNEWEXC="X">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Check if actions on Process data is clear (authorized)"/>
+    </TEXTS>
+    <PARAMETERS>
+     <ITEM SCONAME="PROCESS_ID" CMPTYPE="1" PARPASSTYP="1" TYPTYPE="1" TYPE="TD_PROCESS_ID">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="Run/Task ID"/>
+      </TEXTS>
+     </ITEM>
+    </PARAMETERS>
+    <EXCEPTIONS>
+     <ITEM SCONAME="YGPL_MT_CX" LANGU="E">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="MultyThread : Root exception class"/>
+      </TEXTS>
+     </ITEM>
+    </EXCEPTIONS>
+    <SOURCE>`
+  DO.
+    IF check_lock_exists( process_id = process_id
+                              action = actions-reserve_process ) IS INITIAL.
+      EXIT.
+    ENDIF.
+    WAIT UP TO 2 SECONDS.
+  ENDDO.
+  DO.
+    TRY.
+        lock_process( process_id = process_id
+                          action = actions-process_data
+                            mode = modes-process-read
+                         timeout = 3 ).
+        EXIT.
+      CATCH ygpl_mt_cx_locks.
+        WAIT UP TO 3 SECONDS.
+    ENDTRY.
+  ENDDO.
+* Release lock immediatly
+*  unlock_process( process_id = process_id
+*                      action = actions-process_data
+*                        mode = modes-process-read ).</SOURCE>
+   </ITEM>
+  </METHODS>
+  <TEXTSPOOL>
+   <ITEM ID="I" KEY="TDS">
+    <TEXTS>
+     <ITEM LANGU="E" ENTRY="MT Process Data" LENGTH="30 "/>
+    </TEXTS>
+   </ITEM>
+   <ITEM ID="I" KEY="TGL">
+    <TEXTS>
+     <ITEM LANGU="E" ENTRY="General Lock" LENGTH="80 "/>
+    </TEXTS>
+   </ITEM>
+   <ITEM ID="I" KEY="TIR">
+    <TEXTS>
+     <ITEM LANGU="E" ENTRY="Information reservation" LENGTH="80 "/>
+    </TEXTS>
+   </ITEM>
+   <ITEM ID="I" KEY="TIS">
+    <TEXTS>
+     <ITEM LANGU="E" ENTRY="MT Information" LENGTH="80 "/>
+    </TEXTS>
+   </ITEM>
+   <ITEM ID="I" KEY="TMS">
+    <TEXTS>
+     <ITEM LANGU="E" ENTRY="Message Semaphore" LENGTH="80 "/>
+    </TEXTS>
+   </ITEM>
+   <ITEM ID="I" KEY="TOS">
+    <TEXTS>
+     <ITEM LANGU="E" ENTRY="Object Semaphore" LENGTH="80 "/>
+    </TEXTS>
+   </ITEM>
+   <ITEM ID="I" KEY="TPR">
+    <TEXTS>
+     <ITEM LANGU="E" ENTRY="Process reservation" LENGTH="80 "/>
+    </TEXTS>
+   </ITEM>
+   <ITEM ID="I" KEY="TXX">
+    <TEXTS>
+     <ITEM LANGU="E" ENTRY="Unknow lock kind" LENGTH="80 "/>
+    </TEXTS>
+   </ITEM>
+  </TEXTSPOOL>
+  <TYPES>
+   <ITEM CMPNAME="TD_OBJECT_NAME" EXPOSURE="2" STATE="1" TYPTYPE="1" TYPE="YGPL_MT_CX_LOCKS=&gt;TD_OBJECT_NAME"/>
+  </TYPES>
+ </RAW>
+</ZL_OBJECT>

@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="utf-16"?>
+<ZL_OBJECT CHECKSUM="2712D89E573EB72D8161F84C98CA9B32" CONNECTOR="1FAC0A4B07A5A05AE1000000AC120173" NAME="YGPL_MT_CX" TYPE="MSAG" VERSION="1.0">
+ <DIRECTORY DEVCLASS="YGPL-MULTITHREAD" MASTERLANG="E"/>
+ <RAW>
+  <A0_MAINDATA MASTERLANG="E" RESPUSER="TBENSIAL"/>
+  <MESSAGES>
+   <ITEM MSGNR="000" SELFDEF="3">
+    <TEXTS>
+     <ITEM LANGU="E" SHORT_TXT="System Category &apos;&amp;1&apos; can&apos;t be used as program specific category"/>
+    </TEXTS>
+   </ITEM>
+   <ITEM MSGNR="001" SELFDEF="3">
+    <TEXTS>
+     <ITEM LANGU="E" SHORT_TXT="Category &apos;&amp;1&apos; does not exists in table &amp;2"/>
+    </TEXTS>
+   </ITEM>
+   <ITEM MSGNR="002" SELFDEF="3">
+    <TEXTS>
+     <ITEM LANGU="E" SHORT_TXT="Data type &apos;&amp;1&apos; is incorrect. Exception &apos;&amp;2&apos; raised at creation."/>
+    </TEXTS>
+   </ITEM>
+   <ITEM MSGNR="003" SELFDEF="3">
+    <TEXTS>
+     <ITEM LANGU="E" SHORT_TXT="Method NEW_JOB already called without calling CLOSE_JOB or CANCEL_JOB"/>
+    </TEXTS>
+   </ITEM>
+   <ITEM MSGNR="004" SELFDEF="3">
+    <TEXTS>
+     <ITEM LANGU="E" SHORT_TXT="Method CLOSE_JOB called without calling NEW_JOB"/>
+    </TEXTS>
+   </ITEM>
+   <ITEM MSGNR="005" SELFDEF="3">
+    <TEXTS>
+     <ITEM LANGU="E" SHORT_TXT="The prepared job &amp;1(&amp;2) do not have any step. Can&apos;t close job."/>
+    </TEXTS>
+   </ITEM>
+   <ITEM MSGNR="006" SELFDEF="3">
+    <TEXTS>
+     <ITEM LANGU="E" SHORT_TXT="Category &apos;&amp;1&apos; is not defined. No data type has been assigned"/>
+    </TEXTS>
+   </ITEM>
+   <ITEM MSGNR="007" SELFDEF="3">
+    <TEXTS>
+     <ITEM LANGU="E" SHORT_TXT="Job &amp;1(&amp;2) does not exists"/>
+    </TEXTS>
+   </ITEM>
+   <ITEM MSGNR="008" SELFDEF="3">
+    <TEXTS>
+     <ITEM LANGU="E" SHORT_TXT="&amp;1 is an invalid lock mode. Valid value is only : X, E or S."/>
+    </TEXTS>
+   </ITEM>
+   <ITEM MSGNR="009" SELFDEF="3">
+    <TEXTS>
+     <ITEM LANGU="E" SHORT_TXT="Object &amp;1(&amp;2) is locked by &amp;3"/>
+    </TEXTS>
+   </ITEM>
+   <ITEM MSGNR="010" SELFDEF="3">
+    <TEXTS>
+     <ITEM LANGU="E" SHORT_TXT="Semaphore lock is already set for &amp;1"/>
+    </TEXTS>
+   </ITEM>
+   <ITEM MSGNR="011" SELFDEF="3">
+    <TEXTS>
+     <ITEM LANGU="E" SHORT_TXT="Semaphore lock is not set for &amp;1. Can&apos;t release"/>
+    </TEXTS>
+   </ITEM>
+   <ITEM MSGNR="012" SELFDEF="3">
+    <TEXTS>
+     <ITEM LANGU="E" SHORT_TXT="&apos;&amp;1&apos; is not a System Category"/>
+    </TEXTS>
+   </ITEM>
+   <ITEM MSGNR="013" SELFDEF="3">
+    <TEXTS>
+     <ITEM LANGU="E" SHORT_TXT="System Status &apos;&amp;1&apos; can&apos;t be used as program specific status"/>
+    </TEXTS>
+   </ITEM>
+   <ITEM MSGNR="014" SELFDEF="3">
+    <TEXTS>
+     <ITEM LANGU="E" SHORT_TXT="Status &apos;&amp;1&apos; does not exists in table &amp;2"/>
+    </TEXTS>
+   </ITEM>
+   <ITEM MSGNR="015" SELFDEF="3">
+    <TEXTS>
+     <ITEM LANGU="E" SHORT_TXT="&apos;&amp;1&apos; is not a System Status"/>
+    </TEXTS>
+   </ITEM>
+   <ITEM MSGNR="016" SELFDEF="3">
+    <TEXTS>
+     <ITEM LANGU="E" SHORT_TXT="Status &apos;&amp;1&apos; already added"/>
+    </TEXTS>
+   </ITEM>
+   <ITEM MSGNR="017" SELFDEF="3">
+    <TEXTS>
+     <ITEM LANGU="E" SHORT_TXT="Category &apos;&amp;1&apos; already added"/>
+    </TEXTS>
+   </ITEM>
+   <ITEM MSGNR="018" SELFDEF="3">
+    <TEXTS>
+     <ITEM LANGU="E" SHORT_TXT="Status &apos;&amp;1&apos; is not defined."/>
+    </TEXTS>
+   </ITEM>
+   <ITEM MSGNR="019" SELFDEF="3">
+    <TEXTS>
+     <ITEM LANGU="E" SHORT_TXT="Process &apos;&amp;1&apos; do not exists in database"/>
+    </TEXTS>
+   </ITEM>
+   <ITEM MSGNR="020" SELFDEF="3">
+    <TEXTS>
+     <ITEM LANGU="E" SHORT_TXT="Process &apos;&amp;1&apos; do not exists as a Run"/>
+    </TEXTS>
+   </ITEM>
+   <ITEM MSGNR="021" SELFDEF="3">
+    <TEXTS>
+     <ITEM LANGU="E" SHORT_TXT="Process &apos;&amp;1&apos; do not exists as a Task"/>
+    </TEXTS>
+   </ITEM>
+   <ITEM MSGNR="022" APPLICATION="DOKU" TYP="E" DOKFORM="S_DOCU_SHOW" DOKSTYLE="S_DOCUS1">
+    <TEXTS>
+     <ITEM LANGU="E" SHORT_TXT="Can&apos;t Get object Semaphore =&gt; Task will stop">
+      <LONG_TXT TDFRELES="701" TDLINESIZE="072">U1&amp;CAUSE&amp;
+ASObject Semaphore can&apos;t be get within specified time (get a timeout).
+  this probably means that there is too much task requesting semaphore at
+  the same time
+U1&amp;SYSTEM_RESPONSE&amp;
+ASThe task has finish his job and can&apos;t no longer get work to do. Task
+  will stop.
+U1&amp;WHAT_TO_DO&amp;
+ASIf you think that task shouldn&apos;t stop, change either :
+B1Bloc size
+B1Maximum Batch size
+B1Thread number
+ASTo prevent in the future any task shutdown
+U1&amp;SYS_ADMIN&amp;
+ASKeep in mind that the task has stopped normally no recovery is needed.</LONG_TXT>
+     </ITEM>
+    </TEXTS>
+   </ITEM>
+   <ITEM MSGNR="023" SELFDEF="3">
+    <TEXTS>
+     <ITEM LANGU="E" SHORT_TXT="Conditions provided returns no application server. Adjust conditions"/>
+    </TEXTS>
+   </ITEM>
+   <ITEM MSGNR="050" SELFDEF="3">
+    <TEXTS>
+     <ITEM LANGU="E" SHORT_TXT="Record &apos;&amp;2&apos; not found in Table &amp;1"/>
+    </TEXTS>
+   </ITEM>
+   <ITEM MSGNR="051" SELFDEF="3">
+    <TEXTS>
+     <ITEM LANGU="E" SHORT_TXT="Database insertion failure on Table &amp;1 with record &apos;&amp;2&apos;"/>
+    </TEXTS>
+   </ITEM>
+   <ITEM MSGNR="052" SELFDEF="3">
+    <TEXTS>
+     <ITEM LANGU="E" SHORT_TXT="Database update failure on Table &amp;1 with record &apos;&amp;2&apos;"/>
+    </TEXTS>
+   </ITEM>
+   <ITEM MSGNR="053" SELFDEF="3">
+    <TEXTS>
+     <ITEM LANGU="E" SHORT_TXT="Database delete failure on Table &amp;1 with record &apos;&amp;2&apos;"/>
+    </TEXTS>
+   </ITEM>
+   <ITEM MSGNR="100" SELFDEF="3">
+    <TEXTS>
+     <ITEM LANGU="E" SHORT_TXT="at &amp;2(&amp;1) line &amp;3"/>
+    </TEXTS>
+   </ITEM>
+   <ITEM MSGNR="101" SELFDEF="3">
+    <TEXTS>
+     <ITEM LANGU="E" SHORT_TXT='Exception &amp;1 &quot;&amp;2&quot; occurs in &amp;3 !'/>
+    </TEXTS>
+   </ITEM>
+   <ITEM MSGNR="102" SELFDEF="3">
+    <TEXTS>
+     <ITEM LANGU="E" SHORT_TXT="at &amp;1 line &amp;2"/>
+    </TEXTS>
+   </ITEM>
+  </MESSAGES>
+  <TEXTS>
+   <ITEM LANGU="E" SHORT_TXT="Message for exceptions"/>
+  </TEXTS>
+ </RAW>
+</ZL_OBJECT>

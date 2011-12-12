@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-16"?>
+<ZL_OBJECT CHECKSUM="E7186ECA10663DABF2F47A30139C1957" CODE_SIGNATURE="2250B20DCEF1985F742F4C462E2A4116" CONNECTOR="39AC0A4B07A5A05AE1000000AC120173" NAME="YGPL_MT_CONSTANTS" TYPE="INTF" VERSION="1.01">
+ <DIRECTORY DEVCLASS="YGPL-MULTITHREAD" MASTERLANG="E"/>
+ <RAW>
+  <A0_MAINDATA VERSION="1" LANGU="E" EXPOSURE="2" STATE="1" UNICODE="X">
+   <TEXTS>
+    <ITEM LANG="E" TEXT="MultyThreads data Types"/>
+   </TEXTS>
+  </A0_MAINDATA>
+  <ALIASES>
+   <ITEM CMPNAME="TD_ACTION" EXPOSURE="2" CMPTYPE="3" REFCLSNAME="YGPL_MT_TYPESPOOL" REFCMPNAME="TD_ACTION"/>
+   <ITEM CMPNAME="TD_BLOC_STATUS" EXPOSURE="2" CMPTYPE="3" REFCLSNAME="YGPL_MT_TYPESPOOL" REFCMPNAME="TD_BLOC_STATUS"/>
+   <ITEM CMPNAME="TD_CATEGORY" EXPOSURE="2" CMPTYPE="3" REFCLSNAME="YGPL_MT_TYPESPOOL" REFCMPNAME="TD_CATEGORY"/>
+   <ITEM CMPNAME="TD_LOCK_MODE" EXPOSURE="2" CMPTYPE="3" REFCLSNAME="YGPL_MT_TYPESPOOL" REFCMPNAME="TD_LOCK_MODE"/>
+   <ITEM CMPNAME="TD_PROCESS_STATUS" EXPOSURE="2" CMPTYPE="3" REFCLSNAME="YGPL_MT_TYPESPOOL" REFCMPNAME="TD_PROCESS_STATUS"/>
+   <ITEM CMPNAME="TD_SCOPE" EXPOSURE="2" CMPTYPE="3" REFCLSNAME="YGPL_MT_TYPESPOOL" REFCMPNAME="TD_SCOPE"/>
+   <ITEM CMPNAME="TD_USER_STATUS" EXPOSURE="2" CMPTYPE="3" REFCLSNAME="YGPL_MT_TYPESPOOL" REFCMPNAME="TD_USER_STATUS"/>
+  </ALIASES>
+  <ATTRIBUTS>
+   <ITEM CMPNAME="ACTIONS" EXPOSURE="2" STATE="1" ATTDECLTYP="2" TYPTYPE="4">
+    BEGIN OF actions,
+      existence         TYPE td_action VALUE &apos;-&apos;,           &quot;#EC NOTEXT
+      object            TYPE td_action VALUE &apos;O&apos;,           &quot;#EC NOTEXT
+      messaging         TYPE td_action VALUE &apos;M&apos;,           &quot;#EC NOTEXT
+      information       TYPE td_action VALUE &apos;I&apos;,           &quot;#EC NOTEXT
+      reserve_info      TYPE td_action VALUE &apos;i&apos;,           &quot;#EC NOTEXT
+      reserve_process   TYPE td_action VALUE &apos;d&apos;,           &quot;#EC NOTEXT
+      process_data      TYPE td_action VALUE &apos;D&apos;,           &quot;#EC NOTEXT
+    END OF actions
+`
+    <TEXTS>
+     <ITEM LANG="E" TEXT="All possible actions (Lock engine)"/>
+    </TEXTS>
+   </ITEM>
+   <ITEM CMPNAME="JOB_STATUS" EXPOSURE="2" STATE="1" ATTDECLTYP="2" TYPTYPE="4">
+    BEGIN OF job_status,    &quot; From LBTCHDEF@266
+      running       TYPE tbtco-status VALUE &apos;R&apos;,            &quot;#EC NOTEXT
+      ready         TYPE tbtco-status VALUE &apos;Y&apos;,            &quot;#EC NOTEXT
+      scheduled     TYPE tbtco-status VALUE &apos;P&apos;,            &quot;#EC NOTEXT
+      released      TYPE tbtco-status VALUE &apos;S&apos;,            &quot;#EC NOTEXT
+      aborted       TYPE tbtco-status VALUE &apos;A&apos;,            &quot;#EC NOTEXT
+      finished      TYPE tbtco-status VALUE &apos;F&apos;,            &quot;#EC NOTEXT
+      put_active    TYPE tbtco-status VALUE &apos;Z&apos;,            &quot;#EC NOTEXT
+      unknown_state TYPE tbtco-status VALUE &apos;X&apos;,            &quot;#EC NOTEXT
+    END OF job_status
+`
+    <TEXTS>
+     <ITEM LANG="E" TEXT="SAP background Job Status"/>
+    </TEXTS>
+   </ITEM>
+   <ITEM CMPNAME="LOCK_MODES" EXPOSURE="2" STATE="1" ATTDECLTYP="2" TYPTYPE="4">
+    BEGIN OF lock_modes ,
+      read        TYPE td_lock_mode VALUE &apos;S&apos;,              &quot;#EC NOTEXT
+      write       TYPE td_lock_mode VALUE &apos;E&apos;,              &quot;#EC NOTEXT
+      exclusive   TYPE td_lock_mode VALUE &apos;X&apos;,              &quot;#EC NOTEXT
+    END OF lock_modes
+`
+    <TEXTS>
+     <ITEM LANG="E" TEXT="All possible lock modes"/>
+    </TEXTS>
+   </ITEM>
+   <ITEM CMPNAME="SCOPE_MODES" EXPOSURE="2" STATE="1" ATTDECLTYP="2" TYPTYPE="4">
+    BEGIN OF scope_modes ,
+      dialog_only   TYPE td_scope VALUE &apos;1&apos;,                &quot;#EC NOTEXT
+      update_only   TYPE td_scope VALUE &apos;2&apos;,                &quot;#EC NOTEXT
+      both          TYPE td_scope VALUE &apos;3&apos;,                &quot;#EC NOTEXT
+    END OF scope_modes
+`
+    <TEXTS>
+     <ITEM LANG="E" TEXT="All possible scope modes"/>
+    </TEXTS>
+   </ITEM>
+   <ITEM CMPNAME="SYSTEM_CATEGORIES" EXPOSURE="2" STATE="1" ATTDECLTYP="2" TYPTYPE="4">
+    BEGIN OF system_categories,
+*      data_bloc   TYPE td_category VALUE &apos;_D&apos;,              &quot;#EC NOTEXT
+      run_info    TYPE td_category VALUE &apos;_I&apos;,              &quot;#EC NOTEXT
+      obj_conf    TYPE td_category VALUE &apos;_O&apos;,              &quot;#EC NOTEXT
+      task_def    TYPE td_category VALUE &apos;_P&apos;,              &quot;#EC NOTEXT
+      condition   TYPE td_category VALUE &apos;_C&apos;,              &quot;#EC NOTEXT
+    END OF system_categories
+`
+    <TEXTS>
+     <ITEM LANG="E" TEXT="System reserved categories"/>
+    </TEXTS>
+   </ITEM>
+   <ITEM CMPNAME="SYSTEM_STATUS" EXPOSURE="2" STATE="1" ATTDECLTYP="2" TYPTYPE="4">
+    BEGIN OF system_status,
+      BEGIN OF process,
+        started         TYPE td_process_status VALUE &apos;l&apos;,   &quot;#EC NOTEXT
+        in_progress     TYPE td_process_status VALUE &apos;i&apos;,   &quot;#EC NOTEXT
+        stop_requested  TYPE td_process_status VALUE &apos;r&apos;,   &quot;#EC NOTEXT
+        interupted      TYPE td_process_status VALUE &apos;s&apos;,   &quot;#EC NOTEXT
+        finished        TYPE td_process_status VALUE &apos;d&apos;,   &quot;#EC NOTEXT
+      END OF process,
+      BEGIN OF bloc,
+        to_do         TYPE td_bloc_status VALUE &apos;t&apos;,        &quot;#EC NOTEXT
+        in_progress   TYPE td_bloc_status VALUE &apos;i&apos;,        &quot;#EC NOTEXT
+        done          TYPE td_bloc_status VALUE &apos;d&apos;,        &quot;#EC NOTEXT
+      END OF bloc,
+      BEGIN OF object,
+        inconsistency TYPE td_user_status VALUE &apos;x&apos;,             &quot;#EC NOTEXT
+        already_done  TYPE td_user_status VALUE &apos;d&apos;,             &quot;#EC NOTEXT
+      END OF object,
+    END OF system_status
+`
+    <TEXTS>
+     <ITEM LANG="E" TEXT="System reserved status"/>
+    </TEXTS>
+   </ITEM>
+  </ATTRIBUTS>
+  <INTERFACES>
+   <ITEM REFCLSNAME="YGPL_MT_TYPESPOOL" STATE="1"/>
+  </INTERFACES>
+  <TYPEGROUPS>
+   <ITEM TYPEGROUP="ABAP" EXPLICIT="X" IMPLICIT="X"/>
+  </TYPEGROUPS>
+ </RAW>
+</ZL_OBJECT>

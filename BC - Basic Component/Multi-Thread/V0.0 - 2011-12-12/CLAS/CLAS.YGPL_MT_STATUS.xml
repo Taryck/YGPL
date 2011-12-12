@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="utf-16"?>
+<ZL_OBJECT CHECKSUM="ECDE3E61E0BC35DC4F0C6D212F762BEB" CODE_SIGNATURE="1C0F8468098F773043F9244A0456621D" CONNECTOR="39AC0A4B07A5A05AE1000000AC120173" NAME="YGPL_MT_STATUS" TYPE="CLAS" VERSION="1.01">
+ <DIRECTORY DEVCLASS="YGPL-MULTITHREAD" MASTERLANG="E"/>
+ <RAW>
+  <A0_MAINDATA VERSION="1" LANGU="E" EXPOSURE="2" STATE="1" CLSCCINCL="X" FIXPT="X" UNICODE="X">
+   <TEXTS>
+    <ITEM LANG="E" TEXT="Status for Process/Bloc/Objects"/>
+    <ITEM LANG="F" TEXT="Status des enregistrements MT"/>
+   </TEXTS>
+  </A0_MAINDATA>
+  <ALIASES>
+   <ITEM CMPNAME="ADD_SPECIFIC_STATUS" EXPOSURE="2" CMPTYPE="1" REFCLSNAME="YGPLIMT_STATUS" REFCMPNAME="ADD_SPECIFIC_STATUS"/>
+   <ITEM CMPNAME="CLEAR_SPECIFIC_STATUS" EXPOSURE="2" CMPTYPE="1" REFCLSNAME="YGPLIMT_STATUS" REFCMPNAME="CLEAR_SPECIFIC_STATUS"/>
+   <ITEM CMPNAME="DESERIALIZE" EXPOSURE="2" CMPTYPE="1" REFCLSNAME="YGPLIMT_CONDITIONS" REFCMPNAME="DESERIALIZE"/>
+   <ITEM CMPNAME="DO_EXISTS" EXPOSURE="2" CMPTYPE="1" REFCLSNAME="YGPLIMT_STATUS" REFCMPNAME="DO_EXISTS"/>
+   <ITEM CMPNAME="IS_VALID_STATUS" EXPOSURE="2" CMPTYPE="1" REFCLSNAME="YGPLIMT_STATUS" REFCMPNAME="IS_VALID_STATUS"/>
+   <ITEM CMPNAME="R_SYSTEM_STATUS" EXPOSURE="2" REFCLSNAME="YGPLIMT_STATUS" REFCMPNAME="R_SYSTEM_STATUS"/>
+   <ITEM CMPNAME="SERIALIZE" EXPOSURE="2" CMPTYPE="1" REFCLSNAME="YGPLIMT_CONDITIONS" REFCMPNAME="SERIALIZE"/>
+   <ITEM CMPNAME="SYSTEM_STATUS" EXPOSURE="2" REFCLSNAME="YGPLIMT_STATUS" REFCMPNAME="SYSTEM_STATUS"/>
+   <ITEM CMPNAME="TD_BOOLEAN" EXPOSURE="2" CMPTYPE="3" REFCLSNAME="YGPL_MT_TYPESPOOL" REFCMPNAME="TD_BOOLEAN"/>
+   <ITEM CMPNAME="TD_STATUS" EXPOSURE="2" CMPTYPE="3" REFCLSNAME="YGPLIMT_STATUS" REFCMPNAME="TD_STATUS"/>
+   <ITEM CMPNAME="TR_STATUS" EXPOSURE="2" CMPTYPE="3" REFCLSNAME="YGPL_MT_TYPESPOOL" REFCMPNAME="TR_STATUS"/>
+  </ALIASES>
+  <ATTRIBUTS>
+   <ITEM CMPNAME="ALL_KEYS" STATE="1" ATTDECLTYP="1" TYPTYPE="1" TYPE="TT_KEYS">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="All status keys"/>
+    </TEXTS>
+   </ITEM>
+   <ITEM CMPNAME="F_HAS_CHANGED" STATE="1" TYPTYPE="1" TYPE="TD_BOOLEAN"/>
+   <ITEM CMPNAME="MY_KEYS" STATE="1" TYPTYPE="1" TYPE="TT_KEYS">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="User specific Status"/>
+    </TEXTS>
+   </ITEM>
+   <ITEM CMPNAME="SYSTEM_KEYS" STATE="1" ATTDECLTYP="1" TYPTYPE="1" TYPE="TT_KEYS">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="System Status list"/>
+    </TEXTS>
+   </ITEM>
+  </ATTRIBUTS>
+  <INTERFACES>
+   <ITEM REFCLSNAME="YGPLIMT_CONDITIONS" EXPOSURE="2" STATE="1" RELTYPE="1">
+    <COMPONENTS>
+     <ITEM MTDNAME="DESERIALIZE">
+      <SOURCE>`
+*  CHECK NOT xml IS INITIAL.
+*  CALL TRANSFORMATION id
+*  SOURCE XML xml
+*  RESULT data = my_keys.</SOURCE>
+     </ITEM>
+     <ITEM MTDNAME="SERIALIZE">
+      <SOURCE>`
+  CHECK NOT my_keys IS INITIAL.
+  CALL TRANSFORMATION id
+  SOURCE data = my_keys
+  RESULT XML xml.</SOURCE>
+     </ITEM>
+    </COMPONENTS>
+   </ITEM>
+   <ITEM REFCLSNAME="YGPLIMT_STATUS" EXPOSURE="2" STATE="1" RELTYPE="1">
+    <COMPONENTS>
+     <ITEM MTDNAME="ADD_SPECIFIC_STATUS">
+      <SOURCE>`
+  DATA wa LIKE LINE OF my_keys.
+  FIELD-SYMBOLS &lt;wa&gt; LIKE LINE OF my_keys.
+
+  IF key IN r_system_status.
+    RAISE EXCEPTION TYPE ygpl_mt_cx_status
+          EXPORTING textid = ygpl_mt_cx_status=&gt;system_status
+                  status = key.
+  ENDIF.
+  IF do_exists( key ) IS INITIAL.
+    RAISE EXCEPTION TYPE ygpl_mt_cx_status
+          EXPORTING textid = ygpl_mt_cx_status=&gt;status_do_not_exists
+                  status = key.
+  ENDIF.
+
+  READ TABLE my_keys WITH TABLE KEY key = key ASSIGNING &lt;wa&gt;.
+  IF sy-subrc = 0.
+    RAISE EXCEPTION TYPE ygpl_mt_cx_status
+          EXPORTING textid = ygpl_mt_cx_status=&gt;status_already_added
+                  status = key.
+  ELSE. &quot; unexpected but handled
+    wa-key = key.
+    INSERT wa INTO TABLE my_keys.
+    ASSERT sy-subrc = 0.
+    F_HAS_CHANGED = abap_true.
+  ENDIF.</SOURCE>
+     </ITEM>
+     <ITEM MTDNAME="CLEAR_SPECIFIC_STATUS">
+      <SOURCE>`
+  CLEAR my_keys.</SOURCE>
+     </ITEM>
+     <ITEM MTDNAME="DO_EXISTS">
+      <SOURCE>`
+  READ TABLE all_keys WITH TABLE KEY key = key TRANSPORTING NO FIELDS.
+  IF sy-subrc = 0.      exists = abap_true.       ENDIF.</SOURCE>
+     </ITEM>
+     <ITEM MTDNAME="IS_VALID_STATUS">
+      <SOURCE>`
+  IF key IN r_system_status.
+    RAISE EXCEPTION TYPE ygpl_mt_cx_status
+          EXPORTING textid = ygpl_mt_cx_status=&gt;system_status
+                    status = key.
+  ENDIF.
+  IF do_exists( key ) IS INITIAL.
+    RAISE EXCEPTION TYPE ygpl_mt_cx_status
+          EXPORTING textid = ygpl_mt_cx_status=&gt;status_do_not_exists
+                    status = key.
+  ENDIF.
+
+  READ TABLE my_keys WITH TABLE KEY key = key TRANSPORTING NO FIELDS.
+  IF sy-subrc &lt;&gt; 0.
+    RAISE EXCEPTION TYPE ygpl_mt_cx_status
+          EXPORTING textid = ygpl_mt_cx_status=&gt;status_not_define
+                    status = key.
+  ENDIF.
+  result = abap_true.</SOURCE>
+     </ITEM>
+    </COMPONENTS>
+   </ITEM>
+  </INTERFACES>
+  <LOCAL>
+   <TYPES>`
+*&quot;* use this source file for any type declarations (class
+*&quot;* definitions, interfaces or data types) you need for method
+*&quot;* implementation or private method&apos;s signature</TYPES>
+   <IMPLEMENTATIONS>`
+*&quot;* local class implementation for public class
+*&quot;* use this source file for the implementation part of
+*&quot;* local helper classes</IMPLEMENTATIONS>
+   <MACROS>`
+*&quot;* use this source file for any macro definitions you need
+*&quot;* in the implementation part of the class</MACROS>
+  </LOCAL>
+  <METHODS>
+   <ITEM CMPNAME="CHANGES_SAVED" EXPOSURE="2" STATE="1">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Mark changes as saved"/>
+    </TEXTS>
+    <PARAMETERS>
+     <ITEM SCONAME="RESULT" CMPTYPE="1" PARDECLTYP="3" TYPTYPE="1" TYPE="TD_BOOLEAN">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="Conditions have changed"/>
+      </TEXTS>
+     </ITEM>
+    </PARAMETERS>
+    <SOURCE>`
+  clear F_HAS_CHANGED.</SOURCE>
+   </ITEM>
+   <ITEM CMPNAME="CLASS_CONSTRUCTOR" EXPOSURE="2" STATE="1" MTDTYPE="2" MTDDECLTYP="1">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="CLASS_CONSTRUCTOR"/>
+     <ITEM LANG="F" TEXT="CLASS_CONSTRUCTOR"/>
+    </TEXTS>
+    <SOURCE>`
+  DATA _st LIKE LINE OF r_system_status.
+
+  _st-sign = &apos;I&apos;. _st-option = &apos;BT&apos;.      _st-low = &apos;a&apos;.     _st-high = &apos;z&apos;.
+  APPEND _st TO r_system_status.  &quot; System Range
+
+  SELECT status
+    INTO TABLE all_keys
+    FROM ygplmt_status.
+
+  system_keys = all_keys.     DELETE system_keys WHERE key NOT IN r_system_status.</SOURCE>
+   </ITEM>
+   <ITEM CMPNAME="HAS_CHANGED" EXPOSURE="2" STATE="1">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Do conditions have been modified"/>
+    </TEXTS>
+    <PARAMETERS>
+     <ITEM SCONAME="RESULT" CMPTYPE="1" PARDECLTYP="3" TYPTYPE="1" TYPE="TD_BOOLEAN">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="Conditions have changed"/>
+      </TEXTS>
+     </ITEM>
+    </PARAMETERS>
+    <SOURCE>`
+  result = f_has_changed.</SOURCE>
+   </ITEM>
+   <ITEM CMPNAME="IS_SYSTEM_STATUS" EXPOSURE="2" STATE="1" MTDDECLTYP="1">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Is the category a system category ?"/>
+    </TEXTS>
+    <PARAMETERS>
+     <ITEM SCONAME="KEY" CMPTYPE="1" PARPASSTYP="1" TYPTYPE="1" TYPE="TD_STATUS">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="Status"/>
+      </TEXTS>
+     </ITEM>
+     <ITEM SCONAME="RESULT" CMPTYPE="1" PARDECLTYP="3" TYPTYPE="1" TYPE="TD_BOOLEAN">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="is Status a valid system status"/>
+      </TEXTS>
+     </ITEM>
+    </PARAMETERS>
+    <SOURCE>`
+  IF NOT key IN r_system_status.
+    RAISE EXCEPTION TYPE ygpl_mt_cx_status
+          EXPORTING textid = ygpl_mt_cx_status=&gt;not_system_status
+                    status = key.
+  ENDIF.
+  IF do_exists( key ) IS INITIAL.
+    RAISE EXCEPTION TYPE ygpl_mt_cx_status
+          EXPORTING textid = ygpl_mt_cx_status=&gt;status_do_not_exists
+                    status = key.
+  ENDIF.
+
+  READ TABLE system_keys TRANSPORTING NO FIELDS WITH TABLE KEY key = key.
+  IF sy-subrc &lt;&gt; 0.
+    RAISE EXCEPTION TYPE ygpl_mt_cx_status
+          EXPORTING textid = ygpl_mt_cx_status=&gt;not_system_status
+                    status = key.
+  ENDIF.
+  result = abap_true.</SOURCE>
+   </ITEM>
+  </METHODS>
+  <TYPEGROUPS>
+   <ITEM TYPEGROUP="ABAP" EXPLICIT="X"/>
+  </TYPEGROUPS>
+  <TYPES>
+   <ITEM CMPNAME="TS_KEY" STATE="1" EDITORDER="1 " TYPTYPE="4">
+    BEGIN OF ts_key,
+      key TYPE TD_STATUS,
+    END OF ts_key
+`
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Key line definition"/>
+     <ITEM LANG="F" TEXT="Ligne clé"/>
+    </TEXTS>
+   </ITEM>
+   <ITEM CMPNAME="TT_KEYS" STATE="1" EDITORDER="2 " TYPTYPE="4">
+    tt_keys TYPE HASHED TABLE OF ts_key WITH UNIQUE KEY KEY
+`
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Set of key"/>
+     <ITEM LANG="F" TEXT="Liste des clés"/>
+    </TEXTS>
+   </ITEM>
+  </TYPES>
+ </RAW>
+</ZL_OBJECT>

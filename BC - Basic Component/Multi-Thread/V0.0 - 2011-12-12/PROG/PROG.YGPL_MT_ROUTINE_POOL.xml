@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-16"?>
+<ZL_OBJECT CHECKSUM="54DC4FACECAC61C51AA41230D6450127" CODE_SIGNATURE="C6E86CADE2DB493A6C9C84B15A7070BF" CONNECTOR="AAAD0A4B07A5A05AE1000000AC120173" NAME="YGPL_MT_ROUTINE_POOL" TYPE="PROG" VERSION="1.0">
+ <DIRECTORY DEVCLASS="YGPL-MULTITHREAD" MASTERLANG="E"/>
+ <RAW>
+  <A0_MAINDATA VARCL="X" SUBC="S" RSTAT="K" RMAND="200" RLOAD="E" FIXPT="X" UCCHECK="X"/>
+  <SOURCE>`
+*&amp;---------------------------------------------------------------------*
+*&amp; Subroutine Pool   YGPL_MT_ROUTINE_POOL
+*&amp;
+*&amp;---------------------------------------------------------------------*
+*&amp;
+*&amp;
+*&amp;---------------------------------------------------------------------*
+
+PROGRAM  ygpl_mt_routine_pool.
+
+
+DATA _server TYPE btctgtsrvr-srvname.
+DATA BEGIN OF btc_sys_tbl OCCURS 10.
+        INCLUDE STRUCTURE btctgtitbl.
+DATA END OF btc_sys_tbl.
+CONSTANTS:
+  sap_default_srvgrp TYPE bpsrvgrp VALUE &apos;SAP_DEFAULT_BTC&apos;.
+* From MODULE show_target_server. program SAPLBTCH
+
+TYPES r_server TYPE RANGE OF ygpl_mt_typespool=&gt;ts_wp_info-wp_server.
+
+*&amp;---------------------------------------------------------------------*
+*&amp;      Form  Control_Server_Range
+*&amp;---------------------------------------------------------------------*
+*       text
+*----------------------------------------------------------------------*
+*      --&gt;SERVERS    text
+*----------------------------------------------------------------------*
+FORM control_server_range USING servers TYPE r_server.
+  DATA o_conditions TYPE ygpl_mt_interfaces=&gt;ti_full_conditions.
+  DATA o_cx         TYPE REF TO ygpl_mt_cx.
+  DATA msg          TYPE string.
+
+  TRY.
+      o_conditions = ygpl_mt_factories=&gt;create_new_start_conditions( ).
+      o_conditions-&gt;set_servers( servers[] ).
+    CATCH ygpl_mt_cx INTO o_cx.
+      msg = o_cx-&gt;get_text( ).
+      MESSAGE msg TYPE &apos;E&apos;.
+  ENDTRY.
+ENDFORM.                    &quot;Control_Server_Range
+*&amp;---------------------------------------------------------------------*
+*&amp;      Form  show_target_server
+*&amp;---------------------------------------------------------------------*
+*       text
+*----------------------------------------------------------------------*
+FORM show_target_server CHANGING server.  &quot; TYPE btctgtsrvr-srvname.
+  DATA: selected_server LIKE tbtcjob-execserver.
+  DATA  grp_hlp_tbl1  TYPE TABLE OF bpsrvgrpi.
+*        btc_srv_entry TYPE btctgtsrvr,
+  DATA  my_grp        TYPE bpsrvgrpi.
+  DATA: rc TYPE i VALUE 0.
+  DATA BEGIN OF btc_sys_srv_tbl OCCURS 10.
+          INCLUDE STRUCTURE msxxlist.
+  DATA END OF btc_sys_srv_tbl.
+  DATA s_server LIKE LINE OF btc_sys_srv_tbl.
+  DATA: fieldtbl LIKE dfies OCCURS 0 WITH HEADER LINE.
+  DATA t_return TYPE STANDARD TABLE OF ddshretval.
+  FIELD-SYMBOLS &lt;r&gt; LIKE LINE OF t_return.
+  CONSTANTS batch LIKE msxxlist-msgtypes VALUE 8.
+
+* put all instance names in the list first
+  CALL FUNCTION &apos;TH_SERVER_LIST&apos;
+    EXPORTING
+      services = batch
+    TABLES
+      list     = btc_sys_srv_tbl
+    EXCEPTIONS
+      OTHERS   = 99.
+  IF rc &lt;&gt; 0.
+    EXIT.
+  ENDIF.
+
+* server groups are treated as pseudo-instances
+  REFRESH grp_hlp_tbl1.
+  CALL METHOD cl_bp_group_factory=&gt;get_group_names
+    IMPORTING
+      o_grouplist = grp_hlp_tbl1.
+
+  SORT grp_hlp_tbl1 BY grpname ASCENDING.
+
+  LOOP AT grp_hlp_tbl1 INTO my_grp.
+    CLEAR s_server.
+    IF my_grp-grpname NE sap_default_srvgrp.
+      CONCATENATE &apos;&lt;&apos; my_grp-grpname &apos;&gt;&apos; INTO s_server-name.
+      APPEND s_server TO btc_sys_srv_tbl.
+    ENDIF.
+  ENDLOOP.
+
+* server groups are in the list now: &lt;GRP_NAME&gt;
+
+*  FREE fieldtbl.
+*  CLEAR fieldtbl.     fieldtbl-tabname    = &apos;MSXXLIST&apos;.       fieldtbl-fieldname  = &apos;NAME&apos;.        APPEND fieldtbl.
+
+  CALL FUNCTION &apos;F4IF_INT_TABLE_VALUE_REQUEST&apos;
+    EXPORTING
+      ddic_structure  = &apos;MSXXLIST&apos;
+      retfield        = &apos;NAME&apos;
+*      dynpprog        = &apos;YGPL_MT_ROUTINE_POOL&apos;
+*      dynpnr          = sy-dynnr
+*      dynprofield     = scrnfield_svr
+      value_org       = &apos;S&apos;             &quot; Source is a Structure : thanks NAN
+    TABLES
+      value_tab       = btc_sys_srv_tbl
+*      field_tab       = fieldtbl
+      return_tab      = t_return
+    EXCEPTIONS
+      parameter_error = 1
+      no_values_found = 2
+      OTHERS          = 3.
+  IF t_return IS INITIAL.
+    CLEAR server.
+  ELSE.
+    READ TABLE t_return ASSIGNING &lt;r&gt; INDEX 1.
+    server = &lt;r&gt;-fieldval.
+  ENDIF.
+ENDFORM.                    &quot;show_target_server
+
+*&amp;---------------------------------------------------------------------*
+*&amp;      Form  set_limits
+*&amp;---------------------------------------------------------------------*
+FORM set_limits  USING p_act
+                       p_p_min
+                       p_p_max
+                       p_t_min
+                       p_t_max
+              CHANGING p_limits TYPE ygpl_mt_typespool=&gt;ts_limits.
+  p_limits-active = p_act.
+  p_limits-progress-mini = p_p_min.
+  p_limits-progress-maxi = p_p_max.
+  p_limits-time-mini = p_t_min.
+  p_limits-time-maxi = p_t_max.
+ENDFORM.                    &quot;set_limits
+
+*&amp;---------------------------------------------------------------------*
+*&amp;      Form  get_limits
+*&amp;---------------------------------------------------------------------*
+FORM get_limits  USING p_limits TYPE ygpl_mt_typespool=&gt;ts_limits
+              CHANGING p_act
+                       p_p_min
+                       p_p_max
+                       p_t_min
+                       p_t_max.
+  p_act = p_limits-active.
+  p_p_min = p_limits-progress-mini.
+  p_p_max = p_limits-progress-maxi.
+  p_t_min = p_limits-time-mini.
+  p_t_max = p_limits-time-maxi.
+ENDFORM.                    &quot; CREATE_LIMITS</SOURCE>
+  <TEXTSPOOL>
+   <ITEM ID="R">
+    <TEXTS>
+     <ITEM LANGU="E" ENTRY="Routine Pool for MT Framework" LENGTH="29 "/>
+    </TEXTS>
+   </ITEM>
+  </TEXTSPOOL>
+ </RAW>
+</ZL_OBJECT>

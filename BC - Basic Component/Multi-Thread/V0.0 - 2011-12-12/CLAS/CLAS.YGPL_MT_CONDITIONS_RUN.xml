@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-16"?>
+<ZL_OBJECT CHECKSUM="39AFF55C1CBE835366D2CEB1177A571B" CODE_SIGNATURE="9B2F5C9ECF71221A1D13D2A2C3F04E3E" CONNECTOR="39AC0A4B07A5A05AE1000000AC120173" NAME="YGPL_MT_CONDITIONS_RUN" TYPE="CLAS" VERSION="1.01">
+ <DEPENDENCIES>
+  <ITEM TYPE="CLAS" NAME="YGPL_MT_CONDITIONS_TASK"/>
+ </DEPENDENCIES>
+ <DIRECTORY DEVCLASS="YGPL-MULTITHREAD" MASTERLANG="E"/>
+ <RAW>
+  <A0_MAINDATA VERSION="1" LANGU="E" EXPOSURE="2" STATE="1" CLSCCINCL="X" FIXPT="X" UNICODE="X" MSG_ID="YGPL_MT">
+   <INHERITANCE REFCLSNAME="YGPL_MT_CONDITIONS_TASK" STATE="1"/>
+   <TEXTS>
+    <ITEM LANG="E" TEXT="Run conditions"/>
+   </TEXTS>
+  </A0_MAINDATA>
+  <ALIASES>
+   <ITEM CMPNAME="GLOBAL_PROGRESSION" EXPOSURE="2" REFCLSNAME="YGPLIMT_RUNCONDITIONS_4RUN" REFCMPNAME="GLOBAL_PROGRESSION"/>
+   <ITEM CMPNAME="SET_GLOBAL_PROGRESSION" EXPOSURE="2" CMPTYPE="1" REFCLSNAME="YGPLIMT_RUNCONDITIONS_4RUN" REFCMPNAME="SET_GLOBAL_PROGRESSION"/>
+   <ITEM CMPNAME="SET_THREADS" EXPOSURE="2" CMPTYPE="1" REFCLSNAME="YGPLIMT_RUNCONDITIONS_4RUN" REFCMPNAME="SET_THREADS"/>
+   <ITEM CMPNAME="THREADS" EXPOSURE="2" REFCLSNAME="YGPLIMT_RUNCONDITIONS_4RUN" REFCMPNAME="THREADS"/>
+  </ALIASES>
+  <INTERFACES>
+   <ITEM REFCLSNAME="YGPLIMT_RUNCONDITIONS_4RUN" EXPOSURE="2" STATE="1" RELTYPE="1">
+    <COMPONENTS>
+     <ITEM MTDNAME="SET_GLOBAL_PROGRESSION">
+      <SOURCE>`
+  CHECK global_progression &lt;&gt; value.
+  CHECK value-progress-maxi &lt;= 100.
+  CHECK value-progress-mini &gt; 0.
+  CHECK value-time-mini &gt; 0.
+  global_progression = value.
+  f_has_changed = abap_true.</SOURCE>
+     </ITEM>
+     <ITEM MTDNAME="SET_THREADS">
+      <SOURCE>`
+  CHECK threads &lt;&gt; value.
+  CHECK value &gt;= 1.
+  threads = value.
+  f_has_changed = abap_true.</SOURCE>
+     </ITEM>
+    </COMPONENTS>
+   </ITEM>
+  </INTERFACES>
+  <LOCAL>
+   <TYPES>`
+*&quot;* use this source file for any type declarations (class
+*&quot;* definitions, interfaces or data types) you need for method
+*&quot;* implementation or private method&apos;s signature</TYPES>
+   <IMPLEMENTATIONS>`
+*&quot;* local class implementation for public class
+*&quot;* use this source file for the implementation part of
+*&quot;* local helper classes</IMPLEMENTATIONS>
+   <MACROS>`
+*&quot;* use this source file for any macro definitions you need
+*&quot;* in the implementation part of the class
+INCLUDE ygpl_mt_conditions_macros.</MACROS>
+  </LOCAL>
+  <METHODS>
+   <ITEM CMPNAME="CONSTRUCTOR" EXPOSURE="2" STATE="1" MTDTYPE="2" MTDNEWEXC="X">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="CONSTRUCTOR"/>
+    </TEXTS>
+    <EXCEPTIONS>
+     <ITEM SCONAME="YGPL_MT_CX" LANGU="E" MTDTYPE="2">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="MultyThread : Root exception class"/>
+      </TEXTS>
+     </ITEM>
+    </EXCEPTIONS>
+    <SOURCE>`
+  super-&gt;constructor( ).
+
+  threads = 2.
+  global_progression-active = abap_true.
+  global_progression-time-mini = 30.
+  global_progression-progress-maxi = 5.</SOURCE>
+   </ITEM>
+  </METHODS>
+  <REDEFINITIONS>
+   <ITEM REFCLSNAME="YGPL_MT_CONDITIONS_TASK" MTDNAME="COMPARE_WITH">
+    <SOURCE>`
+  DATA i_conditions TYPE ti_run_conditions.
+  super-&gt;compare_with( conditions ).
+  TRY.
+      i_conditions ?= conditions.
+      simple_compare text-ths me-&gt;threads i_conditions-&gt;threads.
+      IF i_conditions-&gt;global_progression &lt;&gt; me-&gt;global_progression.
+        MESSAGE i017 WITH text-gpg.
+        compare_progression( from = me-&gt;global_progression
+                             with = i_conditions-&gt;global_progression ).
+      ENDIF.
+    CATCH cx_sy_move_cast_error.
+* Ignore this error
+  ENDTRY.</SOURCE>
+   </ITEM>
+   <ITEM REFCLSNAME="YGPL_MT_CONDITIONS_TASK" MTDNAME="MERGE_WITH">
+    <SOURCE>`
+  DATA i_conditions TYPE ti_run_conditions.
+  super-&gt;merge_with( conditions ).
+  TRY.
+      i_conditions ?= conditions.
+      set_threads( i_conditions-&gt;threads ).
+      set_global_progression( i_conditions-&gt;global_progression ).
+    CATCH cx_sy_move_cast_error.
+* Ignore this error
+  ENDTRY.</SOURCE>
+   </ITEM>
+  </REDEFINITIONS>
+  <TEXTSPOOL>
+   <ITEM ID="I" KEY="GPG">
+    <TEXTS>
+     <ITEM LANGU="E" ENTRY="Global Progression" LENGTH="40 "/>
+    </TEXTS>
+   </ITEM>
+   <ITEM ID="I" KEY="THS">
+    <TEXTS>
+     <ITEM LANGU="E" ENTRY="Threads" LENGTH="40 "/>
+    </TEXTS>
+   </ITEM>
+  </TEXTSPOOL>
+ </RAW>
+</ZL_OBJECT>

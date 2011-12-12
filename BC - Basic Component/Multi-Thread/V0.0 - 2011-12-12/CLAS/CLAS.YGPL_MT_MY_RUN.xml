@@ -1,0 +1,271 @@
+<?xml version="1.0" encoding="utf-16"?>
+<ZL_OBJECT CHECKSUM="57BE8662C8571C1BBA0BD7266F4D5028" CODE_SIGNATURE="4F0DA761FA0A5F75BCD77D9EB07591CB" CONNECTOR="39AC0A4B07A5A05AE1000000AC120173" NAME="YGPL_MT_MY_RUN" TYPE="CLAS" VERSION="1.01">
+ <DIRECTORY DEVCLASS="YGPL-MULTITHREAD.TUTORIAL" MASTERLANG="E"/>
+ <RAW>
+  <A0_MAINDATA VERSION="1" LANGU="E" EXPOSURE="2" STATE="1" CLSFINAL="X" CLSCCINCL="X" FIXPT="X" UNICODE="X">
+   <TEXTS>
+    <ITEM LANG="E" TEXT="MT Tutorial - My RUN"/>
+   </TEXTS>
+  </A0_MAINDATA>
+  <ALIASES>
+   <ITEM CMPNAME="MY_CATEGORIES" EXPOSURE="2" REFCLSNAME="YGPL_MT_MY_DATA_DEFINITION" REFCMPNAME="MY_CATEGORIES"/>
+   <ITEM CMPNAME="MY_STATUS" EXPOSURE="2" REFCLSNAME="YGPL_MT_MY_DATA_DEFINITION" REFCMPNAME="MY_STATUS"/>
+   <ITEM CMPNAME="TD_COUNT" EXPOSURE="2" CMPTYPE="3" REFCLSNAME="YGPL_MT_TYPESPOOL" REFCMPNAME="TD_COUNT"/>
+   <ITEM CMPNAME="TD_JOBID" EXPOSURE="2" CMPTYPE="3" REFCLSNAME="YGPL_MT_TYPESPOOL" REFCMPNAME="TD_JOBID"/>
+   <ITEM CMPNAME="TD_JOBNAME" EXPOSURE="2" CMPTYPE="3" REFCLSNAME="YGPL_MT_TYPESPOOL" REFCMPNAME="TD_JOBNAME"/>
+   <ITEM CMPNAME="TD_MEMORY_SIZE" EXPOSURE="2" CMPTYPE="3" REFCLSNAME="YGPL_MT_TYPESPOOL" REFCMPNAME="TD_MEMORY_SIZE"/>
+   <ITEM CMPNAME="TD_PROCESS_ID" EXPOSURE="2" CMPTYPE="3" REFCLSNAME="YGPL_MT_TYPESPOOL" REFCMPNAME="TD_PROCESS_ID"/>
+   <ITEM CMPNAME="TD_WAITTIME" EXPOSURE="2" CMPTYPE="3" REFCLSNAME="YGPL_MT_MY_DATA_DEFINITION" REFCMPNAME="TD_WAITTIME"/>
+   <ITEM CMPNAME="TI_FULL_CONDITIONS" EXPOSURE="2" CMPTYPE="3" REFCLSNAME="YGPL_MT_INTERFACES" REFCMPNAME="TI_FULL_CONDITIONS"/>
+   <ITEM CMPNAME="TS_MY_PROCESS_INFO" EXPOSURE="2" CMPTYPE="3" REFCLSNAME="YGPL_MT_MY_DATA_DEFINITION" REFCMPNAME="TS_MY_PROCESS_INFO"/>
+   <ITEM CMPNAME="TS_MY_RUN_PARAMETERS" EXPOSURE="2" CMPTYPE="3" REFCLSNAME="YGPL_MT_MY_DATA_DEFINITION" REFCMPNAME="TS_MY_RUN_PARAMETERS"/>
+   <ITEM CMPNAME="TS_PROCESS_DEFINITION" EXPOSURE="2" CMPTYPE="3" REFCLSNAME="YGPL_MT_TYPESPOOL" REFCMPNAME="TS_PROCESS_DEFINITION"/>
+   <ITEM CMPNAME="TS_PROGRESSION" EXPOSURE="2" CMPTYPE="3" REFCLSNAME="YGPL_MT_TYPESPOOL" REFCMPNAME="TS_PROGRESSION"/>
+   <ITEM CMPNAME="TT_DATA" EXPOSURE="2" CMPTYPE="3" REFCLSNAME="YGPL_MT_MY_DATA_DEFINITION" REFCMPNAME="TT_DATA"/>
+   <ITEM CMPNAME="TT_DEPENDENCIES" EXPOSURE="2" CMPTYPE="3" REFCLSNAME="YGPL_MT_TYPESPOOL" REFCMPNAME="TT_DEPENDENCIES"/>
+  </ALIASES>
+  <ATTRIBUTS>
+   <ITEM CMPNAME="O_ENGINE" STATE="1" ATTDECLTYP="1" TYPTYPE="3" TYPE="YGPLIMT_RUN">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Framework engine"/>
+    </TEXTS>
+   </ITEM>
+   <ITEM CMPNAME="PROCESS_ID" EXPOSURE="2" STATE="1" ATTRDONLY="X" TYPTYPE="1" TYPE="TD_PROCESS_ID">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Run ID"/>
+    </TEXTS>
+   </ITEM>
+  </ATTRIBUTS>
+  <INTERFACES>
+   <ITEM REFCLSNAME="YGPL_MT_CONSTANTS" EXPOSURE="2" STATE="1" RELTYPE="1"/>
+   <ITEM REFCLSNAME="YGPL_MT_INTERFACES" EXPOSURE="2" STATE="1" RELTYPE="1"/>
+   <ITEM REFCLSNAME="YGPL_MT_MY_DATA_DEFINITION" EXPOSURE="2" STATE="1" RELTYPE="1"/>
+  </INTERFACES>
+  <LOCAL>
+   <TYPES>`
+*&quot;* use this source file for any type declarations (class
+*&quot;* definitions, interfaces or data types) you need for method
+*&quot;* implementation or private method&apos;s signature</TYPES>
+   <IMPLEMENTATIONS>`
+*&quot;* local class implementation for public class
+*&quot;* use this source file for the implementation part of
+*&quot;* local helper classes</IMPLEMENTATIONS>
+   <MACROS>`
+*&quot;* use this source file for any macro definitions you need
+*&quot;* in the implementation part of the class</MACROS>
+  </LOCAL>
+  <METHODS>
+   <ITEM CMPNAME="ADD_OBJECTS" EXPOSURE="2" STATE="1" MTDNEWEXC="X">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Add My Objects to work list"/>
+    </TEXTS>
+    <PARAMETERS>
+     <ITEM SCONAME="DEPENDENCIES" CMPTYPE="1" PARPASSTYP="1" TYPTYPE="1" TYPE="TT_DEPENDENCIES" PAROPTIONL="X"/>
+     <ITEM SCONAME="OBJECTS" CMPTYPE="1" PARPASSTYP="1" TYPTYPE="1" TYPE="TT_DATA">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="Set of My data"/>
+      </TEXTS>
+     </ITEM>
+    </PARAMETERS>
+    <EXCEPTIONS>
+     <ITEM SCONAME="YGPL_MT_CX" LANGU="E">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="MultyThread : Root exception class"/>
+      </TEXTS>
+     </ITEM>
+    </EXCEPTIONS>
+    <SOURCE>`
+  o_engine-&gt;add_objects( dependencies = dependencies
+                              objects = objects ).</SOURCE>
+   </ITEM>
+   <ITEM CMPNAME="ADD_THREAD" EXPOSURE="2" STATE="1" MTDNEWEXC="X">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Add thread manually"/>
+    </TEXTS>
+    <PARAMETERS>
+     <ITEM SCONAME="JOBID" CMPTYPE="1" PARPASSTYP="1" TYPTYPE="1" TYPE="TD_JOBID">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="Job ID"/>
+      </TEXTS>
+     </ITEM>
+     <ITEM SCONAME="JOBNAME" CMPTYPE="1" PARPASSTYP="1" TYPTYPE="1" TYPE="TD_JOBNAME">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="Job name"/>
+      </TEXTS>
+     </ITEM>
+    </PARAMETERS>
+    <EXCEPTIONS>
+     <ITEM SCONAME="YGPL_MT_CX" LANGU="E">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="MultyThread : Root exception class"/>
+      </TEXTS>
+     </ITEM>
+    </EXCEPTIONS>
+    <SOURCE>`
+  o_engine-&gt;add_thread( jobid = jobid
+                      jobname = jobname ).</SOURCE>
+   </ITEM>
+   <ITEM CMPNAME="CONSTRUCTOR" EXPOSURE="2" STATE="1" MTDTYPE="2" MTDNEWEXC="X">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="CONSTRUCTOR"/>
+    </TEXTS>
+    <PARAMETERS>
+     <ITEM SCONAME="CONDITIONS" CMPTYPE="1" MTDTYPE="2" PARPASSTYP="1" TYPTYPE="1" TYPE="TI_FULL_CONDITIONS"/>
+    </PARAMETERS>
+    <EXCEPTIONS>
+     <ITEM SCONAME="YGPL_MT_CX" LANGU="E" MTDTYPE="2">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="MultyThread : Root exception class"/>
+      </TEXTS>
+     </ITEM>
+    </EXCEPTIONS>
+    <SOURCE>`
+  DATA o_conditions   TYPE ygpl_mt_factories=&gt;ti_full_conditions.
+
+  IF conditions IS BOUND.  o_conditions = conditions.  ELSE.    o_conditions = ygpl_mt_factories=&gt;create_new_start_conditions( ).   ENDIF.
+  o_conditions-&gt;categories-&gt;add_specific_category( my_categories-task_param ).
+  o_conditions-&gt;status-&gt;add_specific_status( my_status-ok ).
+  o_conditions-&gt;status-&gt;add_specific_status( my_status-ko ).
+  o_conditions-&gt;status-&gt;add_specific_status( my_status-error ).
+  o_engine = ygpl_mt_factories=&gt;create_new_run( o_conditions ).
+  process_id = o_engine-&gt;process_id.
+  SET HANDLER submit_new_thread handle_specific_message FOR o_engine.</SOURCE>
+   </ITEM>
+   <ITEM CMPNAME="GET_PROGRESSION" EXPOSURE="2" STATE="1">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Get run progression"/>
+    </TEXTS>
+    <PARAMETERS>
+     <ITEM SCONAME="RESULT" CMPTYPE="1" PARDECLTYP="3" TYPTYPE="1" TYPE="TS_PROGRESSION">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="Run&apos;s progression"/>
+      </TEXTS>
+     </ITEM>
+    </PARAMETERS>
+    <SOURCE>`
+  result = o_engine-&gt;get_progression( ).</SOURCE>
+   </ITEM>
+   <ITEM CMPNAME="HANDLE_SPECIFIC_MESSAGE" STATE="1" MTDTYPE="1" REFCLSNAME="YGPLIMT_RUN" REFCMPNAME="RECIEVING_SPECIFIC_MESSAGE">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Handle specific messages"/>
+    </TEXTS>
+    <PARAMETERS>
+     <ITEM SCONAME="CATEGORY" CMPTYPE="1" MTDTYPE="1" PARPASSTYP="1" TYPTYPE="1" TYPE="TD_CATEGORY"/>
+     <ITEM SCONAME="RAWDATA" CMPTYPE="1" MTDTYPE="1" PARPASSTYP="1" TYPTYPE="1" TYPE="TD_RAWDATA"/>
+    </PARAMETERS>
+    <SOURCE>`
+  DATA s_param TYPE ts_my_process_info.
+  DATA s_task  TYPE ts_process_definition.
+  CASE category.
+    WHEN my_categories-task_param.
+      o_engine-&gt;conv_raw2data( EXPORTING rawdata = rawdata
+                                CHANGING    data = s_param ).
+      s_task = o_engine-&gt;get_task_informations( s_param-process_id ).
+*      WRITE:/ &apos;New process&apos;, s_param-process_id, s_task-workprocess-wp_server, s_task-batch_info-jobname, s_task-batch_info-jobcount, s_task-batch_info-jobclass.
+    WHEN OTHERS.
+* Unexcepted case
+  ENDCASE.</SOURCE>
+   </ITEM>
+   <ITEM CMPNAME="SET_PARAMETERS" EXPOSURE="2" STATE="1" MTDNEWEXC="X">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Define my run parameters"/>
+    </TEXTS>
+    <PARAMETERS>
+     <ITEM SCONAME="PARAMETERS" CMPTYPE="1" PARPASSTYP="1" TYPTYPE="1" TYPE="TS_MY_RUN_PARAMETERS">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="Parameters of this run"/>
+      </TEXTS>
+     </ITEM>
+    </PARAMETERS>
+    <EXCEPTIONS>
+     <ITEM SCONAME="YGPL_MT_CX" LANGU="E">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="MultyThread : Root exception class"/>
+      </TEXTS>
+     </ITEM>
+    </EXCEPTIONS>
+    <SOURCE>`
+  o_engine-&gt;informations-&gt;set_information( category = my_categories-task_param
+                                               info = parameters ).</SOURCE>
+   </ITEM>
+   <ITEM CMPNAME="START_THREADS" EXPOSURE="2" STATE="1" MTDNEWEXC="X">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Start threads automaticly"/>
+    </TEXTS>
+    <EXCEPTIONS>
+     <ITEM SCONAME="YGPL_MT_CX" LANGU="E">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="MultyThread : Root exception class"/>
+      </TEXTS>
+     </ITEM>
+    </EXCEPTIONS>
+    <SOURCE>`
+  o_engine-&gt;start_threads( ) .</SOURCE>
+   </ITEM>
+   <ITEM CMPNAME="START_THREADS_DEBUG" EXPOSURE="2" STATE="1" MTDNEWEXC="X">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Start threads automaticly"/>
+    </TEXTS>
+    <EXCEPTIONS>
+     <ITEM SCONAME="YGPL_MT_CX" LANGU="E">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="MultyThread : Root exception class"/>
+      </TEXTS>
+     </ITEM>
+    </EXCEPTIONS>
+    <SOURCE>`
+  o_engine-&gt;job_monitoring-&gt;debug = abap_true.
+  o_engine-&gt;set_task_classname( &apos;YGPL_MT_MY_TASK&apos; ).
+  o_engine-&gt;start_threads( ) .</SOURCE>
+   </ITEM>
+   <ITEM CMPNAME="START_THREADS_GENERIC" EXPOSURE="2" STATE="1" MTDNEWEXC="X">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Start threads automaticly"/>
+    </TEXTS>
+    <EXCEPTIONS>
+     <ITEM SCONAME="YGPL_MT_CX" LANGU="E">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="MultyThread : Root exception class"/>
+      </TEXTS>
+     </ITEM>
+    </EXCEPTIONS>
+    <SOURCE>`
+  o_engine-&gt;set_task_classname( &apos;YGPL_MT_MY_TASK&apos; ).
+  o_engine-&gt;start_threads( ) .</SOURCE>
+   </ITEM>
+   <ITEM CMPNAME="SUBMIT_NEW_THREAD" STATE="1" MTDTYPE="1" REFCLSNAME="YGPLIMT_RUN" REFCMPNAME="SUBMIT_THREAD">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Create new thread"/>
+    </TEXTS>
+    <PARAMETERS>
+     <ITEM SCONAME="JOBCOUNT" CMPTYPE="1" MTDTYPE="1" PARPASSTYP="1" TYPTYPE="1" TYPE="TD_JOBID"/>
+     <ITEM SCONAME="JOBNAME" CMPTYPE="1" MTDTYPE="1" PARPASSTYP="1" TYPTYPE="1" TYPE="TD_JOBNAME"/>
+     <ITEM SCONAME="THREAD_NUMBER" CMPTYPE="1" MTDTYPE="1" PARPASSTYP="1" TYPTYPE="1" TYPE="TD_COUNT"/>
+    </PARAMETERS>
+    <SOURCE>`
+  SUBMIT ygpl_mt_tutorial
+    WITH run_id = o_engine-&gt;process_id
+*    WITH wait_t = wait_t
+*    WITH obj_c = obj_c
+*    WITH mem_size = mem_size
+    VIA JOB jobname NUMBER jobcount
+    AND RETURN.
+  ASSERT sy-subrc = 0.</SOURCE>
+   </ITEM>
+   <ITEM CMPNAME="WAIT_PROGRESS" EXPOSURE="2" STATE="1" MTDNEWEXC="X">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Wait Thread progressing"/>
+    </TEXTS>
+    <EXCEPTIONS>
+     <ITEM SCONAME="YGPL_MT_CX" LANGU="E">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="MultyThread : Root exception class"/>
+      </TEXTS>
+     </ITEM>
+    </EXCEPTIONS>
+    <SOURCE>`
+  o_engine-&gt;wait_progress( ).</SOURCE>
+   </ITEM>
+  </METHODS>
+ </RAW>
+</ZL_OBJECT>

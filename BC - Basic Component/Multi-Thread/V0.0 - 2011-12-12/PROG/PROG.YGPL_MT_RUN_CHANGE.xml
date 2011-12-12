@@ -1,0 +1,443 @@
+<?xml version="1.0" encoding="utf-16"?>
+<ZL_OBJECT CHECKSUM="35A34640D54EB21F214EA423FE5909FA" CODE_SIGNATURE="1D4F15AFBF13B263475D3B2FC270D333" CONNECTOR="AAAD0A4B07A5A05AE1000000AC120173" NAME="YGPL_MT_RUN_CHANGE" TYPE="PROG" VERSION="1.0">
+ <DIRECTORY DEVCLASS="YGPL-MULTITHREAD" MASTERLANG="E"/>
+ <RAW>
+  <A0_MAINDATA VARCL="X" SUBC="1" RMAND="060" RLOAD="E" FIXPT="X" UCCHECK="X"/>
+  <SOURCE>`
+*---------------------------------------------------------------------*
+* Report  YGPL_MT_TUTORIAL
+*---------------------------------------------------------------------*
+**********************************************************************
+* Author : Al&apos;oustad Taryck BENSIALI (taryck.bensiali@gmail.com)     *
+* Date : 2008 December                                               *
+**********************************************************************
+
+REPORT  ygpl_mt_run_change.
+
+TABLES: ygpl_mt_workprocess_infos.
+
+PARAMETER m_run TYPE c RADIOBUTTON GROUP r3 DEFAULT &apos;X&apos;.
+PARAMETER m_task TYPE c RADIOBUTTON GROUP r3.
+PARAMETERS :
+  run_id    TYPE ygpl_mt_typespool=&gt;td_process_id OBLIGATORY,
+  p_stop    TYPE ygpl_mt_typespool=&gt;td_boolean AS CHECKBOX.
+
+SELECTION-SCREEN BEGIN OF TABBED BLOCK tabb FOR 40 LINES.
+SELECTION-SCREEN TAB (17) text-trj USER-COMMAND tb_jobs DEFAULT SCREEN 110.
+SELECTION-SCREEN TAB (17) text-tro USER-COMMAND tb_objs DEFAULT SCREEN 120.
+SELECTION-SCREEN TAB (17) text-tms USER-COMMAND tb_msgs DEFAULT SCREEN 130.
+SELECTION-SCREEN END OF BLOCK tabb.
+
+SELECTION-SCREEN BEGIN OF SCREEN 110 AS SUBSCREEN.
+*SELECTION-SCREEN BEGIN OF BLOCK jobs WITH FRAME TITLE .
+PARAMETERS:
+  thread TYPE ygpl_mt_typespool=&gt;td_count DEFAULT 2 OBLIGATORY.
+SELECT-OPTIONS:
+  s_server FOR ygpl_mt_workprocess_infos-wp_server.   &quot; ygpl_mt_typespool=&gt;ts_wp_info-wp_server.
+PARAMETERS:
+  p_job_p TYPE ygpl_mt_typespool=&gt;td_priority.
+*SELECTION-SCREEN END OF BLOCK jobs.
+SELECTION-SCREEN END OF SCREEN 110.
+
+SELECTION-SCREEN BEGIN OF SCREEN 120 AS SUBSCREEN.
+*SELECTION-SCREEN BEGIN OF BLOCK objs WITH FRAME TITLE .
+PARAMETERS :
+  p_b_rate TYPE ygpl_mt_typespool=&gt;td_batch_rate,
+  bloc_s   TYPE ygpl_mt_typespool=&gt;td_count DEFAULT 10 OBLIGATORY,
+  max_size TYPE ygpl_mt_typespool=&gt;td_count,
+  mem_size TYPE ygpl_mt_typespool=&gt;td_memory_size DEFAULT 0.
+*SELECTION-SCREEN END OF BLOCK objs.
+SELECTION-SCREEN END OF SCREEN 120.
+
+SELECTION-SCREEN BEGIN OF SCREEN 130 AS SUBSCREEN.
+*SELECTION-SCREEN BEGIN OF BLOCK msgs WITH FRAME TITLE .
+SELECTION-SCREEN BEGIN OF BLOCK msgt WITH FRAME TITLE text-mta.
+PARAMETERS :
+  lu_time  TYPE ygpl_mt_typespool=&gt;td_count DEFAULT 15 OBLIGATORY,
+  t_act    TYPE ygpl_mt_typespool=&gt;td_boolean AS CHECKBOX.
+SELECTION-SCREEN BEGIN OF BLOCK msgt_p WITH FRAME TITLE text-tmp.
+PARAMETERS :
+  tp_min TYPE ygpl_mt_typespool=&gt;td_progress,
+  tp_max TYPE ygpl_mt_typespool=&gt;td_progress.
+SELECTION-SCREEN END OF BLOCK msgt_p.
+SELECTION-SCREEN BEGIN OF BLOCK msgt_t WITH FRAME TITLE text-tmt.
+PARAMETERS :
+  tt_min TYPE ygpl_mt_typespool=&gt;td_time,
+  tt_max TYPE ygpl_mt_typespool=&gt;td_time.
+SELECTION-SCREEN END OF BLOCK msgt_t.
+SELECTION-SCREEN END OF BLOCK msgt.
+
+SELECTION-SCREEN BEGIN OF BLOCK msgr WITH FRAME TITLE text-mru.
+PARAMETERS :
+  r_act    TYPE ygpl_mt_typespool=&gt;td_boolean AS CHECKBOX.
+SELECTION-SCREEN BEGIN OF BLOCK msgr_p WITH FRAME TITLE text-tmp.
+PARAMETERS :
+  rp_min TYPE ygpl_mt_typespool=&gt;td_progress,
+  rp_max TYPE ygpl_mt_typespool=&gt;td_progress.
+SELECTION-SCREEN END OF BLOCK msgr_p.
+SELECTION-SCREEN BEGIN OF BLOCK msgr_t WITH FRAME TITLE text-tmt.
+PARAMETERS :
+  rt_min TYPE ygpl_mt_typespool=&gt;td_time,
+  rt_max TYPE ygpl_mt_typespool=&gt;td_time.
+SELECTION-SCREEN END OF BLOCK msgr_t.
+SELECTION-SCREEN END OF BLOCK msgr.
+*SELECTION-SCREEN END OF BLOCK msgs.
+SELECTION-SCREEN END OF SCREEN 130.
+*SELECTION-SCREEN BEGIN OF BLOCK jobs WITH FRAME TITLE text-trj.
+*PARAMETERS:
+*  thread TYPE ygpl_mt_typespool=&gt;td_thread_count DEFAULT 2 OBLIGATORY.
+*SELECT-OPTIONS:
+*  s_server FOR ygpl_mt_workprocess_infos-wp_server.   &quot; ygpl_mt_typespool=&gt;ts_wp_info-wp_server.
+*PARAMETERS:
+*  p_job_p TYPE ygpl_mt_typespool=&gt;td_priority.
+*SELECTION-SCREEN END OF BLOCK jobs.
+*
+*SELECTION-SCREEN BEGIN OF BLOCK objs WITH FRAME TITLE text-tro.
+*PARAMETERS :
+*  p_b_rate TYPE ygpl_mt_typespool=&gt;td_batch_rate,
+*  max_size TYPE ygpl_mt_typespool=&gt;td_count,
+*  min_time TYPE ygpl_mt_typespool=&gt;td_count,
+*  mem_size TYPE ygpl_mt_typespool=&gt;td_memory_size DEFAULT 0.
+*SELECTION-SCREEN END OF BLOCK objs.
+
+DATA o_run TYPE REF TO ygplimt_run.
+DATA o_task TYPE REF TO ygplimt_task.
+DATA o_process TYPE REF TO ygplimt_process_4mt.
+DATA o_cond TYPE REF TO ygplimt_runconditions_4run.
+
+*----------------------------------------------------------------------*
+*       CLASS lcl_DATA_HANDLER DEFINITION
+*----------------------------------------------------------------------*
+*
+*----------------------------------------------------------------------*
+CLASS lcl_data_handler DEFINITION.
+  PUBLIC SECTION.
+    INTERFACES ygplimt_data_bloc.
+ENDCLASS.                    &quot;lcl_DATA_HANDLER DEFINITION
+*----------------------------------------------------------------------*
+*       CLASS lcl_DATA_HANDLER IMPLEMENTATION
+*----------------------------------------------------------------------*
+*
+*----------------------------------------------------------------------*
+CLASS lcl_data_handler IMPLEMENTATION.
+
+ENDCLASS.                    &quot;lcl_DATA_HANDLER IMPLEMENTATION
+DATA o_data_handler TYPE REF TO lcl_data_handler.
+
+INITIALIZATION.
+  CREATE OBJECT o_data_handler.
+
+AT SELECTION-SCREEN ON run_id.
+  IF run_id IS INITIAL.
+    MESSAGE text-obl TYPE &apos;E&apos;.
+  ENDIF.
+
+AT SELECTION-SCREEN.
+  DATA s_limits     TYPE ygpl_mt_typespool=&gt;ts_limits.
+  CASE abap_true.
+    WHEN m_run.
+      IF NOT o_run IS BOUND OR NOT o_cond IS BOUND.
+        PERFORM load_run USING run_id.
+        o_process = o_run.
+        CLEAR run_id.
+      ELSE.
+        IF o_run-&gt;process_id &lt;&gt; run_id.
+          PERFORM load_task USING run_id.
+          o_process = o_task.
+          CLEAR run_id.
+        ENDIF.
+      ENDIF.
+      IF run_id &lt;&gt; o_process-&gt;process_id .
+        thread = o_cond-&gt;threads.
+        PERFORM get_limits IN PROGRAM ygpl_mt_routine_pool USING o_cond-&gt;global_progression
+                                                        CHANGING r_act rp_min rp_max rt_min rt_max.
+      ENDIF.
+    WHEN m_task.
+      IF NOT o_task IS BOUND OR NOT o_cond IS BOUND.
+        PERFORM load_task USING run_id.
+        o_process = o_task.
+        CLEAR run_id.
+      ELSE.
+        IF o_task-&gt;process_id &lt;&gt; run_id.
+          PERFORM load_task USING run_id.
+          o_process = o_task.
+          CLEAR run_id.
+        ENDIF.
+      ENDIF.
+  ENDCASE.
+  IF run_id &lt;&gt; o_process-&gt;process_id .
+    s_server[] = o_cond-&gt;servers.
+    p_job_p = o_cond-&gt;job_priority.
+    p_b_rate = o_cond-&gt;batch_rate.
+    mem_size = o_cond-&gt;maximum_memory.
+    max_size = o_cond-&gt;maximum_batch_size.
+    lu_time = o_cond-&gt;message_lookup_time.
+    run_id = o_process-&gt;process_id.
+    PERFORM get_limits IN PROGRAM ygpl_mt_routine_pool USING o_cond-&gt;progression
+                                                    CHANGING t_act tp_min tp_max tt_min tt_max.
+  ENDIF.
+  IF      o_cond-&gt;stop_requested = p_stop
+     AND  o_cond-&gt;threads = thread
+     AND  o_cond-&gt;servers = s_server[]
+     AND  o_cond-&gt;job_priority = p_job_p
+     AND  o_cond-&gt;batch_rate = p_b_rate
+     AND  o_cond-&gt;maximum_memory = mem_size
+     AND  o_cond-&gt;maximum_batch_size = max_size
+     AND  o_cond-&gt;message_lookup_time = lu_time.
+    MESSAGE &apos;No change&apos;(non) TYPE &apos;E&apos;.
+  ENDIF.
+
+START-OF-SELECTION.
+  DATA o_msg TYPE REF TO ygpl_mt_messaging.
+  o_cond-&gt;set_stop_requested( p_stop ).
+  o_cond-&gt;set_threads( thread ).
+  o_cond-&gt;set_servers( s_server[] ).
+  o_cond-&gt;set_job_priority( p_job_p ).
+  o_cond-&gt;set_batch_rate( p_b_rate ).
+  o_cond-&gt;set_maximum_memory( mem_size ).
+  o_cond-&gt;set_maximum_batch_size( max_size ).
+  o_cond-&gt;set_message_lookup_time( lu_time ).
+  o_msg ?= ygpl_mt_factories=&gt;get_messaging( o_process ).
+  o_msg-&gt;send_conditions( o_cond ).
+  WRITE:/ text-suc.
+*&amp;---------------------------------------------------------------------*
+*&amp;      Form  LOAD_RUN
+*&amp;---------------------------------------------------------------------*
+FORM load_run  USING    p_run_id TYPE ygpl_mt_task=&gt;td_process_id.
+  DATA o_cx TYPE REF TO ygpl_mt_cx.
+  DATA msg  TYPE string.
+  TRY.
+      CLEAR o_cond.
+      o_run ?= ygpl_mt_factories=&gt;get_run( p_run_id ).
+      o_run-&gt;check_status( ).
+      IF o_run-&gt;status &lt;&gt; o_run-&gt;system_status-process-started AND
+         o_run-&gt;status &lt;&gt; o_run-&gt;system_status-process-in_progress.
+        MESSAGE text-run TYPE &apos;E&apos;.
+      ENDIF.
+      o_cond ?= o_run-&gt;conditions.
+    CATCH ygpl_mt_cx_process INTO o_cx.
+      msg = o_cx-&gt;get_text( ).
+      MESSAGE msg TYPE &apos;E&apos;.
+  ENDTRY.
+ENDFORM.                    &quot; LOAD_RUN
+*&amp;---------------------------------------------------------------------*
+*&amp;      Form  load_task
+*&amp;---------------------------------------------------------------------*
+*       text
+*----------------------------------------------------------------------*
+*      --&gt;P_TASK_ID  text
+*----------------------------------------------------------------------*
+FORM load_task  USING    p_task_id TYPE ygpl_mt_task=&gt;td_process_id.
+  DATA o_cx TYPE REF TO ygpl_mt_cx.
+  DATA msg  TYPE string.
+  TRY.
+      CLEAR o_cond.
+      o_task ?= ygpl_mt_factories=&gt;get_task( id = p_task_id
+                                 o_data_handler = o_data_handler ).
+      o_task-&gt;check_status( ).
+      IF o_task-&gt;status &lt;&gt; o_task-&gt;system_status-process-started AND
+         o_task-&gt;status &lt;&gt; o_task-&gt;system_status-process-in_progress.
+        MESSAGE text-run TYPE &apos;E&apos;.
+      ENDIF.
+      o_cond ?= o_task-&gt;conditions.
+    CATCH ygpl_mt_cx_process INTO o_cx.
+      msg = o_cx-&gt;get_text( ).
+      MESSAGE msg TYPE &apos;E&apos;.
+  ENDTRY.
+ENDFORM.                    &quot; LOAD_RUN</SOURCE>
+  <TEXTSPOOL>
+   <ITEM ID="I" KEY="MRU">
+    <TEXTS>
+     <ITEM LANGU="E" ENTRY="Progression :" LENGTH="60 "/>
+    </TEXTS>
+   </ITEM>
+   <ITEM ID="I" KEY="MTA">
+    <TEXTS>
+     <ITEM LANGU="E" ENTRY="For tasks :" LENGTH="60 "/>
+    </TEXTS>
+   </ITEM>
+   <ITEM ID="I" KEY="NON">
+    <TEXTS>
+     <ITEM LANGU="E" ENTRY="No change" LENGTH="20 "/>
+    </TEXTS>
+   </ITEM>
+   <ITEM ID="I" KEY="OBL">
+    <TEXTS>
+     <ITEM LANGU="E" ENTRY="Field Mandatory" LENGTH="15 "/>
+    </TEXTS>
+   </ITEM>
+   <ITEM ID="I" KEY="RUN">
+    <TEXTS>
+     <ITEM LANGU="E" ENTRY="Run is not running" LENGTH="18 "/>
+    </TEXTS>
+   </ITEM>
+   <ITEM ID="I" KEY="SUC">
+    <TEXTS>
+     <ITEM LANGU="E" ENTRY="New conditions send to Run." LENGTH="60 "/>
+    </TEXTS>
+   </ITEM>
+   <ITEM ID="I" KEY="TLP">
+    <TEXTS>
+     <ITEM LANGU="E" ENTRY="Load simulation parameters :" LENGTH="40 "/>
+    </TEXTS>
+   </ITEM>
+   <ITEM ID="I" KEY="TMP">
+    <TEXTS>
+     <ITEM LANGU="E" ENTRY="Progression (%) limits :" LENGTH="60 "/>
+    </TEXTS>
+   </ITEM>
+   <ITEM ID="I" KEY="TMS">
+    <TEXTS>
+     <ITEM LANGU="E" ENTRY="Communications :" LENGTH="60 "/>
+    </TEXTS>
+   </ITEM>
+   <ITEM ID="I" KEY="TMT">
+    <TEXTS>
+     <ITEM LANGU="E" ENTRY="Time (seconds) limits :" LENGTH="60 "/>
+    </TEXTS>
+   </ITEM>
+   <ITEM ID="I" KEY="TRJ">
+    <TEXTS>
+     <ITEM LANGU="E" ENTRY="Jobs definitions :" LENGTH="18 "/>
+    </TEXTS>
+   </ITEM>
+   <ITEM ID="I" KEY="TRM">
+    <TEXTS>
+     <ITEM LANGU="E" ENTRY="Run mode : Generic, specific or manual (allow debug)" LENGTH="60 "/>
+    </TEXTS>
+   </ITEM>
+   <ITEM ID="I" KEY="TRO">
+    <TEXTS>
+     <ITEM LANGU="E" ENTRY="Object Blocs definitions" LENGTH="60 "/>
+    </TEXTS>
+   </ITEM>
+   <ITEM ID="R">
+    <TEXTS>
+     <ITEM LANGU="E" ENTRY="MT Tutorial : Change Run" LENGTH="24 "/>
+     <ITEM LANGU="F" ENTRY="MT tutorial (test obj *_MT_TEMPLATE) - Traitement" LENGTH="49 "/>
+    </TEXTS>
+   </ITEM>
+   <ITEM ID="S" KEY="BLOC_S">
+    <TEXTS>
+     <ITEM LANGU="E" ENTRY="        Size of standard bloc" LENGTH="29 "/>
+    </TEXTS>
+   </ITEM>
+   <ITEM ID="S" KEY="LU_TIME">
+    <TEXTS>
+     <ITEM LANGU="E" ENTRY="        Msg Lookup Interval in seconds" LENGTH="38 "/>
+    </TEXTS>
+   </ITEM>
+   <ITEM ID="S" KEY="MAX_SIZE">
+    <TEXTS>
+     <ITEM LANGU="E" ENTRY="        Requested maximum batch size" LENGTH="36 "/>
+    </TEXTS>
+   </ITEM>
+   <ITEM ID="S" KEY="MEM_SIZE">
+    <TEXTS>
+     <ITEM LANGU="E" ENTRY="        Requested maximum memory size" LENGTH="37 "/>
+    </TEXTS>
+   </ITEM>
+   <ITEM ID="S" KEY="M_RUN">
+    <TEXTS>
+     <ITEM LANGU="E" ENTRY="        Run" LENGTH="11 "/>
+    </TEXTS>
+   </ITEM>
+   <ITEM ID="S" KEY="M_TASK">
+    <TEXTS>
+     <ITEM LANGU="E" ENTRY="        Task" LENGTH="12 "/>
+    </TEXTS>
+   </ITEM>
+   <ITEM ID="S" KEY="OBJ_C">
+    <TEXTS>
+     <ITEM LANGU="F" ENTRY="        Nb d&apos;objet par temps d&apos;attente" LENGTH="38 "/>
+    </TEXTS>
+   </ITEM>
+   <ITEM ID="S" KEY="P_B_RATE">
+    <TEXTS>
+     <ITEM LANGU="E" ENTRY="        Batch Rate" LENGTH="18 "/>
+    </TEXTS>
+   </ITEM>
+   <ITEM ID="S" KEY="P_JOB_P">
+    <TEXTS>
+     <ITEM LANGU="E" ENTRY="        Job class" LENGTH="17 "/>
+    </TEXTS>
+   </ITEM>
+   <ITEM ID="S" KEY="P_STOP">
+    <TEXTS>
+     <ITEM LANGU="E" ENTRY="        Request run to stop" LENGTH="27 "/>
+    </TEXTS>
+   </ITEM>
+   <ITEM ID="S" KEY="RP_MAX">
+    <TEXTS>
+     <ITEM LANGU="E" ENTRY="        Maximum Progress. between 2msg" LENGTH="38 "/>
+    </TEXTS>
+   </ITEM>
+   <ITEM ID="S" KEY="RP_MIN">
+    <TEXTS>
+     <ITEM LANGU="E" ENTRY="        Miximum Progress. between 2msg" LENGTH="38 "/>
+    </TEXTS>
+   </ITEM>
+   <ITEM ID="S" KEY="RT_MAX">
+    <TEXTS>
+     <ITEM LANGU="E" ENTRY="        Maximum Time between 2 msgs" LENGTH="35 "/>
+    </TEXTS>
+   </ITEM>
+   <ITEM ID="S" KEY="RT_MIN">
+    <TEXTS>
+     <ITEM LANGU="E" ENTRY="        Miximum Time between 2 msgs" LENGTH="35 "/>
+    </TEXTS>
+   </ITEM>
+   <ITEM ID="S" KEY="RUN_ID">
+    <TEXTS>
+     <ITEM LANGU="E" ENTRY="        Process ID (Run / Task)" LENGTH="31 "/>
+     <ITEM LANGU="F" ENTRY="D       ." LENGTH="9 "/>
+    </TEXTS>
+   </ITEM>
+   <ITEM ID="S" KEY="R_ACT">
+    <TEXTS>
+     <ITEM LANGU="E" ENTRY="        Progression messages active ?" LENGTH="37 "/>
+    </TEXTS>
+   </ITEM>
+   <ITEM ID="S" KEY="S_SERVER">
+    <TEXTS>
+     <ITEM LANGU="E" ENTRY="        Server Name" LENGTH="19 "/>
+    </TEXTS>
+   </ITEM>
+   <ITEM ID="S" KEY="THREAD">
+    <TEXTS>
+     <ITEM LANGU="E" ENTRY="        Number of threads" LENGTH="25 "/>
+    </TEXTS>
+   </ITEM>
+   <ITEM ID="S" KEY="TP_MAX">
+    <TEXTS>
+     <ITEM LANGU="E" ENTRY="        Maximum Progress. between 2msg" LENGTH="38 "/>
+    </TEXTS>
+   </ITEM>
+   <ITEM ID="S" KEY="TP_MIN">
+    <TEXTS>
+     <ITEM LANGU="E" ENTRY="        Miximum Progress. between 2msg" LENGTH="38 "/>
+    </TEXTS>
+   </ITEM>
+   <ITEM ID="S" KEY="TT_MAX">
+    <TEXTS>
+     <ITEM LANGU="E" ENTRY="        Maximum Time between 2 msgs" LENGTH="35 "/>
+    </TEXTS>
+   </ITEM>
+   <ITEM ID="S" KEY="TT_MIN">
+    <TEXTS>
+     <ITEM LANGU="E" ENTRY="        Miximum Time between 2 msgs" LENGTH="35 "/>
+    </TEXTS>
+   </ITEM>
+   <ITEM ID="S" KEY="T_ACT">
+    <TEXTS>
+     <ITEM LANGU="E" ENTRY="        Progression messages active ?" LENGTH="37 "/>
+    </TEXTS>
+   </ITEM>
+   <ITEM ID="S" KEY="WAIT_T">
+    <TEXTS>
+     <ITEM LANGU="F" ENTRY="        Temps d&apos;attente en S pour nb O" LENGTH="38 "/>
+    </TEXTS>
+   </ITEM>
+  </TEXTSPOOL>
+ </RAW>
+</ZL_OBJECT>

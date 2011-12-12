@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-16"?>
+<ZL_OBJECT CHECKSUM="58FF49E721E4C9AE72FA74339D10480D" CODE_SIGNATURE="9CE7576DB823283F1B368508E0838499" CONNECTOR="AAAD0A4B07A5A05AE1000000AC120173" NAME="YGPL_MT_GENERIC_TASK_LAUNCHER" TYPE="PROG" VERSION="1.0">
+ <DIRECTORY DEVCLASS="YGPL-MULTITHREAD" MASTERLANG="E"/>
+ <RAW>
+  <A0_MAINDATA VARCL="X" SUBC="1" APPL="S" RSTAT="K" RMAND="200" RLOAD="E" FIXPT="X" UCCHECK="X"/>
+  <SOURCE>`
+*---------------------------------------------------------------------*
+* Report  YGPL_MT_GENERIC_TASK_LAUNCHER
+*---------------------------------------------------------------------*
+
+REPORT  ygpl_mt_generic_task_launcher.
+
+PARAMETERS:
+  p_class TYPE seoclsname OBLIGATORY,
+  p_runid TYPE ygpl_mt_run=&gt;td_process_id.
+
+START-OF-SELECTION.
+  DATA o_cx             TYPE REF TO cx_root.
+  DATA err_msg          TYPE string.
+  DATA o_handler        TYPE REF TO ygpl_mt_data_bloc.
+
+*  TRY.
+  CREATE OBJECT o_handler.
+  o_handler-&gt;create_task_and_handler( handler_classname = p_class
+                                                 run_id = p_runid ).
+*    CATCH ygpl_mt_cx INTO o_cx.
+*      err_msg = o_cx-&gt;get_longtext( ).
+*      WRITE err_msg.
+*      MESSAGE err_msg TYPE &apos;E&apos;.
+*    CATCH cx_root INTO o_cx.
+*      err_msg = o_cx-&gt;get_longtext( ).
+*      WRITE err_msg.
+*      MESSAGE err_msg TYPE &apos;A&apos;.
+*  ENDTRY.
+
+  o_handler-&gt;task-&gt;process_objects( ).
+
+  o_handler-&gt;task-&gt;set_status_as_finished( ).
+
+END-OF-SELECTION.</SOURCE>
+  <TEXTSPOOL>
+   <ITEM ID="R">
+    <TEXTS>
+     <ITEM LANGU="E" ENTRY="Generic Taks launcher" LENGTH="21 "/>
+    </TEXTS>
+   </ITEM>
+   <ITEM ID="S" KEY="P_CLASS">
+    <TEXTS>
+     <ITEM LANGU="E" ENTRY="        Task Class Name" LENGTH="23 "/>
+    </TEXTS>
+   </ITEM>
+   <ITEM ID="S" KEY="P_RUNID">
+    <TEXTS>
+     <ITEM LANGU="E" ENTRY="        Task&apos;s Parant : Run ID" LENGTH="30 "/>
+    </TEXTS>
+   </ITEM>
+  </TEXTSPOOL>
+ </RAW>
+</ZL_OBJECT>

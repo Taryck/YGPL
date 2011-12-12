@@ -1,0 +1,2058 @@
+<?xml version="1.0" encoding="utf-16"?>
+<ZL_OBJECT CHECKSUM="AFA19DB79936DAF1A01FA547BE8DF736" CODE_SIGNATURE="BA2A72B0DF3518FB0C89A451A2FE7C16" CONNECTOR="39AC0A4B07A5A05AE1000000AC120173" NAME="YGPL_MT_OBJECTS" TYPE="CLAS" VERSION="1.01">
+ <DEPENDENCIES>
+  <ITEM TYPE="CLAS" NAME="YGPL_MT_RUN"/>
+ </DEPENDENCIES>
+ <DIRECTORY DEVCLASS="YGPL-MULTITHREAD" MASTERLANG="E"/>
+ <RAW>
+  <A0_MAINDATA VERSION="1" LANGU="E" EXPOSURE="2" STATE="1" CLSCCINCL="X" FIXPT="X" UNICODE="X" MSG_ID="YGPL_MT">
+   <TEXTS>
+    <ITEM LANG="E" TEXT="Object store engine"/>
+   </TEXTS>
+  </A0_MAINDATA>
+  <ALIASES>
+   <ITEM CMPNAME="ADD_OBJECTS" EXPOSURE="2" CMPTYPE="1" REFCLSNAME="YGPLIMT_OBJECTS_LOADING" REFCMPNAME="ADD_OBJECTS"/>
+   <ITEM CMPNAME="CONFIRM_BATCH" EXPOSURE="2" CMPTYPE="1" REFCLSNAME="YGPLIMT_OBJECTS_CONSUMING" REFCMPNAME="CONFIRM_BATCH"/>
+   <ITEM CMPNAME="CONFIRM_OBJECTS" EXPOSURE="2" CMPTYPE="1" REFCLSNAME="YGPLIMT_OBJECTS_CONSUMING" REFCMPNAME="CONFIRM_OBJECTS"/>
+   <ITEM CMPNAME="DELETE_ALL" EXPOSURE="2" CMPTYPE="1" REFCLSNAME="YGPLIMT_OBJECTS_DELETING" REFCMPNAME="DELETE_ALL"/>
+   <ITEM CMPNAME="DELETE_PROCESS" EXPOSURE="2" CMPTYPE="1" REFCLSNAME="YGPLIMT_OBJECTS_DELETING" REFCMPNAME="DELETE_PROCESS"/>
+   <ITEM CMPNAME="GET_BATCH" EXPOSURE="2" CMPTYPE="1" REFCLSNAME="YGPLIMT_OBJECTS_CONSUMING" REFCMPNAME="GET_BATCH"/>
+   <ITEM CMPNAME="GET_OBJECTS_TO_RECOVER" EXPOSURE="2" CMPTYPE="1" REFCLSNAME="YGPLIMT_OBJECTS_CONSUMING" REFCMPNAME="GET_OBJECTS_TO_RECOVER"/>
+   <ITEM CMPNAME="GLOBAL_STATUS" EXPOSURE="2" REFCLSNAME="YGPLIMT_OBJECTS_CONSUMING" REFCMPNAME="GLOBAL_STATUS"/>
+   <ITEM CMPNAME="HAS_DONE_OBJECTS" EXPOSURE="2" CMPTYPE="1" REFCLSNAME="YGPLIMT_OBJECTS_CONSUMING" REFCMPNAME="HAS_DONE_OBJECTS"/>
+   <ITEM CMPNAME="HAS_OBJECTS_TO_RECOVER" EXPOSURE="2" CMPTYPE="1" REFCLSNAME="YGPLIMT_OBJECTS_CONSUMING" REFCMPNAME="HAS_OBJECTS_TO_RECOVER"/>
+   <ITEM CMPNAME="LOCK_MODES" EXPOSURE="2" REFCLSNAME="YGPL_MT_CONSTANTS" REFCMPNAME="LOCK_MODES"/>
+   <ITEM CMPNAME="OBJECTS_ALREADY_DONE" EXPOSURE="2" CMPTYPE="1" REFCLSNAME="YGPLIMT_OBJECTS_CONSUMING" REFCMPNAME="OBJECTS_ALREADY_DONE"/>
+   <ITEM CMPNAME="OBJECTS_CONFIRMED" EXPOSURE="2" CMPTYPE="2" REFCLSNAME="YGPLIMT_OBJECTS_LOADING" REFCMPNAME="OBJECTS_CONFIRMED"/>
+   <ITEM CMPNAME="O_START_CONDITIONS" EXPOSURE="2" REFCLSNAME="YGPLIMT_OBJECTS_LOADING" REFCMPNAME="CONDITIONS"/>
+   <ITEM CMPNAME="O_TASK_CONDITIONS" EXPOSURE="2" REFCLSNAME="YGPLIMT_OBJECTS_CONSUMING" REFCMPNAME="CONDITIONS"/>
+   <ITEM CMPNAME="PROCESSED_OBJECTS" EXPOSURE="2" REFCLSNAME="YGPLIMT_OBJECTS_CONSUMING" REFCMPNAME="PROCESSED_OBJECTS"/>
+   <ITEM CMPNAME="REFRESH_START_TIME" EXPOSURE="2" CMPTYPE="1" REFCLSNAME="YGPLIMT_OBJECTS_LOADING" REFCMPNAME="REFRESH_START_TIME"/>
+   <ITEM CMPNAME="SCOPE_MODES" EXPOSURE="2" REFCLSNAME="YGPL_MT_CONSTANTS" REFCMPNAME="SCOPE_MODES"/>
+   <ITEM CMPNAME="SYSTEM_CATEGORIES" EXPOSURE="2" REFCLSNAME="YGPL_MT_CONSTANTS" REFCMPNAME="SYSTEM_CATEGORIES"/>
+   <ITEM CMPNAME="SYSTEM_STATUS" EXPOSURE="2" REFCLSNAME="YGPL_MT_CONSTANTS" REFCMPNAME="SYSTEM_STATUS"/>
+   <ITEM CMPNAME="TD_BLOC_ID" EXPOSURE="2" CMPTYPE="3" REFCLSNAME="YGPL_MT_TYPESPOOL" REFCMPNAME="TD_BLOC_ID"/>
+   <ITEM CMPNAME="TD_BLOC_SIZE" EXPOSURE="2" CMPTYPE="3" REFCLSNAME="YGPL_MT_TYPESPOOL" REFCMPNAME="TD_BLOC_SIZE"/>
+   <ITEM CMPNAME="TD_BLOC_STATUS" EXPOSURE="2" CMPTYPE="3" REFCLSNAME="YGPL_MT_TYPESPOOL" REFCMPNAME="TD_BLOC_STATUS"/>
+   <ITEM CMPNAME="TD_BOOLEAN" EXPOSURE="2" CMPTYPE="3" REFCLSNAME="YGPL_MT_TYPESPOOL" REFCMPNAME="TD_BOOLEAN"/>
+   <ITEM CMPNAME="TD_CATEGORY" EXPOSURE="2" CMPTYPE="3" REFCLSNAME="YGPL_MT_TYPESPOOL" REFCMPNAME="TD_CATEGORY"/>
+   <ITEM CMPNAME="TD_COUNT" EXPOSURE="2" CMPTYPE="3" REFCLSNAME="YGPL_MT_TYPESPOOL" REFCMPNAME="TD_COUNT"/>
+   <ITEM CMPNAME="TD_DB_TABLE_KEY" EXPOSURE="2" CMPTYPE="3" REFCLSNAME="YGPL_MT_TYPESPOOL" REFCMPNAME="TD_DB_TABLE_KEY"/>
+   <ITEM CMPNAME="TD_DB_TABLE_NAME" EXPOSURE="2" CMPTYPE="3" REFCLSNAME="YGPL_MT_TYPESPOOL" REFCMPNAME="TD_DB_TABLE_NAME"/>
+   <ITEM CMPNAME="TD_FN" EXPOSURE="2" CMPTYPE="3" REFCLSNAME="YGPL_MT_TYPESPOOL" REFCMPNAME="TD_FN"/>
+   <ITEM CMPNAME="TD_LOCK_MODE" EXPOSURE="2" CMPTYPE="3" REFCLSNAME="YGPL_MT_TYPESPOOL" REFCMPNAME="TD_LOCK_MODE"/>
+   <ITEM CMPNAME="TD_MEMORY_SIZE" EXPOSURE="2" CMPTYPE="3" REFCLSNAME="YGPL_MT_TYPESPOOL" REFCMPNAME="TD_MEMORY_SIZE"/>
+   <ITEM CMPNAME="TD_NUM_KEY" EXPOSURE="2" CMPTYPE="3" REFCLSNAME="YGPL_MT_TYPESPOOL" REFCMPNAME="TD_NUM_KEY"/>
+   <ITEM CMPNAME="TD_PROCESS_ID" EXPOSURE="2" CMPTYPE="3" REFCLSNAME="YGPL_MT_TYPESPOOL" REFCMPNAME="TD_PROCESS_ID"/>
+   <ITEM CMPNAME="TD_TIME" EXPOSURE="2" CMPTYPE="3" REFCLSNAME="YGPL_MT_TYPESPOOL" REFCMPNAME="TD_TIME"/>
+   <ITEM CMPNAME="TD_USER_STATUS" EXPOSURE="2" CMPTYPE="3" REFCLSNAME="YGPL_MT_TYPESPOOL" REFCMPNAME="TD_USER_STATUS"/>
+   <ITEM CMPNAME="TI_CONDITIONS" EXPOSURE="2" CMPTYPE="3" REFCLSNAME="YGPL_MT_INTERFACES" REFCMPNAME="TI_FULL_CONDITIONS"/>
+   <ITEM CMPNAME="TI_MESSAGING" EXPOSURE="2" CMPTYPE="3" REFCLSNAME="YGPL_MT_INTERFACES" REFCMPNAME="TI_MESSAGING"/>
+   <ITEM CMPNAME="TI_PARENT" EXPOSURE="2" CMPTYPE="3" REFCLSNAME="YGPL_MT_INTERFACES" REFCMPNAME="TI_PARENT"/>
+   <ITEM CMPNAME="TI_TASK_CONDITIONS" EXPOSURE="2" CMPTYPE="3" REFCLSNAME="YGPL_MT_INTERFACES" REFCMPNAME="TI_TASK_CONDITIONS"/>
+   <ITEM CMPNAME="TOTAL_BLOCS_COUNT" EXPOSURE="2" REFCLSNAME="YGPLIMT_OBJECTS_CONSUMING" REFCMPNAME="TOTAL_BLOCS_COUNT"/>
+   <ITEM CMPNAME="TOTAL_OBJECTS" EXPOSURE="2" REFCLSNAME="YGPLIMT_OBJECTS_CONSUMING" REFCMPNAME="TOTAL_OBJECTS"/>
+   <ITEM CMPNAME="TS_CHRONO" EXPOSURE="2" CMPTYPE="3" REFCLSNAME="YGPL_MT_TYPESPOOL" REFCMPNAME="TS_CHRONO"/>
+   <ITEM CMPNAME="TS_LIMITS" EXPOSURE="2" CMPTYPE="3" REFCLSNAME="YGPL_MT_TYPESPOOL" REFCMPNAME="TS_LIMITS"/>
+   <ITEM CMPNAME="TS_RUN" EXPOSURE="2" CMPTYPE="3" REFCLSNAME="YGPL_MT_TYPESPOOL" REFCMPNAME="TS_RUN"/>
+   <ITEM CMPNAME="TT_BLOCS_NFO" EXPOSURE="2" CMPTYPE="3" REFCLSNAME="YGPL_MT_TYPESPOOL" REFCMPNAME="TT_BLOCS_NFO"/>
+   <ITEM CMPNAME="TT_DEPENDENCIES" EXPOSURE="2" CMPTYPE="3" REFCLSNAME="YGPL_MT_TYPESPOOL" REFCMPNAME="TT_DEPENDENCIES"/>
+   <ITEM CMPNAME="TT_LINES_NFO" EXPOSURE="2" CMPTYPE="3" REFCLSNAME="YGPL_MT_TYPESPOOL" REFCMPNAME="TT_LINES_NFO"/>
+   <ITEM CMPNAME="TT_STATUS_LIST" EXPOSURE="2" CMPTYPE="3" REFCLSNAME="YGPL_MT_TYPESPOOL" REFCMPNAME="TT_STATUS_LIST"/>
+  </ALIASES>
+  <ATTRIBUTS>
+   <ITEM CMPNAME="BATCH_OBJECTS" STATE="1" TYPTYPE="1" TYPE="TD_COUNT">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Number of objects for the batch"/>
+    </TEXTS>
+   </ITEM>
+   <ITEM CMPNAME="BATCH_RATE" STATE="1" ATTDECLTYP="2" ATTVALUE="&apos;5&apos;" TYPTYPE="4">
+    batch_rate TYPE p LENGTH 3 DECIMALS 2
+`
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Rate of Batch load (0%&lt;R&lt;100%) recommended (25&lt;R&lt;75)"/>
+    </TEXTS>
+   </ITEM>
+   <ITEM CMPNAME="CONFIRMED_OBJECTS" STATE="1" TYPTYPE="1" TYPE="TD_COUNT">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Number of object confirmed"/>
+    </TEXTS>
+   </ITEM>
+   <ITEM CMPNAME="CURRENT_BLOCS" STATE="1" TYPTYPE="1" TYPE="TT_BLOCS">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Set of bloc ID"/>
+    </TEXTS>
+   </ITEM>
+   <ITEM CMPNAME="ESTIMATED_END_TIME" EXPOSURE="2" STATE="1" TYPTYPE="1" TYPE="TD_TIME">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Extimated time after all objects processed to end program"/>
+    </TEXTS>
+   </ITEM>
+   <ITEM CMPNAME="F_SEMAPHORE" STATE="1" TYPTYPE="1" TYPE="TD_BOOLEAN">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Semaphore is set"/>
+    </TEXTS>
+   </ITEM>
+   <ITEM CMPNAME="LAST_MESSAGE" STATE="1" TYPTYPE="4">
+    BEGIN OF last_message,
+      progress TYPE td_progress,
+      time     TYPE timestampl,
+    END OF last_message
+`
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Progresion and time of the last message send/recieved"/>
+    </TEXTS>
+   </ITEM>
+   <ITEM CMPNAME="MY_KEY" STATE="1" TYPTYPE="1" TYPE="TD_DB_TABLE_KEY">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Table Key value"/>
+    </TEXTS>
+   </ITEM>
+   <ITEM CMPNAME="MY_TABLE" STATE="1" ATTDECLTYP="2" ATTVALUE="&apos;YGPLMT_OBJECTS&apos;" TYPTYPE="1" TYPE="TD_DB_TABLE_NAME">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Table name of the main table used by this component"/>
+    </TEXTS>
+   </ITEM>
+   <ITEM CMPNAME="O_RUN" EXPOSURE="1" STATE="1" TYPTYPE="1" TYPE="TO_RUN">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="MT : Run Process"/>
+    </TEXTS>
+   </ITEM>
+   <ITEM CMPNAME="R_WEIGHT_TYPE_KIND" STATE="1" ATTDECLTYP="1" TYPTYPE="1" TYPE="TR_TYPE_KIND">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="ABAP Type Kind allowed for weight Field"/>
+    </TEXTS>
+   </ITEM>
+   <ITEM CMPNAME="STATUS_TO_SEND" STATE="1" TYPTYPE="1" TYPE="TT_STATUS_LIST">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Status information to send to parent"/>
+    </TEXTS>
+   </ITEM>
+   <ITEM CMPNAME="TASK_MINI_BLOCSIZE" STATE="1" TYPTYPE="1" TYPE="TD_COUNT">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Task mini bloc size"/>
+    </TEXTS>
+   </ITEM>
+   <ITEM CMPNAME="TIMES" EXPOSURE="1" STATE="1" TYPTYPE="1" TYPE="TS_CHRONO">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Timestamp"/>
+    </TEXTS>
+   </ITEM>
+  </ATTRIBUTS>
+  <DEFERRED>
+   <CLASSES>
+    <ITEM TYPEGROUP="YGPL_MT_RUN" TPUTYPE="1" EXPLICIT="X"/>
+   </CLASSES>
+  </DEFERRED>
+  <INTERFACES>
+   <ITEM REFCLSNAME="YGPLIMT_OBJECTS_CONSUMING" EXPOSURE="2" STATE="1" RELTYPE="1">
+    <COMPONENTS>
+     <ITEM MTDNAME="CONFIRM_BATCH">
+      <SOURCE>`
+  DATA _correction TYPE i.
+  FIELD-SYMBOLS :
+    &lt;wa_b&gt; LIKE LINE OF current_blocs.
+
+  ASSERT current_blocs IS NOT INITIAL.
+
+  display_speed( ).
+
+  IF NOT status_to_send IS INITIAL.
+    send_object_confirmation( ).
+  ENDIF.
+
+  IF batch_objects &lt;&gt; confirmed_objects.
+* External error all objects processed haven&apos;t get a status or too much
+    _correction = batch_objects - confirmed_objects. &quot; aurait du etre envoyé - réellement envoyé
+    send_correction( status = system_status-object-inconsistency
+                     count  = _correction ).
+    send_object_confirmation( ).
+  ENDIF.
+
+  LOOP AT current_blocs ASSIGNING &lt;wa_b&gt;.
+    UPDATE ygplmt_objects SET status = system_status-bloc-done
+      WHERE bloc_id = &lt;wa_b&gt;-bloc_id.
+    IF sy-subrc &lt;&gt; 0.
+      CLEAR &lt;wa_b&gt;.
+    ENDIF.
+    ASSERT sy-subrc = 0.
+  ENDLOOP.
+
+  COMMIT WORK AND WAIT.
+
+  DELETE current_blocs WHERE table_line IS INITIAL.
+  LOOP AT current_blocs ASSIGNING &lt;wa_b&gt;.
+    unlock_bloc( &lt;wa_b&gt;-bloc_id ).
+  ENDLOOP.
+
+  CLEAR current_blocs.</SOURCE>
+     </ITEM>
+     <ITEM MTDNAME="CONFIRM_OBJECTS">
+      <SOURCE>`
+  CHECK o_run-&gt;conditions-&gt;status-&gt;is_valid_status( status ) IS NOT INITIAL.
+  send_confirmation( count = count
+                    status = status ).</SOURCE>
+     </ITEM>
+     <ITEM MTDNAME="GET_BATCH">
+      <SOURCE>`
+  DATA maxrow     TYPE i.
+
+* Determine Maxrow
+  o_run-&gt;refresh_object_information( ).
+
+  maxrow = ( o_run-&gt;infos-obj_left / o_run-&gt;infos-objects * o_run-&gt;infos-blocs * batch_rate / 100 ) DIV o_run-&gt;infos-threads + 1.
+  IF maxrow &lt; 1. maxrow = 1. ENDIF.
+
+  get_blocs( EXPORTING maxrow  = maxrow
+                       status  = system_status-bloc-to_do
+             IMPORTING objects = objects ).</SOURCE>
+     </ITEM>
+     <ITEM MTDNAME="GET_OBJECTS_TO_RECOVER">
+      <SOURCE>`
+  get_blocs( EXPORTING status  = system_status-bloc-in_progress
+             IMPORTING objects = objects ).</SOURCE>
+     </ITEM>
+     <ITEM MTDNAME="HAS_DONE_OBJECTS">
+      <SOURCE>`
+  result = has_blocs( system_status-bloc-done ).</SOURCE>
+     </ITEM>
+     <ITEM MTDNAME="HAS_OBJECTS_TO_RECOVER">
+      <SOURCE>`
+  result = has_blocs( system_status-bloc-in_progress ).</SOURCE>
+     </ITEM>
+     <ITEM MTDNAME="OBJECTS_ALREADY_DONE">
+      <SOURCE>`
+  send_confirmation( count = count
+                    status = system_status-object-already_done ).</SOURCE>
+     </ITEM>
+     <ITEM MTDNAME="SET_CONDITIONS">
+      <SOURCE>`
+  ASSERT o_conditions IS BOUND.
+*  ygplimt_objects_loading~conditions ?= o_conditions.
+  ygplimt_objects_consuming~conditions = o_conditions.</SOURCE>
+     </ITEM>
+    </COMPONENTS>
+   </ITEM>
+   <ITEM REFCLSNAME="YGPLIMT_OBJECTS_DELETING" EXPOSURE="2" STATE="1" RELTYPE="1">
+    <COMPONENTS>
+     <ITEM MTDNAME="DELETE_ALL">
+      <SOURCE>`
+*  DELETE FROM ygplmt_OBJECTS.</SOURCE>
+     </ITEM>
+     <ITEM MTDNAME="DELETE_PROCESS">
+      <SOURCE>`
+  DATA _key TYPE td_process_id.
+  get_semaphore( ). &quot; #TO_DO
+* Locks released by the next Commit/Roll back
+
+  DELETE FROM ygplmt_objects WHERE run_id = o_run-&gt;process_id.
+  IF sy-subrc &lt;&gt; 0.
+    SELECT SINGLE run_id INTO _key
+      FROM ygplmt_objects
+      WHERE run_id = o_run-&gt;process_id.
+    IF sy-subrc = 0.
+      my_key = _key.
+      release_semaphore( ).
+      RAISE EXCEPTION TYPE ygpl_mt_cx_database
+            EXPORTING textid = ygpl_mt_cx_database=&gt;delete_failed
+                   tablename = my_table
+                   key_value = my_key.
+    ENDIF.
+  ENDIF.
+  release_semaphore( ).</SOURCE>
+     </ITEM>
+    </COMPONENTS>
+   </ITEM>
+   <ITEM REFCLSNAME="YGPLIMT_OBJECTS_LOADING" EXPOSURE="2" STATE="1" RELTYPE="1">
+    <COMPONENTS>
+     <ITEM MTDNAME="ADD_OBJECTS">
+      <SOURCE>`
+  DATA _bs      TYPE td_bloc_size.
+  DATA _count   TYPE i.
+
+* Check Objects
+  DESCRIBE TABLE objects LINES _count.
+  CHECK _count &gt;= 1.
+
+  ADD _count TO total_objects.
+
+* Check Bloc_Size
+  IF o_start_conditions-&gt;bloc_size &lt; 1.   o_start_conditions-&gt;set_bloc_size( 1 ).     ENDIF.
+
+  create_blocs( OBJECTS = OBJECTS
+              bloc_size = o_start_conditions-&gt;bloc_size
+              weight_fn = o_start_conditions-&gt;weight_fieldname
+           dependencies = dependencies ).</SOURCE>
+     </ITEM>
+     <ITEM MTDNAME="REFRESH_START_TIME">
+      <SOURCE>`
+  GET TIME STAMP FIELD times-start.</SOURCE>
+     </ITEM>
+     <ITEM MTDNAME="SET_CONDITIONS">
+      <SOURCE>`
+  ASSERT o_conditions IS BOUND.
+  ygplimt_objects_loading~conditions = o_conditions.
+*  ygplimt_objects_consuming~conditions = o_conditions.</SOURCE>
+     </ITEM>
+    </COMPONENTS>
+   </ITEM>
+   <ITEM REFCLSNAME="YGPL_MT_CONSTANTS" EXPOSURE="2" STATE="1" RELTYPE="1"/>
+   <ITEM REFCLSNAME="YGPL_MT_INTERFACES" EXPOSURE="2" STATE="1" RELTYPE="1"/>
+  </INTERFACES>
+  <LOCAL>
+   <TYPES>`
+*&quot;* use this source file for any type declarations (class
+*&quot;* definitions, interfaces or data types) you need for method
+*&quot;* implementation or private method&apos;s signature</TYPES>
+   <IMPLEMENTATIONS>`
+*&quot;* local class implementation for public class
+*&quot;* use this source file for the implementation part of
+*&quot;* local helper classes</IMPLEMENTATIONS>
+   <MACROS>`
+*&quot;* use this source file for any macro definitions you need
+*&quot;* in the implementation part of the class</MACROS>
+  </LOCAL>
+  <METHODS>
+   <ITEM CMPNAME="ADD_BLOC" STATE="1" MTDNEWEXC="X">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Add object bloc"/>
+    </TEXTS>
+    <PARAMETERS>
+     <ITEM SCONAME="BLOC_SIZE" CMPTYPE="1" PARPASSTYP="1" TYPTYPE="1" TYPE="TD_BLOC_SIZE" PARVALUE="-1" PAROPTIONL="X">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="Taille d&apos;un bloc (unité mini de traitement)"/>
+      </TEXTS>
+     </ITEM>
+     <ITEM SCONAME="OBJECTS" CMPTYPE="1" PARPASSTYP="1" TYPTYPE="1" TYPE="STANDARD TABLE">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="Liste d&apos;objet générique"/>
+      </TEXTS>
+     </ITEM>
+    </PARAMETERS>
+    <EXCEPTIONS>
+     <ITEM SCONAME="YGPL_MT_CX" LANGU="E">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="MultyThread : Root exception class"/>
+      </TEXTS>
+     </ITEM>
+    </EXCEPTIONS>
+    <SOURCE>`
+  DATA _bloc TYPE ygplmt_objects.
+
+  _bloc-bloc_id =  generate_bloc_id( ).
+  _bloc-run_id = o_run-&gt;process_id.
+  _bloc-status = system_status-bloc-to_do.
+  DESCRIBE TABLE objects LINES _bloc-nb.
+  IF bloc_size &lt;= 0.
+    _bloc-bloc_size = _bloc-nb.
+  ELSE.
+    _bloc-bloc_size = bloc_size.
+  ENDIF.
+  _bloc-mem_size = get_size( objects ).
+  _bloc-obj_data = encode_data( objects ).
+  IF sy-subrc = 0.
+    GET TIME STAMP FIELD _bloc-timestamp.
+    INSERT ygplmt_objects FROM _bloc.
+    ADD 1 TO total_blocs_count.
+  ENDIF.
+  ASSERT sy-subrc = 0.</SOURCE>
+   </ITEM>
+   <ITEM CMPNAME="ADD_OBJECTS_2_MICRO_BLOC" STATE="1" MTDDECLTYP="1" MTDNEWEXC="X">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Add object to micro bloc"/>
+    </TEXTS>
+    <PARAMETERS>
+     <ITEM SCONAME="BLOC" CMPTYPE="1" PARPASSTYP="1" TYPTYPE="1" TYPE="TD_NUM_KEY">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="Numéro de bloc"/>
+      </TEXTS>
+     </ITEM>
+     <ITEM SCONAME="M_BLOC" CMPTYPE="1" PARDECLTYP="2" PARPASSTYP="1" TYPTYPE="1" TYPE="TT_BLOCS_NFO">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="Table dépendance bloc"/>
+      </TEXTS>
+     </ITEM>
+     <ITEM SCONAME="OBJ" CMPTYPE="1" PARPASSTYP="1" TYPTYPE="1" TYPE="TD_NUM_KEY">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="Numéro d&apos;objet"/>
+      </TEXTS>
+     </ITEM>
+     <ITEM SCONAME="OBJ2BLOCS" CMPTYPE="1" PARDECLTYP="2" PARPASSTYP="1" TYPTYPE="1" TYPE="TT_LINES_NFO">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="Table dépendance bloc : OBJ-&gt;Bloc ou Bloc-&gt;Obj"/>
+      </TEXTS>
+     </ITEM>
+     <ITEM SCONAME="SIZE" CMPTYPE="1" PARPASSTYP="1" TYPTYPE="1" TYPE="TD_BLOC_SIZE">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="Taille (en nb d&apos;objet) d&apos;un bloc (unité mini de traitement)"/>
+      </TEXTS>
+     </ITEM>
+    </PARAMETERS>
+    <EXCEPTIONS>
+     <ITEM SCONAME="YGPL_MT_CX" LANGU="E">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="MultyThread : Root exception class"/>
+      </TEXTS>
+     </ITEM>
+    </EXCEPTIONS>
+    <SOURCE>`
+**********************************************************************
+* Author : Al&apos;oustad Taryck BENSIALI (taryck.bensiali@gmail.com)     *
+* Date : 2008 December                                               *
+**********************************************************************
+  FIELD-SYMBOLS:
+    &lt;bloc&gt; LIKE LINE OF m_bloc.
+  DATA _obj LIKE LINE OF &lt;bloc&gt;-objs.
+
+  READ TABLE m_bloc WITH TABLE KEY id = bloc ASSIGNING &lt;bloc&gt;.
+  ASSERT sy-subrc = 0.
+
+  ADD size TO &lt;bloc&gt;-size.
+  _obj-id = obj.
+  APPEND _obj TO &lt;bloc&gt;-objs.
+  ASSERT sy-subrc = 0.
+
+  CALL METHOD set_relation_object_bloc
+    EXPORTING
+      obj       = obj
+      bloc      = bloc
+    CHANGING
+      obj2blocs = obj2blocs.</SOURCE>
+   </ITEM>
+   <ITEM CMPNAME="CHECK_PROGRESS" STATE="1" MTDNEWEXC="X">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Check progression"/>
+    </TEXTS>
+    <PARAMETERS>
+     <ITEM SCONAME="LIMITS" CMPTYPE="1" PARPASSTYP="1" TYPTYPE="1" TYPE="TS_LIMITS"/>
+     <ITEM SCONAME="PROGRESS" CMPTYPE="1" PARPASSTYP="1" TYPTYPE="1" TYPE="TD_PROGRESS">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="Progression"/>
+      </TEXTS>
+     </ITEM>
+     <ITEM SCONAME="RESULT" CMPTYPE="1" PARDECLTYP="3" TYPTYPE="1" TYPE="TD_BOOLEAN"/>
+     <ITEM SCONAME="TIME" CMPTYPE="1" PARPASSTYP="1" TYPTYPE="1" TYPE="TD_TIME"/>
+    </PARAMETERS>
+    <EXCEPTIONS>
+     <ITEM SCONAME="YGPL_MT_CX" LANGU="E">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="MultyThread : Root exception class"/>
+      </TEXTS>
+     </ITEM>
+    </EXCEPTIONS>
+    <SOURCE>`
+  CHECK limits-active IS NOT INITIAL.
+  CHECK progress &gt;= limits-progress-mini      &quot; Minimum Progress limit
+     OR ( time &gt;= limits-time-maxi            &quot; Or maximum Time limit (if set)
+          AND limits-time-maxi &lt;&gt; 0 ).
+  CHECK time &gt;= limits-time-mini              &quot; Minimum Time limit
+     OR ( progress &gt;= limits-progress-maxi    &quot; Or maximum Progress limit (if set)
+          AND limits-progress-maxi  &lt;&gt; 0 ).
+  result = abap_true.</SOURCE>
+   </ITEM>
+   <ITEM CMPNAME="CHECK_WEIGHT_FN" STATE="1" MTDDECLTYP="1" MTDNEWEXC="X">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Controle validité du champs Weight"/>
+    </TEXTS>
+    <PARAMETERS>
+     <ITEM SCONAME="OBJECTS" CMPTYPE="1" PARPASSTYP="1" TYPTYPE="1" TYPE="STANDARD TABLE">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="Liste d&apos;objet générique"/>
+      </TEXTS>
+     </ITEM>
+     <ITEM SCONAME="WEIGHT_FN" CMPTYPE="1" PARPASSTYP="1" TYPTYPE="1" TYPE="TD_FN">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="Field Name du numérique poids"/>
+      </TEXTS>
+     </ITEM>
+    </PARAMETERS>
+    <EXCEPTIONS>
+     <ITEM SCONAME="YGPL_MT_CX" LANGU="E">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="MultyThread : Root exception class"/>
+      </TEXTS>
+     </ITEM>
+    </EXCEPTIONS>
+    <SOURCE>`
+**********************************************************************
+* Author : Al&apos;oustad Taryck BENSIALI (taryck.bensiali@gmail.com)     *
+* Date : 2008 December                                               *
+**********************************************************************
+  DATA: abap_type TYPE REF TO cl_abap_typedescr.
+  DATA: abap_structure TYPE REF TO cl_abap_structdescr.
+  DATA line_ref TYPE REF TO data.
+
+  FIELD-SYMBOLS :
+    &lt;field&gt; LIKE LINE OF cl_abap_structdescr=&gt;components,
+    &lt;wa&gt; TYPE ANY.
+
+  abap_type = cl_abap_typedescr=&gt;describe_by_data( objects ).
+
+  ASSERT abap_type-&gt;kind = cl_abap_typedescr=&gt;kind_table.
+*  if abap_type-&gt;kind &lt;&gt; cl_abap_typedescr=&gt;kind_table.
+**    RAISE failed.
+*  ENDIF.
+
+  CREATE DATA line_ref LIKE LINE OF objects.
+  ASSIGN line_ref-&gt;* TO &lt;wa&gt;.
+
+  abap_type = cl_abap_typedescr=&gt;describe_by_data( &lt;wa&gt; ).
+  ASSERT abap_type-&gt;kind = cl_abap_typedescr=&gt;kind_struct.
+*  IF abap_type-&gt;kind &lt;&gt; cl_abap_typedescr=&gt;kind_struct.
+*    RAISE failed.
+*  ENDIF.
+
+  abap_structure ?= abap_type.
+
+  READ TABLE abap_structure-&gt;components ASSIGNING &lt;field&gt; WITH KEY name = weight_fn.
+  IF sy-subrc &lt;&gt; 0.
+*    RAISE failed.
+  ELSEIF NOT &lt;field&gt;-type_kind IN r_weight_type_kind.
+*    RAISE failed.
+  ENDIF.</SOURCE>
+   </ITEM>
+   <ITEM CMPNAME="CLASS_CONSTRUCTOR" EXPOSURE="2" STATE="1" MTDTYPE="2" MTDDECLTYP="1">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="CLASS_CONSTRUCTOR"/>
+    </TEXTS>
+    <SOURCE>`
+  DATA tk LIKE LINE OF r_weight_type_kind.
+
+  ASSERT batch_rate &gt; 0 AND batch_rate &lt; 100.
+* Génerate Weight Typekind
+  tk-sign = &apos;I&apos;. tk-option = &apos;EQ&apos;.
+  tk-low = cl_abap_typedescr=&gt;typekind_num.     APPEND tk TO r_weight_type_kind.
+  tk-low = cl_abap_typedescr=&gt;typekind_packed.  APPEND tk TO r_weight_type_kind.
+  tk-low = cl_abap_typedescr=&gt;typekind_float.   APPEND tk TO r_weight_type_kind.
+  tk-low = cl_abap_typedescr=&gt;typekind_int.     APPEND tk TO r_weight_type_kind.
+  tk-low = cl_abap_typedescr=&gt;typekind_int1.    APPEND tk TO r_weight_type_kind.
+  tk-low = cl_abap_typedescr=&gt;typekind_int2.    APPEND tk TO r_weight_type_kind.
+  tk-low = cl_abap_typedescr=&gt;typekind_numeric. APPEND tk TO r_weight_type_kind.</SOURCE>
+   </ITEM>
+   <ITEM CMPNAME="CONSTRUCTOR" EXPOSURE="2" STATE="1" MTDTYPE="2">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="CONSTRUCTOR"/>
+    </TEXTS>
+    <PARAMETERS>
+     <ITEM SCONAME="O_RUN" CMPTYPE="1" MTDTYPE="2" PARPASSTYP="1" TYPTYPE="1" TYPE="TI_PARENT">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="MT : Run Process"/>
+      </TEXTS>
+     </ITEM>
+    </PARAMETERS>
+    <SOURCE>`
+  ASSERT o_run IS BOUND.
+  set_run( o_run ).
+
+  GET TIME STAMP FIELD times-start.
+  last_message-time = times-start.</SOURCE>
+   </ITEM>
+   <ITEM CMPNAME="CREATE_BLOCS" STATE="1" MTDNEWEXC="X">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Create blocs"/>
+    </TEXTS>
+    <PARAMETERS>
+     <ITEM SCONAME="BLOC_SIZE" CMPTYPE="1" PARPASSTYP="1" TYPTYPE="1" TYPE="TD_BLOC_SIZE" PAROPTIONL="X">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="Taille (en nb d&apos;objet) d&apos;un bloc (unité mini de traitement)"/>
+      </TEXTS>
+     </ITEM>
+     <ITEM SCONAME="DEPENDENCIES" CMPTYPE="1" PARPASSTYP="1" TYPTYPE="1" TYPE="TT_DEPENDENCIES" PAROPTIONL="X"/>
+     <ITEM SCONAME="OBJECTS" CMPTYPE="1" PARPASSTYP="1" TYPTYPE="1" TYPE="STANDARD TABLE">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="Liste d&apos;objet générique"/>
+      </TEXTS>
+     </ITEM>
+     <ITEM SCONAME="WEIGHT_FN" CMPTYPE="1" PARPASSTYP="1" TYPTYPE="1" TYPE="TD_FN" PAROPTIONL="X">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="Field Name du numérique poids"/>
+      </TEXTS>
+     </ITEM>
+    </PARAMETERS>
+    <EXCEPTIONS>
+     <ITEM SCONAME="YGPL_MT_CX" LANGU="E">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="MultyThread : Root exception class"/>
+      </TEXTS>
+     </ITEM>
+    </EXCEPTIONS>
+    <SOURCE>`
+**********************************************************************
+* Author : Al&apos;oustad Taryck BENSIALI (taryck.bensiali@gmail.com)     *
+* Date : 2008 December                                               *
+**********************************************************************
+  DATA _wfn     TYPE td_fn.
+  DATA tab_ref  TYPE REF TO data.
+  DATA _from    TYPE i.
+  DATA _to      TYPE i.
+  DATA _size    TYPE i.
+
+  FIELD-SYMBOLS &lt;fs&gt; LIKE objects.
+
+  IF NOT weight_fn IS INITIAL.
+    CALL METHOD check_weight_fn
+      EXPORTING
+        OBJECTS   = OBJECTS
+        weight_fn = weight_fn.
+    _wfn = weight_fn.
+  ENDIF.
+
+  IF _wfn IS INITIAL AND dependencies IS INITIAL.
+* Quick Bloc Generation
+    CREATE DATA tab_ref LIKE objects.
+    ASSIGN tab_ref-&gt;* TO &lt;fs&gt;.
+    _from = 1.
+    _size = LINES( objects ).
+    DO.
+      _to = _from + bloc_size - 1.
+      IF _to &gt; _size. _to = _size. ENDIF.
+      APPEND LINES OF objects FROM _from TO _to TO &lt;fs&gt;.
+      CALL METHOD add_bloc
+        EXPORTING
+          OBJECTS = &lt;fs&gt;.
+      IF _to &gt;= _size.
+        EXIT.
+      ELSE.
+        _from = _to + 1.
+      ENDIF.
+      CLEAR &lt;fs&gt;.
+    ENDDO.
+  ELSE.
+    CALL METHOD create_complex_blocs
+      EXPORTING
+        OBJECTS      = OBJECTS
+        bloc_size    = bloc_size
+        weight_fn    = weight_fn
+        dependencies = dependencies.
+  ENDIF.
+
+  o_run-&gt;set_bloc_count( total_blocs_count ).</SOURCE>
+   </ITEM>
+   <ITEM CMPNAME="CREATE_COMPLEX_BLOCS" STATE="1" MTDNEWEXC="X">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Create blocs complexes (avec dépendant et/ou par poids)"/>
+    </TEXTS>
+    <PARAMETERS>
+     <ITEM SCONAME="BLOC_SIZE" CMPTYPE="1" PARPASSTYP="1" TYPTYPE="1" TYPE="TD_BLOC_SIZE">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="Taille (en nb d&apos;objet) d&apos;un bloc (unité mini de traitement)"/>
+      </TEXTS>
+     </ITEM>
+     <ITEM SCONAME="DEPENDENCIES" CMPTYPE="1" PARPASSTYP="1" TYPTYPE="1" TYPE="TT_DEPENDENCIES">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="Table des dépendences"/>
+      </TEXTS>
+     </ITEM>
+     <ITEM SCONAME="OBJECTS" CMPTYPE="1" PARPASSTYP="1" TYPTYPE="1" TYPE="STANDARD TABLE">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="Liste d&apos;objet générique"/>
+      </TEXTS>
+     </ITEM>
+     <ITEM SCONAME="WEIGHT_FN" CMPTYPE="1" PARPASSTYP="1" TYPTYPE="1" TYPE="TD_FN">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="Field Name du numérique poids"/>
+      </TEXTS>
+     </ITEM>
+    </PARAMETERS>
+    <EXCEPTIONS>
+     <ITEM SCONAME="YGPL_MT_CX" LANGU="E">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="MultyThread : Root exception class"/>
+      </TEXTS>
+     </ITEM>
+    </EXCEPTIONS>
+    <SOURCE>`
+**********************************************************************
+* Author : Al&apos;oustad Taryck BENSIALI (taryck.bensiali@gmail.com)     *
+* Date : 2008 December                                               *
+**********************************************************************
+  DATA it_objlst TYPE tt_lines_nfo.
+  DATA tab_ref TYPE REF TO data.
+  DATA fn TYPE string.
+  DATA weight     TYPE td_bloc_size.
+  DATA b_weight   TYPE td_bloc_size.
+  DATA line_ref   TYPE REF TO data.
+
+  FIELD-SYMBOLS :
+    &lt;obj&gt; TYPE ANY,
+    &lt;weight&gt; TYPE ANY,
+    &lt;objects&gt; LIKE objects,
+    &lt;wa&gt; TYPE ANY.
+
+  IF NOT dependencies IS INITIAL.
+    CALL METHOD create_with_dependencies
+      EXPORTING
+        OBJECTS      = OBJECTS
+        bloc_size    = bloc_size
+        weight_fn    = weight_fn
+        dependencies = dependencies
+      IMPORTING
+        done_obj     = it_objlst.
+  ENDIF.
+
+  CREATE DATA line_ref LIKE LINE OF objects.
+  ASSIGN line_ref-&gt;* TO &lt;wa&gt;.
+
+  CREATE DATA tab_ref LIKE objects.
+  ASSIGN tab_ref-&gt;* TO &lt;objects&gt;.
+
+  IF NOT weight_fn IS INITIAL. CONCATENATE &apos;&lt;obj&gt;-&apos; weight_fn INTO fn. ENDIF.
+  LOOP AT objects ASSIGNING &lt;obj&gt;.
+* check obj allready done
+    READ TABLE it_objlst WITH TABLE KEY key = sy-tabix TRANSPORTING NO FIELDS.
+    IF sy-subrc = 0.
+      CONTINUE.
+    ENDIF.
+* Weight determine
+    weight = 1.
+    IF NOT fn IS INITIAL.
+      ASSIGN (fn) TO &lt;weight&gt;.
+      IF sy-subrc = 0.
+        weight = &lt;weight&gt;.
+      ENDIF.
+    ENDIF.
+* Add bloc
+    ADD weight TO b_weight.
+    IF b_weight &gt;= bloc_size.
+      SUBTRACT weight FROM b_weight.
+      CALL METHOD add_bloc
+        EXPORTING
+          OBJECTS   = &lt;objects&gt;
+          bloc_size = b_weight.
+      b_weight = weight.
+      FREE: &lt;objects&gt;.
+    ENDIF.
+* DO the line
+    &lt;wa&gt; = &lt;obj&gt;.
+    APPEND &lt;wa&gt; TO &lt;objects&gt;.
+  ENDLOOP.
+
+* Add last bloc
+  IF NOT &lt;objects&gt; IS INITIAL.
+    CALL METHOD add_bloc
+      EXPORTING
+        OBJECTS   = &lt;objects&gt;
+        bloc_size = b_weight.
+    FREE &lt;objects&gt;.
+  ENDIF.</SOURCE>
+   </ITEM>
+   <ITEM CMPNAME="CREATE_MICRO_BLOC" STATE="1" MTDDECLTYP="1" MTDNEWEXC="X">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Create a new micro bloc"/>
+    </TEXTS>
+    <PARAMETERS>
+     <ITEM SCONAME="BLOC" CMPTYPE="1" PARDECLTYP="1" TYPTYPE="1" TYPE="TD_NUM_KEY">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="Numéro de bloc"/>
+      </TEXTS>
+     </ITEM>
+     <ITEM SCONAME="M_BLOC" CMPTYPE="1" PARDECLTYP="2" PARPASSTYP="1" TYPTYPE="1" TYPE="TT_BLOCS_NFO">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="Table dépendance bloc"/>
+      </TEXTS>
+     </ITEM>
+     <ITEM SCONAME="OBJ" CMPTYPE="1" PARPASSTYP="1" TYPTYPE="1" TYPE="TD_NUM_KEY">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="Numéro d&apos;objet"/>
+      </TEXTS>
+     </ITEM>
+     <ITEM SCONAME="OBJ2BLOCS" CMPTYPE="1" PARDECLTYP="2" PARPASSTYP="1" TYPTYPE="1" TYPE="TT_LINES_NFO">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="Table dépendance bloc : OBJ-&gt;Bloc ou Bloc-&gt;Obj"/>
+      </TEXTS>
+     </ITEM>
+     <ITEM SCONAME="SIZE" CMPTYPE="1" PARPASSTYP="1" TYPTYPE="1" TYPE="TD_BLOC_SIZE">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="Taille (en nb d&apos;objet) d&apos;un bloc (unité mini de traitement)"/>
+      </TEXTS>
+     </ITEM>
+    </PARAMETERS>
+    <EXCEPTIONS>
+     <ITEM SCONAME="YGPL_MT_CX" LANGU="E">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="MultyThread : Root exception class"/>
+      </TEXTS>
+     </ITEM>
+    </EXCEPTIONS>
+    <SOURCE>`
+**********************************************************************
+* Author : Al&apos;oustad Taryck BENSIALI (taryck.bensiali@gmail.com)     *
+* Date : 2008 December                                               *
+**********************************************************************
+  STATICS next_id TYPE td_num_key.
+  DATA _wa LIKE LINE OF m_bloc.
+  DATA _obj LIKE LINE OF _wa-objs.
+
+  ADD 1 TO next_id.
+  _wa-id = next_id.
+  IF size &lt; 1. _wa-size = 1. ELSE. _wa-size = size. ENDIF.
+  _obj-id = obj. APPEND _obj TO _wa-objs.
+  INSERT _wa INTO TABLE m_bloc.
+  ASSERT sy-subrc = 0.
+
+  bloc = _wa-id.
+
+  CALL METHOD set_relation_object_bloc
+    EXPORTING
+      obj       = obj
+      bloc      = bloc
+    CHANGING
+      obj2blocs = obj2blocs.</SOURCE>
+   </ITEM>
+   <ITEM CMPNAME="CREATE_WITH_DEPENDENCIES" STATE="1" MTDNEWEXC="X">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Create blocs complexes (avec dépendances)"/>
+    </TEXTS>
+    <PARAMETERS>
+     <ITEM SCONAME="BLOC_SIZE" CMPTYPE="1" PARPASSTYP="1" TYPTYPE="1" TYPE="TD_BLOC_SIZE">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="Taille (en nb d&apos;objet) d&apos;un bloc (unité mini de traitement)"/>
+      </TEXTS>
+     </ITEM>
+     <ITEM SCONAME="DEPENDENCIES" CMPTYPE="1" PARPASSTYP="1" TYPTYPE="1" TYPE="TT_DEPENDENCIES">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="Table des dépendences"/>
+      </TEXTS>
+     </ITEM>
+     <ITEM SCONAME="DONE_OBJ" CMPTYPE="1" PARDECLTYP="1" PARPASSTYP="1" TYPTYPE="1" TYPE="TT_LINES_NFO">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="Objets déjà envoyés"/>
+      </TEXTS>
+     </ITEM>
+     <ITEM SCONAME="OBJECTS" CMPTYPE="1" PARPASSTYP="1" TYPTYPE="1" TYPE="STANDARD TABLE">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="Liste d&apos;objet générique"/>
+      </TEXTS>
+     </ITEM>
+     <ITEM SCONAME="WEIGHT_FN" CMPTYPE="1" PARPASSTYP="1" TYPTYPE="1" TYPE="TD_FN">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="Field Name du numérique poids"/>
+      </TEXTS>
+     </ITEM>
+    </PARAMETERS>
+    <EXCEPTIONS>
+     <ITEM SCONAME="YGPL_MT_CX" LANGU="E">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="MultyThread : Root exception class"/>
+      </TEXTS>
+     </ITEM>
+    </EXCEPTIONS>
+    <SOURCE>`
+**********************************************************************
+* Author : Al&apos;oustad Taryck BENSIALI (taryck.bensiali@gmail.com)     *
+* Date : 2008 December                                               *
+**********************************************************************
+  DATA:
+    it_obj2blocs TYPE tt_lines_nfo,   &quot; Index = Obj, ID = Bloc
+    it_mini_blocs TYPE tt_blocs_nfo,
+    obj_size  TYPE td_bloc_size,
+    obj1_bloc TYPE td_num_key,
+    obj2_bloc TYPE td_num_key,
+    _dependencies TYPE tt_dependencies,
+    obj_count TYPE i.
+
+  FIELD-SYMBOLS :
+    &lt;dep&gt; LIKE LINE OF dependencies.
+
+  DESCRIBE TABLE objects LINES obj_count.
+  _dependencies = dependencies.
+  DELETE _dependencies WHERE obj1 &lt; 1 OR obj1 &gt; obj_count
+                         OR obj2 &lt; 1 OR obj2 &gt; obj_count.
+* Create µblocs
+  LOOP AT _dependencies ASSIGNING &lt;dep&gt;.
+    IF &lt;dep&gt;-obj1 = &lt;dep&gt;-obj2. CONTINUE. ENDIF.
+    AT NEW obj1.
+* check if obj1 afected to
+      obj1_bloc = get_object_bloc( num = &lt;dep&gt;-obj1
+                                 table = it_obj2blocs ).
+    ENDAT.
+* check if obj1 afected to
+    obj2_bloc = get_object_bloc( num = &lt;dep&gt;-obj2
+                               table = it_obj2blocs ).
+    IF obj1_bloc IS INITIAL AND obj2_bloc IS INITIAL.
+* Creat new µbloc
+      obj_size = get_object_size( objects = objects
+                                weight_fn = weight_fn
+                                  obj_num = &lt;dep&gt;-obj1 ).
+      CALL METHOD create_micro_bloc
+        EXPORTING
+          obj       = &lt;dep&gt;-obj1
+          size      = obj_size
+        IMPORTING
+          bloc      = obj1_bloc
+        CHANGING
+          m_bloc    = it_mini_blocs
+          obj2blocs = it_obj2blocs.
+    ENDIF.
+    IF obj2_bloc IS INITIAL.
+* Affect µbloc obj1 to obj2
+      obj_size = get_object_size( objects = objects
+                                weight_fn = weight_fn
+                                  obj_num = &lt;dep&gt;-obj2 ).
+      CALL METHOD add_objects_2_micro_bloc
+        EXPORTING
+          obj       = &lt;dep&gt;-obj2
+          size      = obj_size
+          bloc      = obj1_bloc
+        CHANGING
+          m_bloc    = it_mini_blocs
+          obj2blocs = it_obj2blocs.
+    ELSE.
+* Join µbloc obj1 &amp; Obj2
+      CALL METHOD join_2_micro_blocs
+        EXPORTING
+          bloc1     = obj1_bloc
+          bloc2     = obj2_bloc
+        CHANGING
+          m_bloc    = it_mini_blocs
+          obj2blocs = it_obj2blocs.
+    ENDIF.
+  ENDLOOP.
+
+  FREE it_obj2blocs.
+* Groups µbloc to get wanted size
+  CALL METHOD generate_blocs
+    EXPORTING
+      bloc_size = bloc_size
+    CHANGING
+      m_bloc    = it_mini_blocs.
+
+  CALL METHOD send_blocs
+    EXPORTING
+      OBJECTS   = OBJECTS
+      blocs     = it_mini_blocs
+      weight_fn = weight_fn
+    IMPORTING
+      done_obj  = done_obj.</SOURCE>
+   </ITEM>
+   <ITEM CMPNAME="DECODE_DATA" STATE="1" MTDDECLTYP="1">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Decode data to buffer"/>
+    </TEXTS>
+    <PARAMETERS>
+     <ITEM SCONAME="ANY" CMPTYPE="1" PARDECLTYP="2" PARPASSTYP="1" TYPTYPE="1" TYPE="ANY"/>
+     <ITEM SCONAME="BUFFER" CMPTYPE="1" TYPTYPE="1" TYPE="TD_BUFFER_DATA"/>
+    </PARAMETERS>
+    <SOURCE>`
+  IMPORT objects = any FROM DATA BUFFER buffer.</SOURCE>
+   </ITEM>
+   <ITEM CMPNAME="DISPLAY_PROGRESS" EXPOSURE="1" STATE="1">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Display Progression from object confirmation"/>
+    </TEXTS>
+    <SOURCE>`
+  DATA pos      TYPE i.
+  DATA new_p    TYPE td_progress.
+  DATA delta_p  TYPE td_progress.
+  DATA _tmp     TYPE timestampl.
+  DATA _now     TYPE timestampl.
+  DATA _sec     TYPE td_time.
+  DATA duration TYPE sy-uzeit.
+  DATA d_str(15) TYPE c.
+  DATA end_str(50) TYPE c.
+  DATA duree    TYPE f.   &quot; p LENGTH 4 DECIMALS 5.
+  DATA duree_p  TYPE f.   &quot; p LENGTH 4 DECIMALS 5.
+  DATA tmp_line(10) TYPE c.
+  DATA str      TYPE string.
+  DATA l_pc     TYPE p LENGTH 16 DECIMALS 2.
+
+  CHECK total_objects &gt; 0.
+  new_p = processed_objects / total_objects * 100.
+  delta_p = new_p - last_message-progress.
+  GET TIME STAMP FIELD _now.
+  _sec = cl_abap_tstmp=&gt;subtract( tstmp1 = _now
+                                  tstmp2 = last_message-time ).
+
+  CHECK check_progress( time = _sec
+                    progress = delta_p
+                      limits = o_start_conditions-&gt;progression ) IS NOT INITIAL.
+
+  last_message-progress = new_p.
+  last_message-time = _now.
+  l_pc = last_message-progress.
+  WRITE l_pc DECIMALS 1 TO tmp_line.
+  CONDENSE tmp_line.
+
+* Calcul remaining time
+  IF last_message-progress &gt; 0.
+    TRY.
+        duree = cl_abap_tstmp=&gt;subtract( tstmp1 = _now
+                                         tstmp2 = times-start ).
+      CATCH cx_parameter_invalid_range cx_parameter_invalid_type.
+        duree = ( _now - times-start ).
+    ENDTRY.
+    duree_p = duree * 100 / last_message-progress.
+
+    _tmp = ( duree_p - duree ). &quot;temps restant
+    IF _tmp &lt; 0. _tmp = 0. ENDIF.
+    _tmp = _tmp + estimated_end_time.
+    duration = _tmp.
+    WRITE duration TO d_str.
+
+* End time
+    TRY.
+        _tmp = cl_abap_tstmp=&gt;add(
+            tstmp   = times-start
+            secs    = duree_p
+            ).
+      CATCH cx_parameter_invalid_range cx_parameter_invalid_type.
+        _tmp = times-start + duree_p.
+    ENDTRY.
+    WRITE _tmp TIME ZONE sy-zonlo TO end_str.
+    FIND FIRST OCCURRENCE OF &apos;,&apos; IN end_str MATCH OFFSET pos.
+    IF sy-subrc = 0.
+      end_str = end_str(pos).
+    ENDIF.
+  ENDIF.
+
+* Display progress
+  IF NOT sy-batch IS INITIAL.
+* Progress &amp;1 % - end expected within &amp;2 at &amp;3
+    MESSAGE i003 WITH tmp_line d_str end_str.
+  ELSE.
+* End expected within &amp;2 at &amp;3
+    MESSAGE i004 WITH tmp_line d_str end_str INTO str.
+    CALL FUNCTION &apos;SAPGUI_PROGRESS_INDICATOR&apos;
+      EXPORTING
+        percentage = last_message-progress
+        text       = str.
+  ENDIF.</SOURCE>
+   </ITEM>
+   <ITEM CMPNAME="DISPLAY_SPEED" EXPOSURE="1" STATE="1">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Display speed for batch"/>
+    </TEXTS>
+    <SOURCE>`
+*  DATA blocs    TYPE i.
+  DATA _now     TYPE timestampl.
+  DATA _sec     TYPE td_time.
+  DATA speed    TYPE i.
+  DATA s_blocs  TYPE string.
+  DATA s_objs   TYPE string.
+  DATA s_dura   TYPE string.
+  DATA s_speed  TYPE string.
+
+  CHECK batch_objects &gt; 0.
+  s_objs = batch_objects.   CONDENSE s_objs.
+  GET TIME STAMP FIELD _now.
+  _sec = cl_abap_tstmp=&gt;subtract( tstmp1 = _now
+                                  tstmp2 = times-start ).
+  s_dura = _sec.    CONDENSE s_dura.
+  IF _sec &gt; 0.
+    speed = batch_objects * 3600 / _sec.    &quot; Obj /h
+    s_speed = speed.
+    CONDENSE s_speed.
+  ELSE.
+    s_speed = &apos;N/A&apos;(n_a).
+  ENDIF.
+  s_blocs = LINES( current_blocs ).   CONDENSE s_blocs.
+
+* Display progress
+  IF NOT sy-batch IS INITIAL.
+* Last batch has &amp;1 blocs (&amp;2 objects) and done in &amp;3 secondes - &amp;4 obj/h
+    MESSAGE i007 WITH s_blocs s_objs s_dura s_speed.
+  ENDIF.</SOURCE>
+   </ITEM>
+   <ITEM CMPNAME="ENCODE_DATA" STATE="1" MTDDECLTYP="1">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Encode data to buffer"/>
+    </TEXTS>
+    <PARAMETERS>
+     <ITEM SCONAME="ANY" CMPTYPE="1" PARPASSTYP="1" TYPTYPE="1" TYPE="ANY"/>
+     <ITEM SCONAME="RESULT" CMPTYPE="1" PARDECLTYP="3" TYPTYPE="1" TYPE="TD_BUFFER_DATA"/>
+    </PARAMETERS>
+    <SOURCE>`
+  EXPORT objects = any TO DATA BUFFER result COMPRESSION ON.</SOURCE>
+   </ITEM>
+   <ITEM CMPNAME="GENERATE_BLOCS" STATE="1" MTDDECLTYP="1" MTDNEWEXC="X">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Group µblocs into Blocs"/>
+    </TEXTS>
+    <PARAMETERS>
+     <ITEM SCONAME="BLOC_SIZE" CMPTYPE="1" PARPASSTYP="1" TYPTYPE="1" TYPE="TD_BLOC_SIZE">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="Taille (en nb d&apos;objet) d&apos;un bloc (unité mini de traitement)"/>
+      </TEXTS>
+     </ITEM>
+     <ITEM SCONAME="M_BLOC" CMPTYPE="1" PARDECLTYP="2" PARPASSTYP="1" TYPTYPE="1" TYPE="TT_BLOCS_NFO">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="Table dépendance bloc"/>
+      </TEXTS>
+     </ITEM>
+    </PARAMETERS>
+    <EXCEPTIONS>
+     <ITEM SCONAME="YGPL_MT_CX" LANGU="E">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="MultyThread : Root exception class"/>
+      </TEXTS>
+     </ITEM>
+    </EXCEPTIONS>
+    <SOURCE>`
+**********************************************************************
+* Author : Al&apos;oustad Taryck BENSIALI (taryck.bensiali@gmail.com)     *
+* Date : 2008 December                                               *
+**********************************************************************
+  TYPES:
+    t_line LIKE LINE OF m_bloc.
+  DATA:
+    size  TYPE td_bloc_size,
+    new_b TYPE t_line,
+    blocs TYPE STANDARD TABLE OF t_line.
+  FIELD-SYMBOLS:
+    &lt;b&gt; TYPE t_line.
+
+  blocs = m_bloc.
+  REFRESH m_bloc.
+  SORT blocs BY size DESCENDING.
+  DO.
+    IF blocs IS INITIAL. EXIT. ENDIF.
+    READ TABLE blocs INDEX 1 ASSIGNING &lt;b&gt;.
+    new_b = &lt;b&gt;.
+    DELETE blocs INDEX 1.
+    IF sy-subrc &lt;&gt; 0.
+*      RAISE failed.
+    ENDIF.
+    IF new_b-size &lt; bloc_size AND NOT blocs IS INITIAL.
+      size = bloc_size - new_b-size.
+      LOOP AT blocs ASSIGNING &lt;b&gt;.
+        IF &lt;b&gt;-size &lt; size.
+          ADD &lt;b&gt;-size TO new_b-size.
+          size = bloc_size - new_b-size.
+          APPEND LINES OF &lt;b&gt;-objs TO new_b-objs.
+          IF sy-subrc &lt;&gt; 0.
+*            RAISE failed.
+          ENDIF.
+          DELETE blocs.
+          IF sy-subrc &lt;&gt; 0.
+*            RAISE failed.
+          ENDIF.
+        ENDIF.
+      ENDLOOP.
+    ENDIF.
+    INSERT new_b INTO TABLE m_bloc.
+    IF sy-subrc &lt;&gt; 0.
+*      RAISE failed.
+    ENDIF.
+  ENDDO.</SOURCE>
+   </ITEM>
+   <ITEM CMPNAME="GENERATE_BLOC_ID" STATE="1" MTDDECLTYP="1" MTDNEWEXC="X">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Create a new Bloc_ID"/>
+    </TEXTS>
+    <PARAMETERS>
+     <ITEM SCONAME="BLOC_ID" CMPTYPE="1" PARDECLTYP="3" TYPTYPE="1" TYPE="TD_BLOC_ID">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="ID unique du bloc d&apos;objet"/>
+      </TEXTS>
+     </ITEM>
+    </PARAMETERS>
+    <EXCEPTIONS>
+     <ITEM SCONAME="YGPL_MT_CX" LANGU="E">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="MultyThread : Root exception class"/>
+      </TEXTS>
+     </ITEM>
+    </EXCEPTIONS>
+    <SOURCE>`
+**********************************************************************
+* Author : Al&apos;oustad Taryck BENSIALI (taryck.bensiali@gmail.com)     *
+* Date : 2008 December                                               *
+**********************************************************************
+
+  CALL FUNCTION &apos;GUID_CREATE&apos;
+    IMPORTING
+      EV_GUID_16       = BLOC_ID.
+*     EV_GUID_22       =
+*     EV_GUID_32       = BLOC_ID.</SOURCE>
+   </ITEM>
+   <ITEM CMPNAME="GET_BLOCS" STATE="1" MTDNEWEXC="X">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Get a batch (n blocs)"/>
+    </TEXTS>
+    <PARAMETERS>
+     <ITEM SCONAME="MAXROW" CMPTYPE="1" PARPASSTYP="1" TYPTYPE="1" TYPE="TD_COUNT" PAROPTIONL="X">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="Max row to retrieve"/>
+      </TEXTS>
+     </ITEM>
+     <ITEM SCONAME="OBJECTS" CMPTYPE="1" PARDECLTYP="1" PARPASSTYP="1" TYPTYPE="1" TYPE="STANDARD TABLE">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="Generic object list"/>
+      </TEXTS>
+     </ITEM>
+     <ITEM SCONAME="STATUS" CMPTYPE="1" PARPASSTYP="1" TYPTYPE="1" TYPE="TD_BLOC_STATUS">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="BLoc status to get"/>
+      </TEXTS>
+     </ITEM>
+    </PARAMETERS>
+    <EXCEPTIONS>
+     <ITEM SCONAME="YGPL_MT_CX" LANGU="E">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="MultyThread : Root exception class"/>
+      </TEXTS>
+     </ITEM>
+    </EXCEPTIONS>
+    <SOURCE>`
+  DATA tab_ref    TYPE REF TO data.
+  DATA rem_rows   TYPE i.
+  DATA rows       TYPE i.
+  DATA mem_size   TYPE td_memory_size.
+  DATA batch_size TYPE td_count.
+  DATA t_size     TYPE td_memory_size.
+  DATA _blocs     TYPE STANDARD TABLE OF ygplmt_objects.
+  DATA _bloc      LIKE LINE OF current_blocs.
+  DATA f_commit   TYPE td_boolean.
+  DATA o_cx       TYPE REF TO cx_root.
+  DATA o_lock_cx  TYPE REF TO ygpl_mt_cx_locks.
+
+  FIELD-SYMBOLS:
+    &lt;fs&gt; LIKE objects,
+    &lt;wa&gt; LIKE LINE OF _blocs.
+
+  ASSERT status = system_status-bloc-to_do OR status = system_status-bloc-in_progress.    &quot; Security
+  ASSERT current_blocs[] IS INITIAL.
+
+  CREATE DATA tab_ref LIKE objects.
+  ASSIGN tab_ref-&gt;* TO &lt;fs&gt;.
+
+  TRY.
+* Get global Lock on object processing.
+      get_semaphore( ).
+    CATCH ygpl_mt_cx_locks INTO o_lock_cx.
+      IF o_lock_cx-&gt;is_exception_text( ygpl_mt_cx_locks=&gt;foreign_lock ) IS INITIAL.
+        RAISE EXCEPTION o_lock_cx.
+      ELSE.
+        RAISE EXCEPTION TYPE ygpl_mt_cx_object_semaphore.
+      ENDIF.
+  ENDTRY.
+
+  TRY.
+* Get data : Big ones first
+      SELECT * INTO TABLE _blocs
+        FROM ygplmt_objects UP TO maxrow ROWS
+        WHERE run_id = o_run-&gt;process_id
+          AND status = status
+          AND bloc_size &gt; task_mini_blocsize.
+
+      IF NOT task_mini_blocsize IS INITIAL.
+* When no more big ones
+        IF maxrow &lt;&gt; 0.
+          rem_rows = maxrow.
+          DESCRIBE TABLE _blocs LINES rows.
+          SUBTRACT rows FROM rem_rows.
+          IF rem_rows = 0.    rem_rows = -1.    ENDIF.
+        ENDIF.
+        IF rem_rows &gt;= 0.
+          SELECT * APPENDING TABLE _blocs
+            FROM ygplmt_objects UP TO rem_rows ROWS
+            WHERE run_id = o_run-&gt;process_id
+              AND status = status
+              AND bloc_size &lt;= task_mini_blocsize.
+          CLEAR task_mini_blocsize.
+        ENDIF.
+      ENDIF.
+
+      IF NOT _blocs IS INITIAL.
+        SORT _blocs BY mem_size DESCENDING.
+        LOOP AT _blocs ASSIGNING &lt;wa&gt;.
+* Size limits
+          IF o_task_conditions-&gt;maximum_batch_size &gt; 0.
+            t_size = batch_size + &lt;wa&gt;-bloc_size.
+            CHECK o_task_conditions-&gt;maximum_batch_size &gt; t_size
+               OR current_blocs IS INITIAL.
+            ADD &lt;wa&gt;-bloc_size TO batch_size.
+          ENDIF.
+* Memory limits
+          IF o_task_conditions-&gt;maximum_memory &gt; 0.
+            t_size = mem_size + &lt;wa&gt;-mem_size.
+            CHECK o_task_conditions-&gt;maximum_memory &gt; t_size
+               OR current_blocs IS INITIAL.
+            ADD &lt;wa&gt;-mem_size TO mem_size.
+          ENDIF.
+
+          _bloc-bloc_id = &lt;wa&gt;-bloc_id.
+          TRY.
+              lock_bloc( _bloc-bloc_id ).
+            CATCH ygpl_mt_cx INTO o_cx.
+* Inconsitancy
+              CONTINUE.
+          ENDTRY.
+
+          decode_data( EXPORTING buffer = &lt;wa&gt;-obj_data
+                        CHANGING    any = &lt;fs&gt; ).
+
+          IF status &lt;&gt; system_status-bloc-in_progress.
+            UPDATE ygplmt_objects SET status = system_status-bloc-in_progress
+              WHERE bloc_id = _bloc-bloc_id.
+            IF sy-subrc &lt;&gt; 0.
+*              DELETE current_blocs WHERE bloc_id = _bloc-bloc_id.
+              unlock_bloc( _bloc-bloc_id ).
+              CONTINUE.
+            ENDIF.
+            f_commit = abap_true.
+          ENDIF.
+
+          APPEND LINES OF &lt;fs&gt; TO objects.
+          ASSERT sy-subrc = 0.
+
+          APPEND _bloc TO current_blocs.
+          ASSERT sy-subrc = 0.
+
+        ENDLOOP.
+      ENDIF.
+
+      batch_objects = LINES( objects ).   CLEAR confirmed_objects.
+      ADD batch_objects TO processed_objects.
+
+      IF f_commit = abap_true.    COMMIT WORK AND WAIT.     ENDIF.
+    CATCH cx_root INTO o_cx.
+      release_semaphore( ).
+      RAISE EXCEPTION o_cx.
+  ENDTRY.
+* Release global Lock on object processing.
+  release_semaphore( ).
+  refresh_start_time( ).</SOURCE>
+   </ITEM>
+   <ITEM CMPNAME="GET_CONFIRMED_OBJECT_COUNT" EXPOSURE="2" STATE="1">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Get number of object confirmed"/>
+    </TEXTS>
+    <PARAMETERS>
+     <ITEM SCONAME="RESULT" CMPTYPE="1" PARDECLTYP="3" TYPTYPE="1" TYPE="TD_COUNT">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="Number of object confirmed so far for this batch"/>
+      </TEXTS>
+     </ITEM>
+    </PARAMETERS>
+    <SOURCE>`
+  result = confirmed_objects.</SOURCE>
+   </ITEM>
+   <ITEM CMPNAME="GET_OBJECT_BLOC" STATE="1" MTDDECLTYP="1" MTDNEWEXC="X">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Get Object&apos;s Bloc number if assigned"/>
+    </TEXTS>
+    <PARAMETERS>
+     <ITEM SCONAME="BLOC" CMPTYPE="1" PARDECLTYP="3" TYPTYPE="1" TYPE="TD_NUM_KEY"/>
+     <ITEM SCONAME="NUM" CMPTYPE="1" PARPASSTYP="1" TYPTYPE="1" TYPE="TD_NUM_KEY"/>
+     <ITEM SCONAME="TABLE" CMPTYPE="1" PARPASSTYP="1" TYPTYPE="1" TYPE="TT_LINES_NFO"/>
+    </PARAMETERS>
+    <EXCEPTIONS>
+     <ITEM SCONAME="YGPL_MT_CX" LANGU="E">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="MultyThread : Root exception class"/>
+      </TEXTS>
+     </ITEM>
+    </EXCEPTIONS>
+    <SOURCE>`
+**********************************************************************
+* Author : Al&apos;oustad Taryck BENSIALI (taryck.bensiali@gmail.com)     *
+* Date : 2008 December                                               *
+**********************************************************************
+  FIELD-SYMBOLS :
+  &lt;obj2b&gt; LIKE LINE OF table.
+
+  READ TABLE table with TABLE KEY key = num ASSIGNING &lt;obj2b&gt;.
+  IF sy-subrc = 0.
+    bloc = &lt;obj2b&gt;-val.
+  ENDIF.</SOURCE>
+   </ITEM>
+   <ITEM CMPNAME="GET_OBJECT_SIZE" STATE="1" MTDDECLTYP="1" MTDNEWEXC="X">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Get Object Size (weigthed)"/>
+    </TEXTS>
+    <PARAMETERS>
+     <ITEM SCONAME="OBJECTS" CMPTYPE="1" PARPASSTYP="1" TYPTYPE="1" TYPE="STANDARD TABLE">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="Objects list"/>
+      </TEXTS>
+     </ITEM>
+     <ITEM SCONAME="OBJ_NUM" CMPTYPE="1" PARPASSTYP="1" TYPTYPE="1" TYPE="TD_NUM_KEY">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="Numéro d&apos;objet"/>
+      </TEXTS>
+     </ITEM>
+     <ITEM SCONAME="SIZE" CMPTYPE="1" PARDECLTYP="3" TYPTYPE="1" TYPE="TD_BLOC_SIZE">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="Taille (en nb d&apos;objet) d&apos;un bloc (unité mini de traitement)"/>
+      </TEXTS>
+     </ITEM>
+     <ITEM SCONAME="WEIGHT_FN" CMPTYPE="1" PARPASSTYP="1" TYPTYPE="1" TYPE="TD_FN">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="Field Name"/>
+      </TEXTS>
+     </ITEM>
+    </PARAMETERS>
+    <EXCEPTIONS>
+     <ITEM SCONAME="YGPL_MT_CX" LANGU="E">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="MultyThread : Root exception class"/>
+      </TEXTS>
+     </ITEM>
+    </EXCEPTIONS>
+    <SOURCE>`
+**********************************************************************
+* Author : Al&apos;oustad Taryck BENSIALI (taryck.bensiali@gmail.com)     *
+* Date : 2008 December                                               *
+**********************************************************************
+  DATA fn TYPE string.
+
+  FIELD-SYMBOLS :
+    &lt;obj&gt; TYPE ANY,
+    &lt;weight&gt; TYPE ANY.
+
+  size = 1.
+  IF weight_fn IS INITIAL.
+    RETURN.
+  ENDIF.
+
+  CONCATENATE &apos;&lt;obj&gt;-&apos; weight_fn INTO fn.
+
+  READ TABLE objects INDEX obj_num ASSIGNING &lt;obj&gt;.
+  IF sy-subrc &lt;&gt; 0.
+    RETURN.
+  ENDIF.
+
+  ASSIGN (fn) TO &lt;weight&gt;.
+  IF sy-subrc &lt;&gt; 0.
+    RETURN.
+  ENDIF.
+
+  size = &lt;weight&gt;.</SOURCE>
+   </ITEM>
+   <ITEM CMPNAME="GET_SEMAPHORE" STATE="1" MTDNEWEXC="X">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Get Semaphore"/>
+    </TEXTS>
+    <EXCEPTIONS>
+     <ITEM SCONAME="YGPL_MT_CX" LANGU="E">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="MultyThread : Root exception class"/>
+      </TEXTS>
+     </ITEM>
+    </EXCEPTIONS>
+    <SOURCE>`
+
+  IF NOT f_semaphore IS INITIAL.
+    RAISE EXCEPTION TYPE ygpl_mt_cx_locks
+          EXPORTING textid = ygpl_mt_cx_locks=&gt;semaphore_already_defined
+               object_name = &apos;Object Semaphore&apos;(tos).
+  ENDIF.
+* Get global Lock on object processing.
+  ygpl_mt_lock_managment=&gt;get_objects_semaphore( o_run-&gt;process_id ).
+  f_semaphore = abap_true.</SOURCE>
+   </ITEM>
+   <ITEM CMPNAME="GET_SIZE" STATE="1" MTDDECLTYP="1" MTDNEWEXC="X">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Get memory use"/>
+    </TEXTS>
+    <PARAMETERS>
+     <ITEM SCONAME="OBJECT" CMPTYPE="1" PARPASSTYP="1" TYPTYPE="1" TYPE="ANY">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="Object to get size"/>
+      </TEXTS>
+     </ITEM>
+     <ITEM SCONAME="RESULT" CMPTYPE="1" PARDECLTYP="3" TYPTYPE="1" TYPE="TD_MEMORY_SIZE">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="Estimated Memory size of the bloc"/>
+      </TEXTS>
+     </ITEM>
+    </PARAMETERS>
+    <EXCEPTIONS>
+     <ITEM SCONAME="YGPL_MT_CX" LANGU="E">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="MultyThread : Root exception class"/>
+      </TEXTS>
+     </ITEM>
+    </EXCEPTIONS>
+    <SOURCE>`
+**********************************************************************
+* Author : Al&apos;oustad Taryck BENSIALI (taryck.bensiali@gmail.com)     *
+* Date : 2008 December                                               *
+**********************************************************************
+  DATA xstr TYPE xstring.
+
+  TRY.
+      CALL METHOD cl_abap_memory_utilities=&gt;get_memory_size_of_object
+        EXPORTING
+          object                     = object
+*          ignore_string_sharing      =
+*          ignore_table_sharing       =
+        IMPORTING
+*          bound_size_alloc           =
+          bound_size_used            = result
+*          referenced_size_alloc      =
+*          referenced_size_used       =
+*          is_part_of_non_trivial_szk =
+*          szk_size_alloc             =
+*          szk_size_used              =
+*          low_mem                    =
+*          is_in_shared_memory        =
+*          sizeof_alloc               =
+*          sizeof_used                = size
+          .
+    CATCH cx_root.
+      EXPORT x = object TO DATA BUFFER xstr COMPRESSION OFF.
+      result = XSTRLEN( xstr ).
+  ENDTRY.</SOURCE>
+   </ITEM>
+   <ITEM CMPNAME="HANDLE_OBJECTS_CONFIRMATION" EXPOSURE="1" STATE="1" MTDTYPE="1" REFCLSNAME="YGPL_MT_MESSAGING" REFCMPNAME="OBJECTS_CONFIRMED">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Handle event for object confirmation"/>
+    </TEXTS>
+    <PARAMETERS>
+     <ITEM SCONAME="OBJECT_COUNT" CMPTYPE="1" MTDTYPE="1"/>
+     <ITEM SCONAME="STATUS" CMPTYPE="1" MTDTYPE="1"/>
+    </PARAMETERS>
+    <SOURCE>`
+  FIELD-SYMBOLS &lt;line&gt; LIKE LINE OF status.
+
+  CHECK object_count &lt;&gt; 0.
+
+  ADD object_count TO processed_objects.
+  LOOP AT status ASSIGNING &lt;line&gt;.
+    COLLECT &lt;line&gt; INTO global_status.
+  ENDLOOP.
+
+  display_progress( ).
+
+  RAISE EVENT objects_confirmed.</SOURCE>
+   </ITEM>
+   <ITEM CMPNAME="HAS_BLOCS" STATE="1" MTDNEWEXC="X">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Do exists bloc"/>
+    </TEXTS>
+    <PARAMETERS>
+     <ITEM SCONAME="RESULT" CMPTYPE="1" PARDECLTYP="3" TYPTYPE="1" TYPE="TD_BOOLEAN">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="Object to recover exists"/>
+      </TEXTS>
+     </ITEM>
+     <ITEM SCONAME="STATUS" CMPTYPE="1" PARPASSTYP="1" TYPTYPE="1" TYPE="TD_BLOC_STATUS"/>
+    </PARAMETERS>
+    <EXCEPTIONS>
+     <ITEM SCONAME="YGPL_MT_CX" LANGU="E">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="MultyThread : Root exception class"/>
+      </TEXTS>
+     </ITEM>
+    </EXCEPTIONS>
+    <SOURCE>`
+  TYPES:
+    BEGIN OF ts_bloc,
+      id TYPE ygplmt_objects-bloc_id,
+    END OF ts_bloc.
+  DATA _blocs     TYPE STANDARD TABLE OF ts_bloc.
+  DATA o_cx       TYPE REF TO cx_root.
+  FIELD-SYMBOLS &lt;wa&gt; LIKE LINE OF _blocs.
+
+* Get global Lock on object processing.
+  get_semaphore( ).
+
+  TRY.
+      DO 1 TIMES.   &quot; for check to work
+* Get data
+        SELECT bloc_id INTO TABLE _blocs
+          FROM ygplmt_objects
+          WHERE run_id = o_run-&gt;process_id
+            AND status = status.
+        CHECK NOT _blocs IS initial.
+
+        LOOP AT _blocs ASSIGNING &lt;wa&gt;.
+          TRY.
+              lock_bloc( &lt;wa&gt;-id ).
+            CATCH ygpl_mt_cx INTO o_cx.
+* Bloc locked &lt;=&gt; processed
+              DELETE _blocs.
+              CONTINUE.
+          ENDTRY.
+        ENDLOOP.
+
+        CHECK NOT _blocs IS INITIAL.
+        result = abap_true.
+* Unlock blocs
+        LOOP AT _blocs ASSIGNING &lt;wa&gt;.
+          unlock_bloc( &lt;wa&gt;-id ).
+        ENDLOOP.
+      ENDDO.
+    CATCH cx_root INTO o_cx.
+      release_semaphore( ).
+      RAISE EXCEPTION o_cx.
+  ENDTRY.
+* Release global Lock on object processing.
+  release_semaphore( ).</SOURCE>
+   </ITEM>
+   <ITEM CMPNAME="JOIN_2_MICRO_BLOCS" STATE="1" MTDDECLTYP="1" MTDNEWEXC="X">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Join 2 Micro blocs"/>
+    </TEXTS>
+    <PARAMETERS>
+     <ITEM SCONAME="BLOC1" CMPTYPE="1" PARPASSTYP="1" TYPTYPE="1" TYPE="TD_NUM_KEY">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="Numéro d&apos;objet"/>
+      </TEXTS>
+     </ITEM>
+     <ITEM SCONAME="BLOC2" CMPTYPE="1" PARPASSTYP="1" TYPTYPE="1" TYPE="TD_NUM_KEY">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="Taille (en nb d&apos;objet) d&apos;un bloc (unité mini de traitement)"/>
+      </TEXTS>
+     </ITEM>
+     <ITEM SCONAME="M_BLOC" CMPTYPE="1" PARDECLTYP="2" PARPASSTYP="1" TYPTYPE="1" TYPE="TT_BLOCS_NFO">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="Table dépendance bloc"/>
+      </TEXTS>
+     </ITEM>
+     <ITEM SCONAME="OBJ2BLOCS" CMPTYPE="1" PARDECLTYP="2" PARPASSTYP="1" TYPTYPE="1" TYPE="TT_LINES_NFO">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="Table dépendance bloc : OBJ-&gt;Bloc ou Bloc-&gt;Obj"/>
+      </TEXTS>
+     </ITEM>
+    </PARAMETERS>
+    <EXCEPTIONS>
+     <ITEM SCONAME="YGPL_MT_CX" LANGU="E">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="MultyThread : Root exception class"/>
+      </TEXTS>
+     </ITEM>
+    </EXCEPTIONS>
+    <SOURCE>`
+**********************************************************************
+* Author : Al&apos;oustad Taryck BENSIALI (taryck.bensiali@gmail.com)     *
+* Date : 2008 December                                               *
+**********************************************************************
+  FIELD-SYMBOLS:
+    &lt;b1&gt; LIKE LINE OF m_bloc,
+    &lt;b2&gt; LIKE LINE OF m_bloc.
+
+  READ TABLE m_bloc WITH TABLE KEY id = bloc1 ASSIGNING &lt;b1&gt;.
+  ASSERT sy-subrc = 0.
+  READ TABLE m_bloc WITH TABLE KEY id = bloc2 ASSIGNING &lt;b2&gt;.
+  ASSERT sy-subrc = 0.
+
+  ADD &lt;b2&gt;-size TO &lt;b1&gt;-size.
+  APPEND LINES OF &lt;b2&gt;-objs TO &lt;b1&gt;-objs.
+  ASSERT sy-subrc = 0.
+
+  DELETE TABLE m_bloc WITH TABLE KEY id = bloc2.
+  ASSERT sy-subrc = 0.</SOURCE>
+   </ITEM>
+   <ITEM CMPNAME="LOCK_BLOC" STATE="1" MTDDECLTYP="1" MTDNEWEXC="X">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Locking"/>
+    </TEXTS>
+    <PARAMETERS>
+     <ITEM SCONAME="BLOC_ID" CMPTYPE="1" PARPASSTYP="1" TYPTYPE="1" TYPE="TD_BLOC_ID">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="Object Bloc ID"/>
+      </TEXTS>
+     </ITEM>
+    </PARAMETERS>
+    <EXCEPTIONS>
+     <ITEM SCONAME="YGPL_MT_CX" LANGU="E">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="MultyThread : Root exception class"/>
+      </TEXTS>
+     </ITEM>
+    </EXCEPTIONS>
+    <SOURCE>`
+  DATA _key TYPE string.
+  DATA user TYPE sy-uname.
+
+*  ygpl_mt_lock_managment=&gt;check_lock_mode( lock_mode ).
+
+  CALL FUNCTION &apos;ENQUEUE_EYGPLMT_OBJECTS&apos;
+    EXPORTING
+      mode_ygplmt_objects = ygpl_mt_lock_managment=&gt;lock_modes-exclusive
+      mandt               = sy-mandt
+      bloc_id             = bloc_id
+      x_bloc_id           = abap_true
+      _scope              = &apos;1&apos;
+      _wait               = abap_true
+      _collect            = &apos; &apos;
+    EXCEPTIONS
+      foreign_lock        = 1
+      system_failure      = 2
+      OTHERS              = 3.
+  IF sy-subrc = 1.
+    user = sy-msgv1.
+    _key = bloc_id.
+    RAISE EXCEPTION TYPE ygpl_mt_cx_locks
+          EXPORTING textid = ygpl_mt_cx_locks=&gt;foreign_lock
+                  object_name = &apos;Object bloc&apos;(tob)
+                   object_key = _key
+                         user = user.
+*  else if sy-subrc &lt;&gt; 0.
+  ELSE.
+    ASSERT sy-subrc = 0.
+  ENDIF.</SOURCE>
+   </ITEM>
+   <ITEM CMPNAME="RELEASE_SEMAPHORE" STATE="1">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Release Semaphore if set"/>
+    </TEXTS>
+    <SOURCE>`
+
+  CHECK f_semaphore IS NOT INITIAL.
+*  IF f_semaphore IS INITIAL.
+*    RAISE EXCEPTION TYPE ygpl_mt_cx_locks
+*          EXPORTING textid = ygpl_mt_cx_locks=&gt;semaphore_not_set
+*               object_name = &apos;Object Semaphore&apos;(tos).
+*  ENDIF.
+* Get global Lock on object processing.
+  ygpl_mt_lock_managment=&gt;release_objects_semaphore( o_run-&gt;process_id ).
+  CLEAR f_semaphore.</SOURCE>
+   </ITEM>
+   <ITEM CMPNAME="SEND_BLOCS" STATE="1" MTDNEWEXC="X">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Send blocs to DB"/>
+    </TEXTS>
+    <PARAMETERS>
+     <ITEM SCONAME="BLOCS" CMPTYPE="1" PARPASSTYP="1" TYPTYPE="1" TYPE="TT_BLOCS_NFO">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="Table dépendance bloc"/>
+      </TEXTS>
+     </ITEM>
+     <ITEM SCONAME="DONE_OBJ" CMPTYPE="1" PARDECLTYP="1" PARPASSTYP="1" TYPTYPE="1" TYPE="TT_LINES_NFO">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="Objets déjà envoyés"/>
+      </TEXTS>
+     </ITEM>
+     <ITEM SCONAME="OBJECTS" CMPTYPE="1" PARPASSTYP="1" TYPTYPE="1" TYPE="STANDARD TABLE">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="Liste des objets"/>
+      </TEXTS>
+     </ITEM>
+     <ITEM SCONAME="WEIGHT_FN" CMPTYPE="1" PARPASSTYP="1" TYPTYPE="1" TYPE="TD_FN">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="Field Name"/>
+      </TEXTS>
+     </ITEM>
+    </PARAMETERS>
+    <EXCEPTIONS>
+     <ITEM SCONAME="YGPL_MT_CX" LANGU="E">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="MultyThread : Root exception class"/>
+      </TEXTS>
+     </ITEM>
+    </EXCEPTIONS>
+    <SOURCE>`
+**********************************************************************
+* Author : Al&apos;oustad Taryck BENSIALI (taryck.bensiali@gmail.com)     *
+* Date : 2008 December                                               *
+**********************************************************************
+  DATA tab_ref TYPE REF TO data.
+  DATA obj_id LIKE LINE OF done_obj.
+  DATA weight   TYPE td_bloc_size.
+  DATA b_weight TYPE td_bloc_size.
+  DATA fn TYPE string.
+
+  FIELD-SYMBOLS :
+    &lt;weight&gt; TYPE ANY,
+    &lt;b&gt; LIKE LINE OF blocs,
+    &lt;id&gt; LIKE LINE OF &lt;b&gt;-objs,
+    &lt;obj&gt; TYPE ANY,
+    &lt;objects&gt; LIKE objects.
+
+  CREATE DATA tab_ref LIKE objects.
+  ASSIGN tab_ref-&gt;* TO &lt;objects&gt;.
+
+  IF NOT weight_fn IS INITIAL. CONCATENATE &apos;&lt;obj&gt;-&apos; weight_fn INTO fn. ENDIF.
+* Creation bloc
+  LOOP AT blocs ASSIGNING &lt;b&gt;.
+    LOOP AT &lt;b&gt;-objs ASSIGNING &lt;id&gt;.
+      READ TABLE objects INDEX &lt;id&gt;-id ASSIGNING &lt;obj&gt;.
+      ASSERT sy-subrc = 0.
+* Weight determine
+      weight = 1.
+      IF NOT fn IS INITIAL.
+        ASSIGN (fn) TO &lt;weight&gt;.
+        IF sy-subrc = 0.
+          weight = &lt;weight&gt;.
+        ENDIF.
+      ENDIF.
+      ADD weight TO b_weight.
+
+      APPEND &lt;obj&gt; TO &lt;objects&gt;.
+      ASSERT sy-subrc = 0.
+      obj_id-key = &lt;id&gt;-id.
+      INSERT obj_id INTO TABLE done_obj.
+      ASSERT sy-subrc = 0.
+    ENDLOOP.
+    CALL METHOD add_bloc
+      EXPORTING
+        OBJECTS   = &lt;objects&gt;
+        bloc_size = b_weight.
+    REFRESH &lt;objects&gt;.
+    CLEAR: b_weight.
+  ENDLOOP.</SOURCE>
+   </ITEM>
+   <ITEM CMPNAME="SEND_CONFIRMATION" STATE="1" MTDNEWEXC="X">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Send object confirmation"/>
+    </TEXTS>
+    <PARAMETERS>
+     <ITEM SCONAME="COUNT" CMPTYPE="1" PARPASSTYP="1" TYPTYPE="1" TYPE="TD_COUNT"/>
+     <ITEM SCONAME="STATUS" CMPTYPE="1" PARPASSTYP="1" TYPTYPE="1" TYPE="TD_USER_STATUS"/>
+    </PARAMETERS>
+    <EXCEPTIONS>
+     <ITEM SCONAME="YGPL_MT_CX" LANGU="E">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="MultyThread : Root exception class"/>
+      </TEXTS>
+     </ITEM>
+    </EXCEPTIONS>
+    <SOURCE>`
+  DATA s_status LIKE LINE OF global_status.
+
+  s_status-status = status.
+  s_status-count = count.
+
+  ADD count TO confirmed_objects.
+
+  COLLECT s_status INTO global_status.
+  COLLECT s_status INTO status_to_send.
+
+  send_progress( ).</SOURCE>
+   </ITEM>
+   <ITEM CMPNAME="SEND_CORRECTION" STATE="1" MTDNEWEXC="X">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Send correction due to inconsistency"/>
+    </TEXTS>
+    <PARAMETERS>
+     <ITEM SCONAME="COUNT" CMPTYPE="1" PARPASSTYP="1" TYPTYPE="1" TYPE="TD_COUNT"/>
+     <ITEM SCONAME="STATUS" CMPTYPE="1" PARPASSTYP="1" TYPTYPE="1" TYPE="TD_USER_STATUS"/>
+    </PARAMETERS>
+    <EXCEPTIONS>
+     <ITEM SCONAME="YGPL_MT_CX" LANGU="E">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="MultyThread : Root exception class"/>
+      </TEXTS>
+     </ITEM>
+    </EXCEPTIONS>
+    <SOURCE>`
+  CHECK ygpl_mt_status=&gt;is_system_status( status ) IS NOT INITIAL.
+  send_confirmation( count = count
+                    status = status ).</SOURCE>
+   </ITEM>
+   <ITEM CMPNAME="SEND_OBJECT_CONFIRMATION" EXPOSURE="1" STATE="1" MTDNEWEXC="X">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Send confirmed object information to parent"/>
+    </TEXTS>
+    <EXCEPTIONS>
+     <ITEM SCONAME="YGPL_MT_CX" LANGU="E">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="MultyThread : Root exception class"/>
+      </TEXTS>
+     </ITEM>
+    </EXCEPTIONS>
+    <SOURCE>`
+  CHECK status_to_send IS NOT INITIAL.
+  o_run-&gt;o_messaging-&gt;send_system_message( category = system_categories-obj_conf
+                                           message  = status_to_send ).
+  CLEAR status_to_send.</SOURCE>
+   </ITEM>
+   <ITEM CMPNAME="SEND_PROGRESS" EXPOSURE="1" STATE="1" MTDNEWEXC="X">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Decide to send object confirmation"/>
+    </TEXTS>
+    <EXCEPTIONS>
+     <ITEM SCONAME="YGPL_MT_CX" LANGU="E">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="MultyThread : Root exception class"/>
+      </TEXTS>
+     </ITEM>
+    </EXCEPTIONS>
+    <SOURCE>`
+  DATA new_p    TYPE td_progress.
+  DATA delta_p  TYPE td_progress.
+*  DATA _delta   TYPE timestampl.
+  DATA _now     TYPE timestampl.
+  DATA _sec     TYPE td_time.
+*  DATA o_cx     TYPE REF TO cx_root.
+
+  CHECK batch_objects &gt; 0.
+*  TRY.
+*    CATCH cx_root INTO o_cx.
+*
+*  ENDTRY.
+  new_p = confirmed_objects / batch_objects * 100.
+  delta_p = new_p - last_message-progress.
+  GET TIME STAMP FIELD _now.
+  _sec = cl_abap_tstmp=&gt;subtract( tstmp1 = _now
+                                  tstmp2 = last_message-time ).
+  CHECK check_progress( time = _sec
+                    progress = delta_p
+                      limits = o_task_conditions-&gt;progression ) IS NOT INITIAL.
+
+  last_message-progress = new_p.
+  last_message-time = _now.
+
+  send_object_confirmation( ).</SOURCE>
+   </ITEM>
+   <ITEM CMPNAME="SET_RELATION_OBJECT_BLOC" STATE="1" MTDDECLTYP="1" MTDNEWEXC="X">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Set Object&apos;s Bloc"/>
+    </TEXTS>
+    <PARAMETERS>
+     <ITEM SCONAME="BLOC" CMPTYPE="1" PARPASSTYP="1" TYPTYPE="1" TYPE="TD_NUM_KEY">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="Numéro de bloc"/>
+      </TEXTS>
+     </ITEM>
+     <ITEM SCONAME="OBJ" CMPTYPE="1" PARPASSTYP="1" TYPTYPE="1" TYPE="TD_NUM_KEY">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="Numéro d&apos;objet"/>
+      </TEXTS>
+     </ITEM>
+     <ITEM SCONAME="OBJ2BLOCS" CMPTYPE="1" PARDECLTYP="2" PARPASSTYP="1" TYPTYPE="1" TYPE="TT_LINES_NFO">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="Table dépendance bloc : OBJ-&gt;Bloc ou Bloc-&gt;Obj"/>
+      </TEXTS>
+     </ITEM>
+    </PARAMETERS>
+    <EXCEPTIONS>
+     <ITEM SCONAME="YGPL_MT_CX" LANGU="E">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="MultyThread : Root exception class"/>
+      </TEXTS>
+     </ITEM>
+    </EXCEPTIONS>
+    <SOURCE>`
+**********************************************************************
+* Author : Al&apos;oustad Taryck BENSIALI (taryck.bensiali@gmail.com)     *
+* Date : 2008 December                                               *
+**********************************************************************
+  DATA wa LIKE LINE OF obj2blocs.
+
+  wa-key = obj.
+  wa-val = bloc.
+  INSERT wa INTO TABLE obj2blocs.
+  ASSERT sy-subrc = 0.</SOURCE>
+   </ITEM>
+   <ITEM CMPNAME="SET_RUN" EXPOSURE="2" STATE="1">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Define Run"/>
+    </TEXTS>
+    <PARAMETERS>
+     <ITEM SCONAME="O_RUN" CMPTYPE="1" PARPASSTYP="1" TYPTYPE="1" TYPE="TI_PARENT"/>
+    </PARAMETERS>
+    <SOURCE>`
+  DATA o_real_run TYPE REF TO ygpl_mt_run.
+  TYPES:
+    BEGIN OF tt_count,
+      status TYPE ygplmt_objects-status,
+      nb     TYPE ygplmt_objects-nb,
+    END OF tt_count.
+  DATA t_count TYPE STANDARD TABLE OF tt_count.
+  FIELD-SYMBOLS &lt;nb&gt; LIKE LINE OF t_count.
+
+  TRY.
+      o_real_run ?= o_run.
+    CATCH cx_sy_move_cast_error.
+  ENDTRY.
+  me-&gt;o_run ?= o_run.
+  IF o_real_run IS BOUND.   &quot; it&apos;s a Run not task (parent)
+    SET HANDLER handle_objects_confirmation FOR me-&gt;o_run-&gt;o_messaging ACTIVATION &apos;X&apos;.
+    o_start_conditions ?= me-&gt;o_run-&gt;conditions.
+  ELSE.
+    CLEAR o_start_conditions.
+    SET HANDLER handle_objects_confirmation FOR me-&gt;o_run-&gt;o_messaging ACTIVATION &apos; &apos;.
+  ENDIF.
+  o_task_conditions ?= me-&gt;o_run-&gt;conditions.
+
+  task_mini_blocsize = me-&gt;o_run-&gt;infos-bloc_size.
+* Check if bloc exists
+  SELECT status nb INTO TABLE t_count
+    FROM ygplmt_objects
+    WHERE run_id = o_run-&gt;process_id.
+  LOOP AT t_count ASSIGNING &lt;nb&gt;.
+    ADD 1 TO total_blocs_count.
+    ADD &lt;nb&gt;-nb TO total_objects.
+    IF &lt;nb&gt;-status = system_status-bloc-done.
+      ADD &lt;nb&gt;-nb TO processed_objects.
+    ENDIF.
+  ENDLOOP.</SOURCE>
+   </ITEM>
+   <ITEM CMPNAME="UNLOCK_BLOC" STATE="1" MTDDECLTYP="1">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Unlocking"/>
+    </TEXTS>
+    <PARAMETERS>
+     <ITEM SCONAME="BLOC_ID" CMPTYPE="1" PARPASSTYP="1" TYPTYPE="1" TYPE="TD_BLOC_ID">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="Object Bloc ID"/>
+      </TEXTS>
+     </ITEM>
+    </PARAMETERS>
+    <SOURCE>`
+  CALL FUNCTION &apos;DEQUEUE_EYGPLMT_OBJECTS&apos;
+    EXPORTING
+      MODE_YGPLMT_OBJECTS       = ygpl_mt_lock_managment=&gt;lock_modes-exclusive
+      MANDT                     = SY-MANDT
+      BLOC_ID                   = bloc_id
+      X_BLOC_ID                 = abap_true
+      _SCOPE                    = &apos;1&apos;
+      _SYNCHRON                 = &apos; &apos;
+      _COLLECT                  = &apos; &apos;.</SOURCE>
+   </ITEM>
+  </METHODS>
+  <TEXTSPOOL>
+   <ITEM ID="I" KEY="N_A">
+    <TEXTS>
+     <ITEM LANGU="E" ENTRY="N/A" LENGTH="5 "/>
+    </TEXTS>
+   </ITEM>
+   <ITEM ID="I" KEY="TOB">
+    <TEXTS>
+     <ITEM LANGU="E" ENTRY="Object bloc" LENGTH="30 "/>
+    </TEXTS>
+   </ITEM>
+   <ITEM ID="I" KEY="TOS">
+    <TEXTS>
+     <ITEM LANGU="E" ENTRY="Object Semaphore" LENGTH="30 "/>
+    </TEXTS>
+   </ITEM>
+  </TEXTSPOOL>
+  <TYPES>
+   <ITEM CMPNAME="TD_BUFFER_DATA" STATE="1" EDITORDER="1 " TYPTYPE="1" TYPE="YGPLMT_OBJECTS-OBJ_DATA"/>
+   <ITEM CMPNAME="TD_PROGRESS" STATE="1" EDITORDER="2 " TYPTYPE="1" TYPE="F">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Progression"/>
+    </TEXTS>
+   </ITEM>
+   <ITEM CMPNAME="TO_MESSAGING" EXPOSURE="1" STATE="1" EDITORDER="2 " TYPTYPE="3" TYPE="YGPL_MT_MESSAGING">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Message communication between process"/>
+    </TEXTS>
+   </ITEM>
+   <ITEM CMPNAME="TO_RUN" EXPOSURE="1" STATE="1" EDITORDER="1 " TYPTYPE="3" TYPE="YGPL_MT_PARENT">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="MT : Run Process"/>
+    </TEXTS>
+   </ITEM>
+   <ITEM CMPNAME="TR_TYPE_KIND" STATE="1" EDITORDER="3 " TYPTYPE="4">
+    tr_type_kind TYPE RANGE OF abap_typekind
+`
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Set of ABAP Type Kind"/>
+    </TEXTS>
+   </ITEM>
+   <ITEM CMPNAME="TS_BLOC" STATE="1" EDITORDER="4 " TYPTYPE="4">
+    BEGIN OF ts_bloc,
+      bloc_id TYPE td_bloc_id,
+    END OF ts_bloc
+`
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Bloc ID"/>
+    </TEXTS>
+   </ITEM>
+   <ITEM CMPNAME="TT_BLOCS" STATE="1" EDITORDER="5 " TYPTYPE="4">
+    tt_blocs TYPE STANDARD TABLE OF ts_bloc
+`
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Set of bloc ID"/>
+    </TEXTS>
+   </ITEM>
+  </TYPES>
+ </RAW>
+</ZL_OBJECT>

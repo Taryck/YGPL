@@ -1,0 +1,993 @@
+<?xml version="1.0" encoding="utf-16"?>
+<ZL_OBJECT CHECKSUM="CFF40C0A4367FAC19CA1436A86ED7C36" CODE_SIGNATURE="932B8C9D6BB719AEF2D9E31ED5663ADA" CONNECTOR="39AC0A4B07A5A05AE1000000AC120173" NAME="YGPL_MT_JOB_MONITORING" TYPE="CLAS" VERSION="1.01">
+ <DIRECTORY DEVCLASS="YGPL-MULTITHREAD" MASTERLANG="E"/>
+ <RAW>
+  <A0_MAINDATA VERSION="1" LANGU="E" EXPOSURE="2" STATE="1" CLSCCINCL="X" FIXPT="X" UNICODE="X" MSG_ID="YGPL_MT">
+   <TEXTS>
+    <ITEM LANG="E" TEXT="MT : Job monitoring"/>
+   </TEXTS>
+  </A0_MAINDATA>
+  <ALIASES>
+   <ITEM CMPNAME="ADD_THREAD" EXPOSURE="2" CMPTYPE="1" REFCLSNAME="YGPLIMT_JOB_MONITORING" REFCMPNAME="ADD_THREAD"/>
+   <ITEM CMPNAME="BEFORE_SLEEP_MODE" EXPOSURE="2" CMPTYPE="2" REFCLSNAME="YGPLIMT_JOB_MONITORING" REFCMPNAME="BEFORE_SLEEP_MODE"/>
+   <ITEM CMPNAME="CANCEL_JOB" EXPOSURE="2" CMPTYPE="1" REFCLSNAME="YGPLIMT_JOB_MONITORING" REFCMPNAME="CANCEL_JOB"/>
+   <ITEM CMPNAME="CANCEL_NEXT_SLEEP" EXPOSURE="2" CMPTYPE="1" REFCLSNAME="YGPLIMT_JOB_MONITORING" REFCMPNAME="CANCEL_NEXT_SLEEP"/>
+   <ITEM CMPNAME="CHECK_ACTIVE_THREADS" EXPOSURE="2" CMPTYPE="1" REFCLSNAME="YGPLIMT_JOB_MONITORING" REFCMPNAME="CHECK_ACTIVE_THREADS"/>
+   <ITEM CMPNAME="CLOSE_JOB" EXPOSURE="2" CMPTYPE="1" REFCLSNAME="YGPLIMT_JOB_MONITORING" REFCMPNAME="CLOSE_JOB"/>
+   <ITEM CMPNAME="DEBUG" EXPOSURE="2" REFCLSNAME="YGPLIMT_JOB_MONITORING" REFCMPNAME="DEBUG"/>
+   <ITEM CMPNAME="GET_AS_LOAD" EXPOSURE="2" CMPTYPE="1" REFCLSNAME="YGPLIMT_JOB_MONITORING" REFCMPNAME="GET_AS_LOAD"/>
+   <ITEM CMPNAME="GET_JOB_LIST" EXPOSURE="2" CMPTYPE="1" REFCLSNAME="YGPLIMT_JOB_MONITORING" REFCMPNAME="GET_JOB_LIST"/>
+   <ITEM CMPNAME="NEW_JOB" EXPOSURE="2" CMPTYPE="1" REFCLSNAME="YGPLIMT_JOB_MONITORING" REFCMPNAME="NEW_JOB"/>
+   <ITEM CMPNAME="ON_THREAD_END" EXPOSURE="2" CMPTYPE="2" REFCLSNAME="YGPLIMT_JOB_MONITORING" REFCMPNAME="ON_THREAD_END"/>
+   <ITEM CMPNAME="SLEEP" EXPOSURE="2" CMPTYPE="1" REFCLSNAME="YGPLIMT_JOB_MONITORING" REFCMPNAME="SLEEP"/>
+   <ITEM CMPNAME="START_JOB" EXPOSURE="2" CMPTYPE="1" REFCLSNAME="YGPLIMT_JOB_MONITORING" REFCMPNAME="START_JOB"/>
+   <ITEM CMPNAME="START_THREADS" EXPOSURE="2" CMPTYPE="1" REFCLSNAME="YGPLIMT_JOB_MONITORING" REFCMPNAME="START_THREADS"/>
+   <ITEM CMPNAME="SUBMIT_THREAD" EXPOSURE="2" CMPTYPE="2" REFCLSNAME="YGPLIMT_JOB_MONITORING" REFCMPNAME="SUBMIT_THREAD"/>
+   <ITEM CMPNAME="TD_AS_LOAD" EXPOSURE="2" CMPTYPE="3" REFCLSNAME="YGPL_MT_TYPESPOOL" REFCMPNAME="TD_AS_LOAD"/>
+   <ITEM CMPNAME="TD_AS_NAME" EXPOSURE="2" CMPTYPE="3" REFCLSNAME="YGPL_MT_TYPESPOOL" REFCMPNAME="TD_AS_NAME"/>
+   <ITEM CMPNAME="TD_BOOLEAN" EXPOSURE="2" CMPTYPE="3" REFCLSNAME="YGPL_MT_TYPESPOOL" REFCMPNAME="TD_BOOLEAN"/>
+   <ITEM CMPNAME="TD_COUNT" EXPOSURE="2" CMPTYPE="3" REFCLSNAME="YGPL_MT_TYPESPOOL" REFCMPNAME="TD_COUNT"/>
+   <ITEM CMPNAME="TD_GROUP" EXPOSURE="2" CMPTYPE="3" REFCLSNAME="YGPL_MT_TYPESPOOL" REFCMPNAME="TD_GROUP"/>
+   <ITEM CMPNAME="TD_JOBID" EXPOSURE="2" CMPTYPE="3" REFCLSNAME="YGPL_MT_TYPESPOOL" REFCMPNAME="TD_JOBID"/>
+   <ITEM CMPNAME="TD_JOBNAME" EXPOSURE="2" CMPTYPE="3" REFCLSNAME="YGPL_MT_TYPESPOOL" REFCMPNAME="TD_JOBNAME"/>
+   <ITEM CMPNAME="TD_PRIORITY" EXPOSURE="2" CMPTYPE="3" REFCLSNAME="YGPL_MT_TYPESPOOL" REFCMPNAME="TD_PRIORITY"/>
+   <ITEM CMPNAME="TD_PROGRESS" EXPOSURE="2" CMPTYPE="3" REFCLSNAME="YGPL_MT_TYPESPOOL" REFCMPNAME="TD_PROGRESS"/>
+   <ITEM CMPNAME="TD_THREAD_COUNT" EXPOSURE="2" CMPTYPE="3" REFCLSNAME="YGPL_MT_TYPESPOOL" REFCMPNAME="TD_THREAD_COUNT"/>
+   <ITEM CMPNAME="TD_TIME" EXPOSURE="2" CMPTYPE="3" REFCLSNAME="YGPL_MT_TYPESPOOL" REFCMPNAME="TD_TIME"/>
+   <ITEM CMPNAME="TD_TIMESTAMP" EXPOSURE="2" CMPTYPE="3" REFCLSNAME="YGPL_MT_TYPESPOOL" REFCMPNAME="TD_TIMESTAMP"/>
+   <ITEM CMPNAME="THREADS" EXPOSURE="2" REFCLSNAME="YGPLIMT_JOB_MONITORING" REFCMPNAME="THREADS"/>
+   <ITEM CMPNAME="TIMES" EXPOSURE="2" REFCLSNAME="YGPLIMT_JOB_MONITORING" REFCMPNAME="TIMES"/>
+   <ITEM CMPNAME="TI_JOB_MONITORING_CONDITIONS" EXPOSURE="2" CMPTYPE="3" REFCLSNAME="YGPL_MT_INTERFACES" REFCMPNAME="TI_JOB_MONITORING_CONDITIONS"/>
+   <ITEM CMPNAME="TR_AS_NAME" EXPOSURE="2" CMPTYPE="3" REFCLSNAME="YGPL_MT_TYPESPOOL" REFCMPNAME="TR_AS_NAME"/>
+   <ITEM CMPNAME="TS_CHRONO" EXPOSURE="2" CMPTYPE="3" REFCLSNAME="YGPL_MT_TYPESPOOL" REFCMPNAME="TS_CHRONO"/>
+   <ITEM CMPNAME="TS_JOB_KEY" EXPOSURE="2" CMPTYPE="3" REFCLSNAME="YGPL_MT_TYPESPOOL" REFCMPNAME="TS_JOB_KEY"/>
+   <ITEM CMPNAME="TT_AS" EXPOSURE="2" CMPTYPE="3" REFCLSNAME="YGPL_MT_TYPESPOOL" REFCMPNAME="TT_AS"/>
+   <ITEM CMPNAME="TT_JOBLIST" EXPOSURE="2" CMPTYPE="3" REFCLSNAME="YGPLIMT_JOB_MONITORING" REFCMPNAME="TT_JOBLIST"/>
+   <ITEM CMPNAME="WAIT_PROGRESS" EXPOSURE="2" CMPTYPE="1" REFCLSNAME="YGPLIMT_JOB_MONITORING" REFCMPNAME="WAIT_PROGRESS"/>
+  </ALIASES>
+  <ATTRIBUTS>
+   <ITEM CMPNAME="ALL_AS_LIST" EXPOSURE="1" STATE="1" ATTDECLTYP="1" TYPTYPE="1" TYPE="TT_AS">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="List of Application Server with load"/>
+    </TEXTS>
+   </ITEM>
+   <ITEM CMPNAME="BYPASS_SLEEP" STATE="1" TYPTYPE="1" TYPE="TD_BOOLEAN">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Do not go into sleep mode"/>
+    </TEXTS>
+   </ITEM>
+   <ITEM CMPNAME="CURRENT_JOB" STATE="1" TYPTYPE="1" TYPE="TS_JOB_KEY">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Job key (Name &amp; ID)"/>
+    </TEXTS>
+   </ITEM>
+   <ITEM CMPNAME="JOB_STATUS" STATE="1" ATTDECLTYP="2" TYPTYPE="4">Begin of JOB_STatus,
+      RUNNING       type TBTCO-STATUS value &apos;R&apos;, &quot;#EC NOTEXT
+      READY         type TBTCO-STATUS value &apos;Y&apos;, &quot;#EC NOTEXT
+      SCHEDULED     type TBTCO-STATUS value &apos;P&apos;, &quot;#EC NOTEXT
+      RELEASED      type TBTCO-STATUS value &apos;S&apos;, &quot;#EC NOTEXT
+      ABORTED       type TBTCO-STATUS value &apos;A&apos;, &quot;#EC NOTEXT
+      FINISHED      type TBTCO-STATUS value &apos;F&apos;, &quot;#EC NOTEXT
+      PUT_ACTIVE    type TBTCO-STATUS value &apos;Z&apos;, &quot;#EC NOTEXT
+      UNKNOWN_STATE type TBTCO-STATUS value &apos;X&apos;, &quot;#EC NOTEXT
+    end of JOB_STatus
+`</ITEM>
+   <ITEM CMPNAME="MY_AS_LIST" EXPOSURE="1" STATE="1" TYPTYPE="1" TYPE="TT_AS">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="List of Application Server with load"/>
+    </TEXTS>
+   </ITEM>
+   <ITEM CMPNAME="O_CONDITIONS" EXPOSURE="2" STATE="1" ATTRDONLY="X" TYPTYPE="1" TYPE="TI_JOB_MONITORING_CONDITIONS">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Starting Conditions"/>
+    </TEXTS>
+   </ITEM>
+   <ITEM CMPNAME="O_CX" STATE="1" ATTDECLTYP="1" TYPTYPE="3" TYPE="YGPL_MT_CX">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="MultyThread : Root exception class"/>
+    </TEXTS>
+   </ITEM>
+   <ITEM CMPNAME="ROUNDROBIN_AS_INDEX" STATE="1" TYPTYPE="1" TYPE="I">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Round Robin index"/>
+    </TEXTS>
+   </ITEM>
+   <ITEM CMPNAME="SLEEP_TIME" STATE="1" ATTDECLTYP="2" ATTVALUE="15" TYPTYPE="1" TYPE="TD_TIME">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Sleep time in second between each message gathering"/>
+    </TEXTS>
+   </ITEM>
+   <ITEM CMPNAME="THREAD_LAUNCHED" STATE="1" TYPTYPE="1" TYPE="TT_JOBLIST">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Monitored Thread list"/>
+    </TEXTS>
+   </ITEM>
+  </ATTRIBUTS>
+  <INTERFACES>
+   <ITEM REFCLSNAME="YGPLIMT_JOB_MONITORING" EXPOSURE="2" STATE="1" RELTYPE="1">
+    <COMPONENTS>
+     <ITEM MTDNAME="ADD_THREAD">
+      <SOURCE>`
+  DATA _job       LIKE LINE OF thread_launched.
+  DATA job_info   TYPE ts_job_info.
+
+  _job-jobcount = jobcount.
+  _job-jobname = jobname.
+
+  CALL METHOD get_thread
+    EXPORTING
+      jobname  = _job-jobname
+      jobcount = _job-jobcount
+    IMPORTING
+      job_info = job_info.
+
+  _job-priority = job_info-jobclass.
+  IF job_info-reaxserver IS INITIAL.    _job-as_name = job_info-execserver.   ELSE.   _job-as_name = job_info-reaxserver.   ENDIF.
+
+  DESCRIBE TABLE thread_launched LINES _job-num.
+  ADD 1 TO _job-num.
+  APPEND _job TO thread_launched.
+  ASSERT sy-subrc = 0.
+
+  DESCRIBE TABLE thread_launched LINES threads.</SOURCE>
+     </ITEM>
+     <ITEM MTDNAME="CANCEL_JOB">
+      <SOURCE>`
+  CLEAR current_job.</SOURCE>
+     </ITEM>
+     <ITEM MTDNAME="CANCEL_NEXT_SLEEP">
+      <SOURCE>`
+  bypass_sleep = abap_true.</SOURCE>
+     </ITEM>
+     <ITEM MTDNAME="CHECK_ACTIVE_THREADS">
+      <SOURCE>`
+  DATA: job_info TYPE ts_job_info.
+  FIELD-SYMBOLS:
+    &lt;th&gt; LIKE LINE OF thread_launched.
+
+  LOOP AT thread_launched ASSIGNING &lt;th&gt;.
+    TRY.
+        CALL METHOD get_thread
+          EXPORTING
+            jobname  = &lt;th&gt;-jobname
+            jobcount = &lt;th&gt;-jobcount
+          IMPORTING
+            job_info = job_info.
+      CATCH ygpl_mt_cx_job_monitoring INTO o_cx.
+        IF o_cx-&gt;is_exception_text( ygpl_mt_cx_job_monitoring=&gt;job_dont_exists ) IS NOT INITIAL.
+*          job_info-status = job_status-aborted.
+          job_info-status = job_status-finished.
+        ELSE.
+          RAISE EXCEPTION o_cx.
+        ENDIF.
+    ENDTRY.
+    &lt;th&gt;-status = job_info-status.
+    IF job_info-status = job_status-aborted OR job_info-status = job_status-finished.
+      IF job_info-status = job_status-finished.
+        IF NOT sy-batch IS INITIAL.
+* Thread #&amp;1 - &amp;2(&amp;3) - Job completed
+          MESSAGE i005 WITH &lt;th&gt;-num &lt;th&gt;-jobname &lt;th&gt;-jobcount.
+        ENDIF.
+      ELSE.
+* Thread #&amp;1 - &amp;2(&amp;3) - Job aborded, recovery required
+        MESSAGE i006 WITH &lt;th&gt;-num &lt;th&gt;-jobname &lt;th&gt;-jobcount.
+      ENDIF.
+      RAISE EVENT on_thread_end EXPORTING job_monitoring = me
+                                                     job = &lt;th&gt;.
+      DELETE thread_launched.
+    ENDIF.
+  ENDLOOP.
+
+  DESCRIBE TABLE thread_launched LINES threads.</SOURCE>
+     </ITEM>
+     <ITEM MTDNAME="CLOSE_JOB">
+      <SOURCE>`
+  DATA _steps     TYPE tt_stepinfo.
+  DATA ls_srvname TYPE btcsrvname.
+
+  IF current_job IS INITIAL.
+    RAISE EXCEPTION TYPE ygpl_mt_cx_job_monitoring
+          EXPORTING textid = ygpl_mt_cx_job_monitoring=&gt;not_prepared.
+  ENDIF.
+
+* Check step added
+  CALL METHOD get_thread_details
+    EXPORTING
+      jobname          = current_job-name
+      jobcount         = current_job-id
+    IMPORTING
+*        job_info         =
+      steps            = _steps
+    EXCEPTIONS
+      job_doesnt_exist = 1
+      OTHERS           = 2.
+  ASSERT sy-subrc &lt;&gt; 1.
+  IF sy-subrc &lt;&gt; 0 OR _steps IS INITIAL.
+    RAISE EXCEPTION TYPE ygpl_mt_cx_job_monitoring
+          EXPORTING textid = ygpl_mt_cx_job_monitoring=&gt;job_has_no_step
+                      name = current_job-name
+                        id = current_job-id.
+  ENDIF.
+
+  ls_srvname = get_next_as_roundrobin( ).
+
+  CALL FUNCTION &apos;JOB_CLOSE&apos;
+    EXPORTING
+*     AT_OPMODE                         = &apos; &apos;
+*     AT_OPMODE_PERIODIC                = &apos; &apos;
+*     CALENDAR_ID                       = &apos; &apos;
+*     EVENT_ID                          = &apos; &apos;
+*     EVENT_PARAM                       = &apos; &apos;
+*     EVENT_PERIODIC                    = &apos; &apos;
+      jobcount                          = current_job-id
+      jobname                           = current_job-name
+*     LASTSTRTDT                        = NO_DATE
+*     LASTSTRTTM                        = NO_TIME
+*     PRDDAYS                           = 0
+*     PRDHOURS                          = 0
+*     PRDMINS                           = 0
+*     PRDMONTHS                         = 0
+*     PRDWEEKS                          = 0
+*     PREDJOB_CHECKSTAT                 = &apos; &apos;
+*     PRED_JOBCOUNT                     = &apos; &apos;
+*     PRED_JOBNAME                      = &apos; &apos;
+*     SDLSTRTDT                         = NO_DATE
+*     SDLSTRTTM                         = NO_TIME
+*     STARTDATE_RESTRICTION             = BTC_PROCESS_ALWAYS
+      strtimmed                         = abap_false
+*     TARGETSYSTEM                      = &apos; &apos;
+*     START_ON_WORKDAY_NOT_BEFORE       = SY-DATUM
+*     START_ON_WORKDAY_NR               = 0
+*     WORKDAY_COUNT_DIRECTION           = 0
+*     RECIPIENT_OBJ                     =
+      targetserver                      = ls_srvname
+      dont_release                      = abap_true
+*     TARGETGROUP                       = &apos; &apos;
+*     DIRECT_START                      =
+*   IMPORTING
+*     JOB_WAS_RELEASED                  =
+*   CHANGING
+*     RET                               =
+   EXCEPTIONS
+     cant_start_immediate              = 1
+     invalid_startdate                 = 2
+     jobname_missing                   = 3
+     job_close_failed                  = 4
+     job_nosteps                       = 5
+     job_notex                         = 6
+     lock_failed                       = 7
+     invalid_target                    = 8
+     OTHERS                            = 9.
+  IF sy-subrc &gt; 1.
+    o_cx ?= ygpl_mt_cx=&gt;create_from_mf_cx( funcname  = &apos;JOB_CLOSE&apos;
+                                           classname = &apos;YGPL_MT_CX&apos;
+                                           subrc     = sy-subrc ).
+    RAISE EXCEPTION o_cx.
+  ENDIF.
+  CLEAR current_job.</SOURCE>
+     </ITEM>
+     <ITEM MTDNAME="GET_AS_LOAD">
+      <SOURCE>`
+  _get_as_load( CHANGING as_list = all_as_list ).
+  result = all_as_list.</SOURCE>
+     </ITEM>
+     <ITEM MTDNAME="GET_JOB_LIST">
+      <SOURCE>`
+  result = thread_launched.</SOURCE>
+     </ITEM>
+     <ITEM MTDNAME="NEW_JOB">
+      <SOURCE>`
+  DATA _jobname   TYPE  tbtcjob-jobname.
+  DATA _count     TYPE  i.
+  DATA _group     TYPE  td_group.
+  DATA _priority  TYPE  td_priority.
+
+  IF NOT current_job IS INITIAL.
+    RAISE EXCEPTION TYPE ygpl_mt_cx_job_monitoring EXPORTING textid = ygpl_mt_cx_job_monitoring=&gt;not_closed.
+  ENDIF.
+
+  IF group IS INITIAL.
+*    _group = default_group.
+  ELSE.
+    _group = group.
+  ENDIF.
+  IF priority IS INITIAL.    _priority = o_conditions-&gt;job_priority.   ELSE.   _priority = priority.   ENDIF.
+
+  _jobname = jobname.
+  IF _jobname IS INITIAL.
+    DESCRIBE TABLE thread_launched LINES _count.      ADD 1 TO _count.
+    _jobname = _count.    CONDENSE _jobname.
+    MESSAGE i002(ygpl_mt) WITH sy-cprog _jobname INTO _jobname.
+  ENDIF.
+
+  CALL FUNCTION &apos;JOB_OPEN&apos;
+    EXPORTING
+*     DELANFREP              = &apos; &apos;
+      jobgroup               = _group
+      jobname                = _jobname
+*     SDLSTRTDT              = NO_DATE
+*     SDLSTRTTM              = NO_TIME
+      jobclass               = _priority
+    IMPORTING
+      jobcount               = current_job-id
+*   CHANGING
+*     RET                    =
+   EXCEPTIONS
+     cant_create_job        = 1
+     invalid_job_data       = 2
+     jobname_missing        = 3
+     OTHERS                 = 4.
+  IF sy-subrc = 0.
+    current_job-name = _jobname.
+  ELSE.
+    o_cx ?= ygpl_mt_cx=&gt;create_from_mf_cx( funcname  = &apos;JOB_OPEN&apos;
+                                           classname = &apos;YGPL_MT_CX&apos;
+                                           subrc     = sy-subrc ).
+    RAISE EXCEPTION o_cx.
+  ENDIF.
+
+  CALL METHOD add_thread
+    EXPORTING
+      jobname  = current_job-name
+      jobcount = current_job-id.
+  result = current_job.</SOURCE>
+     </ITEM>
+     <ITEM MTDNAME="SLEEP">
+      <SOURCE>`
+  COMMIT WORK.    &quot;bzefore going to sleep
+  WAIT UP TO sleep_time SECONDS.</SOURCE>
+     </ITEM>
+     <ITEM MTDNAME="START_JOB">
+      <SOURCE>`
+  DATA size TYPE i.
+  DATA max  TYPE i.
+  DATA _useless TYPE STANDARD TABLE OF tbtcstep.
+  DATA _startparam TYPE tbtcstrt.
+  FIELD-SYMBOLS &lt;l&gt; LIKE LINE OF thread_launched.
+
+  DESCRIBE TABLE thread_launched LINES size.
+
+  ASSERT count &lt;= size AND count &gt;= 0.
+  IF count = 0.    max = size.    ELSE.   max = count.    ENDIF.
+
+* If all jobs correctly added start them.
+*  btc_stdt_immediate  LIKE  tbtcstrt-startdttyp VALUE &apos;I&apos;,
+*  btc_stdt_datetime   LIKE  tbtcstrt-startdttyp VALUE &apos;D&apos;,
+*  btc_stdt_event      LIKE  tbtcstrt-startdttyp VALUE &apos;E&apos;,
+*  btc_stdt_afterjob   LIKE  tbtcstrt-startdttyp VALUE &apos;A&apos;,
+*  btc_stdt_onworkday  LIKE  tbtcstrt-startdttyp VALUE &apos;W&apos;.
+  _startparam-startdttyp = &apos;I&apos;.
+  LOOP AT thread_launched ASSIGNING &lt;l&gt; TO max
+       WHERE status = job_status-scheduled
+*          OR status = job_status-ready     &quot; &lt;=&gt; Starting
+          OR status IS INITIAL.     &quot; &lt;=&gt; New job
+* CALL FUNCTION &apos;BP_JOB_MODIFY&apos; only accept status Scheduled or Released (that we do not use)
+    CALL FUNCTION &apos;BP_JOB_MODIFY&apos;
+      EXPORTING
+        dialog                           = &apos;N&apos;
+        jobcount                         = &lt;l&gt;-jobcount
+        jobname                          = &lt;l&gt;-jobname
+*       NEW_JOBHEAD                      = &apos; &apos;
+        opcode                           = 17
+        release_stdt                     = _startparam
+*       RELEASE_TARGETSYSTEM             = &apos; &apos;
+*       SUPPRESS_RELEASE_CHECK           = &apos; &apos;
+*       ADK_MODE                         = FALSE
+*       RECIPIENT_OBJ                    =
+*       RELEASE_TARGETSERVER             = &apos; &apos;
+*       DONT_RELEASE                     = &apos; &apos;
+*       TARGETGROUP                      = &apos; &apos;
+*        DIRECT_START                     = abap_true
+*     IMPORTING
+*       MODIFIED_JOBHEAD                 =
+      TABLES
+        new_steplist                     = _useless
+*     CHANGING
+*       RET                              =
+     EXCEPTIONS
+       cant_derelease_job               = 1
+       cant_enq_job                     = 2
+       cant_read_jobdata                = 3
+       cant_release_job                 = 4
+       cant_set_jobstatus_in_db         = 5
+       cant_start_job_immediately       = 6
+       cant_update_jobdata              = 7
+       eventcnt_generation_error        = 8
+       invalid_dialog_type              = 9
+       invalid_new_jobdata              = 10
+       invalid_new_jobstatus            = 11
+       invalid_opcode                   = 12
+       invalid_startdate                = 13
+       job_edit_failed                  = 14
+       job_modify_canceled              = 15
+       job_not_modifiable_anymore       = 16
+       nothing_to_do                    = 17
+       no_batch_on_target_host          = 18
+       no_batch_server_found            = 19
+       no_batch_wp_for_jobclass         = 20
+       no_modify_privilege_given        = 21
+       no_release_privilege_given       = 22
+       no_startdate_no_release          = 23
+       target_host_not_defined          = 24
+       tgt_host_chk_has_failed          = 25
+       invalid_targetgroup              = 26
+       conflicting_targets              = 27
+       OTHERS                           = 28.
+    IF sy-subrc &lt;&gt; 0.
+      o_cx ?= ygpl_mt_cx=&gt;create_from_mf_cx( funcname  = &apos;BP_JOB_MODIFY&apos;
+                                             classname = &apos;YGPL_MT_CX&apos;
+                                             subrc     = sy-subrc ).
+      RAISE EXCEPTION o_cx.
+    ENDIF.
+
+*    CALL FUNCTION &apos;BP_JOB_RELEASE&apos;
+*      EXPORTING
+*        jobname                     = &lt;th&gt;-jobname
+*        jobcount                    = &lt;th&gt;-jobcount
+*      CHANGING
+*        ret                         = _ret
+*      EXCEPTIONS
+*        missing_jobname             = 1
+*        missing_jobcount            = 2
+*        missing_start_date          = 3
+*        status_not_scheduled        = 4
+*        cant_enq_job                = 5
+*        cant_start_job_immediately  = 6
+*        no_privilege_to_release_job = 7
+*        cant_release_job            = 8
+*        job_not_exist               = 9
+*        job_have_no_steps           = 10
+*        error_job_modify            = 11
+*        OTHERS                      = 12.
+*    IF sy-subrc &lt;&gt; 0 OR _ret &lt;&gt; 0.
+*      RAISE failed.
+*    ENDIF.
+  ENDLOOP.</SOURCE>
+     </ITEM>
+     <ITEM MTDNAME="START_THREADS">
+      <SOURCE>`
+  DATA key      TYPE ts_job_key.
+  DATA _thread  TYPE td_count.
+
+  DO count TIMES.
+    ADD 1 TO _thread.
+    key = new_job( ).
+
+* Event that call a SUBMIT
+    RAISE EVENT submit_thread
+      EXPORTING
+        jobname          = key-name
+        jobcount         = key-id
+        thread_number    = _thread
+        o_job_monitoring = me.
+
+    close_job( ).
+  ENDDO.
+
+  IF debug IS INITIAL.
+    check_active_threads( ).
+    start_job( count = 0 ).   &quot; Start all
+  ENDIF.
+
+  GET TIME STAMP FIELD times-start.</SOURCE>
+     </ITEM>
+     <ITEM MTDNAME="WAIT_PROGRESS">
+      <SOURCE>`
+  COMMIT WORK AND WAIT.   &quot; to ensure lock are released
+  DO.
+    RAISE EVENT before_sleep_mode EXPORTING o_job_monitoring = me.
+
+    IF bypass_sleep IS INITIAL.
+      sleep( ).
+    ELSE.
+      CLEAR bypass_sleep.
+    ENDIF.
+
+    check_active_threads( ).
+    IF me-&gt;threads = 0.
+      EXIT.
+    ENDIF.
+
+  ENDDO.</SOURCE>
+     </ITEM>
+    </COMPONENTS>
+   </ITEM>
+   <ITEM REFCLSNAME="YGPL_MT_INTERFACES" EXPOSURE="2" STATE="1" RELTYPE="1"/>
+  </INTERFACES>
+  <LOCAL>
+   <TYPES>`
+*&quot;* use this source file for any type declarations (class
+*&quot;* definitions, interfaces or data types) you need for method
+*&quot;* implementation or private method&apos;s signature</TYPES>
+   <IMPLEMENTATIONS>`
+*&quot;* local class implementation for public class
+*&quot;* use this source file for the implementation part of
+*&quot;* local helper classes</IMPLEMENTATIONS>
+   <MACROS>`
+*&quot;* use this source file for any macro definitions you need
+*&quot;* in the implementation part of the class</MACROS>
+  </LOCAL>
+  <METHODS>
+   <ITEM CMPNAME="CHECK_AS_CONDITION" EXPOSURE="2" STATE="1" MTDDECLTYP="1" MTDNEWEXC="X">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Check Application Server condition are OK"/>
+    </TEXTS>
+    <PARAMETERS>
+     <ITEM SCONAME="AS_CONDITIONS" CMPTYPE="1" PARPASSTYP="1" TYPTYPE="1" TYPE="TR_AS_NAME"/>
+    </PARAMETERS>
+    <EXCEPTIONS>
+     <ITEM SCONAME="YGPL_MT_CX" LANGU="E">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="MultyThread : Root exception class"/>
+      </TEXTS>
+     </ITEM>
+    </EXCEPTIONS>
+    <SOURCE>`
+  DATA my_as_list TYPE  tt_as.
+
+  my_as_list = all_as_list.
+  DELETE my_as_list WHERE name NOT IN as_conditions.
+  IF my_as_list IS INITIAL.   &quot; No server
+    RAISE EXCEPTION TYPE ygpl_mt_cx_job_monitoring
+          EXPORTING textid = ygpl_mt_cx_job_monitoring=&gt;no_server.
+  ENDIF.</SOURCE>
+   </ITEM>
+   <ITEM CMPNAME="CLASS_CONSTRUCTOR" EXPOSURE="2" STATE="1" MTDTYPE="2" MTDDECLTYP="1">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="CLASS_CONSTRUCTOR"/>
+    </TEXTS>
+    <SOURCE>`
+  DATA lt_list   TYPE STANDARD TABLE OF msxxlist_v6.
+  DATA ls_srv    LIKE LINE OF all_as_list.
+  DATA lt_wp     TYPE STANDARD TABLE OF wpinfo.
+  FIELD-SYMBOLS &lt;fs_line&gt; LIKE LINE OF lt_list.
+
+* Determine AS list
+  CALL FUNCTION &apos;TH_SERVER_LIST&apos;
+    TABLES
+*     LIST                 =
+      list_ipv6            = lt_list
+    EXCEPTIONS
+      no_server_list       = 1
+      OTHERS               = 2.
+  ASSERT sy-subrc = 0.
+
+  LOOP AT lt_list ASSIGNING &lt;fs_line&gt;.
+
+    CALL FUNCTION &apos;TH_WPINFO&apos;
+      EXPORTING
+        srvname    = &lt;fs_line&gt;-name
+      TABLES
+        wplist     = lt_wp
+      EXCEPTIONS
+        send_error = 1
+        OTHERS     = 2.
+    ASSERT sy-subrc = 0.
+
+* On compte le nb total de process batch sur l&apos;AS
+    DELETE lt_wp WHERE wp_itype &lt;&gt; 4.
+    DESCRIBE TABLE lt_wp LINES ls_srv-wp.
+
+    CHECK ls_srv-wp &gt; 0.
+    ls_srv-name = &lt;fs_line&gt;-name.
+    APPEND ls_srv TO all_as_list.
+
+  ENDLOOP.</SOURCE>
+   </ITEM>
+   <ITEM CMPNAME="CONSTRUCTOR" EXPOSURE="2" STATE="1" MTDTYPE="2">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="CONSTRUCTOR"/>
+    </TEXTS>
+    <PARAMETERS>
+     <ITEM SCONAME="O_CONDITIONS" CMPTYPE="1" MTDTYPE="2" PARPASSTYP="1" TYPTYPE="1" TYPE="TI_JOB_MONITORING_CONDITIONS">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="Start Job Conditions"/>
+      </TEXTS>
+     </ITEM>
+    </PARAMETERS>
+    <SOURCE>`
+  me-&gt;o_conditions = o_conditions.
+  ASSERT me-&gt;o_conditions IS BOUND.
+  my_as_list = all_as_list.
+  DELETE my_as_list WHERE name NOT IN me-&gt;o_conditions-&gt;servers.
+  IF my_as_list IS INITIAL.   &quot; No server
+    RAISE EXCEPTION TYPE ygpl_mt_cx_job_monitoring
+          EXPORTING textid = ygpl_mt_cx_job_monitoring=&gt;no_server.
+  ENDIF.</SOURCE>
+   </ITEM>
+   <ITEM CMPNAME="DELETE_THREAD" EXPOSURE="2" STATE="1" MTDNEWEXC="X">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Remove thread"/>
+    </TEXTS>
+    <PARAMETERS>
+     <ITEM SCONAME="JOBCOUNT" CMPTYPE="1" PARPASSTYP="1" TYPTYPE="1" TYPE="TD_JOBID">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="Job ID"/>
+      </TEXTS>
+     </ITEM>
+     <ITEM SCONAME="JOBNAME" CMPTYPE="1" PARPASSTYP="1" TYPTYPE="1" TYPE="TD_JOBNAME">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="Job name"/>
+      </TEXTS>
+     </ITEM>
+    </PARAMETERS>
+    <EXCEPTIONS>
+     <ITEM SCONAME="YGPL_MT_CX" LANGU="E">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="MultyThread : Root exception class"/>
+      </TEXTS>
+     </ITEM>
+    </EXCEPTIONS>
+    <SOURCE>`
+  DATA _job       LIKE LINE OF thread_launched.
+  DATA job_info   TYPE ts_job_info.
+
+  _job-jobcount = jobcount.
+  _job-jobname = jobname.
+
+  CALL METHOD get_thread
+    EXPORTING
+      jobname  = _job-jobname
+      jobcount = _job-jobcount
+    IMPORTING
+      job_info = job_info.
+
+  IF job_info-status &lt;&gt; job_status-scheduled AND job_info-status = job_status-released.
+*    raise...
+    EXIT.
+  ENDIF.
+  CALL FUNCTION &apos;BP_JOB_DELETE&apos;
+    EXPORTING
+      jobcount                       = jobcount
+      jobname                        = jobname
+*     FORCEDMODE                     = &apos; &apos;
+*     COMMITMODE                     = &apos;X&apos;
+    EXCEPTIONS
+      cant_delete_event_entry        = 1
+      cant_delete_job                = 2
+      cant_delete_joblog             = 3
+      cant_delete_steps              = 4
+      cant_delete_time_entry         = 5
+      cant_derelease_successor       = 6
+      cant_enq_predecessor           = 7
+      cant_enq_successor             = 8
+      cant_enq_tbtco_entry           = 9
+      cant_update_predecessor        = 10
+      cant_update_successor          = 11
+      commit_failed                  = 12
+      jobcount_missing               = 13
+      jobname_missing                = 14
+      job_does_not_exist             = 15
+      job_is_already_running         = 16
+      no_delete_authority            = 17
+      OTHERS                         = 18.
+  IF sy-subrc &lt;&gt; 0.
+    o_cx ?= ygpl_mt_cx=&gt;create_from_mf_cx( funcname  = &apos;BP_JOB_DELETE&apos;
+                                           classname = &apos;YGPL_MT_CX&apos;
+                                           subrc     = sy-subrc ).
+    RAISE EXCEPTION o_cx.
+  ENDIF.</SOURCE>
+   </ITEM>
+   <ITEM CMPNAME="GET_NEXT_AS_ROUNDROBIN" EXPOSURE="2" STATE="1">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Get AS using Round Robin technic"/>
+    </TEXTS>
+    <PARAMETERS>
+     <ITEM SCONAME="RESULT" CMPTYPE="1" PARDECLTYP="3" TYPTYPE="1" TYPE="TD_AS_NAME">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="Application Server Name"/>
+      </TEXTS>
+     </ITEM>
+    </PARAMETERS>
+    <SOURCE>`
+  FIELD-SYMBOLS: &lt;fs_as&gt; LIKE LINE OF my_as_list.
+
+  READ TABLE my_as_list ASSIGNING &lt;fs_as&gt; INDEX roundrobin_as_index.
+  IF sy-subrc &lt;&gt; 0.
+    _get_as_load( CHANGING as_list = my_as_list ).
+    roundrobin_as_index = 1.
+    READ TABLE my_as_list ASSIGNING &lt;fs_as&gt; INDEX roundrobin_as_index.
+    ASSERT sy-subrc = 0.
+  ENDIF.
+  MOVE &lt;fs_as&gt;-name TO result.
+
+  ADD 1 TO roundrobin_as_index.</SOURCE>
+   </ITEM>
+   <ITEM CMPNAME="GET_THREAD" STATE="1" MTDDECLTYP="1" MTDNEWEXC="X">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Get job information"/>
+    </TEXTS>
+    <PARAMETERS>
+     <ITEM SCONAME="JOBCOUNT" CMPTYPE="1" PARPASSTYP="1" TYPTYPE="1" TYPE="TBTCJOB-JOBCOUNT">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="Numéro d&apos;identification d&apos;un job"/>
+      </TEXTS>
+     </ITEM>
+     <ITEM SCONAME="JOBNAME" CMPTYPE="1" PARPASSTYP="1" TYPTYPE="1" TYPE="TBTCJOB-JOBNAME">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="Nom d&apos;un job d&apos;arrière-plan"/>
+      </TEXTS>
+     </ITEM>
+     <ITEM SCONAME="JOB_INFO" CMPTYPE="1" PARDECLTYP="1" PARPASSTYP="1" TYPTYPE="1" TYPE="TS_JOB_INFO">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="Description des valeurs d&apos;un job (BI-API)"/>
+      </TEXTS>
+     </ITEM>
+    </PARAMETERS>
+    <EXCEPTIONS>
+     <ITEM SCONAME="YGPL_MT_CX" LANGU="E">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="MultyThread : Root exception class"/>
+      </TEXTS>
+     </ITEM>
+    </EXCEPTIONS>
+    <SOURCE>`
+**********************************************************************
+* Author : Al&apos;oustad Taryck BENSIALI (taryck.bensiali@gmail.com)     *
+* Date : 2008 December                                               *
+**********************************************************************
+  DATA ret_val TYPE i.
+*  btc_edit_btcctl_tbl       LIKE btch0000-int4 VALUE  1,
+*  btc_show_btcctl_tbl       LIKE btch0000-int4 VALUE  2,
+*  btc_edit_user_eventids    LIKE btch0000-int4 VALUE  3,
+*  btc_show_user_eventids    LIKE btch0000-int4 VALUE  4,
+*  btc_edit_system_eventids  LIKE btch0000-int4 VALUE  5,
+*  btc_show_system_eventids  LIKE btch0000-int4 VALUE  6,
+*  btc_edit_steplist         LIKE btch0000-int4 VALUE  7,
+*  btc_show_steplist         LIKE btch0000-int4 VALUE  8,
+*  btc_show_variantlist      LIKE btch0000-int4 VALUE  9,
+*  btc_create_job            LIKE btch0000-int4 VALUE 10,
+*  btc_edit_job              LIKE btch0000-int4 VALUE 11,
+*  btc_show_job              LIKE btch0000-int4 VALUE 12,
+*  btc_check_only            LIKE btch0000-int4 VALUE 13,
+*  btc_edit_startdate        LIKE btch0000-int4 VALUE 14,
+*  btc_show_startdate        LIKE btch0000-int4 VALUE 15,
+*  btc_modify_whole_job      LIKE btch0000-int4 VALUE 16,
+*  btc_release_job           LIKE btch0000-int4 VALUE 17,
+*  btc_derelease_job         LIKE btch0000-int4 VALUE 18,
+*  btc_read_jobhead_only     LIKE btch0000-int4 VALUE 19,
+*  btc_read_all_jobdata      LIKE btch0000-int4 VALUE 20,
+*  btc_joblist_edit          LIKE btch0000-int4 VALUE 21,
+*  btc_joblist_show          LIKE btch0000-int4 VALUE 22,
+*  btc_joblist_select        LIKE btch0000-int4 VALUE 23,
+*  btc_joblog_show           LIKE btch0000-int4 VALUE 24,
+*  btc_edit_omset            LIKE btch0000-int4 VALUE 25,
+*  btc_show_omset            LIKE btch0000-int4 VALUE 26,
+*  btc_show_oms_sdl_tbl      LIKE btch0000-int4 VALUE 27,
+*  btc_show_xpgm_list        LIKE btch0000-int4 VALUE 28,
+*  btc_close_job             LIKE btch0000-int4 VALUE 29,
+*  btc_varjoblist_select     LIKE btch0000-int4 VALUE 30,
+*  btc_varlist_select        LIKE btch0000-int4 VALUE 31,
+*  btc_performance_list      LIKE btch0000-int4 VALUE 32,
+*  btc_performance_info      LIKE btch0000-int4 VALUE 33,
+*  btc_batchproces_list      LIKE btch0000-int4 VALUE 34,
+*  btc_dont_read_priparams   LIKE btch0000-int4 VALUE 35,  &quot; note 770158
+*  btc_xbp_all_jobdata       LIKE btch0000-int4 VALUE 36,  &quot; note 792767
+*  btc_xbp_jobhead_only      LIKE btch0000-int4 VALUE 37.  &quot; note 792767
+
+  CALL FUNCTION &apos;BP_JOB_READ&apos;
+    EXPORTING
+      job_read_jobcount           = jobcount
+      job_read_jobname            = jobname
+      job_read_opcode             = 19 &quot; btc_read_jobhead_only
+*     JOB_STEP_NUMBER             =
+    IMPORTING
+      job_read_jobhead            = job_info
+*     JOBLOG_ATTRIBUTES           =
+*   TABLES
+*     JOB_READ_STEPLIST           =
+*     SPOOL_ATTRIBUTES            =
+     CHANGING
+      ret                         = ret_val
+    EXCEPTIONS
+      invalid_opcode              = 1
+      job_doesnt_exist            = 2
+      job_doesnt_have_steps       = 3
+      OTHERS                      = 4.
+  IF ret_val &lt;&gt; 0 OR sy-subrc = 2.
+    RAISE EXCEPTION TYPE ygpl_mt_cx_job_monitoring
+          EXPORTING textid = ygpl_mt_cx_job_monitoring=&gt;job_dont_exists
+                      name = jobname
+                        id = jobcount.
+  ELSEIF sy-subrc &lt;&gt; 0.
+    o_cx ?= ygpl_mt_cx=&gt;create_from_mf_cx( funcname = &apos;BP_JOB_READ&apos;
+                                              subrc = sy-subrc
+                                          classname = &apos;YGPL_MT_CX_JOB_MONITORING&apos; ).
+  ENDIF.</SOURCE>
+   </ITEM>
+   <ITEM CMPNAME="GET_THREAD_DETAILS" STATE="1" MTDDECLTYP="1">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Get job with steps"/>
+    </TEXTS>
+    <PARAMETERS>
+     <ITEM SCONAME="JOBCOUNT" CMPTYPE="1" PARPASSTYP="1" TYPTYPE="1" TYPE="TBTCJOB-JOBCOUNT">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="Numéro d&apos;identification d&apos;un job"/>
+      </TEXTS>
+     </ITEM>
+     <ITEM SCONAME="JOBNAME" CMPTYPE="1" PARPASSTYP="1" TYPTYPE="1" TYPE="TBTCJOB-JOBNAME">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="Nom d&apos;un job d&apos;arrière-plan"/>
+      </TEXTS>
+     </ITEM>
+     <ITEM SCONAME="JOB_INFO" CMPTYPE="1" PARDECLTYP="1" PARPASSTYP="1" TYPTYPE="1" TYPE="TS_JOB_INFO">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="Description des valeurs d&apos;un job (BI-API)"/>
+      </TEXTS>
+     </ITEM>
+     <ITEM SCONAME="STEPS" CMPTYPE="1" PARDECLTYP="1" PARPASSTYP="1" TYPTYPE="1" TYPE="TT_STEPINFO">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="Steps d&apos;un job"/>
+      </TEXTS>
+     </ITEM>
+    </PARAMETERS>
+    <EXCEPTIONS>
+     <ITEM SCONAME="JOB_DOESNT_EXIST" LANGU="E">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="Le job n&apos;existe pas"/>
+      </TEXTS>
+     </ITEM>
+    </EXCEPTIONS>
+    <SOURCE>`
+**********************************************************************
+* Author : Al&apos;oustad Taryck BENSIALI (taryck.bensiali@gmail.com)     *
+* Date : 2008 December                                               *
+**********************************************************************
+  DATA: ret_val TYPE i.
+*  btc_edit_btcctl_tbl       LIKE btch0000-int4 VALUE  1,
+*  btc_show_btcctl_tbl       LIKE btch0000-int4 VALUE  2,
+*  btc_edit_user_eventids    LIKE btch0000-int4 VALUE  3,
+*  btc_show_user_eventids    LIKE btch0000-int4 VALUE  4,
+*  btc_edit_system_eventids  LIKE btch0000-int4 VALUE  5,
+*  btc_show_system_eventids  LIKE btch0000-int4 VALUE  6,
+*  btc_edit_steplist         LIKE btch0000-int4 VALUE  7,
+*  btc_show_steplist         LIKE btch0000-int4 VALUE  8,
+*  btc_show_variantlist      LIKE btch0000-int4 VALUE  9,
+*  btc_create_job            LIKE btch0000-int4 VALUE 10,
+*  btc_edit_job              LIKE btch0000-int4 VALUE 11,
+*  btc_show_job              LIKE btch0000-int4 VALUE 12,
+*  btc_check_only            LIKE btch0000-int4 VALUE 13,
+*  btc_edit_startdate        LIKE btch0000-int4 VALUE 14,
+*  btc_show_startdate        LIKE btch0000-int4 VALUE 15,
+*  btc_modify_whole_job      LIKE btch0000-int4 VALUE 16,
+*  btc_release_job           LIKE btch0000-int4 VALUE 17,
+*  btc_derelease_job         LIKE btch0000-int4 VALUE 18,
+*  btc_read_jobhead_only     LIKE btch0000-int4 VALUE 19,
+*  btc_read_all_jobdata      LIKE btch0000-int4 VALUE 20,
+*  btc_joblist_edit          LIKE btch0000-int4 VALUE 21,
+*  btc_joblist_show          LIKE btch0000-int4 VALUE 22,
+*  btc_joblist_select        LIKE btch0000-int4 VALUE 23,
+*  btc_joblog_show           LIKE btch0000-int4 VALUE 24,
+*  btc_edit_omset            LIKE btch0000-int4 VALUE 25,
+*  btc_show_omset            LIKE btch0000-int4 VALUE 26,
+*  btc_show_oms_sdl_tbl      LIKE btch0000-int4 VALUE 27,
+*  btc_show_xpgm_list        LIKE btch0000-int4 VALUE 28,
+*  btc_close_job             LIKE btch0000-int4 VALUE 29,
+*  btc_varjoblist_select     LIKE btch0000-int4 VALUE 30,
+*  btc_varlist_select        LIKE btch0000-int4 VALUE 31,
+*  btc_performance_list      LIKE btch0000-int4 VALUE 32,
+*  btc_performance_info      LIKE btch0000-int4 VALUE 33,
+*  btc_batchproces_list      LIKE btch0000-int4 VALUE 34,
+*  btc_dont_read_priparams   LIKE btch0000-int4 VALUE 35,  &quot; note 770158
+*  btc_xbp_all_jobdata       LIKE btch0000-int4 VALUE 36,  &quot; note 792767
+*  btc_xbp_jobhead_only      LIKE btch0000-int4 VALUE 37.  &quot; note 792767
+
+  CALL FUNCTION &apos;BP_JOB_READ&apos;
+    EXPORTING
+      job_read_jobcount           = jobcount
+      job_read_jobname            = jobname
+      job_read_opcode             = 20 &quot; btc_read_all_jobdata
+*     JOB_STEP_NUMBER             =
+    IMPORTING
+      JOB_READ_JOBHEAD            = JOB_INFO
+*     JOBLOG_ATTRIBUTES           =
+    TABLES
+      JOB_READ_STEPLIST           = STEPS
+*     SPOOL_ATTRIBUTES            =
+     CHANGING
+      ret                         = ret_val
+    EXCEPTIONS
+      invalid_opcode              = 1
+      job_doesnt_exist            = 2
+      job_doesnt_have_steps       = 3
+      OTHERS                      = 4.
+  IF sy-subrc &lt;&gt; 0 OR ret_val &lt;&gt; 0.
+    RAISE job_doesnt_exist.
+  ENDIF.</SOURCE>
+   </ITEM>
+   <ITEM CMPNAME="_GET_AS_LOAD" STATE="1" MTDDECLTYP="1">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Get Application Server Load"/>
+    </TEXTS>
+    <PARAMETERS>
+     <ITEM SCONAME="AS_LIST" CMPTYPE="1" PARDECLTYP="2" TYPTYPE="1" TYPE="TT_AS"/>
+    </PARAMETERS>
+    <SOURCE>`
+
+  DATA:
+    lt_cpu   TYPE STANDARD TABLE OF cpu_all,
+    lv_ok    TYPE def_par_fu-no_yes,
+    lv_nbcpu TYPE i,
+    lv_dest  TYPE rfcdest.
+
+  FIELD-SYMBOLS:
+    &lt;fs_cpu&gt; LIKE LINE OF lt_cpu,
+    &lt;fs_srv&gt; LIKE LINE OF as_list.
+
+  LOOP AT as_list ASSIGNING &lt;fs_srv&gt;.
+
+    MOVE &lt;fs_srv&gt;-name TO lv_dest.
+
+    CALL FUNCTION &apos;GET_CPU_ALL&apos;
+      EXPORTING
+        local_remote                         = &apos;INTERN&apos;
+        logical_destination                  = lv_dest
+      IMPORTING
+        f_cpu_all_read                       = lv_ok
+*       ACTIVEFLAG                           =
+*       INTERVAL                             =
+*       OP_SYSTEM                            =
+*       DETAILSCOLL                          =
+*       DETAILSREQI                          =
+*       DETAILSMODE                          =
+*       LASTCOLLWRT                          =
+*       LASTCOLLINT                          =
+*       NORMCOLLINT                          =
+      TABLES
+        tf_cpu_all                           = lt_cpu
+      EXCEPTIONS
+        internal_error_adress_failed         = 1
+        internal_error_different_field       = 2
+        internal_error_no_new_line           = 3
+        collector_not_running                = 4
+        shared_memory_not_available          = 5
+        collector_busy                       = 6
+        version_conflict                     = 7
+        no_network_collector_running         = 8
+        system_failure                       = 9
+        communication_failure                = 10
+        OTHERS                               = 11.
+
+    ASSERT sy-subrc = 0.
+    ASSERT lv_ok &lt;&gt; &apos;YES&apos;.
+
+    CLEAR &lt;fs_srv&gt;-load.
+    lv_nbcpu = LINES( lt_cpu ).
+
+    LOOP AT lt_cpu ASSIGNING &lt;fs_cpu&gt;.
+      &lt;fs_srv&gt;-load = &lt;fs_srv&gt;-load + 100 - &lt;fs_cpu&gt;-idle_true.
+    ENDLOOP.
+
+    &lt;fs_srv&gt;-load = &lt;fs_srv&gt;-load / lv_nbcpu.
+
+  ENDLOOP.
+
+  SORT as_list BY load ASCENDING.</SOURCE>
+   </ITEM>
+  </METHODS>
+  <TYPES>
+   <ITEM CMPNAME="TO_ME" EXPOSURE="2" STATE="1" EDITORDER="1 " TYPTYPE="3" TYPE="YGPL_MT_JOB_MONITORING">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="MT : Job monitoring"/>
+    </TEXTS>
+   </ITEM>
+   <ITEM CMPNAME="TS_JOB_INFO" STATE="1" EDITORDER="1 " TYPTYPE="1" TYPE="TBTCJOB">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Structure for Transferring Job Header Data (BI-API)"/>
+    </TEXTS>
+   </ITEM>
+   <ITEM CMPNAME="TS_STEPINFO" STATE="1" EDITORDER="2 " TYPTYPE="1" TYPE="TBTCSTEP">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Description of step values (BI-API)"/>
+    </TEXTS>
+   </ITEM>
+   <ITEM CMPNAME="TT_STEPINFO" STATE="1" EDITORDER="3 " TYPTYPE="4">
+    tt_stepinfo TYPE STANDARD TABLE OF ts_stepinfo
+`
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Steps list"/>
+    </TEXTS>
+   </ITEM>
+  </TYPES>
+ </RAW>
+</ZL_OBJECT>

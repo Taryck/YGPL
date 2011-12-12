@@ -1,0 +1,637 @@
+<?xml version="1.0" encoding="utf-16"?>
+<ZL_OBJECT CHECKSUM="555F52A6B02853A41917F5335C243305" CODE_SIGNATURE="26B99F5D56208F329120AFA7D4A6DD6C" CONNECTOR="39AC0A4B07A5A05AE1000000AC120173" NAME="YGPL_MT_MESSAGING" TYPE="CLAS" VERSION="1.01">
+ <DIRECTORY DEVCLASS="YGPL-MULTITHREAD" MASTERLANG="E"/>
+ <RAW>
+  <A0_MAINDATA VERSION="1" LANGU="E" EXPOSURE="2" STATE="1" CLSCCINCL="X" FIXPT="X" UNICODE="X">
+   <TEXTS>
+    <ITEM LANG="E" TEXT="Message communication between process"/>
+   </TEXTS>
+  </A0_MAINDATA>
+  <ALIASES>
+   <ITEM CMPNAME="CLEAR_OBJ" EXPOSURE="2" REFCLSNAME="YGPLIMT_MESSAGING" REFCMPNAME="CLEAR_OBJ"/>
+   <ITEM CMPNAME="CONV_RAW2DATA" EXPOSURE="2" CMPTYPE="1" REFCLSNAME="YGPLIMT_MESSAGING" REFCMPNAME="CONV_RAW2DATA"/>
+   <ITEM CMPNAME="DELETE_PROCESS" EXPOSURE="2" CMPTYPE="1" REFCLSNAME="YGPLIMT_MESSAGING" REFCMPNAME="DELETE_PROCESS"/>
+   <ITEM CMPNAME="HANDLE_MESSAGES" EXPOSURE="2" CMPTYPE="1" REFCLSNAME="YGPLIMT_MESSAGING" REFCMPNAME="HANDLE_MESSAGES"/>
+   <ITEM CMPNAME="LOCK_MODES" EXPOSURE="2" REFCLSNAME="YGPL_MT_CONSTANTS" REFCMPNAME="LOCK_MODES"/>
+   <ITEM CMPNAME="NEW_RUNNING_CONDITIONS" EXPOSURE="2" CMPTYPE="2" REFCLSNAME="YGPLIMT_MESSAGING" REFCMPNAME="NEW_RUNNING_CONDITIONS"/>
+   <ITEM CMPNAME="NEW_SPECIFIC_MESSAGE" EXPOSURE="2" CMPTYPE="2" REFCLSNAME="YGPLIMT_MESSAGING" REFCMPNAME="NEW_SPECIFIC_MESSAGE"/>
+   <ITEM CMPNAME="OBJECTS_CONFIRMED" EXPOSURE="2" CMPTYPE="2" REFCLSNAME="YGPLIMT_MESSAGING" REFCMPNAME="OBJECTS_CONFIRMED"/>
+   <ITEM CMPNAME="O_PROCESS" EXPOSURE="2" REFCLSNAME="YGPLIMT_MESSAGING" REFCMPNAME="O_PROCESS"/>
+   <ITEM CMPNAME="SCOPE_MODES" EXPOSURE="2" REFCLSNAME="YGPL_MT_CONSTANTS" REFCMPNAME="SCOPE_MODES"/>
+   <ITEM CMPNAME="SEND_MESSAGE" EXPOSURE="2" CMPTYPE="1" REFCLSNAME="YGPLIMT_MESSAGING" REFCMPNAME="SEND_MESSAGE"/>
+   <ITEM CMPNAME="SYSTEM_CATEGORIES" EXPOSURE="2" REFCLSNAME="YGPL_MT_CONSTANTS" REFCMPNAME="SYSTEM_CATEGORIES"/>
+   <ITEM CMPNAME="TASK_DEFINITION_RECIEVED" EXPOSURE="2" CMPTYPE="2" REFCLSNAME="YGPLIMT_MESSAGING" REFCMPNAME="TASK_DEFINITION_RECIEVED"/>
+   <ITEM CMPNAME="TD_BOOLEAN" EXPOSURE="2" CMPTYPE="3" REFCLSNAME="YGPL_MT_TYPESPOOL" REFCMPNAME="TD_BOOLEAN"/>
+   <ITEM CMPNAME="TD_CATEGORY" EXPOSURE="2" CMPTYPE="3" REFCLSNAME="YGPL_MT_TYPESPOOL" REFCMPNAME="TD_CATEGORY"/>
+   <ITEM CMPNAME="TD_COUNT" EXPOSURE="2" CMPTYPE="3" REFCLSNAME="YGPL_MT_TYPESPOOL" REFCMPNAME="TD_COUNT"/>
+   <ITEM CMPNAME="TD_DATA_TYPE" EXPOSURE="2" CMPTYPE="3" REFCLSNAME="YGPL_MT_TYPESPOOL" REFCMPNAME="TD_DATA_TYPE"/>
+   <ITEM CMPNAME="TD_DB_TABLE_KEY" EXPOSURE="2" CMPTYPE="3" REFCLSNAME="YGPL_MT_TYPESPOOL" REFCMPNAME="TD_DB_TABLE_KEY"/>
+   <ITEM CMPNAME="TD_DB_TABLE_NAME" EXPOSURE="2" CMPTYPE="3" REFCLSNAME="YGPL_MT_TYPESPOOL" REFCMPNAME="TD_DB_TABLE_NAME"/>
+   <ITEM CMPNAME="TD_PROCESS_ID" EXPOSURE="2" CMPTYPE="3" REFCLSNAME="YGPL_MT_TYPESPOOL" REFCMPNAME="TD_PROCESS_ID"/>
+   <ITEM CMPNAME="TD_RAWDATA" EXPOSURE="2" CMPTYPE="3" REFCLSNAME="YGPL_MT_TYPESPOOL" REFCMPNAME="TD_RAWDATA"/>
+   <ITEM CMPNAME="TI_CATEGORIES" EXPOSURE="2" CMPTYPE="3" REFCLSNAME="YGPL_MT_INTERFACES" REFCMPNAME="TI_CATEGORIES"/>
+   <ITEM CMPNAME="TI_CONDITIONS" EXPOSURE="2" CMPTYPE="3" REFCLSNAME="YGPLIMT_MESSAGING" REFCMPNAME="TI_CONDITIONS"/>
+   <ITEM CMPNAME="TI_PROCESS" EXPOSURE="2" CMPTYPE="3" REFCLSNAME="YGPLIMT_MESSAGING" REFCMPNAME="TI_PROCESS"/>
+   <ITEM CMPNAME="TR_CATEGORIES" EXPOSURE="2" CMPTYPE="3" REFCLSNAME="YGPL_MT_TYPESPOOL" REFCMPNAME="TR_CATEGORIES"/>
+   <ITEM CMPNAME="TS_PROCESS_DEFINITION" EXPOSURE="2" CMPTYPE="3" REFCLSNAME="YGPL_MT_TYPESPOOL" REFCMPNAME="TS_PROCESS_DEFINITION"/>
+   <ITEM CMPNAME="TS_RUN" EXPOSURE="2" CMPTYPE="3" REFCLSNAME="YGPL_MT_TYPESPOOL" REFCMPNAME="TS_RUN"/>
+   <ITEM CMPNAME="TT_STATUS_LIST" EXPOSURE="2" CMPTYPE="3" REFCLSNAME="YGPL_MT_TYPESPOOL" REFCMPNAME="TT_STATUS_LIST"/>
+  </ALIASES>
+  <ATTRIBUTS>
+   <ITEM CMPNAME="CONFIRMED_OBJECTS" EXPOSURE="1" STATE="1" TYPTYPE="4">
+    BEGIN OF confirmed_objects,
+      count     TYPE td_count,
+      t_status  TYPE tt_status_list,
+    END OF confirmed_objects
+`
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Object confirmation informations"/>
+    </TEXTS>
+   </ITEM>
+   <ITEM CMPNAME="F_SEMAPHORE" STATE="1" TYPTYPE="1" TYPE="TD_BOOLEAN">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Semaphore is set"/>
+    </TEXTS>
+   </ITEM>
+   <ITEM CMPNAME="MY_KEY" STATE="1" TYPTYPE="1" TYPE="TD_DB_TABLE_KEY">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Table Key value"/>
+    </TEXTS>
+   </ITEM>
+   <ITEM CMPNAME="MY_TABLE" STATE="1" ATTDECLTYP="2" ATTVALUE="&apos;YGPLMT_MESSAGES&apos;" TYPTYPE="1" TYPE="TD_DB_TABLE_NAME">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Table name of the main table used by this component"/>
+    </TEXTS>
+   </ITEM>
+  </ATTRIBUTS>
+  <FRIENDS>
+   <ITEM REFCLSNAME="YGPL_MT_OBJECTS" STATE="1"/>
+   <ITEM REFCLSNAME="YGPL_MT_PROCESS" STATE="1"/>
+  </FRIENDS>
+  <INTERFACES>
+   <ITEM REFCLSNAME="YGPLIMT_MESSAGING" EXPOSURE="2" STATE="1" RELTYPE="1">
+    <COMPONENTS>
+     <ITEM MTDNAME="CONV_RAW2DATA">
+      <SOURCE>`
+  TRY.
+      IMPORT msg = data FROM DATA BUFFER rawdata.
+**CX_SY_CONVERSION_CODEPAGE
+**CX_SY_IMPORT_MISMATCH_ERROR
+**CX_SY_IMPORT_FORMAT_ERROR
+    CATCH cx_root.
+  ENDTRY.</SOURCE>
+     </ITEM>
+     <ITEM MTDNAME="DELETE_PROCESS">
+      <SOURCE>`
+  DATA _key TYPE td_process_id.
+* No lock unique ID
+*  _lock( process_id = process_id
+*          lock_mode = ygpl_mt_lock_managment=&gt;lock_modes-exclusive ).
+  DELETE FROM ygplmt_messages WHERE process_id = o_process-&gt;process_id.
+  IF sy-subrc &lt;&gt; 0.
+    SELECT SINGLE process_id INTO _key
+      FROM ygplmt_messages
+      WHERE process_id = o_process-&gt;process_id.
+    IF sy-subrc = 0.
+      my_key = _key.
+      RAISE EXCEPTION TYPE ygpl_mt_cx_database
+            EXPORTING textid = ygpl_mt_cx_database=&gt;delete_failed
+                   tablename = my_table
+                   key_value = my_key.
+    ENDIF.
+  ENDIF.</SOURCE>
+     </ITEM>
+     <ITEM MTDNAME="HANDLE_MESSAGES">
+      <SOURCE>`
+  DATA it_msg       TYPE STANDARD TABLE OF ygplmt_messages.
+  DATA it_tmp_msg   TYPE STANDARD TABLE OF ygplmt_messages.
+*  data it_arch_msg  TYPE STANDARD TABLE OF ygplmt_msgs_arch.
+  DATA s_msg_arch   TYPE ygplmt_msgs_arch.
+  DATA it_messages  TYPE tt_msgs.
+  DATA s_msg        LIKE LINE OF it_messages.
+  DATA it_sys_msgs  TYPE tt_msgs.
+  DATA o_cx         TYPE REF TO cx_root.
+  FIELD-SYMBOLS &lt;m&gt; LIKE LINE OF it_msg.
+
+* Get global Lock on object processing.
+  get_semaphore( ).
+  TRY.
+      SELECT * INTO TABLE it_msg
+        FROM ygplmt_messages
+        WHERE process_id = o_process-&gt;process_id.
+      IF NOT it_msg IS INITIAL.
+        message_readed = abap_true.
+        it_tmp_msg = it_msg.
+        DELETE it_tmp_msg WHERE arch IS INITIAL.
+        LOOP AT it_tmp_msg ASSIGNING &lt;m&gt;.
+          CLEAR s_msg_arch.   s_msg_arch-key = &lt;m&gt;-key.   s_msg_arch-data = &lt;m&gt;-data.
+          INSERT ygplmt_msgs_arch FROM s_msg_arch.
+        ENDLOOP.
+        FREE it_tmp_msg.
+
+        DELETE ygplmt_messages FROM TABLE it_msg.
+        COMMIT WORK AND WAIT.
+      ENDIF.
+    CATCH cx_root INTO o_cx.
+      release_semaphore( ).
+      RAISE EXCEPTION o_cx.
+  ENDTRY.
+* Release global Lock on object processing.
+  release_semaphore( ).
+
+  CHECK NOT it_msg IS INITIAL.
+
+  SORT it_msg BY timestamp category.
+  LOOP AT it_msg ASSIGNING &lt;m&gt;.
+    CLEAR s_msg.   MOVE-CORRESPONDING &lt;m&gt; TO s_msg.
+    APPEND s_msg TO it_messages.
+  ENDLOOP.
+
+  it_sys_msgs = it_messages.
+  DELETE it_sys_msgs WHERE NOT category IN ygpl_mt_categories=&gt;r_system_categories.
+  DELETE it_messages WHERE category IN ygpl_mt_categories=&gt;r_system_categories.
+
+  IF NOT it_sys_msgs IS INITIAL.    handle_system_messages( it_sys_msgs ).         ENDIF.
+
+  IF NOT it_messages IS INITIAL.    handle_specific_messages( it_messages ).       ENDIF.</SOURCE>
+     </ITEM>
+     <ITEM MTDNAME="SEND_MESSAGE">
+      <SOURCE>`
+  CHECK NOT o_process-&gt;conditions-&gt;categories-&gt;is_valid_category( category ) IS INITIAL.
+  _send_message( archive = archive
+                category = category
+                 message = message ).</SOURCE>
+     </ITEM>
+    </COMPONENTS>
+   </ITEM>
+  </INTERFACES>
+  <LOCAL>
+   <TYPES>`
+*&quot;* use this source file for any type declarations (class
+*&quot;* definitions, interfaces or data types) you need for method
+*&quot;* implementation or private method&apos;s signature</TYPES>
+   <IMPLEMENTATIONS>`
+*&quot;* local class implementation for public class
+*&quot;* use this source file for the implementation part of
+*&quot;* local helper classes</IMPLEMENTATIONS>
+   <MACROS>`
+*&quot;* use this source file for any macro definitions you need
+*&quot;* in the implementation part of the class</MACROS>
+  </LOCAL>
+  <METHODS>
+   <ITEM CMPNAME="CONSTRUCTOR" EXPOSURE="2" STATE="1" MTDTYPE="2">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="CONSTRUCTOR"/>
+    </TEXTS>
+    <PARAMETERS>
+     <ITEM SCONAME="O_PROCESS" CMPTYPE="1" MTDTYPE="2" PARPASSTYP="1" TYPTYPE="1" TYPE="TI_PROCESS">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="Process for MultiThread (with category)"/>
+      </TEXTS>
+     </ITEM>
+    </PARAMETERS>
+    <SOURCE>`
+  ASSERT o_process IS BOUND.
+  set_process( o_process ).</SOURCE>
+   </ITEM>
+   <ITEM CMPNAME="DECODE_DATA" STATE="1" MTDDECLTYP="1">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Decode data to buffer"/>
+    </TEXTS>
+    <PARAMETERS>
+     <ITEM SCONAME="ANY" CMPTYPE="1" PARDECLTYP="2" PARPASSTYP="1" TYPTYPE="1" TYPE="ANY"/>
+     <ITEM SCONAME="BUFFER" CMPTYPE="1" TYPTYPE="1" TYPE="TD_BUFFER_DATA"/>
+    </PARAMETERS>
+    <SOURCE>`
+  IMPORT msg = any FROM DATA BUFFER buffer.</SOURCE>
+   </ITEM>
+   <ITEM CMPNAME="ENCODE_DATA" STATE="1" MTDDECLTYP="1">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Encode data to buffer"/>
+    </TEXTS>
+    <PARAMETERS>
+     <ITEM SCONAME="ANY" CMPTYPE="1" PARPASSTYP="1" TYPTYPE="1" TYPE="ANY"/>
+     <ITEM SCONAME="RESULT" CMPTYPE="1" PARDECLTYP="3" TYPTYPE="1" TYPE="TD_BUFFER_DATA"/>
+    </PARAMETERS>
+    <SOURCE>`
+  EXPORT msg = any TO DATA BUFFER result COMPRESSION ON.</SOURCE>
+   </ITEM>
+   <ITEM CMPNAME="GET_SEMAPHORE" STATE="1" MTDNEWEXC="X">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Get Semaphore"/>
+    </TEXTS>
+    <EXCEPTIONS>
+     <ITEM SCONAME="YGPL_MT_CX" LANGU="E">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="MultyThread : Root exception class"/>
+      </TEXTS>
+     </ITEM>
+    </EXCEPTIONS>
+    <SOURCE>`
+
+  IF NOT f_semaphore IS INITIAL.
+    RAISE EXCEPTION TYPE ygpl_mt_cx_locks
+          EXPORTING textid = ygpl_mt_cx_locks=&gt;semaphore_already_defined
+               object_name = &apos;Message Semaphore&apos;(tms).
+  ENDIF.
+* Get global Lock on object processing.
+  ygpl_mt_lock_managment=&gt;get_messages_semaphore( o_process-&gt;process_id ).
+  f_semaphore = abap_true.</SOURCE>
+   </ITEM>
+   <ITEM CMPNAME="HANDLE_OBJECT_CONFIRMATION" STATE="1">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Handle System Message : Object Confirmation."/>
+    </TEXTS>
+    <PARAMETERS>
+     <ITEM SCONAME="MSG_DATA" CMPTYPE="1" PARPASSTYP="1" TYPTYPE="1" TYPE="TD_MSGDATA">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="Donnée de Message"/>
+      </TEXTS>
+     </ITEM>
+    </PARAMETERS>
+    <SOURCE>`
+**********************************************************************
+* Author : Al&apos;oustad Taryck BENSIALI (taryck.bensiali@gmail.com)     *
+* Date : 2008 December                                               *
+**********************************************************************
+  DATA status TYPE  tt_status_list.
+  FIELD-SYMBOLS:
+    &lt;statut&gt; LIKE LINE OF status.
+
+  decode_data( EXPORTING buffer = msg_data
+                CHANGING    any = status ).
+
+  LOOP AT status ASSIGNING &lt;statut&gt;.
+    ADD &lt;statut&gt;-count TO confirmed_objects-count.
+    COLLECT &lt;statut&gt; INTO confirmed_objects-t_status.
+  ENDLOOP.</SOURCE>
+   </ITEM>
+   <ITEM CMPNAME="HANDLE_SPECIFIC_MESSAGES" STATE="1" MTDNEWEXC="X">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Handle your own message"/>
+    </TEXTS>
+    <PARAMETERS>
+     <ITEM SCONAME="MESSAGES" CMPTYPE="1" PARPASSTYP="1" TYPTYPE="1" TYPE="TT_MSGS">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="Messages à traiter"/>
+      </TEXTS>
+     </ITEM>
+    </PARAMETERS>
+    <EXCEPTIONS>
+     <ITEM SCONAME="YGPL_MT_CX" LANGU="E">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="MultyThread : Root exception class"/>
+      </TEXTS>
+     </ITEM>
+    </EXCEPTIONS>
+    <SOURCE>`
+  FIELD-SYMBOLS:
+*    &lt;data&gt; TYPE ANY,
+*    &lt;dt&gt; LIKE LINE OF msg_cat_types,
+    &lt;msg&gt; LIKE LINE OF messages.
+
+  DATA:
+*    _data TYPE REF TO data,
+    _has_failed TYPE td_boolean.
+
+  CHECK NOT messages IS INITIAL.
+  LOOP AT messages ASSIGNING &lt;msg&gt;.
+** Get Categorie data Type
+*    READ TABLE msg_cat_types WITH TABLE KEY cat = &lt;msg&gt;-categ ASSIGNING &lt;dt&gt;.
+*    IF sy-subrc &lt;&gt; 0.
+*      _has_failed = abap_true.
+*      DELETE msgs.
+*      CONTINUE.
+*    ENDIF.
+*
+** Create specific data Type
+*    TRY.
+*        CREATE DATA _data TYPE (&lt;dt&gt;-type).
+*      CATCH cx_sy_create_data_error.
+*        _has_failed = abap_true.
+*        DELETE msgs.
+*        CONTINUE.
+*    ENDTRY.
+*
+** Need to use field symobl
+*    ASSIGN _data TO &lt;data&gt;.
+*    IF sy-subrc &lt;&gt; 0.
+*      _has_failed = abap_true.
+*      DELETE msgs.
+*      CONTINUE.
+*    ENDIF.
+*
+** Convert stored information into this data type
+*    TRY.
+**      IMPORT msg = _data FROM DATA BUFFER &lt;msg&gt;-msg_data.
+** This command is refused by ABAP Compiler
+**      IMPORT msg = &lt;data&gt; FROM DATA BUFFER &lt;msg&gt;-msg_data.
+**CX_SY_CONVERSION_CODEPAGE
+**CX_SY_IMPORT_MISMATCH_ERROR
+**CX_SY_IMPORT_FORMAT_ERROR
+*      CATCH cx_root.
+*        _has_failed = abap_true.
+*        DELETE msgs.
+*        CONTINUE.
+*    ENDTRY.
+
+* Call external event handler
+    RAISE EVENT new_specific_message
+      EXPORTING
+        category = &lt;msg&gt;-category
+        rawdata  = &lt;msg&gt;-msg_data.
+  ENDLOOP.
+
+**Raise exception if one of the message couldn&apos;t be processed
+*  IF _has_failed = abap_true. RAISE failed. ENDIF.</SOURCE>
+   </ITEM>
+   <ITEM CMPNAME="HANDLE_SYSTEM_MESSAGES" STATE="1" MTDNEWEXC="X">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Handle systemes messages"/>
+    </TEXTS>
+    <PARAMETERS>
+     <ITEM SCONAME="MESSAGES" CMPTYPE="1" PARPASSTYP="1" TYPTYPE="1" TYPE="TT_MSGS">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="Messages à traiter"/>
+      </TEXTS>
+     </ITEM>
+    </PARAMETERS>
+    <EXCEPTIONS>
+     <ITEM SCONAME="YGPL_MT_CX" LANGU="E">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="MultyThread : Root exception class"/>
+      </TEXTS>
+     </ITEM>
+    </EXCEPTIONS>
+    <SOURCE>`
+**********************************************************************
+* Author : Al&apos;oustad Taryck BENSIALI (taryck.bensiali@gmail.com)     *
+* Date : 2008 December                                               *
+**********************************************************************
+  FIELD-SYMBOLS &lt;msg&gt; LIKE LINE OF messages.
+  DATA f_obj_conf TYPE td_boolean.
+  DATA s_task TYPE ts_process_definition.
+  DATA s_cond TYPE string.
+  DATA o_cond TYPE ti_conditions.
+
+  LOOP AT messages ASSIGNING &lt;msg&gt;.
+    CASE &lt;msg&gt;-category.
+      WHEN system_categories-obj_conf.
+        f_obj_conf = abap_true.
+        handle_object_confirmation( &lt;msg&gt;-msg_data ).
+      WHEN system_categories-task_def.
+        decode_data( EXPORTING buffer = &lt;msg&gt;-msg_data
+                      CHANGING    any = s_task ).
+        RAISE EVENT task_definition_recieved EXPORTING task_definition = s_task.
+      WHEN system_categories-condition.
+        decode_data( EXPORTING buffer = &lt;msg&gt;-msg_data
+                      CHANGING    any = s_cond ).
+*        o_cond = ygpl_mt_factories=&gt;create_new_run_conditions( ).
+*        o_cond-&gt;deserialize( s_cond ).
+        o_cond ?= ygpl_mt_conditions_task=&gt;deserialize( s_cond ).
+        RAISE EVENT new_running_conditions EXPORTING conditions = o_cond.
+      WHEN OTHERS.
+* Unexpected messages type
+    ENDCASE.
+  ENDLOOP.
+
+  IF f_obj_conf = abap_true.
+    RAISE EVENT objects_confirmed
+      EXPORTING
+        object_count = confirmed_objects-count
+        status       = confirmed_objects-t_status.
+    CLEAR confirmed_objects.
+  ENDIF.</SOURCE>
+   </ITEM>
+   <ITEM CMPNAME="RELEASE_SEMAPHORE" STATE="1">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Release Semaphore if set"/>
+    </TEXTS>
+    <SOURCE>`
+
+  CHECK f_semaphore IS NOT INITIAL.
+*  IF f_semaphore IS INITIAL.
+*    RAISE EXCEPTION TYPE ygpl_mt_cx_locks
+*          EXPORTING textid = ygpl_mt_cx_locks=&gt;semaphore_not_set
+*               object_name = &apos;Message Semaphore&apos;(tms).
+*  ENDIF.
+* Get global Lock on object processing.
+  ygpl_mt_lock_managment=&gt;release_messages_semaphore( o_process-&gt;process_id ).
+  CLEAR f_semaphore.</SOURCE>
+   </ITEM>
+   <ITEM CMPNAME="SEND_CONDITIONS" EXPOSURE="2" STATE="1" MTDNEWEXC="X">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Send conditions message to DB"/>
+    </TEXTS>
+    <PARAMETERS>
+     <ITEM SCONAME="ARCHIVE" CMPTYPE="1" PARPASSTYP="1" TYPTYPE="1" TYPE="TD_BOOLEAN" PAROPTIONL="X">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="Archive message after reception"/>
+      </TEXTS>
+     </ITEM>
+     <ITEM SCONAME="CONDITION" CMPTYPE="1" PARPASSTYP="1" TYPTYPE="1" TYPE="TI_CONDITIONS">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="Condition"/>
+      </TEXTS>
+     </ITEM>
+    </PARAMETERS>
+    <EXCEPTIONS>
+     <ITEM SCONAME="YGPL_MT_CX" LANGU="E">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="MultyThread : Root exception class"/>
+      </TEXTS>
+     </ITEM>
+    </EXCEPTIONS>
+    <SOURCE>`
+  DATA conditions TYPE string.
+  conditions = condition-&gt;serialize( ).
+  _send_message( archive = archive
+                category = system_categories-condition
+                 message = conditions ).</SOURCE>
+   </ITEM>
+   <ITEM CMPNAME="SEND_SYSTEM_MESSAGE" EXPOSURE="1" STATE="1" MTDNEWEXC="X">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Send system message to DB (DO NOT USE)"/>
+    </TEXTS>
+    <PARAMETERS>
+     <ITEM SCONAME="ARCHIVE" CMPTYPE="1" PARPASSTYP="1" TYPTYPE="1" TYPE="TD_BOOLEAN" PAROPTIONL="X">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="Archive message after reception"/>
+      </TEXTS>
+     </ITEM>
+     <ITEM SCONAME="CATEGORY" CMPTYPE="1" PARPASSTYP="1" TYPTYPE="1" TYPE="TD_CATEGORY">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="Message category"/>
+      </TEXTS>
+     </ITEM>
+     <ITEM SCONAME="MESSAGE" CMPTYPE="1" PARPASSTYP="1" TYPTYPE="1" TYPE="ANY">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="Message data"/>
+      </TEXTS>
+     </ITEM>
+    </PARAMETERS>
+    <EXCEPTIONS>
+     <ITEM SCONAME="YGPL_MT_CX" LANGU="E">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="MultyThread : Root exception class"/>
+      </TEXTS>
+     </ITEM>
+    </EXCEPTIONS>
+    <SOURCE>`
+  CHECK NOT ygpl_mt_categories=&gt;is_system_category( category ) IS INITIAL.
+  CHECK NOT o_process-&gt;is_system_message_allowed( ) IS INITIAL.
+
+  _send_message( archive = archive
+                category = category
+                 message = message ).</SOURCE>
+   </ITEM>
+   <ITEM CMPNAME="SET_PROCESS" EXPOSURE="2" STATE="1">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Define Process"/>
+    </TEXTS>
+    <PARAMETERS>
+     <ITEM SCONAME="O_PROCESS" CMPTYPE="1" PARPASSTYP="1" TYPTYPE="1" TYPE="TI_PROCESS">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="Process for MultiThread (with category)"/>
+      </TEXTS>
+     </ITEM>
+    </PARAMETERS>
+    <SOURCE>`
+  me-&gt;o_process = o_process.</SOURCE>
+   </ITEM>
+   <ITEM CMPNAME="_DEL_MSG_OFF" STATE="1" MTDDECLTYP="1">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Delete messages records"/>
+    </TEXTS>
+    <PARAMETERS>
+     <ITEM SCONAME="RUN_ID" CMPTYPE="1" PARPASSTYP="1" TYPTYPE="1" TYPE="TD_PROCESS_ID">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="ID unique de l&apos;exécution"/>
+      </TEXTS>
+     </ITEM>
+    </PARAMETERS>
+    <EXCEPTIONS>
+     <ITEM SCONAME="FAILED" LANGU="E">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="Delete has failed"/>
+      </TEXTS>
+     </ITEM>
+    </EXCEPTIONS>
+    <SOURCE>`
+**********************************************************************
+* Author : Al&apos;oustad Taryck BENSIALI (taryck.bensiali@gmail.com)     *
+* Date : 2008 December                                               *
+**********************************************************************
+
+*  CALL METHOD _lock
+*    EXPORTING
+*      run_id       = run_id
+*    EXCEPTIONS
+*      foreign_lock = 1
+*      sys_failure  = 2
+*      OTHERS       = 3.
+*  IF sy-subrc &lt;&gt; 0.
+*    RAISE failed.
+*  ENDIF.
+
+*  IF _run-run_id &lt;&gt; run_id.
+  DELETE FROM ygplmt_messages WHERE process_id = run_id.
+
+*  COMMIT WORK AND WAIT.
+*
+*  CALL METHOD _unlock( run_id = run_id ).</SOURCE>
+   </ITEM>
+   <ITEM CMPNAME="_GENERATE_MSG_ID" STATE="1" MTDDECLTYP="1">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Create a new Msg_ID"/>
+    </TEXTS>
+    <PARAMETERS>
+     <ITEM SCONAME="MSG_ID" CMPTYPE="1" PARDECLTYP="3" TYPTYPE="1" TYPE="TD_MSGKEY">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="ID de message"/>
+      </TEXTS>
+     </ITEM>
+    </PARAMETERS>
+    <SOURCE>`
+  CALL FUNCTION &apos;GUID_CREATE&apos;
+    IMPORTING
+      EV_GUID_16       = MSG_ID.
+*     EV_GUID_22       =
+*     EV_GUID_32       =</SOURCE>
+   </ITEM>
+   <ITEM CMPNAME="_SEND_MESSAGE" STATE="1" MTDNEWEXC="X">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Send message to DB"/>
+    </TEXTS>
+    <PARAMETERS>
+     <ITEM SCONAME="ARCHIVE" CMPTYPE="1" PARPASSTYP="1" TYPTYPE="1" TYPE="TD_BOOLEAN" PAROPTIONL="X">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="Archive message after reception"/>
+      </TEXTS>
+     </ITEM>
+     <ITEM SCONAME="CATEGORY" CMPTYPE="1" PARPASSTYP="1" TYPTYPE="1" TYPE="TD_CATEGORY">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="Message category"/>
+      </TEXTS>
+     </ITEM>
+     <ITEM SCONAME="MESSAGE" CMPTYPE="1" PARPASSTYP="1" TYPTYPE="1" TYPE="ANY">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="Message data"/>
+      </TEXTS>
+     </ITEM>
+    </PARAMETERS>
+    <EXCEPTIONS>
+     <ITEM SCONAME="YGPL_MT_CX" LANGU="E">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="MultyThread : Root exception class"/>
+      </TEXTS>
+     </ITEM>
+    </EXCEPTIONS>
+    <SOURCE>`
+  DATA _msg TYPE ygplmt_messages.
+
+  _msg-message_id = _generate_msg_id( ).
+  _msg-process_id = o_process-&gt;process_id.
+  _msg-category = category.
+  _msg-username = sy-uname.
+  _msg-arch = archive.
+
+  _msg-msg_data = encode_data( message ).
+
+  GET TIME STAMP FIELD _msg-timestamp.
+  INSERT ygplmt_messages FROM _msg.
+  ASSERT sy-subrc = 0.</SOURCE>
+   </ITEM>
+  </METHODS>
+  <TEXTSPOOL>
+   <ITEM ID="I" KEY="TMS">
+    <TEXTS>
+     <ITEM LANGU="E" ENTRY="Message Semaphore" LENGTH="20 "/>
+    </TEXTS>
+   </ITEM>
+  </TEXTSPOOL>
+  <TYPEGROUPS>
+   <ITEM TYPEGROUP="ABAP" EXPLICIT="X"/>
+  </TYPEGROUPS>
+  <TYPES>
+   <ITEM CMPNAME="TD_BUFFER_DATA" STATE="1" EDITORDER="1 " TYPTYPE="1" TYPE="YGPLMT_MESSAGES-MSG_DATA"/>
+   <ITEM CMPNAME="TD_MSGDATA" STATE="1" EDITORDER="2 " TYPTYPE="1" TYPE="YGPLMT_MESSAGES-MSG_DATA"/>
+   <ITEM CMPNAME="TD_MSGKEY" STATE="1" EDITORDER="3 " TYPTYPE="1" TYPE="YGPLMT_MESSAGES-MESSAGE_ID">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="ID de message"/>
+    </TEXTS>
+   </ITEM>
+   <ITEM CMPNAME="TS_MSG" STATE="1" EDITORDER="4 " TYPTYPE="4">BEGIN OF ts_msg.
+* Adding Table Key for delete
+      include type ygpl_mt_messages_key.
+  types:
+      timestamp   type ygplmt_messages-timestamp,
+      category    type ygplmt_messages-category,
+      msg_data    type ygplmt_messages-msg_data,
+    end of ts_msg
+`</ITEM>
+   <ITEM CMPNAME="TT_MSGS" STATE="1" EDITORDER="5 " TYPTYPE="4">tt_msgs TYPE STANDARD TABLE OF ts_msg
+`</ITEM>
+  </TYPES>
+ </RAW>
+</ZL_OBJECT>

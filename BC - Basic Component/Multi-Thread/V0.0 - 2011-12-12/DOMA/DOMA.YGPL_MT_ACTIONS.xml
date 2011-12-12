@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-16"?>
+<ZL_OBJECT CHECKSUM="95EE4344E32C5F37AEF038C7A1931687" CONNECTOR="5079624B82531D63E1000000AC120173" NAME="YGPL_MT_ACTIONS" TYPE="DOMA" VERSION="1.0">
+ <DIRECTORY DEVCLASS="YGPL-MULTITHREAD" MASTERLANG="E"/>
+ <RAW>
+  <A0_MAINDATA DATATYPE="CHAR" LENG="000001" OUTPUTLEN="000001" LOWERCASE="X" VALEXI="X"/>
+  <TEXTS>
+   <ITEM LANGU="E" SHORT_TXT="Possible actions on Process"/>
+  </TEXTS>
+  <VALUES>
+   <ITEM VALPOS="0001" DOMVALUE_L="-">
+    <TEXTS>
+     <ITEM LANGU="E" SHORT_TXT="Existence : Process is alive"/>
+    </TEXTS>
+   </ITEM>
+   <ITEM VALPOS="0002" DOMVALUE_L="O">
+    <TEXTS>
+     <ITEM LANGU="E" SHORT_TXT="Acting with objects of the run"/>
+    </TEXTS>
+   </ITEM>
+   <ITEM VALPOS="0003" DOMVALUE_L="M">
+    <TEXTS>
+     <ITEM LANGU="E" SHORT_TXT="Acting with messages of the run/task"/>
+    </TEXTS>
+   </ITEM>
+   <ITEM VALPOS="0004" DOMVALUE_L="I">
+    <TEXTS>
+     <ITEM LANGU="E" SHORT_TXT="Acting with informations of the run"/>
+    </TEXTS>
+   </ITEM>
+   <ITEM VALPOS="0005" DOMVALUE_L="D">
+    <TEXTS>
+     <ITEM LANGU="E" SHORT_TXT="Updating run/task data records"/>
+    </TEXTS>
+   </ITEM>
+  </VALUES>
+ </RAW>
+</ZL_OBJECT>

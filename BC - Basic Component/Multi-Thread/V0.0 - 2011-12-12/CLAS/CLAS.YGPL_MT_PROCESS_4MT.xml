@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-16"?>
+<ZL_OBJECT CHECKSUM="1A98E37390C55689C264190A59D6B88E" CODE_SIGNATURE="448B52E74549A7A7688E087024F7A41E" CONNECTOR="39AC0A4B07A5A05AE1000000AC120173" NAME="YGPL_MT_PROCESS_4MT" TYPE="CLAS" VERSION="1.01">
+ <DIRECTORY DEVCLASS="YGPL-MULTITHREAD" MASTERLANG="E"/>
+ <RAW>
+  <A0_MAINDATA VERSION="1" LANGU="E" EXPOSURE="1" STATE="1" CLSCCINCL="X" FIXPT="X" UNICODE="X">
+   <INHERITANCE REFCLSNAME="YGPL_MT_PROCESS" STATE="1"/>
+   <TEXTS>
+    <ITEM LANG="E" TEXT="Process for MultiThread (with category)"/>
+   </TEXTS>
+  </A0_MAINDATA>
+  <ALIASES>
+   <ITEM CMPNAME="CONDITIONS" EXPOSURE="2" REFCLSNAME="YGPLIMT_PROCESS_4MT" REFCMPNAME="CONDITIONS"/>
+   <ITEM CMPNAME="TD_SERIALIZED" EXPOSURE="2" CMPTYPE="3" REFCLSNAME="YGPL_MT_TYPESPOOL" REFCMPNAME="TD_SERIALIZED"/>
+   <ITEM CMPNAME="TI_BASE_CONDITIONS" EXPOSURE="2" CMPTYPE="3" REFCLSNAME="YGPL_MT_INTERFACES" REFCMPNAME="TI_CONDITIONS"/>
+   <ITEM CMPNAME="TI_CATEGORIES" EXPOSURE="2" CMPTYPE="3" REFCLSNAME="YGPL_MT_INTERFACES" REFCMPNAME="TI_CATEGORIES"/>
+   <ITEM CMPNAME="TI_FULL_CONDITIONS" EXPOSURE="2" CMPTYPE="3" REFCLSNAME="YGPL_MT_INTERFACES" REFCMPNAME="TI_FULL_CONDITIONS"/>
+   <ITEM CMPNAME="TI_INFORMATIONS" EXPOSURE="2" CMPTYPE="3" REFCLSNAME="YGPL_MT_INTERFACES" REFCMPNAME="TI_INFORMATIONS"/>
+   <ITEM CMPNAME="TI_MESSAGING" EXPOSURE="2" CMPTYPE="3" REFCLSNAME="YGPL_MT_INTERFACES" REFCMPNAME="TI_MESSAGING"/>
+   <ITEM CMPNAME="TI_OBJECTS_CONSUMING" EXPOSURE="2" CMPTYPE="3" REFCLSNAME="YGPL_MT_INTERFACES" REFCMPNAME="TI_OBJECTS_CONSUMING"/>
+   <ITEM CMPNAME="TI_OBJECTS_LOADING" EXPOSURE="2" CMPTYPE="3" REFCLSNAME="YGPL_MT_INTERFACES" REFCMPNAME="TI_OBJECTS_LOADING"/>
+   <ITEM CMPNAME="TI_PROCESS" EXPOSURE="2" CMPTYPE="3" REFCLSNAME="YGPL_MT_INTERFACES" REFCMPNAME="TI_PROCESS"/>
+   <ITEM CMPNAME="TI_RUN_CONDITIONS" EXPOSURE="2" CMPTYPE="3" REFCLSNAME="YGPL_MT_INTERFACES" REFCMPNAME="TI_RUN_CONDITIONS"/>
+   <ITEM CMPNAME="TI_STATUS" EXPOSURE="2" CMPTYPE="3" REFCLSNAME="YGPL_MT_INTERFACES" REFCMPNAME="TI_STATUS"/>
+   <ITEM CMPNAME="TI_TASK_CONDITIONS" EXPOSURE="2" CMPTYPE="3" REFCLSNAME="YGPL_MT_INTERFACES" REFCMPNAME="TI_TASK_CONDITIONS"/>
+  </ALIASES>
+  <ATTRIBUTS>
+   <ITEM CMPNAME="O_MESSAGING" EXPOSURE="2" STATE="1" TYPTYPE="1" TYPE="TO_MESSAGING">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Message communication between process"/>
+    </TEXTS>
+   </ITEM>
+  </ATTRIBUTS>
+  <FRIENDS>
+   <ITEM REFCLSNAME="YGPL_MT_DATA_BLOC" STATE="1"/>
+   <ITEM REFCLSNAME="YGPL_MT_FACTORIES" STATE="1"/>
+  </FRIENDS>
+  <INTERFACES>
+   <ITEM REFCLSNAME="YGPLIMT_PROCESS_4MT" EXPOSURE="2" STATE="1" RELTYPE="1">
+    <COMPONENTS>
+     <ITEM MTDNAME="IS_SYSTEM_MESSAGE_ALLOWED">
+      <SOURCE>`
+  result = abap_true.   &quot; feature not working</SOURCE>
+     </ITEM>
+    </COMPONENTS>
+   </ITEM>
+  </INTERFACES>
+  <LOCAL>
+   <TYPES>`
+*&quot;* use this source file for any type declarations (class
+*&quot;* definitions, interfaces or data types) you need for method
+*&quot;* implementation or private method&apos;s signature</TYPES>
+   <IMPLEMENTATIONS>`
+*&quot;* local class implementation for public class
+*&quot;* use this source file for the implementation part of
+*&quot;* local helper classes</IMPLEMENTATIONS>
+   <MACROS>`
+*&quot;* use this source file for any macro definitions you need
+*&quot;* in the implementation part of the class</MACROS>
+  </LOCAL>
+  <METHODS>
+   <ITEM CMPNAME="CONSTRUCTOR" EXPOSURE="2" STATE="1" MTDTYPE="2" MTDNEWEXC="X">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="CONSTRUCTOR"/>
+    </TEXTS>
+    <PARAMETERS>
+     <ITEM SCONAME="O_MESSAGING" CMPTYPE="1" MTDTYPE="2" PARPASSTYP="1" TYPTYPE="1" TYPE="TO_MESSAGING" PAROPTIONL="X">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="Message communication between process"/>
+      </TEXTS>
+     </ITEM>
+     <ITEM SCONAME="PROCESS_ID" CMPTYPE="1" MTDTYPE="2" PARPASSTYP="1" TYPTYPE="1" TYPE="TD_PROCESS_ID" PAROPTIONL="X">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="Process ID"/>
+      </TEXTS>
+     </ITEM>
+    </PARAMETERS>
+    <EXCEPTIONS>
+     <ITEM SCONAME="YGPL_MT_CX" LANGU="E" MTDTYPE="2">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="MultyThread : Root exception class"/>
+      </TEXTS>
+     </ITEM>
+    </EXCEPTIONS>
+    <SOURCE>`
+  DATA length TYPE i.
+  DATA o_msg  TYPE to_messaging.
+
+  length = XSTRLEN( process_id ).
+  ASSERT process_id IS INITIAL OR length = 16.
+  super-&gt;constructor( process_id ).
+
+  IF o_messaging IS BOUND.
+    set_messaging( o_messaging ).
+    me-&gt;o_messaging-&gt;set_process( me ).
+  ELSE.
+    o_msg ?= ygpl_mt_factories=&gt;get_messaging( me ).
+    set_messaging( o_msg ).
+  ENDIF.
+  set_messaging_handler( ).</SOURCE>
+   </ITEM>
+   <ITEM CMPNAME="SET_MESSAGING" EXPOSURE="1" STATE="1">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Define Messaging"/>
+    </TEXTS>
+    <PARAMETERS>
+     <ITEM SCONAME="OBJECT" CMPTYPE="1" PARPASSTYP="1" TYPTYPE="1" TYPE="TO_MESSAGING">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="Message communication between process"/>
+      </TEXTS>
+     </ITEM>
+    </PARAMETERS>
+    <SOURCE>`
+  ASSERT object IS BOUND.
+  ygplimt_process_4mt~messaging = o_messaging = object.
+  set_messaging_handler( ).</SOURCE>
+   </ITEM>
+   <ITEM CMPNAME="SET_MESSAGING_HANDLER" EXPOSURE="1" STATE="1">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Set Handler for Messaging Event"/>
+    </TEXTS>
+   </ITEM>
+  </METHODS>
+  <TYPES>
+   <ITEM CMPNAME="TO_JOB_MONITORING" EXPOSURE="2" STATE="1" EDITORDER="2 " TYPTYPE="3" TYPE="YGPL_MT_JOB_MONITORING">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="MT : Job monitoring"/>
+    </TEXTS>
+   </ITEM>
+   <ITEM CMPNAME="TO_MESSAGING" EXPOSURE="2" STATE="1" EDITORDER="1 " TYPTYPE="3" TYPE="YGPL_MT_MESSAGING">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Message communication between process"/>
+    </TEXTS>
+   </ITEM>
+  </TYPES>
+ </RAW>
+</ZL_OBJECT>

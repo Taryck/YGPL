@@ -1,0 +1,359 @@
+<?xml version="1.0" encoding="utf-16"?>
+<ZL_OBJECT CHECKSUM="B59668BAC5E49E8B216291F418175A41" CODE_SIGNATURE="4EBA010F87E00726DF500125AD15575B" CONNECTOR="AAAD0A4B07A5A05AE1000000AC120173" NAME="YGPL_MT_CONDITIONS_READ" TYPE="PROG" VERSION="1.0">
+ <DIRECTORY DEVCLASS="YGPL-MULTITHREAD" MASTERLANG="E"/>
+ <RAW>
+  <A0_MAINDATA VARCL="X" SUBC="1" RMAND="060" RLOAD="E" FIXPT="X" UCCHECK="X"/>
+  <DYNPROS>
+   <ITEM SCREEN="0100" LANGUAGE="E" DESCRIPT="Result screen" TYPE="N" NEXTSCREEN="0100" LINES="027" COLUMNS="120">
+    <TEXTS>
+     <ITEM LANG="E" DTXT="Result screen"/>
+    </TEXTS>
+    <FLOW_LOGIC>`
+PROCESS BEFORE OUTPUT.
+ MODULE STATUS_0100.
+*
+PROCESS AFTER INPUT.
+ MODULE USER_COMMAND_0100.</FLOW_LOGIC>
+    <CONTAINERS>
+     <ITEM TYPE="SCREEN" NAME="SCREEN">
+      <FIELDS>
+       <ITEM TYPE="OKCODE" TEXT="____________________" LENGTH="020" VISLENGTH="020" HEIGHT="001" FORMAT="CHAR" INPUT_FLD="X"/>
+      </FIELDS>
+     </ITEM>
+    </CONTAINERS>
+   </ITEM>
+  </DYNPROS>
+  <MENUPAINTER BAR="000001" FUNCTION="000001">
+   <FUNCTIONS>
+    <ITEM CODE="ABORT" TEXTNO="001" TEXT_TYPE="S">
+     <TEXTS>
+      <ITEM LANGU="E" TEXT="Exit"/>
+     </TEXTS>
+    </ITEM>
+    <ITEM CODE="BACK" TEXTNO="001" TEXT_TYPE="S">
+     <TEXTS>
+      <ITEM LANGU="E" TEXT="Back"/>
+     </TEXTS>
+    </ITEM>
+    <ITEM CODE="STOP" TEXTNO="001" TEXT_TYPE="S" TEXT_NAME="ICON_CANCEL" ICON_ID="@0W@">
+     <TEXTS>
+      <ITEM LANGU="E" TEXT="Cancel"/>
+     </TEXTS>
+    </ITEM>
+   </FUNCTIONS>
+   <KEY_SETTINGS>
+    <ITEM OBJ_CODE="000001" MODAL="D">
+     <TEXTS>
+      <ITEM LANGU="E" TEXT="DEfault"/>
+     </TEXTS>
+     <KEYS>
+      <ITEM PFNO="03" FUNCODE="BACK" FUNNO="001"/>
+      <ITEM PFNO="12" FUNCODE="STOP" FUNNO="001"/>
+      <ITEM PFNO="15" FUNCODE="ABORT" FUNNO="001"/>
+     </KEYS>
+     <PUSHBUTTONS>
+      <ITEM SUB_CODE="0001" MODAL="D">
+       <TEXTS>
+        <ITEM LANGU="E" TEXT="DEfault"/>
+       </TEXTS>
+      </ITEM>
+     </PUSHBUTTONS>
+    </ITEM>
+   </KEY_SETTINGS>
+   <MENU_BARS>
+    <ITEM OBJ_CODE="000001" MODAL="D">
+     <TEXTS>
+      <ITEM LANGU="E" TEXT="DEfault"/>
+     </TEXTS>
+    </ITEM>
+   </MENU_BARS>
+   <STATUS>
+    <ITEM CODE="DEFAULT" MODAL="D" ACTCODE="000001" PFKCODE="000001" BUTCODE="0001">
+     <TEXTS>
+      <ITEM LANGU="E" TEXT="DEfault"/>
+     </TEXTS>
+     <FUNCTIONS>
+      <ITEM>ABORT</ITEM>
+      <ITEM>BACK</ITEM>
+      <ITEM>STOP</ITEM>
+     </FUNCTIONS>
+    </ITEM>
+   </STATUS>
+  </MENUPAINTER>
+  <SOURCE>`
+*---------------------------------------------------------------------*
+* Report  YGPL_MT_TUTORIAL
+*---------------------------------------------------------------------*
+**********************************************************************
+* Author : Al&apos;oustad Taryck BENSIALI (taryck.bensiali@gmail.com)     *
+* Date : 2008 December                                               *
+**********************************************************************
+
+REPORT  ygpl_mt_conditions_read.
+
+TABLES: ygpl_mt_workprocess_infos.
+
+PARAMETERS :
+  run_id    TYPE ygpl_mt_typespool=&gt;td_process_id OBLIGATORY DEFAULT &apos;146F494D756EE02CE1000000AC1201D6&apos;.
+
+DATA o_run TYPE REF TO ygplimt_run.
+*----------------------------------------------------------------------*
+*       CLASS lcl_event_handler DEFINITION
+*----------------------------------------------------------------------*
+*
+*----------------------------------------------------------------------*
+CLASS lcl_event_handler DEFINITION.
+
+  PUBLIC SECTION.
+    DATA o_dialog TYPE REF TO cl_gui_dialogbox_container.
+*    DATA : lv_top    TYPE i,
+*           lv_left   TYPE i,
+*           lv_height TYPE i,
+*           lv_width  TYPE i.
+    METHODS close_popup FOR EVENT close OF cl_gui_dialogbox_container IMPORTING sender.
+    METHODS constructor IMPORTING dialog TYPE REF TO cl_gui_dialogbox_container.
+
+ENDCLASS.                    &quot;lcl_event_handler DEFINITION
+
+*----------------------------------------------------------------------*
+*       CLASS lcl_event_handler IMPLEMENTATION
+*----------------------------------------------------------------------*
+*
+*----------------------------------------------------------------------*
+CLASS lcl_event_handler IMPLEMENTATION.
+
+  METHOD constructor.
+    me-&gt;o_dialog = dialog.
+  ENDMETHOD.                    &quot;lcl_event_handler
+  METHOD close_popup.
+
+    IF o_dialog IS BOUND.
+      o_dialog-&gt;free( ).
+    ENDIF.
+    CLEAR o_dialog.
+
+  ENDMETHOD.                    &quot;close_popup
+
+ENDCLASS.                    &quot;lcl_event_handler IMPLEMENTATION
+
+AT SELECTION-SCREEN ON run_id.
+  IF run_id IS INITIAL.
+    MESSAGE text-obl TYPE &apos;E&apos;.
+  ENDIF.
+
+START-OF-SELECTION.
+  DATA o_cx TYPE REF TO ygpl_mt_cx.
+  DATA msg  TYPE string.
+  DATA result TYPE string.
+  DATA t_lines TYPE STANDARD TABLE OF string.
+  DATA o_dialog           TYPE REF TO cl_gui_dialogbox_container.
+  DATA o_edit             TYPE REF TO cl_gui_html_viewer.
+  DATA o_transponder      TYPE REF TO lcl_event_handler.
+  DATA lp_guid            TYPE guid_32.
+  DATA lt_xml             TYPE STANDARD TABLE OF char255.   &quot; dump with string :-/
+  DATA ls_url             LIKE LINE OF lt_xml.
+*  DATA o_cond TYPE REF TO ygplimt_runconditions_4run.
+  DATA o_cond TYPE REF TO ygpl_mt_conditions.
+  FIELD-SYMBOLS
+    &lt;s&gt; LIKE LINE OF t_lines.
+  TRY.
+* Popup object
+      CREATE OBJECT o_dialog
+        EXPORTING
+          width  = 1000
+          height = 400
+          top    = 100
+          left   = 50
+          repid  = sy-repid
+          dynnr  = &apos;0100&apos;.
+      o_dialog-&gt;set_caption( text-tit ).
+
+* HTML viewer object
+      CREATE OBJECT o_edit
+        EXPORTING
+          parent   = o_dialog
+          lifetime = o_edit-&gt;lifetime_imode.
+
+* Close popup event handler
+      CREATE OBJECT o_transponder
+        EXPORTING
+          dialog = o_dialog.
+      SET HANDLER o_transponder-&gt;close_popup FOR o_dialog.
+* Generate URL &amp; display HTML
+      CALL FUNCTION &apos;GUID_CREATE&apos;
+        IMPORTING
+          ev_guid_32 = lp_guid.
+
+      CLEAR o_cond.
+      o_run ?= ygpl_mt_factories=&gt;get_run( run_id ).
+*      o_run-&gt;check_status( ).
+*      IF o_run-&gt;status &lt;&gt; o_run-&gt;system_status-process-started AND
+*         o_run-&gt;status &lt;&gt; o_run-&gt;system_status-process-in_progress.
+*        MESSAGE text-run TYPE &apos;E&apos;.
+*      ENDIF.
+      o_cond ?= o_run-&gt;conditions.
+*      o_cond ?= ygpl_mt_factories=&gt;create_new_start_conditions( ).
+*      o_cond-&gt;set_maximum_batch_size( 50 ).
+      result = o_cond-&gt;serialize( ).
+*      CALL TRANSFORMATION id
+*        SOURCE object = o_cond
+*        RESULT XML result.
+
+      result = result+1.
+      SPLIT result AT cl_abap_char_utilities=&gt;newline INTO TABLE t_lines.
+      DELETE t_lines INDEX 1.
+      CLEAR result.
+      LOOP AT t_lines ASSIGNING &lt;s&gt;.
+        WRITE:/ &lt;s&gt;.
+        CONCATENATE result &lt;s&gt; INTO result.
+      ENDLOOP.
+      CONCATENATE &apos;&gt;&apos; cl_abap_char_utilities=&gt;newline &apos;&lt;&apos; INTO ls_url.
+      REPLACE ALL OCCURRENCES OF &apos;&gt;&lt;&apos; IN result WITH ls_url.
+      SPLIT result AT cl_abap_char_utilities=&gt;newline INTO TABLE t_lines.
+      LOOP AT t_lines ASSIGNING &lt;s&gt;.
+        WHILE NOT &lt;s&gt; IS INITIAL.
+          ls_url = &lt;s&gt;.  APPEND ls_url TO lt_xml.
+          SHIFT &lt;s&gt; BY 255 PLACES LEFT.
+        ENDWHILE.
+      ENDLOOP.
+
+      CONCATENATE lp_guid &apos;.xml&apos; INTO ls_url.
+
+      o_edit-&gt;load_data( EXPORTING url          = ls_url
+                                   subtype      = &apos;xml&apos;
+                         IMPORTING assigned_url = ls_url
+                          CHANGING data_table   = lt_xml ).
+
+      o_edit-&gt;show_url( ls_url ).
+      CALL SCREEN &apos;0100&apos;.
+    CATCH ygpl_mt_cx_process INTO o_cx.
+      msg = o_cx-&gt;get_text( ).
+      MESSAGE msg TYPE &apos;E&apos;.
+  ENDTRY.
+*&amp;---------------------------------------------------------------------*
+*&amp;      Module  STATUS_0100  OUTPUT
+*&amp;---------------------------------------------------------------------*
+*       text
+*----------------------------------------------------------------------*
+MODULE status_0100 OUTPUT.
+  SET PF-STATUS &apos;DEFAULT&apos;.
+*  SET TITLEBAR &apos;xxx&apos;.
+
+ENDMODULE.                 &quot; STATUS_0100  OUTPUT
+*&amp;---------------------------------------------------------------------*
+*&amp;      Module  USER_COMMAND_0100  INPUT
+*&amp;---------------------------------------------------------------------*
+*       text
+*----------------------------------------------------------------------*
+MODULE user_command_0100 INPUT.
+  CASE sy-ucomm.
+    WHEN &apos;BACK&apos;.
+      CALL SELECTION-SCREEN &apos;1000&apos;.
+  ENDCASE.
+ENDMODULE.                 &quot; USER_COMMAND_0100  INPUT</SOURCE>
+  <TEXTSPOOL>
+   <ITEM ID="I" KEY="OBL">
+    <TEXTS>
+     <ITEM LANGU="E" ENTRY="Field Mandatory" LENGTH="15 "/>
+    </TEXTS>
+   </ITEM>
+   <ITEM ID="I" KEY="RUN">
+    <TEXTS>
+     <ITEM LANGU="E" ENTRY="Run is not running" LENGTH="18 "/>
+    </TEXTS>
+   </ITEM>
+   <ITEM ID="I" KEY="SUC">
+    <TEXTS>
+     <ITEM LANGU="E" ENTRY="New conditions send to Run." LENGTH="60 "/>
+    </TEXTS>
+   </ITEM>
+   <ITEM ID="I" KEY="TIT">
+    <TEXTS>
+     <ITEM LANGU="E" ENTRY="Conditions" LENGTH="60 "/>
+    </TEXTS>
+   </ITEM>
+   <ITEM ID="I" KEY="TRJ">
+    <TEXTS>
+     <ITEM LANGU="E" ENTRY="Jobs definitions" LENGTH="60 "/>
+    </TEXTS>
+   </ITEM>
+   <ITEM ID="I" KEY="TRO">
+    <TEXTS>
+     <ITEM LANGU="E" ENTRY="Object Blocs definitions" LENGTH="60 "/>
+    </TEXTS>
+   </ITEM>
+   <ITEM ID="R">
+    <TEXTS>
+     <ITEM LANGU="E" ENTRY="MT Tutorial : Change Run" LENGTH="24 "/>
+     <ITEM LANGU="F" ENTRY="MT tutorial (test obj *_MT_TEMPLATE) - Traitement" LENGTH="49 "/>
+    </TEXTS>
+   </ITEM>
+   <ITEM ID="S" KEY="MAX_SIZE">
+    <TEXTS>
+     <ITEM LANGU="E" ENTRY="        Requested maximum batch size" LENGTH="36 "/>
+    </TEXTS>
+   </ITEM>
+   <ITEM ID="S" KEY="MEM_SIZE">
+    <TEXTS>
+     <ITEM LANGU="E" ENTRY="        Requested maximum memory size" LENGTH="37 "/>
+    </TEXTS>
+   </ITEM>
+   <ITEM ID="S" KEY="MIN_TIME">
+    <TEXTS>
+     <ITEM LANGU="E" ENTRY="        Time beetween message lookup" LENGTH="36 "/>
+    </TEXTS>
+   </ITEM>
+   <ITEM ID="S" KEY="M_RUN">
+    <TEXTS>
+     <ITEM LANGU="E" ENTRY="        Run" LENGTH="11 "/>
+    </TEXTS>
+   </ITEM>
+   <ITEM ID="S" KEY="M_TASK">
+    <TEXTS>
+     <ITEM LANGU="E" ENTRY="        Task" LENGTH="12 "/>
+    </TEXTS>
+   </ITEM>
+   <ITEM ID="S" KEY="OBJ_C">
+    <TEXTS>
+     <ITEM LANGU="F" ENTRY="        Nb d&apos;objet par temps d&apos;attente" LENGTH="38 "/>
+    </TEXTS>
+   </ITEM>
+   <ITEM ID="S" KEY="P_B_RATE">
+    <TEXTS>
+     <ITEM LANGU="E" ENTRY="        Batch Rate" LENGTH="18 "/>
+    </TEXTS>
+   </ITEM>
+   <ITEM ID="S" KEY="P_JOB_P">
+    <TEXTS>
+     <ITEM LANGU="E" ENTRY="        Job class" LENGTH="17 "/>
+    </TEXTS>
+   </ITEM>
+   <ITEM ID="S" KEY="P_STOP">
+    <TEXTS>
+     <ITEM LANGU="E" ENTRY="        Request run to stop" LENGTH="27 "/>
+    </TEXTS>
+   </ITEM>
+   <ITEM ID="S" KEY="RUN_ID">
+    <TEXTS>
+     <ITEM LANGU="E" ENTRY="        Parent Run ID" LENGTH="21 "/>
+     <ITEM LANGU="F" ENTRY="D       ." LENGTH="9 "/>
+    </TEXTS>
+   </ITEM>
+   <ITEM ID="S" KEY="S_SERVER">
+    <TEXTS>
+     <ITEM LANGU="E" ENTRY="        Server Name" LENGTH="19 "/>
+    </TEXTS>
+   </ITEM>
+   <ITEM ID="S" KEY="THREAD">
+    <TEXTS>
+     <ITEM LANGU="E" ENTRY="        Number of threads" LENGTH="25 "/>
+    </TEXTS>
+   </ITEM>
+   <ITEM ID="S" KEY="WAIT_T">
+    <TEXTS>
+     <ITEM LANGU="F" ENTRY="        Temps d&apos;attente en S pour nb O" LENGTH="38 "/>
+    </TEXTS>
+   </ITEM>
+  </TEXTSPOOL>
+ </RAW>
+</ZL_OBJECT>

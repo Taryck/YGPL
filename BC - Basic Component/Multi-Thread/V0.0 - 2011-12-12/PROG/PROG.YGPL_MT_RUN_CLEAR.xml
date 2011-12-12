@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-16"?>
+<ZL_OBJECT CHECKSUM="2EB8A63EDF76FDC8EC1CC4941E48E2C9" CODE_SIGNATURE="8D96997BFFE4195F6EA1D9E4D7F3B6A8" CONNECTOR="AAAD0A4B07A5A05AE1000000AC120173" NAME="YGPL_MT_RUN_CLEAR" TYPE="PROG" VERSION="1.0">
+ <DIRECTORY DEVCLASS="YGPL-MULTITHREAD" MASTERLANG="E"/>
+ <RAW>
+  <A0_MAINDATA VARCL="X" SUBC="1" RSTAT="K" RMAND="200" RLOAD="E" FIXPT="X" UCCHECK="X"/>
+  <SOURCE>`
+*&amp;---------------------------------------------------------------------*
+*&amp; Report  YGPL_MT_RUN_CLEAR
+*&amp;
+*&amp;---------------------------------------------------------------------*
+*&amp;
+*&amp;
+*&amp;---------------------------------------------------------------------*
+
+REPORT  ygpl_mt_run_clear.
+
+TABLES:  ygplmt_runs.
+TYPE-POOLS: abap.
+
+PARAMETERS:
+  p_simul TYPE abap_bool AS CHECKBOX.
+SELECT-OPTIONS :
+  s_status  FOR ygplmt_runs-int_status,
+  s_time    FOR ygplmt_runs-timestamp.
+
+START-OF-SELECTION.
+  DATA:
+    BEGIN OF t_ids OCCURS 0,
+      run_id TYPE ygplmt_runs-run_id,
+    END OF t_ids.
+  DATA o_run TYPE ygpl_mt_factories=&gt;ti_run.
+  FIELD-SYMBOLS: &lt;id&gt; LIKE LINE OF t_ids.
+
+  SELECT r~run_id INTO TABLE t_ids
+    FROM ygplmt_runs AS r
+    WHERE r~int_status IN s_status
+      AND r~timestamp IN s_time.
+  LOOP AT t_ids ASSIGNING &lt;id&gt;.
+    o_run = ygpl_mt_factories=&gt;get_run( &lt;id&gt;-run_id ).
+    IF p_simul IS INITIAL.
+      o_run-&gt;delete( ).
+      COMMIT WORK.
+    ENDIF.
+    WRITE:/ &lt;id&gt;-run_id.
+  ENDLOOP.
+
+END-OF-SELECTION.</SOURCE>
+  <TEXTSPOOL>
+   <ITEM ID="R">
+    <TEXTS>
+     <ITEM LANGU="E" ENTRY="Clear Runs" LENGTH="10 "/>
+    </TEXTS>
+   </ITEM>
+   <ITEM ID="S" KEY="P_SIMUL">
+    <TEXTS>
+     <ITEM LANGU="E" ENTRY="        Simulation" LENGTH="18 "/>
+    </TEXTS>
+   </ITEM>
+   <ITEM ID="S" KEY="S_STATUS">
+    <TEXTS>
+     <ITEM LANGU="E" ENTRY="D       ." LENGTH="9 "/>
+    </TEXTS>
+   </ITEM>
+   <ITEM ID="S" KEY="S_TIME">
+    <TEXTS>
+     <ITEM LANGU="E" ENTRY="D       ." LENGTH="9 "/>
+    </TEXTS>
+   </ITEM>
+  </TEXTSPOOL>
+ </RAW>
+</ZL_OBJECT>

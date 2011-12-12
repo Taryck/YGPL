@@ -1,0 +1,1179 @@
+<?xml version="1.0" encoding="utf-16"?>
+<ZL_OBJECT CHECKSUM="C4128DE7C50E18B39C181D48C0EEECB9" CODE_SIGNATURE="277FE123803DDBF12F165C955ACA4BDB" CONNECTOR="39AC0A4B07A5A05AE1000000AC120173" NAME="YGPL_MT_FACTORIES" TYPE="CLAS" VERSION="1.01">
+ <DIRECTORY DEVCLASS="YGPL-MULTITHREAD" MASTERLANG="E"/>
+ <RAW>
+  <A0_MAINDATA VERSION="1" LANGU="E" EXPOSURE="2" STATE="1" CLSFINAL="X" CLSCCINCL="X" FIXPT="X" UNICODE="X" WITH_UNIT_TESTS="X">
+   <TEXTS>
+    <ITEM LANG="E" TEXT="MT Factories"/>
+   </TEXTS>
+  </A0_MAINDATA>
+  <ALIASES>
+   <ITEM CMPNAME="TD_BOOLEAN" EXPOSURE="2" CMPTYPE="3" REFCLSNAME="YGPL_MT_TYPESPOOL" REFCMPNAME="TD_BOOLEAN"/>
+   <ITEM CMPNAME="TD_PROCESS_ID" EXPOSURE="2" CMPTYPE="3" REFCLSNAME="YGPL_MT_TYPESPOOL" REFCMPNAME="TD_PROCESS_ID"/>
+   <ITEM CMPNAME="TI_CATEGORIES" EXPOSURE="2" CMPTYPE="3" REFCLSNAME="YGPL_MT_INTERFACES" REFCMPNAME="TI_CATEGORIES"/>
+   <ITEM CMPNAME="TI_DATA_BLOC" EXPOSURE="2" CMPTYPE="3" REFCLSNAME="YGPL_MT_INTERFACES" REFCMPNAME="TI_DATA_BLOC"/>
+   <ITEM CMPNAME="TI_FULL_CONDITIONS" EXPOSURE="2" CMPTYPE="3" REFCLSNAME="YGPL_MT_INTERFACES" REFCMPNAME="TI_FULL_CONDITIONS"/>
+   <ITEM CMPNAME="TI_INFORMATIONS" EXPOSURE="2" CMPTYPE="3" REFCLSNAME="YGPL_MT_INTERFACES" REFCMPNAME="TI_INFORMATIONS"/>
+   <ITEM CMPNAME="TI_JOB_MONITORING" EXPOSURE="2" CMPTYPE="3" REFCLSNAME="YGPL_MT_INTERFACES" REFCMPNAME="TI_JOB_MONITORING"/>
+   <ITEM CMPNAME="TI_JOB_MONITORING_CONDITIONS" EXPOSURE="2" CMPTYPE="3" REFCLSNAME="YGPL_MT_INTERFACES" REFCMPNAME="TI_JOB_MONITORING_CONDITIONS"/>
+   <ITEM CMPNAME="TI_MESSAGING" EXPOSURE="2" CMPTYPE="3" REFCLSNAME="YGPL_MT_INTERFACES" REFCMPNAME="TI_MESSAGING"/>
+   <ITEM CMPNAME="TI_OBJECTS_CONSUMING" EXPOSURE="2" CMPTYPE="3" REFCLSNAME="YGPL_MT_INTERFACES" REFCMPNAME="TI_OBJECTS_CONSUMING"/>
+   <ITEM CMPNAME="TI_OBJECTS_LOADING" EXPOSURE="2" CMPTYPE="3" REFCLSNAME="YGPL_MT_INTERFACES" REFCMPNAME="TI_OBJECTS_LOADING"/>
+   <ITEM CMPNAME="TI_PARENT" EXPOSURE="2" CMPTYPE="3" REFCLSNAME="YGPL_MT_INTERFACES" REFCMPNAME="TI_PARENT"/>
+   <ITEM CMPNAME="TI_PROCESS" EXPOSURE="2" CMPTYPE="3" REFCLSNAME="YGPL_MT_INTERFACES" REFCMPNAME="TI_PROCESS"/>
+   <ITEM CMPNAME="TI_PROCESS_GENERIC" EXPOSURE="2" CMPTYPE="3" REFCLSNAME="YGPL_MT_INTERFACES" REFCMPNAME="TI_PROCESS_GENERIC"/>
+   <ITEM CMPNAME="TI_RUN" EXPOSURE="2" CMPTYPE="3" REFCLSNAME="YGPL_MT_INTERFACES" REFCMPNAME="TI_RUN"/>
+   <ITEM CMPNAME="TI_RUN_CONDITIONS" EXPOSURE="2" CMPTYPE="3" REFCLSNAME="YGPL_MT_INTERFACES" REFCMPNAME="TI_RUN_CONDITIONS"/>
+   <ITEM CMPNAME="TI_STATUS" EXPOSURE="2" CMPTYPE="3" REFCLSNAME="YGPL_MT_INTERFACES" REFCMPNAME="TI_STATUS"/>
+   <ITEM CMPNAME="TI_TASK" EXPOSURE="2" CMPTYPE="3" REFCLSNAME="YGPL_MT_INTERFACES" REFCMPNAME="TI_TASK"/>
+   <ITEM CMPNAME="TI_TASK_CONDITIONS" EXPOSURE="2" CMPTYPE="3" REFCLSNAME="YGPL_MT_INTERFACES" REFCMPNAME="TI_TASK_CONDITIONS"/>
+  </ALIASES>
+  <ATTRIBUTS>
+   <ITEM CMPNAME="D_ID" STATE="1" ATTDECLTYP="1" TYPTYPE="1" TYPE="TD_PROCESS_ID">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Current ID"/>
+    </TEXTS>
+   </ITEM>
+   <ITEM CMPNAME="O_CATEGORIES_SINGLETON" STATE="1" ATTDECLTYP="1" TYPTYPE="1" TYPE="TI_CATEGORIES"/>
+   <ITEM CMPNAME="O_CONDITIONS" STATE="1" ATTDECLTYP="1" TYPTYPE="1" TYPE="TO_CONDITIONS">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Conditions : Starting, Running (Run &amp; Task)"/>
+    </TEXTS>
+   </ITEM>
+   <ITEM CMPNAME="O_DATA_HANDLER" STATE="1" ATTDECLTYP="1" TYPTYPE="1" TYPE="TI_DATA_BLOC">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Data Handler"/>
+    </TEXTS>
+   </ITEM>
+   <ITEM CMPNAME="O_PARENT" STATE="1" ATTDECLTYP="1" TYPTYPE="1" TYPE="TI_PARENT">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Parent run defifinition"/>
+    </TEXTS>
+   </ITEM>
+   <ITEM CMPNAME="O_PROCESS" STATE="1" ATTDECLTYP="1" TYPTYPE="1" TYPE="TI_PROCESS">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Process Definition"/>
+    </TEXTS>
+   </ITEM>
+   <ITEM CMPNAME="O_RUN" STATE="1" ATTDECLTYP="1" TYPTYPE="1" TYPE="TI_RUN">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Run definition"/>
+    </TEXTS>
+   </ITEM>
+   <ITEM CMPNAME="O_STATUS_SINGLETON" STATE="1" ATTDECLTYP="1" TYPTYPE="1" TYPE="TI_STATUS"/>
+   <ITEM CMPNAME="T_INFORMATIONS" STATE="1" ATTDECLTYP="1" TYPTYPE="1" TYPE="TT_MAPPING">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Information for Run"/>
+    </TEXTS>
+   </ITEM>
+   <ITEM CMPNAME="T_MESSAGINGS" STATE="1" ATTDECLTYP="1" TYPTYPE="1" TYPE="TT_MAPPING">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Messaging for process"/>
+    </TEXTS>
+   </ITEM>
+   <ITEM CMPNAME="T_OBJECTS" STATE="1" ATTDECLTYP="1" TYPTYPE="1" TYPE="TT_MAPPING">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Objects (Consuming/Loading) directory"/>
+    </TEXTS>
+   </ITEM>
+   <ITEM CMPNAME="T_PROCESSES" STATE="1" ATTDECLTYP="1" TYPTYPE="1" TYPE="TT_MAPPING">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Processes directory"/>
+    </TEXTS>
+   </ITEM>
+   <ITEM CMPNAME="T_RUNS" STATE="1" ATTDECLTYP="1" TYPTYPE="1" TYPE="TT_MAPPING">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Runs directory"/>
+    </TEXTS>
+   </ITEM>
+   <ITEM CMPNAME="T_TASKS" STATE="1" ATTDECLTYP="1" TYPTYPE="1" TYPE="TT_MAPPING">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Tasks directory"/>
+    </TEXTS>
+   </ITEM>
+  </ATTRIBUTS>
+  <INTERFACES>
+   <ITEM REFCLSNAME="YGPL_MT_INTERFACES" EXPOSURE="2" STATE="1" RELTYPE="1"/>
+   <ITEM REFCLSNAME="YGPL_MT_TYPESPOOL" EXPOSURE="2" STATE="1" RELTYPE="1"/>
+  </INTERFACES>
+  <LOCAL>
+   <TYPES>`
+*&quot;* use this source file for any type declarations (class
+*&quot;* definitions, interfaces or data types) you need for method
+*&quot;* implementation or private method&apos;s signature</TYPES>
+   <IMPLEMENTATIONS>`
+*&quot;* local class implementation for public class
+*&quot;* use this source file for the implementation part of
+*&quot;* local helper classes</IMPLEMENTATIONS>
+   <MACROS>`
+*&quot;* use this source file for any macro definitions you need
+*&quot;* in the implementation part of the class</MACROS>
+   <LOCAL_TEST_CLASS>`
+*----------------------------------------------------------------------*
+*       CLASS lcl_DATA_HANDLER
+*----------------------------------------------------------------------*
+*
+*----------------------------------------------------------------------*
+CLASS lcl_data_handler DEFINITION.
+  PUBLIC SECTION.
+    INTERFACES ygplimt_data_bloc.
+ENDCLASS.                    &quot;lcl_DATA_HANDLER
+*----------------------------------------------------------------------*
+*       CLASS lcl_DATA_HANDLER IMPLEMENTATION
+*----------------------------------------------------------------------*
+*
+*----------------------------------------------------------------------*
+CLASS lcl_data_handler IMPLEMENTATION.
+  METHOD ygplimt_data_bloc~process_batch.
+  ENDMETHOD.                    &quot;YGPLIMT_DATA_BLOC~PROCESS_BATCH
+  METHOD ygplimt_data_bloc~new_task_defined.
+  ENDMETHOD.                    &quot;YGPLIMT_DATA_BLOC~NEW_TASK_DEFINED
+  METHOD ygplimt_data_bloc~new_bloc.
+  ENDMETHOD.                    &quot;YGPLIMT_DATA_BLOC~NEW_BLOC
+ENDCLASS.                    &quot;lcl_DATA_HANDLER IMPLEMENTATION
+CLASS abap_unit_testclass DEFINITION DEFERRED.
+CLASS ygpl_mt_factories DEFINITION LOCAL FRIENDS abap_unit_testclass.
+* ----------------------------------------------------------------------
+CLASS abap_unit_testclass DEFINITION FOR TESTING   &quot;#AU Duration Medium
+   &quot;#AU Risk_Level Harmless
+.
+* ----------------------------------------------------------------------
+* ===============
+  PUBLIC SECTION.
+* ===============
+
+* ==================
+  PROTECTED SECTION.
+* ==================
+
+* ================
+  PRIVATE SECTION.
+* ================
+    TYPES ti_run TYPE ygpl_mt_factories=&gt;ti_run.
+    TYPES ti_categories TYPE ygpl_mt_factories=&gt;ti_categories.
+    TYPES ti_full_conditions TYPE ygpl_mt_factories=&gt;ti_full_conditions.
+    TYPES ti_informations TYPE ygpl_mt_factories=&gt;ti_informations.
+    TYPES ti_job_monitoring TYPE ygpl_mt_factories=&gt;ti_job_monitoring.
+    TYPES ti_job_monitoring_conditions TYPE ygpl_mt_factories=&gt;ti_job_monitoring_conditions.
+    TYPES ti_messaging TYPE ygpl_mt_factories=&gt;ti_messaging.
+    TYPES ti_objects_consuming TYPE ygpl_mt_factories=&gt;ti_objects_consuming.
+    TYPES ti_objects_loading TYPE ygpl_mt_factories=&gt;ti_objects_loading.
+    TYPES ti_parent TYPE ygpl_mt_factories=&gt;ti_parent.
+    TYPES ti_process TYPE ygpl_mt_factories=&gt;ti_process.
+    TYPES ti_process_generic TYPE ygpl_mt_factories=&gt;ti_process_generic.
+    TYPES ti_run_conditions TYPE ygpl_mt_factories=&gt;ti_run_conditions.
+    TYPES ti_status TYPE ygpl_mt_factories=&gt;ti_status.
+    TYPES ti_task TYPE ygpl_mt_factories=&gt;ti_task.
+    TYPES ti_task_conditions TYPE ygpl_mt_factories=&gt;ti_task_conditions.
+
+    DATA:
+      m_ref TYPE REF TO ygpl_mt_factories.                  &quot;#EC NOTEXT
+
+    METHODS: setup.
+    METHODS: teardown.
+    METHODS: global_test FOR TESTING RAISING ygpl_mt_cx.
+    METHODS: check_run_constencies IMPORTING o_run TYPE ti_run RAISING ygpl_mt_cx.
+    METHODS: check_task_constencies IMPORTING o_task TYPE ti_task RAISING ygpl_mt_cx.
+    METHODS: check_process_messaging IMPORTING o_process TYPE ti_process RAISING ygpl_mt_cx.
+
+    METHODS: create_new_categories FOR TESTING RAISING ygpl_mt_cx.
+    METHODS: create_new_job_monitoring FOR TESTING RAISING ygpl_mt_cx.
+    METHODS: create_new_run_conditions FOR TESTING RAISING ygpl_mt_cx.
+    METHODS: create_new_start_conditions FOR TESTING RAISING ygpl_mt_cx.
+    METHODS: create_new_status FOR TESTING RAISING ygpl_mt_cx.
+ENDCLASS.       &quot;Abap_Unit_Testclass
+* ----------------------------------------------------------------------
+CLASS abap_unit_testclass IMPLEMENTATION.
+* ----------------------------------------------------------------------
+
+* ----------------------------------------------------------------------
+  METHOD setup.
+* ----------------------------------------------------------------------
+    CREATE OBJECT m_ref.
+  ENDMETHOD.       &quot;Setup
+
+* ----------------------------------------------------------------------
+  METHOD teardown.
+* ----------------------------------------------------------------------
+
+
+  ENDMETHOD.       &quot;Teardown
+
+* ----------------------------------------------------------------------
+  METHOD global_test.
+* ----------------------------------------------------------------------
+    TYPES:
+      BEGIN OF ts_id,
+        id          TYPE ygpl_mt_typespool=&gt;td_process_id,
+        timestamp   TYPE timestampl,
+      END OF ts_id.
+    DATA t_ids TYPE STANDARD TABLE OF ts_id WITH DEFAULT KEY.
+    FIELD-SYMBOLS
+      &lt;i&gt; LIKE LINE OF t_ids.
+    DATA o_run        TYPE ti_run.
+    DATA o_tmp_run    TYPE ti_run.
+    DATA o_task       TYPE ti_task.
+    DATA o_tmp_task   TYPE ti_task.
+    DATA o_process    TYPE ti_process.
+    DATA o_handler    TYPE REF TO lcl_data_handler.
+    DATA o_obj_con    TYPE ti_objects_consuming.
+    DATA o_obj_load   TYPE ti_objects_loading.
+
+    CREATE OBJECT o_handler.
+
+    o_run = ygpl_mt_factories=&gt;create_new_run(  ).
+    check_run_constencies( o_run ).
+
+    o_tmp_run = ygpl_mt_factories=&gt;get_run( o_run-&gt;process_id ).
+    cl_aunit_assert=&gt;assert_equals(
+      act   = o_run
+      exp   = o_tmp_run
+      msg   = &apos;Incorrect run for GET_RUN&apos;
+*     level =
+    ).
+
+    o_task = ygpl_mt_factories=&gt;create_new_task( id = o_run-&gt;process_id
+                                     o_data_handler = o_handler ).
+    check_task_constencies( o_task ).
+    cl_aunit_assert=&gt;assert_equals(
+      act   = o_run
+      exp   = o_task-&gt;parent
+      msg   = &apos;Incorrect parent for Task&apos;
+*     level =
+    ).
+    check_process_messaging( o_task ).
+    cl_aunit_assert=&gt;assert_equals(
+      act   = o_run-&gt;object_store
+      exp   = o_task-&gt;object_provider
+      msg   = &apos;Different Object engine for Run &amp; Task&apos;
+*     level =
+    ).
+
+    o_obj_load = ygpl_mt_factories=&gt;get_objects_loading( o_run ).
+    cl_aunit_assert=&gt;assert_equals(
+      act   = o_run-&gt;object_store
+      exp   = o_obj_load
+      msg   = &apos;Incorrect Object engine for CREATE_OBJECTS_LOADING&apos;
+*     level =
+    ).
+
+    o_obj_con = ygpl_mt_factories=&gt;get_objects_consuming( o_run ).
+    cl_aunit_assert=&gt;assert_equals(
+      act   = o_task-&gt;object_provider
+      exp   = o_obj_con
+      msg   = &apos;Incorrect Object engine for CREATE_OBJECTS_CONSUMING&apos;
+*     level =
+    ).
+
+    o_tmp_task = ygpl_mt_factories=&gt;get_task( id = o_task-&gt;process_id
+                                  o_data_handler = o_handler ).
+    cl_aunit_assert=&gt;assert_equals(
+      act   = o_task
+      exp   = o_tmp_task
+      msg   = &apos;Incorrect run for GET_TASK&apos;
+*     level =
+    ).
+
+    o_tmp_task = ygpl_mt_factories=&gt;create_new_task( id = o_run-&gt;process_id
+                                         o_data_handler = o_handler ).
+    check_task_constencies( o_task ).
+    cl_aunit_assert=&gt;assert_equals(
+      act   = o_task-&gt;parent
+      exp   = o_tmp_task-&gt;parent
+      msg   = &apos;Incorrect parent for CREATE_NEW_TASK&apos;
+*     level =
+    ).
+
+    IF o_tmp_task = o_task.
+      cl_aunit_assert=&gt;fail( msg   = &apos;Failed in CREATE_NEW_TASK&apos; ).
+    ENDIF.
+
+    o_tmp_run = ygpl_mt_factories=&gt;create_new_run(  ).
+    check_run_constencies( o_tmp_run ).
+
+    o_process = ygpl_mt_factories=&gt;get_process( o_run-&gt;process_id ).
+    cl_aunit_assert=&gt;assert_equals(
+      act   = o_process
+      exp   = o_run
+      msg   = &apos;Incorrect process for GET_PROCESS (1)&apos;
+*     level =
+    ).
+
+    o_process = ygpl_mt_factories=&gt;get_process( o_tmp_run-&gt;process_id ).
+    cl_aunit_assert=&gt;assert_equals(
+      act   = o_process
+      exp   = o_tmp_run
+      msg   = &apos;Incorrect process for GET_PROCESS (2)&apos;
+*     level =
+    ).
+
+* Loading existing
+    SELECT run_id timestamp UP TO 10 ROWS
+      INTO TABLE t_ids
+      FROM ygplmt_runs
+      ORDER BY timestamp DESCENDING.
+    LOOP AT t_ids ASSIGNING &lt;i&gt;.
+      o_run = ygpl_mt_factories=&gt;get_run( &lt;i&gt;-id ).
+      check_run_constencies( o_run ).
+    ENDLOOP.
+
+    SELECT task_id timestamp UP TO 10 ROWS
+      INTO TABLE t_ids
+      FROM ygplmt_tasks
+      ORDER BY timestamp DESCENDING.
+    LOOP AT t_ids ASSIGNING &lt;i&gt;.
+      o_task = ygpl_mt_factories=&gt;get_task( id = &lt;i&gt;-id
+                                o_data_handler = o_handler ).
+      check_task_constencies( o_task ).
+      o_run = ygpl_mt_factories=&gt;get_run( o_task-&gt;parent-&gt;process_id ).
+      check_run_constencies( o_run ).
+      cl_aunit_assert=&gt;assert_equals(
+        act   = o_task-&gt;parent
+        exp   = o_run
+        msg   = &apos;Incorrect parent for GET_RUN&apos;
+*     level =
+      ).
+    ENDLOOP.
+  ENDMETHOD.                    &quot;global_test
+
+  METHOD check_run_constencies.
+    DATA o_nfo  TYPE ti_informations.
+
+    cl_aunit_assert=&gt;assert_equals(
+      act   = o_run
+      exp   = o_run-&gt;messaging-&gt;o_process
+      msg   = &apos;Incorrect messaging for run&apos;
+*     level =
+    ).
+    cl_aunit_assert=&gt;assert_equals(
+      act   = o_run
+      exp   = o_run-&gt;informations-&gt;o_process
+      msg   = &apos;Incorrect informations for run&apos;
+*     level =
+    ).
+
+    check_process_messaging( o_run ).
+
+    o_nfo = ygpl_mt_factories=&gt;get_informations( o_run ).
+    cl_aunit_assert=&gt;assert_equals(
+      act   = o_nfo
+      exp   = o_run-&gt;informations
+      msg   = &apos;Incorrect informations for GET_INFORMATIONS&apos;
+*     level =
+    ).
+
+    cl_aunit_assert=&gt;assert_bound(
+      act   = o_run-&gt;job_monitoring
+      msg   = &apos;No job monitoring for run&apos;
+*     level =
+    ).
+
+  ENDMETHOD.                    &quot;check_run_constencies
+
+  METHOD check_task_constencies.
+    cl_aunit_assert=&gt;assert_equals(
+      act   = o_task
+      exp   = o_task-&gt;messaging-&gt;o_process
+      msg   = &apos;Incorrect messaging for Task&apos;
+*     level =
+    ).
+*    cl_aunit_assert=&gt;assert_equals(
+*      act   = o_task
+*      exp   = o_task-&gt;informations-&gt;o_process
+*      msg   = &apos;Incorrect informations for run&apos;
+**     level =
+*    ).
+  ENDMETHOD.                    &quot;check_run_constencies
+
+  METHOD check_process_messaging.
+* ----------------------------------------------------------------------
+    DATA o_msg  TYPE ti_messaging.
+
+    o_msg = ygpl_mt_factories=&gt;get_messaging( o_process ).
+    cl_aunit_assert=&gt;assert_equals(
+      act   = o_msg
+      exp   = o_process-&gt;messaging
+      msg   = &apos;Incorrect messaging for GET_MESSAGING&apos;
+*     level =
+    ).
+
+    o_msg = ygpl_mt_factories=&gt;get_messaging_by_id( o_process-&gt;process_id ).
+    cl_aunit_assert=&gt;assert_equals(
+      act   = o_msg
+      exp   = o_process-&gt;messaging
+      msg   = &apos;Incorrect messaging for GET_MESSAGING_BY_ID&apos;
+*     level =
+    ).
+
+  ENDMETHOD.                    &quot;check_process_messaging
+
+
+* ----------------------------------------------------------------------
+  METHOD create_new_categories.
+* ----------------------------------------------------------------------
+    DATA object TYPE ti_categories.
+    DATA o_cat  TYPE ti_categories.
+
+    object = ygpl_mt_factories=&gt;create_new_categories(  ).
+
+    cl_aunit_assert=&gt;assert_bound(
+      act   = object
+      msg   = &apos;No categorie created&apos;
+*     level =
+    ).
+
+    o_cat = ygpl_mt_factories=&gt;get_categories( ).
+    cl_aunit_assert=&gt;assert_bound(
+      act   = o_cat
+      msg   = &apos;The Category not created&apos;
+*     level =
+    ).
+
+    IF object = o_cat.
+      cl_aunit_assert=&gt;fail( msg   = &apos;Incorrect Categories&apos; ).
+    ENDIF.
+
+  ENDMETHOD.       &quot;Create_New_Categories
+
+* ----------------------------------------------------------------------
+  METHOD create_new_job_monitoring.
+* ----------------------------------------------------------------------
+    DATA o_conditions   TYPE ti_job_monitoring_conditions.
+    DATA object         TYPE ti_job_monitoring.
+
+    o_conditions ?= ygpl_mt_factories=&gt;create_new_start_conditions(  ).
+    object = ygpl_mt_factories=&gt;create_new_job_monitoring( o_conditions ).
+
+    cl_aunit_assert=&gt;assert_bound(
+      act   = object
+      msg   = &apos;No Job Monitoring created&apos;
+*     level =
+    ).
+  ENDMETHOD.       &quot;Create_New_Job_Monitoring
+
+* ----------------------------------------------------------------------
+  METHOD create_new_run_conditions.
+* ----------------------------------------------------------------------
+    DATA object TYPE ti_run_conditions.
+
+    object = ygpl_mt_factories=&gt;create_new_run_conditions(  ).
+
+    cl_aunit_assert=&gt;assert_bound(
+      act   = object
+      msg   = &apos;No Run Conditions created&apos;
+*     level =
+    ).
+  ENDMETHOD.       &quot;Create_New_Run_Conditions
+
+* ----------------------------------------------------------------------
+  METHOD create_new_start_conditions.
+* ----------------------------------------------------------------------
+    DATA object TYPE ti_full_conditions.
+
+    object = ygpl_mt_factories=&gt;create_new_start_conditions(  ).
+
+    cl_aunit_assert=&gt;assert_bound(
+      act   = object
+      msg   = &apos;No Start Conditions created&apos;
+*     level =
+    ).
+  ENDMETHOD.       &quot;Create_New_Start_Conditions
+
+* ----------------------------------------------------------------------
+  METHOD create_new_status.
+* ----------------------------------------------------------------------
+    DATA object TYPE ti_status.
+    DATA o_status TYPE ti_status.
+
+    object = ygpl_mt_factories=&gt;create_new_status(  ).
+
+    cl_aunit_assert=&gt;assert_bound(
+      act   = object
+      msg   = &apos;No Status created&apos;
+*     level =
+    ).
+
+    o_status = ygpl_mt_factories=&gt;get_status( ).
+    cl_aunit_assert=&gt;assert_bound(
+      act   = o_status
+      msg   = &apos;The Status not created&apos;
+*     level =
+    ).
+
+    IF object = o_status.
+      cl_aunit_assert=&gt;fail( msg   = &apos;Incorrect status&apos; ).
+    ENDIF.
+  ENDMETHOD.       &quot;Create_New_Status
+ENDCLASS.       &quot;Abap_Unit_Testclass</LOCAL_TEST_CLASS>
+  </LOCAL>
+  <METHODS>
+   <ITEM CMPNAME="CREATE_NEW_CATEGORIES" EXPOSURE="2" STATE="1" MTDDECLTYP="1">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Create new Categories Concept"/>
+    </TEXTS>
+    <PARAMETERS>
+     <ITEM SCONAME="OBJECT" CMPTYPE="1" PARDECLTYP="3" TYPTYPE="1" TYPE="TI_CATEGORIES"/>
+    </PARAMETERS>
+    <SOURCE>`
+  CREATE OBJECT object TYPE ygpl_mt_categories.</SOURCE>
+   </ITEM>
+   <ITEM CMPNAME="CREATE_NEW_JOB_MONITORING" EXPOSURE="2" STATE="1" MTDDECLTYP="1">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Create new Job Monitoring"/>
+    </TEXTS>
+    <PARAMETERS>
+     <ITEM SCONAME="OBJECT" CMPTYPE="1" PARDECLTYP="3" TYPTYPE="1" TYPE="TI_JOB_MONITORING"/>
+     <ITEM SCONAME="O_CONDITIONS" CMPTYPE="1" PARPASSTYP="1" TYPTYPE="1" TYPE="TI_JOB_MONITORING_CONDITIONS"/>
+    </PARAMETERS>
+    <SOURCE>`
+  CREATE OBJECT object
+    TYPE
+      ygpl_mt_job_monitoring
+    EXPORTING
+      o_conditions           = o_conditions.</SOURCE>
+   </ITEM>
+   <ITEM CMPNAME="CREATE_NEW_PROCESS" EXPOSURE="2" STATE="1" MTDDECLTYP="1" MTDNEWEXC="X">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Create new Process"/>
+    </TEXTS>
+    <PARAMETERS>
+     <ITEM SCONAME="OBJECT" CMPTYPE="1" PARDECLTYP="3" TYPTYPE="1" TYPE="TI_PROCESS"/>
+    </PARAMETERS>
+    <EXCEPTIONS>
+     <ITEM SCONAME="YGPL_MT_CX" LANGU="E">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="MultyThread : Root exception class"/>
+      </TEXTS>
+     </ITEM>
+    </EXCEPTIONS>
+    <SOURCE>`
+  DATA process_id TYPE td_process_id.
+  DATA s_mapping  LIKE LINE OF t_runs.
+  CREATE OBJECT object
+    TYPE
+      ygpl_mt_process_4mt
+    EXPORTING
+      process_id          = process_id.
+  s_mapping-id = object-&gt;process_id.
+  s_mapping-object = object.
+  INSERT s_mapping INTO TABLE t_runs.
+  ASSERT sy-subrc = 0.</SOURCE>
+   </ITEM>
+   <ITEM CMPNAME="CREATE_NEW_RUN" EXPOSURE="2" STATE="1" MTDDECLTYP="1" MTDNEWEXC="X">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Create new run from Conditions"/>
+    </TEXTS>
+    <PARAMETERS>
+     <ITEM SCONAME="OBJECT" CMPTYPE="1" PARDECLTYP="3" TYPTYPE="1" TYPE="TI_RUN"/>
+     <ITEM SCONAME="O_CONDITIONS" CMPTYPE="1" PARPASSTYP="1" TYPTYPE="1" TYPE="TI_FULL_CONDITIONS" PAROPTIONL="X" PARPREFERD="X"/>
+    </PARAMETERS>
+    <EXCEPTIONS>
+     <ITEM SCONAME="YGPL_MT_CX" LANGU="E">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="MultyThread : Root exception class"/>
+      </TEXTS>
+     </ITEM>
+    </EXCEPTIONS>
+    <SOURCE>`
+  DATA run_id TYPE td_process_id.
+  DATA o_cond TYPE to_conditions.
+  DATA s_mapping  LIKE LINE OF t_runs.
+  o_cond ?= o_conditions.
+  CREATE OBJECT object
+    TYPE
+      ygpl_mt_run
+    EXPORTING
+      run_id       = run_id
+      o_conditions = o_cond.
+  s_mapping-id = object-&gt;process_id.
+  s_mapping-object = object.
+  INSERT s_mapping INTO TABLE t_runs.
+  INSERT s_mapping INTO TABLE t_processes.
+  ASSERT sy-subrc = 0.</SOURCE>
+   </ITEM>
+   <ITEM CMPNAME="CREATE_NEW_RUN_CONDITIONS" EXPOSURE="2" STATE="1" MTDDECLTYP="1" MTDNEWEXC="X">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Create new run conditions"/>
+    </TEXTS>
+    <PARAMETERS>
+     <ITEM SCONAME="OBJECT" CMPTYPE="1" PARDECLTYP="3" TYPTYPE="1" TYPE="TI_RUN_CONDITIONS">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="Running conditions for Run (Interface)"/>
+      </TEXTS>
+     </ITEM>
+    </PARAMETERS>
+    <EXCEPTIONS>
+     <ITEM SCONAME="YGPL_MT_CX" LANGU="E">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="MultyThread : Root exception class"/>
+      </TEXTS>
+     </ITEM>
+    </EXCEPTIONS>
+    <SOURCE>`
+  CREATE OBJECT object TYPE ygpl_mt_conditions_run.</SOURCE>
+   </ITEM>
+   <ITEM CMPNAME="CREATE_NEW_START_CONDITIONS" EXPOSURE="2" STATE="1" MTDDECLTYP="1" MTDNEWEXC="X">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Create new Start conditions"/>
+    </TEXTS>
+    <PARAMETERS>
+     <ITEM SCONAME="OBJECT" CMPTYPE="1" PARDECLTYP="3" TYPTYPE="1" TYPE="TI_FULL_CONDITIONS">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="Running conditions for Run (Interface)"/>
+      </TEXTS>
+     </ITEM>
+    </PARAMETERS>
+    <EXCEPTIONS>
+     <ITEM SCONAME="YGPL_MT_CX" LANGU="E">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="MultyThread : Root exception class"/>
+      </TEXTS>
+     </ITEM>
+    </EXCEPTIONS>
+    <SOURCE>`
+  CREATE OBJECT object TYPE ygpl_mt_conditions.</SOURCE>
+   </ITEM>
+   <ITEM CMPNAME="CREATE_NEW_STATUS" EXPOSURE="2" STATE="1" MTDDECLTYP="1">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Create new Status concept"/>
+    </TEXTS>
+    <PARAMETERS>
+     <ITEM SCONAME="OBJECT" CMPTYPE="1" PARDECLTYP="3" TYPTYPE="1" TYPE="TI_STATUS"/>
+    </PARAMETERS>
+    <SOURCE>`
+  CREATE OBJECT object TYPE ygpl_mt_status.</SOURCE>
+   </ITEM>
+   <ITEM CMPNAME="CREATE_NEW_TASK" EXPOSURE="2" STATE="1" MTDDECLTYP="1" MTDNEWEXC="X">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Create new Task concept"/>
+    </TEXTS>
+    <PARAMETERS>
+     <ITEM SCONAME="ID" CMPTYPE="1" PARPASSTYP="1" TYPTYPE="1" TYPE="TD_PROCESS_ID">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="Run ID"/>
+      </TEXTS>
+     </ITEM>
+     <ITEM SCONAME="OBJECT" CMPTYPE="1" PARDECLTYP="3" TYPTYPE="1" TYPE="TI_TASK"/>
+     <ITEM SCONAME="O_CONDITIONS" CMPTYPE="1" PARPASSTYP="1" TYPTYPE="1" TYPE="TI_TASK_CONDITIONS" PAROPTIONL="X">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="Task Running conditions"/>
+      </TEXTS>
+     </ITEM>
+     <ITEM SCONAME="O_DATA_HANDLER" CMPTYPE="1" PARPASSTYP="1" TYPTYPE="1" TYPE="TI_DATA_BLOC">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="Data Handler"/>
+      </TEXTS>
+     </ITEM>
+    </PARAMETERS>
+    <EXCEPTIONS>
+     <ITEM SCONAME="YGPL_MT_CX" LANGU="E">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="MultyThread : Root exception class"/>
+      </TEXTS>
+     </ITEM>
+    </EXCEPTIONS>
+    <SOURCE>`
+  DATA task_id    TYPE td_process_id.
+  DATA o_run      TYPE to_run.
+  DATA o_cond     TYPE to_conditions.
+  DATA s_mapping  LIKE LINE OF t_tasks.
+  DATA f_no_msg   TYPE td_boolean.
+  o_cond ?= o_conditions.
+  f_no_msg = ygpl_mt_process=&gt;no_message.
+  ygpl_mt_process=&gt;no_message = abap_true.
+  o_run ?= get_run( id ).
+  ygpl_mt_process=&gt;no_message = f_no_msg.
+  CREATE OBJECT object
+    TYPE
+      ygpl_mt_task
+    EXPORTING
+      task_id        = task_id
+      o_data_handler = o_data_handler
+      o_run          = o_run
+      o_conditions   = o_cond.
+  s_mapping-id = object-&gt;process_id.
+  s_mapping-object = object.
+  INSERT s_mapping INTO TABLE t_tasks.
+  INSERT s_mapping INTO TABLE t_processes.
+  ASSERT sy-subrc = 0.</SOURCE>
+   </ITEM>
+   <ITEM CMPNAME="CREATE_NEW_TASK_CONDITIONS" EXPOSURE="2" STATE="1" MTDDECLTYP="1" MTDNEWEXC="X">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Create new Start conditions"/>
+    </TEXTS>
+    <PARAMETERS>
+     <ITEM SCONAME="OBJECT" CMPTYPE="1" PARDECLTYP="3" TYPTYPE="1" TYPE="TI_TASK_CONDITIONS">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="Running conditions for Run (Interface)"/>
+      </TEXTS>
+     </ITEM>
+    </PARAMETERS>
+    <EXCEPTIONS>
+     <ITEM SCONAME="YGPL_MT_CX" LANGU="E">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="MultyThread : Root exception class"/>
+      </TEXTS>
+     </ITEM>
+    </EXCEPTIONS>
+    <SOURCE>`
+  CREATE OBJECT object TYPE ygpl_mt_conditions_task.</SOURCE>
+   </ITEM>
+   <ITEM CMPNAME="GET_CATEGORIES" EXPOSURE="2" STATE="1" MTDDECLTYP="1">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Get Categories Concept"/>
+    </TEXTS>
+    <PARAMETERS>
+     <ITEM SCONAME="OBJECT" CMPTYPE="1" PARDECLTYP="3" TYPTYPE="1" TYPE="TI_CATEGORIES"/>
+    </PARAMETERS>
+    <SOURCE>`
+  IF NOT o_categories_singleton IS BOUND.
+    o_categories_singleton = create_new_categories( ).
+  ENDIF.
+  object = o_categories_singleton.</SOURCE>
+   </ITEM>
+   <ITEM CMPNAME="GET_INFORMATIONS" EXPOSURE="2" STATE="1" MTDDECLTYP="1" MTDNEWEXC="X">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Create Information for Run"/>
+    </TEXTS>
+    <PARAMETERS>
+     <ITEM SCONAME="OBJECT" CMPTYPE="1" PARDECLTYP="3" TYPTYPE="1" TYPE="TI_INFORMATIONS"/>
+     <ITEM SCONAME="PROCESS" CMPTYPE="1" PARPASSTYP="1" TYPTYPE="1" TYPE="TI_PROCESS"/>
+    </PARAMETERS>
+    <EXCEPTIONS>
+     <ITEM SCONAME="YGPL_MT_CX" LANGU="E">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="MultyThread : Root exception class"/>
+      </TEXTS>
+     </ITEM>
+    </EXCEPTIONS>
+    <SOURCE>`
+  DATA o_obj TYPE REF TO object.
+  ASSERT process IS BOUND.
+  o_process = process.
+  get_object_by_mapping( EXPORTING id = o_process-&gt;process_id
+                               method = &apos;NEW_INFORMATIONS&apos;
+                     IMPORTING object = o_obj
+                       CHANGING table = t_informations ).
+  object ?= o_obj.</SOURCE>
+   </ITEM>
+   <ITEM CMPNAME="GET_MESSAGING" EXPOSURE="2" STATE="1" MTDDECLTYP="1" MTDNEWEXC="X">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Create messaging for Process"/>
+    </TEXTS>
+    <PARAMETERS>
+     <ITEM SCONAME="OBJECT" CMPTYPE="1" PARDECLTYP="3" TYPTYPE="1" TYPE="TI_MESSAGING"/>
+     <ITEM SCONAME="PROCESS" CMPTYPE="1" PARPASSTYP="1" TYPTYPE="1" TYPE="TI_PROCESS"/>
+    </PARAMETERS>
+    <EXCEPTIONS>
+     <ITEM SCONAME="YGPL_MT_CX" LANGU="E">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="MultyThread : Root exception class"/>
+      </TEXTS>
+     </ITEM>
+    </EXCEPTIONS>
+    <SOURCE>`
+  DATA o_obj TYPE REF TO object.
+  ASSERT process IS BOUND.
+  o_process = process.
+  get_object_by_mapping( EXPORTING id = o_process-&gt;process_id
+                               method = &apos;NEW_MESSAGING&apos;
+                     IMPORTING object = o_obj
+                       CHANGING table = t_messagings ).
+  object ?= o_obj.</SOURCE>
+   </ITEM>
+   <ITEM CMPNAME="GET_MESSAGING_BY_ID" EXPOSURE="2" STATE="1" MTDDECLTYP="1" MTDNEWEXC="X">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Create messaging for Process"/>
+    </TEXTS>
+    <PARAMETERS>
+     <ITEM SCONAME="ID" CMPTYPE="1" PARPASSTYP="1" TYPTYPE="1" TYPE="TD_PROCESS_ID"/>
+     <ITEM SCONAME="OBJECT" CMPTYPE="1" PARDECLTYP="3" TYPTYPE="1" TYPE="TI_MESSAGING"/>
+    </PARAMETERS>
+    <EXCEPTIONS>
+     <ITEM SCONAME="YGPL_MT_CX" LANGU="E">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="MultyThread : Root exception class"/>
+      </TEXTS>
+     </ITEM>
+    </EXCEPTIONS>
+    <SOURCE>`
+  DATA o_process TYPE ti_process.
+  ASSERT NOT ID IS INITIAL.
+  o_process = get_process( id ).
+  object ?= get_messaging( o_process ).</SOURCE>
+   </ITEM>
+   <ITEM CMPNAME="GET_NULL_DATA_HANDLER" EXPOSURE="2" STATE="1" MTDDECLTYP="1" MTDNEWEXC="X">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Get null data handler for Task concept"/>
+    </TEXTS>
+    <PARAMETERS>
+     <ITEM SCONAME="OBJECT" CMPTYPE="1" PARDECLTYP="3" TYPTYPE="1" TYPE="TI_DATA_BLOC"/>
+    </PARAMETERS>
+    <EXCEPTIONS>
+     <ITEM SCONAME="YGPL_MT_CX" LANGU="E">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="MultyThread : Root exception class"/>
+      </TEXTS>
+     </ITEM>
+    </EXCEPTIONS>
+    <SOURCE>`
+  CREATE OBJECT object TYPE lcl_data_handler.</SOURCE>
+   </ITEM>
+   <ITEM CMPNAME="GET_OBJECTS_CONSUMING" EXPOSURE="2" STATE="1" MTDDECLTYP="1" MTDNEWEXC="X">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Create Object consuming"/>
+    </TEXTS>
+    <PARAMETERS>
+     <ITEM SCONAME="CONDITIONS" CMPTYPE="1" PARPASSTYP="1" TYPTYPE="1" TYPE="TI_TASK_CONDITIONS" PAROPTIONL="X"/>
+     <ITEM SCONAME="OBJECT" CMPTYPE="1" PARDECLTYP="3" TYPTYPE="1" TYPE="TI_OBJECTS_CONSUMING"/>
+     <ITEM SCONAME="RUN" CMPTYPE="1" PARPASSTYP="1" TYPTYPE="1" TYPE="TI_PARENT"/>
+    </PARAMETERS>
+    <EXCEPTIONS>
+     <ITEM SCONAME="YGPL_MT_CX" LANGU="E">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="MultyThread : Root exception class"/>
+      </TEXTS>
+     </ITEM>
+    </EXCEPTIONS>
+    <SOURCE>`
+  DATA o_obj TYPE REF TO object.
+  ASSERT run IS BOUND.
+  o_parent = run.
+  get_object_by_mapping( EXPORTING id = o_parent-&gt;process_id
+                               method = &apos;NEW_OBJECTS&apos;
+                     IMPORTING object = o_obj
+                       CHANGING table = t_objects ).
+  object ?= o_obj.
+  CHECK conditions IS BOUND.
+  object-&gt;set_conditions( conditions ).</SOURCE>
+   </ITEM>
+   <ITEM CMPNAME="GET_OBJECTS_LOADING" EXPOSURE="2" STATE="1" MTDDECLTYP="1" MTDNEWEXC="X">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Create Object Loading"/>
+    </TEXTS>
+    <PARAMETERS>
+     <ITEM SCONAME="CONDITIONS" CMPTYPE="1" PARPASSTYP="1" TYPTYPE="1" TYPE="TI_FULL_CONDITIONS" PAROPTIONL="X"/>
+     <ITEM SCONAME="OBJECT" CMPTYPE="1" PARDECLTYP="3" TYPTYPE="1" TYPE="TI_OBJECTS_LOADING"/>
+     <ITEM SCONAME="RUN" CMPTYPE="1" PARPASSTYP="1" TYPTYPE="1" TYPE="TI_RUN"/>
+    </PARAMETERS>
+    <EXCEPTIONS>
+     <ITEM SCONAME="YGPL_MT_CX" LANGU="E">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="MultyThread : Root exception class"/>
+      </TEXTS>
+     </ITEM>
+    </EXCEPTIONS>
+    <SOURCE>`
+  DATA o_obj TYPE REF TO object.
+  ASSERT run IS BOUND.
+  o_run = run.
+  get_object_by_mapping( EXPORTING id = o_RUN-&gt;process_id
+                               method = &apos;NEW_OBJECTS&apos;
+                     IMPORTING object = o_obj
+                       CHANGING table = t_objects ).
+  object ?= o_obj.
+  CHECK conditions IS BOUND.
+  object-&gt;set_conditions( conditions ).</SOURCE>
+   </ITEM>
+   <ITEM CMPNAME="GET_OBJECT_BY_MAPPING" STATE="1" MTDDECLTYP="1" MTDNEWEXC="X">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Get object in table"/>
+    </TEXTS>
+    <PARAMETERS>
+     <ITEM SCONAME="ID" CMPTYPE="1" PARPASSTYP="1" TYPTYPE="1" TYPE="TD_PROCESS_ID"/>
+     <ITEM SCONAME="METHOD" CMPTYPE="1" PARPASSTYP="1" TYPTYPE="1" TYPE="STRING"/>
+     <ITEM SCONAME="OBJECT" CMPTYPE="1" PARDECLTYP="1" TYPTYPE="3" TYPE="OBJECT"/>
+     <ITEM SCONAME="TABLE" CMPTYPE="1" PARDECLTYP="2" PARPASSTYP="1" TYPTYPE="1" TYPE="TT_MAPPING">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="Mapping List"/>
+      </TEXTS>
+     </ITEM>
+    </PARAMETERS>
+    <EXCEPTIONS>
+     <ITEM SCONAME="YGPL_MT_CX" LANGU="E">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="MultyThread : Root exception class"/>
+      </TEXTS>
+     </ITEM>
+    </EXCEPTIONS>
+    <SOURCE>`
+  DATA s_map  LIKE LINE OF table.
+  FIELD-SYMBOLS &lt;i&gt; LIKE LINE OF table.
+
+  s_map-id = id.
+  READ TABLE table INTO s_map WITH TABLE KEY id = s_map-id.
+  IF sy-subrc &lt;&gt; 0.
+    CALL METHOD (METHOD) RECEIVING object = s_map-object.
+    INSERT s_map INTO TABLE table.
+  ENDIF.
+  object ?= s_map-object.</SOURCE>
+   </ITEM>
+   <ITEM CMPNAME="GET_PARENT_OFF" EXPOSURE="2" STATE="1" MTDDECLTYP="1" MTDNEWEXC="X">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Get Parent object"/>
+    </TEXTS>
+    <PARAMETERS>
+     <ITEM SCONAME="ID" CMPTYPE="1" PARPASSTYP="1" TYPTYPE="1" TYPE="TD_PROCESS_ID"/>
+     <ITEM SCONAME="OBJECT" CMPTYPE="1" PARDECLTYP="3" TYPTYPE="1" TYPE="TI_OBJECTS_CONSUMING"/>
+    </PARAMETERS>
+    <EXCEPTIONS>
+     <ITEM SCONAME="YGPL_MT_CX" LANGU="E">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="MultyThread : Root exception class"/>
+      </TEXTS>
+     </ITEM>
+    </EXCEPTIONS>
+    <SOURCE>`
+*  DATA o_obj TYPE REF TO object.
+*  ASSERT NOT ID IS INITIAL.
+*  d_id = id.
+*  get_object_by_mapping( EXPORTING id = id
+*                               method = &apos;NEW_RUN&apos;
+*                     IMPORTING object = o_obj
+*                       CHANGING table = t_runs ).
+*  object ?= o_obj.</SOURCE>
+   </ITEM>
+   <ITEM CMPNAME="GET_PROCESS" EXPOSURE="2" STATE="1" MTDDECLTYP="1" MTDNEWEXC="X">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Get Process"/>
+    </TEXTS>
+    <PARAMETERS>
+     <ITEM SCONAME="ID" CMPTYPE="1" PARPASSTYP="1" TYPTYPE="1" TYPE="TD_PROCESS_ID"/>
+     <ITEM SCONAME="OBJECT" CMPTYPE="1" PARDECLTYP="3" TYPTYPE="1" TYPE="TI_PROCESS"/>
+    </PARAMETERS>
+    <EXCEPTIONS>
+     <ITEM SCONAME="YGPL_MT_CX" LANGU="E">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="MultyThread : Root exception class"/>
+      </TEXTS>
+     </ITEM>
+    </EXCEPTIONS>
+    <SOURCE>`
+  DATA o_obj TYPE REF TO object.
+  ASSERT NOT ID IS INITIAL.
+  d_id = id.
+  get_object_by_mapping( EXPORTING id = id
+                               method = &apos;NEW_PROCESS&apos;
+                     IMPORTING object = o_obj
+                       CHANGING table = t_processes ).
+  object ?= o_obj.</SOURCE>
+   </ITEM>
+   <ITEM CMPNAME="GET_RUN" EXPOSURE="2" STATE="1" MTDDECLTYP="1" MTDNEWEXC="X">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Get Run object"/>
+    </TEXTS>
+    <PARAMETERS>
+     <ITEM SCONAME="ID" CMPTYPE="1" PARPASSTYP="1" TYPTYPE="1" TYPE="TD_PROCESS_ID"/>
+     <ITEM SCONAME="OBJECT" CMPTYPE="1" PARDECLTYP="3" TYPTYPE="1" TYPE="TI_RUN"/>
+    </PARAMETERS>
+    <EXCEPTIONS>
+     <ITEM SCONAME="YGPL_MT_CX" LANGU="E">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="MultyThread : Root exception class"/>
+      </TEXTS>
+     </ITEM>
+    </EXCEPTIONS>
+    <SOURCE>`
+  DATA o_obj TYPE REF TO object.
+  DATA f_no_msg   TYPE td_boolean.
+  f_no_msg = ygpl_mt_process=&gt;no_message.
+  ygpl_mt_process=&gt;no_message = abap_true.
+  ASSERT NOT ID IS INITIAL.
+  d_id = id.
+  get_object_by_mapping( EXPORTING id = id
+                               method = &apos;NEW_RUN&apos;
+                     IMPORTING object = o_obj
+                       CHANGING table = t_runs ).
+  object ?= o_obj.
+  ygpl_mt_process=&gt;no_message = f_no_msg.</SOURCE>
+   </ITEM>
+   <ITEM CMPNAME="GET_STATUS" EXPOSURE="2" STATE="1" MTDDECLTYP="1">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Get Status concept"/>
+    </TEXTS>
+    <PARAMETERS>
+     <ITEM SCONAME="OBJECT" CMPTYPE="1" PARDECLTYP="3" TYPTYPE="1" TYPE="TI_STATUS"/>
+    </PARAMETERS>
+    <SOURCE>`
+  IF NOT o_status_singleton IS BOUND.
+    o_status_singleton = create_new_status( ).
+  ENDIF.
+  object = o_status_singleton.</SOURCE>
+   </ITEM>
+   <ITEM CMPNAME="GET_TASK" EXPOSURE="2" STATE="1" MTDDECLTYP="1" MTDNEWEXC="X">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Get Task concept"/>
+    </TEXTS>
+    <PARAMETERS>
+     <ITEM SCONAME="ID" CMPTYPE="1" PARPASSTYP="1" TYPTYPE="1" TYPE="TD_PROCESS_ID">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="Task ID"/>
+      </TEXTS>
+     </ITEM>
+     <ITEM SCONAME="OBJECT" CMPTYPE="1" PARDECLTYP="3" TYPTYPE="1" TYPE="TI_TASK"/>
+     <ITEM SCONAME="O_DATA_HANDLER" CMPTYPE="1" PARPASSTYP="1" TYPTYPE="1" TYPE="TI_DATA_BLOC">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="Data Handler"/>
+      </TEXTS>
+     </ITEM>
+    </PARAMETERS>
+    <EXCEPTIONS>
+     <ITEM SCONAME="YGPL_MT_CX" LANGU="E">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="MultyThread : Root exception class"/>
+      </TEXTS>
+     </ITEM>
+    </EXCEPTIONS>
+    <SOURCE>`
+  DATA o_obj TYPE REF TO object.
+  DATA f_no_msg   TYPE td_boolean.
+  f_no_msg = ygpl_mt_process=&gt;no_message.
+  ygpl_mt_process=&gt;no_message = abap_true.
+  ASSERT NOT ID IS INITIAL.
+  d_id = id.
+  ygpl_mt_factories=&gt;o_data_handler = o_data_handler.
+  get_object_by_mapping( EXPORTING id = id
+                               method = &apos;NEW_TASK&apos;
+                     IMPORTING object = o_obj
+                       CHANGING table = t_tasks ).
+  ygpl_mt_process=&gt;no_message = f_no_msg.
+  object ?= o_obj.</SOURCE>
+   </ITEM>
+   <ITEM CMPNAME="NEW_INFORMATIONS" STATE="1" MTDDECLTYP="1">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Create new Informations"/>
+    </TEXTS>
+    <PARAMETERS>
+     <ITEM SCONAME="OBJECT" CMPTYPE="1" PARDECLTYP="3" TYPTYPE="3" TYPE="OBJECT"/>
+    </PARAMETERS>
+    <SOURCE>`
+  CREATE OBJECT object
+    TYPE
+      ygpl_mt_informations
+    EXPORTING
+      o_process            = o_process.</SOURCE>
+   </ITEM>
+   <ITEM CMPNAME="NEW_MESSAGING" STATE="1" MTDDECLTYP="1">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Create new messaging"/>
+    </TEXTS>
+    <PARAMETERS>
+     <ITEM SCONAME="OBJECT" CMPTYPE="1" PARDECLTYP="3" TYPTYPE="3" TYPE="OBJECT"/>
+    </PARAMETERS>
+    <SOURCE>`
+  CREATE OBJECT object
+    TYPE
+      ygpl_mt_messaging
+    EXPORTING
+      o_process         = o_process.</SOURCE>
+   </ITEM>
+   <ITEM CMPNAME="NEW_OBJECTS" STATE="1" MTDDECLTYP="1">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Create new Objects"/>
+    </TEXTS>
+    <PARAMETERS>
+     <ITEM SCONAME="OBJECT" CMPTYPE="1" PARDECLTYP="3" TYPTYPE="3" TYPE="OBJECT"/>
+    </PARAMETERS>
+    <SOURCE>`
+  CREATE OBJECT object
+    TYPE
+      ygpl_mt_objects
+    EXPORTING
+      o_run           = o_run.</SOURCE>
+   </ITEM>
+   <ITEM CMPNAME="NEW_PROCESS" STATE="1" MTDDECLTYP="1" MTDNEWEXC="X">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Create new Process"/>
+    </TEXTS>
+    <PARAMETERS>
+     <ITEM SCONAME="OBJECT" CMPTYPE="1" PARDECLTYP="3" TYPTYPE="3" TYPE="OBJECT"/>
+    </PARAMETERS>
+    <EXCEPTIONS>
+     <ITEM SCONAME="YGPL_MT_CX" LANGU="E">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="MultyThread : Root exception class"/>
+      </TEXTS>
+     </ITEM>
+    </EXCEPTIONS>
+    <SOURCE>`
+  CREATE OBJECT object
+    TYPE
+      ygpl_mt_process_4mt
+    EXPORTING
+      process_id          = d_id.</SOURCE>
+   </ITEM>
+   <ITEM CMPNAME="NEW_RUN" STATE="1" MTDDECLTYP="1" MTDNEWEXC="X">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Create new run"/>
+    </TEXTS>
+    <PARAMETERS>
+     <ITEM SCONAME="OBJECT" CMPTYPE="1" PARDECLTYP="3" TYPTYPE="3" TYPE="OBJECT"/>
+    </PARAMETERS>
+    <EXCEPTIONS>
+     <ITEM SCONAME="YGPL_MT_CX" LANGU="E">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="MultyThread : Root exception class"/>
+      </TEXTS>
+     </ITEM>
+    </EXCEPTIONS>
+    <SOURCE>`
+  CREATE OBJECT object
+    TYPE
+      ygpl_mt_run
+    EXPORTING
+      run_id      = d_id.</SOURCE>
+   </ITEM>
+   <ITEM CMPNAME="NEW_TASK" STATE="1" MTDDECLTYP="1" MTDNEWEXC="X">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Create new task"/>
+    </TEXTS>
+    <PARAMETERS>
+     <ITEM SCONAME="OBJECT" CMPTYPE="1" PARDECLTYP="3" TYPTYPE="3" TYPE="OBJECT"/>
+    </PARAMETERS>
+    <EXCEPTIONS>
+     <ITEM SCONAME="YGPL_MT_CX" LANGU="E">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="MultyThread : Root exception class"/>
+      </TEXTS>
+     </ITEM>
+    </EXCEPTIONS>
+    <SOURCE>`
+  DATA o_obj TYPE REF TO ygpl_mt_task.
+  CREATE OBJECT o_obj
+    EXPORTING
+      task_id        = d_id
+      o_data_handler = o_data_handler.
+  object = o_obj.</SOURCE>
+   </ITEM>
+  </METHODS>
+  <TYPES>
+   <ITEM CMPNAME="TO_CONDITIONS" STATE="1" EDITORDER="3 " TYPTYPE="3" TYPE="YGPL_MT_CONDITIONS">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Conditions : Starting, Running (Run &amp; Task)"/>
+    </TEXTS>
+   </ITEM>
+   <ITEM CMPNAME="TO_RUN" STATE="1" EDITORDER="4 " TYPTYPE="3" TYPE="YGPL_MT_RUN">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="MT : Run new"/>
+    </TEXTS>
+   </ITEM>
+   <ITEM CMPNAME="TS_MAPPING" STATE="1" EDITORDER="1 " TYPTYPE="4">
+    BEGIN OF ts_mapping,
+      id      TYPE td_process_id,
+      object  TYPE REF TO object,
+    END OF ts_mapping
+`
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Mapping definition : ID =&gt; Object"/>
+    </TEXTS>
+   </ITEM>
+   <ITEM CMPNAME="TT_MAPPING" STATE="1" EDITORDER="2 " TYPTYPE="4">
+    tt_mapping TYPE SORTED TABLE OF ts_mapping WITH UNIQUE KEY id
+`
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Mapping List"/>
+    </TEXTS>
+   </ITEM>
+  </TYPES>
+ </RAW>
+</ZL_OBJECT>

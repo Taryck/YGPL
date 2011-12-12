@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-16"?>
+<ZL_OBJECT CHECKSUM="6908605F023011CA54BB516E664658CF" CODE_SIGNATURE="9D9BB35679D3DAA32DD5B9770FE55281" CONNECTOR="39AC0A4B07A5A05AE1000000AC120173" NAME="YGPL_MT_DATA_BLOC" TYPE="CLAS" VERSION="1.01">
+ <DIRECTORY DEVCLASS="YGPL-MULTITHREAD" MASTERLANG="E"/>
+ <RAW>
+  <A0_MAINDATA VERSION="1" LANGU="E" EXPOSURE="2" STATE="1" CLSFINAL="X" CLSCCINCL="X" FIXPT="X" UNICODE="X">
+   <TEXTS>
+    <ITEM LANG="E" TEXT="MT : Manage Data Bloc interface"/>
+   </TEXTS>
+  </A0_MAINDATA>
+  <ALIASES>
+   <ITEM CMPNAME="TD_BOOLEAN" EXPOSURE="2" CMPTYPE="3" REFCLSNAME="YGPL_MT_TYPESPOOL" REFCMPNAME="TD_BOOLEAN"/>
+   <ITEM CMPNAME="TD_PROCESS_ID" EXPOSURE="2" CMPTYPE="3" REFCLSNAME="YGPL_MT_TYPESPOOL" REFCMPNAME="TD_PROCESS_ID"/>
+   <ITEM CMPNAME="TI_DATA_BLOC" EXPOSURE="2" CMPTYPE="3" REFCLSNAME="YGPL_MT_INTERFACES" REFCMPNAME="TI_DATA_BLOC"/>
+   <ITEM CMPNAME="TI_TASK" EXPOSURE="2" CMPTYPE="3" REFCLSNAME="YGPL_MT_INTERFACES" REFCMPNAME="TI_TASK"/>
+  </ALIASES>
+  <ATTRIBUTS>
+   <ITEM CMPNAME="DATA_HANDLER" EXPOSURE="2" STATE="1" TYPTYPE="1" TYPE="TI_DATA_BLOC"/>
+   <ITEM CMPNAME="FAKE" EXPOSURE="1" STATE="1" ATTDECLTYP="1" TYPTYPE="1" TYPE="TD_BOOLEAN">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Fake task &amp; handler"/>
+    </TEXTS>
+   </ITEM>
+   <ITEM CMPNAME="TASK" EXPOSURE="2" STATE="1" TYPTYPE="1" TYPE="TO_TASK">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="MT : Task process"/>
+    </TEXTS>
+   </ITEM>
+   <ITEM CMPNAME="T_OBJECTS" EXPOSURE="2" STATE="1" TYPTYPE="3" TYPE="DATA">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Generic Data Store"/>
+    </TEXTS>
+   </ITEM>
+  </ATTRIBUTS>
+  <FRIENDS>
+   <ITEM REFCLSNAME="YGPL_MT_PROCESS_4MT" STATE="1"/>
+  </FRIENDS>
+  <INTERFACES>
+   <ITEM REFCLSNAME="YGPL_MT_INTERFACES" EXPOSURE="2" STATE="1" RELTYPE="1"/>
+   <ITEM REFCLSNAME="YGPL_MT_TYPESPOOL" EXPOSURE="2" STATE="1" RELTYPE="1"/>
+  </INTERFACES>
+  <LOCAL>
+   <TYPES>`
+*&quot;* use this source file for any type declarations (class
+*&quot;* definitions, interfaces or data types) you need for method
+*&quot;* implementation or private method&apos;s signature</TYPES>
+   <IMPLEMENTATIONS>`
+*&quot;* local class implementation for public class
+*&quot;* use this source file for the implementation part of
+*&quot;* local helper classes</IMPLEMENTATIONS>
+   <MACROS>`
+*&quot;* use this source file for any macro definitions you need
+*&quot;* in the implementation part of the class</MACROS>
+  </LOCAL>
+  <METHODS>
+   <ITEM CMPNAME="CREATE_TASK_AND_HANDLER" EXPOSURE="2" STATE="1" MTDNEWEXC="X">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Create Task and Handler"/>
+    </TEXTS>
+    <PARAMETERS>
+     <ITEM SCONAME="HANDLER_CLASSNAME" CMPTYPE="1" PARPASSTYP="1" TYPTYPE="1" TYPE="SEOCLSNAME">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="Data Bloc handler Object Type Name"/>
+      </TEXTS>
+     </ITEM>
+     <ITEM SCONAME="RUN_ID" CMPTYPE="1" PARPASSTYP="1" TYPTYPE="1" TYPE="TD_PROCESS_ID">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="Run ID of the task&apos;s parent"/>
+      </TEXTS>
+     </ITEM>
+    </PARAMETERS>
+    <EXCEPTIONS>
+     <ITEM SCONAME="YGPL_MT_CX" LANGU="E">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="MultyThread : Root exception class"/>
+      </TEXTS>
+     </ITEM>
+    </EXCEPTIONS>
+    <SOURCE>`
+  CREATE OBJECT data_handler
+    TYPE
+      (handler_classname).
+  task ?= ygpl_mt_factories=&gt;create_new_task( id = run_id
+                                  o_data_handler = data_handler ).
+  data_handler-&gt;task = task.
+  task-&gt;o_data_bloc_engine = me.
+  data_handler-&gt;new_task_defined( ).</SOURCE>
+   </ITEM>
+   <ITEM CMPNAME="DELETE" EXPOSURE="2" STATE="1" MTDNEWEXC="X">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Delete task"/>
+    </TEXTS>
+    <EXCEPTIONS>
+     <ITEM SCONAME="YGPL_MT_CX" LANGU="E">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="MultyThread : Root exception class"/>
+      </TEXTS>
+     </ITEM>
+    </EXCEPTIONS>
+    <SOURCE>`
+  task-&gt;delete( ).</SOURCE>
+   </ITEM>
+   <ITEM CMPNAME="NEW_BLOC" EXPOSURE="2" STATE="1" MTDNEWEXC="X">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Create new Data Bloc"/>
+    </TEXTS>
+    <EXCEPTIONS>
+     <ITEM SCONAME="YGPL_MT_CX" LANGU="E">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="MultyThread : Root exception class"/>
+      </TEXTS>
+     </ITEM>
+    </EXCEPTIONS>
+    <SOURCE>`
+  data_handler-&gt;new_bloc( IMPORTING table = t_objects ).
+  ASSERT t_objects IS BOUND.</SOURCE>
+   </ITEM>
+   <ITEM CMPNAME="PROCESS_BATCH" EXPOSURE="2" STATE="1" MTDNEWEXC="X">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Process Batch"/>
+    </TEXTS>
+    <EXCEPTIONS>
+     <ITEM SCONAME="YGPL_MT_CX" LANGU="E">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="MultyThread : Root exception class"/>
+      </TEXTS>
+     </ITEM>
+    </EXCEPTIONS>
+    <SOURCE>`
+  FIELD-SYMBOLS &lt;objects&gt; TYPE STANDARD TABLE.
+  ASSIGN t_objects-&gt;* TO &lt;objects&gt;.
+  ASSERT sy-subrc = 0.
+  data_handler-&gt;process_batch( EXPORTING objects = &lt;objects&gt; ).</SOURCE>
+   </ITEM>
+  </METHODS>
+  <TYPES>
+   <ITEM CMPNAME="TO_TASK" EXPOSURE="2" STATE="1" TYPTYPE="3" TYPE="YGPL_MT_TASK">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="MT : Task process"/>
+    </TEXTS>
+   </ITEM>
+  </TYPES>
+ </RAW>
+</ZL_OBJECT>

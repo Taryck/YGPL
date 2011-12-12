@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-16"?>
+<ZL_OBJECT CHECKSUM="A0AF845DE0945686E13A2CD61725CCDC" CODE_SIGNATURE="737DE86568A8777B8E5E0BF251DB84ED" CONNECTOR="AAAD0A4B07A5A05AE1000000AC120173" NAME="YGPL_MT_TUTORIAL" TYPE="PROG" VERSION="1.0">
+ <DIRECTORY DEVCLASS="YGPL-MULTITHREAD.TUTORIAL" MASTERLANG="E"/>
+ <RAW>
+  <A0_MAINDATA VARCL="X" SUBC="1" RMAND="060" RLOAD="E" FIXPT="X" UCCHECK="X"/>
+  <SOURCE>`
+*---------------------------------------------------------------------*
+* Report  YGPL_MT_TUTORIAL
+*---------------------------------------------------------------------*
+**********************************************************************
+* Author : Al&apos;oustad Taryck BENSIALI (taryck.bensiali@gmail.com)     *
+* Date : 2008 December                                               *
+**********************************************************************
+
+REPORT  ygpl_mt_tutorial.
+PARAMETERS :
+  run_id    TYPE ygpl_mt_my_task=&gt;td_process_id OBLIGATORY.
+
+START-OF-SELECTION.
+  DATA:
+    my_task       TYPE REF TO ygpl_mt_my_task,
+    s_progress    TYPE ygpl_mt_my_run=&gt;ts_progression,
+    it_objects    TYPE ygpl_mt_my_task=&gt;tt_data.
+
+  FIELD-SYMBOLS:
+    &lt;st&gt;    LIKE LINE OF s_progress-global_status.
+
+  CREATE OBJECT my_task
+    EXPORTING
+      run_id = run_id.
+
+  my_task-&gt;do_job( ).
+
+END-OF-SELECTION.
+
+  s_progress = my_task-&gt;get_progression( ).
+  WRITE:/ &apos;Total of object processed by this thread : &apos;(i02), s_progress-processed_objects.
+
+  LOOP AT s_progress-global_status ASSIGNING &lt;st&gt;.
+    WRITE:/ &lt;st&gt;-status, &lt;st&gt;-count.
+  ENDLOOP.</SOURCE>
+  <TEXTSPOOL>
+   <ITEM ID="I" KEY="I02">
+    <TEXTS>
+     <ITEM LANGU="E" ENTRY="Total of object processed by this thread :" LENGTH="80 "/>
+    </TEXTS>
+   </ITEM>
+   <ITEM ID="R">
+    <TEXTS>
+     <ITEM LANGU="E" ENTRY="MT Tutorial : Task program call by main RUN program" LENGTH="51 "/>
+     <ITEM LANGU="F" ENTRY="MT tutorial (test obj *_MT_TEMPLATE) - Traitement" LENGTH="49 "/>
+    </TEXTS>
+   </ITEM>
+   <ITEM ID="S" KEY="OBJ_C">
+    <TEXTS>
+     <ITEM LANGU="F" ENTRY="        Nb d&apos;objet par temps d&apos;attente" LENGTH="38 "/>
+    </TEXTS>
+   </ITEM>
+   <ITEM ID="S" KEY="RUN_ID">
+    <TEXTS>
+     <ITEM LANGU="E" ENTRY="        Parent Run ID" LENGTH="21 "/>
+     <ITEM LANGU="F" ENTRY="D       ." LENGTH="9 "/>
+    </TEXTS>
+   </ITEM>
+   <ITEM ID="S" KEY="WAIT_T">
+    <TEXTS>
+     <ITEM LANGU="F" ENTRY="        Temps d&apos;attente en S pour nb O" LENGTH="38 "/>
+    </TEXTS>
+   </ITEM>
+  </TEXTSPOOL>
+ </RAW>
+</ZL_OBJECT>

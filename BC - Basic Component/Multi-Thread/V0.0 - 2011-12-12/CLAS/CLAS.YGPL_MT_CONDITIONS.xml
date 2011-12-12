@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-16"?>
+<ZL_OBJECT CHECKSUM="3A4AE48249916FCA63CF015C58C06B09" CODE_SIGNATURE="45D66C5CE66517AD7FB39C77596F8363" CONNECTOR="39AC0A4B07A5A05AE1000000AC120173" NAME="YGPL_MT_CONDITIONS" TYPE="CLAS" VERSION="1.01">
+ <DEPENDENCIES>
+  <ITEM TYPE="CLAS" NAME="YGPL_MT_CONDITIONS_RUN"/>
+ </DEPENDENCIES>
+ <DIRECTORY DEVCLASS="YGPL-MULTITHREAD" MASTERLANG="E"/>
+ <RAW>
+  <A0_MAINDATA VERSION="1" LANGU="E" EXPOSURE="2" STATE="1" CLSCCINCL="X" FIXPT="X" UNICODE="X" MSG_ID="YGPL_MT">
+   <INHERITANCE REFCLSNAME="YGPL_MT_CONDITIONS_RUN" STATE="1"/>
+   <TEXTS>
+    <ITEM LANG="E" TEXT="Conditions : Starting, Running (Run &amp; Task)"/>
+   </TEXTS>
+  </A0_MAINDATA>
+  <ALIASES>
+   <ITEM CMPNAME="BLOC_SIZE" EXPOSURE="2" REFCLSNAME="YGPLIMT_STARTCONDITIONS" REFCMPNAME="BLOC_SIZE"/>
+   <ITEM CMPNAME="SET_BLOC_SIZE" EXPOSURE="2" CMPTYPE="1" REFCLSNAME="YGPLIMT_STARTCONDITIONS" REFCMPNAME="SET_BLOC_SIZE"/>
+   <ITEM CMPNAME="SET_WEIGHT_FIELDNAME" EXPOSURE="2" CMPTYPE="1" REFCLSNAME="YGPLIMT_STARTCONDITIONS" REFCMPNAME="SET_WEIGHT_FIELDNAME"/>
+   <ITEM CMPNAME="WEIGHT_FIELDNAME" EXPOSURE="2" REFCLSNAME="YGPLIMT_STARTCONDITIONS" REFCMPNAME="WEIGHT_FIELDNAME"/>
+  </ALIASES>
+  <INTERFACES>
+   <ITEM REFCLSNAME="YGPLIMT_STARTCONDITIONS" EXPOSURE="2" STATE="1" RELTYPE="1">
+    <COMPONENTS>
+     <ITEM MTDNAME="SET_BLOC_SIZE">
+      <SOURCE>`
+  CHECK bloc_size &lt;&gt; value.
+  CHECK bloc_size &gt; 0.
+  bloc_size = value.
+  f_has_changed = abap_true.</SOURCE>
+     </ITEM>
+     <ITEM MTDNAME="SET_WEIGHT_FIELDNAME">
+      <SOURCE>`
+  CHECK weight_fieldname &lt;&gt; value.
+  weight_fieldname = value.
+  f_has_changed = abap_true.</SOURCE>
+     </ITEM>
+    </COMPONENTS>
+   </ITEM>
+  </INTERFACES>
+  <LOCAL>
+   <TYPES>`
+*&quot;* use this source file for any type declarations (class
+*&quot;* definitions, interfaces or data types) you need for method
+*&quot;* implementation or private method&apos;s signature</TYPES>
+   <IMPLEMENTATIONS>`
+*&quot;* local class implementation for public class
+*&quot;* use this source file for the implementation part of
+*&quot;* local helper classes</IMPLEMENTATIONS>
+   <MACROS>`
+*&quot;* use this source file for any macro definitions you need
+*&quot;* in the implementation part of the class
+INCLUDE ygpl_mt_conditions_macros.</MACROS>
+  </LOCAL>
+  <METHODS>
+   <ITEM CMPNAME="CONSTRUCTOR" EXPOSURE="2" STATE="1" MTDTYPE="2" MTDNEWEXC="X">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="CONSTRUCTOR"/>
+    </TEXTS>
+    <EXCEPTIONS>
+     <ITEM SCONAME="YGPL_MT_CX" LANGU="E" MTDTYPE="2">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="MultyThread : Root exception class"/>
+      </TEXTS>
+     </ITEM>
+    </EXCEPTIONS>
+    <SOURCE>`
+  super-&gt;constructor( ).
+  bloc_size = 10.
+*  WEIGHT_FIELDNAME = &apos;&apos;.</SOURCE>
+   </ITEM>
+  </METHODS>
+  <REDEFINITIONS>
+   <ITEM REFCLSNAME="YGPL_MT_CONDITIONS_RUN" MTDNAME="COMPARE_WITH">
+    <SOURCE>`
+  DATA i_conditions TYPE ti_full_conditions.
+  super-&gt;compare_with( conditions ).
+  TRY.
+      i_conditions ?= conditions.
+      simple_compare text-bls me-&gt;bloc_size i_conditions-&gt;bloc_size.
+      simple_compare text-wfn me-&gt;weight_fieldname i_conditions-&gt;weight_fieldname.
+    CATCH cx_sy_move_cast_error.
+* Ignore this error
+  ENDTRY.</SOURCE>
+   </ITEM>
+   <ITEM REFCLSNAME="YGPL_MT_CONDITIONS_RUN" MTDNAME="MERGE_WITH">
+    <SOURCE>`
+  DATA i_conditions TYPE ti_full_conditions.
+  super-&gt;merge_with( conditions ).
+  TRY.
+      i_conditions ?= conditions.
+      set_bloc_size( i_conditions-&gt;bloc_size ).
+      set_weight_fieldname( i_conditions-&gt;weight_fieldname ).
+    CATCH cx_sy_move_cast_error.
+* Ignore this error
+  ENDTRY.</SOURCE>
+   </ITEM>
+  </REDEFINITIONS>
+  <TEXTSPOOL>
+   <ITEM ID="I" KEY="BLS">
+    <TEXTS>
+     <ITEM LANGU="E" ENTRY="Bloc Size" LENGTH="40 "/>
+    </TEXTS>
+   </ITEM>
+   <ITEM ID="I" KEY="WFN">
+    <TEXTS>
+     <ITEM LANGU="E" ENTRY="Weight FieldName" LENGTH="40 "/>
+    </TEXTS>
+   </ITEM>
+  </TEXTSPOOL>
+ </RAW>
+</ZL_OBJECT>

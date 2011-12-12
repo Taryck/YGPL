@@ -1,0 +1,449 @@
+<?xml version="1.0" encoding="utf-16"?>
+<ZL_OBJECT CHECKSUM="4EF84C76A159ED7C8678BB87BDC1DAA8" CODE_SIGNATURE="0BABC36022B62584D3E5DCDDE5307F29" CONNECTOR="39AC0A4B07A5A05AE1000000AC120173" NAME="YGPL_MT_CONDITIONS_TASK" TYPE="CLAS" VERSION="1.01">
+ <DIRECTORY DEVCLASS="YGPL-MULTITHREAD" MASTERLANG="E"/>
+ <RAW>
+  <A0_MAINDATA VERSION="1" LANGU="E" EXPOSURE="2" STATE="1" CLSCCINCL="X" FIXPT="X" UNICODE="X" MSG_ID="YGPL_MT">
+   <TEXTS>
+    <ITEM LANG="E" TEXT="Run conditions"/>
+   </TEXTS>
+  </A0_MAINDATA>
+  <ALIASES>
+   <ITEM CMPNAME="BATCH_RATE" EXPOSURE="2" REFCLSNAME="YGPLIMT_RUNCONDITIONS_4TASK" REFCMPNAME="BATCH_RATE"/>
+   <ITEM CMPNAME="CATEGORIES" EXPOSURE="2" REFCLSNAME="YGPLIMT_RUNCONDITIONS_4TASK" REFCMPNAME="CATEGORIES"/>
+   <ITEM CMPNAME="CONFIRM" EXPOSURE="2" CMPTYPE="1" REFCLSNAME="YGPLIMT_RUNCONDITIONS_4TASK" REFCMPNAME="CONFIRM"/>
+   <ITEM CMPNAME="DESERIALIZE" EXPOSURE="2" CMPTYPE="1" REFCLSNAME="YGPLIMT_RUNCONDITIONS_4TASK" REFCMPNAME="DESERIALIZE"/>
+   <ITEM CMPNAME="JOB_PRIORITY" EXPOSURE="2" REFCLSNAME="YGPLIMT_RUNCONDITIONS_4TASK" REFCMPNAME="JOB_PRIORITY"/>
+   <ITEM CMPNAME="MAXIMUM_BATCH_SIZE" EXPOSURE="2" REFCLSNAME="YGPLIMT_RUNCONDITIONS_4TASK" REFCMPNAME="MAXIMUM_BATCH_SIZE"/>
+   <ITEM CMPNAME="MAXIMUM_MEMORY" EXPOSURE="2" REFCLSNAME="YGPLIMT_RUNCONDITIONS_4TASK" REFCMPNAME="MAXIMUM_MEMORY"/>
+   <ITEM CMPNAME="MESSAGE_LOOKUP_TIME" EXPOSURE="2" REFCLSNAME="YGPLIMT_RUNCONDITIONS_4TASK" REFCMPNAME="MESSAGE_LOOKUP_TIME"/>
+   <ITEM CMPNAME="PROGRESSION" EXPOSURE="2" REFCLSNAME="YGPLIMT_RUNCONDITIONS_4TASK" REFCMPNAME="PROGRESSION"/>
+   <ITEM CMPNAME="SERIALIZE" EXPOSURE="2" CMPTYPE="1" REFCLSNAME="YGPLIMT_RUNCONDITIONS_4TASK" REFCMPNAME="SERIALIZE"/>
+   <ITEM CMPNAME="SERVERS" EXPOSURE="2" REFCLSNAME="YGPLIMT_RUNCONDITIONS_4TASK" REFCMPNAME="SERVERS"/>
+   <ITEM CMPNAME="SET_BATCH_RATE" EXPOSURE="2" CMPTYPE="1" REFCLSNAME="YGPLIMT_RUNCONDITIONS_4TASK" REFCMPNAME="SET_BATCH_RATE"/>
+   <ITEM CMPNAME="SET_CATEGORIES" EXPOSURE="2" CMPTYPE="1" REFCLSNAME="YGPLIMT_RUNCONDITIONS_4TASK" REFCMPNAME="SET_CATEGORIES"/>
+   <ITEM CMPNAME="SET_JOB_PRIORITY" EXPOSURE="2" CMPTYPE="1" REFCLSNAME="YGPLIMT_RUNCONDITIONS_4TASK" REFCMPNAME="SET_JOB_PRIORITY"/>
+   <ITEM CMPNAME="SET_MAXIMUM_BATCH_SIZE" EXPOSURE="2" CMPTYPE="1" REFCLSNAME="YGPLIMT_RUNCONDITIONS_4TASK" REFCMPNAME="SET_MAXIMUM_BATCH_SIZE"/>
+   <ITEM CMPNAME="SET_MAXIMUM_MEMORY" EXPOSURE="2" CMPTYPE="1" REFCLSNAME="YGPLIMT_RUNCONDITIONS_4TASK" REFCMPNAME="SET_MAXIMUM_MEMORY"/>
+   <ITEM CMPNAME="SET_MESSAGE_LOOKUP_TIME" EXPOSURE="2" CMPTYPE="1" REFCLSNAME="YGPLIMT_RUNCONDITIONS_4TASK" REFCMPNAME="SET_MESSAGE_LOOKUP_TIME"/>
+   <ITEM CMPNAME="SET_PROGRESSION" EXPOSURE="2" CMPTYPE="1" REFCLSNAME="YGPLIMT_RUNCONDITIONS_4TASK" REFCMPNAME="SET_PROGRESSION"/>
+   <ITEM CMPNAME="SET_SERVERS" EXPOSURE="2" CMPTYPE="1" REFCLSNAME="YGPLIMT_RUNCONDITIONS_4TASK" REFCMPNAME="SET_SERVERS"/>
+   <ITEM CMPNAME="SET_STATUS" EXPOSURE="2" CMPTYPE="1" REFCLSNAME="YGPLIMT_RUNCONDITIONS_4TASK" REFCMPNAME="SET_STATUS"/>
+   <ITEM CMPNAME="SET_STOP_REQUESTED" EXPOSURE="2" CMPTYPE="1" REFCLSNAME="YGPLIMT_RUNCONDITIONS_4TASK" REFCMPNAME="SET_STOP_REQUESTED"/>
+   <ITEM CMPNAME="STATUS" EXPOSURE="2" REFCLSNAME="YGPLIMT_RUNCONDITIONS_4TASK" REFCMPNAME="STATUS"/>
+   <ITEM CMPNAME="STOP_REQUESTED" EXPOSURE="2" REFCLSNAME="YGPLIMT_RUNCONDITIONS_4TASK" REFCMPNAME="STOP_REQUESTED"/>
+   <ITEM CMPNAME="TD_BOOLEAN" EXPOSURE="2" CMPTYPE="3" REFCLSNAME="YGPL_MT_TYPESPOOL" REFCMPNAME="TD_BOOLEAN"/>
+   <ITEM CMPNAME="TD_SERIALIZED" EXPOSURE="2" CMPTYPE="3" REFCLSNAME="YGPLIMT_CONDITIONS" REFCMPNAME="TD_SERIALIZED"/>
+   <ITEM CMPNAME="TI_CONDITIONS" EXPOSURE="2" CMPTYPE="3" REFCLSNAME="YGPL_MT_INTERFACES" REFCMPNAME="TI_CONDITIONS"/>
+   <ITEM CMPNAME="TI_FULL_CONDITIONS" EXPOSURE="2" CMPTYPE="3" REFCLSNAME="YGPL_MT_INTERFACES" REFCMPNAME="TI_FULL_CONDITIONS"/>
+   <ITEM CMPNAME="TI_RUN_CONDITIONS" EXPOSURE="2" CMPTYPE="3" REFCLSNAME="YGPL_MT_INTERFACES" REFCMPNAME="TI_RUN_CONDITIONS"/>
+   <ITEM CMPNAME="TI_TASK_CONDITIONS" EXPOSURE="2" CMPTYPE="3" REFCLSNAME="YGPL_MT_INTERFACES" REFCMPNAME="TI_TASK_CONDITIONS"/>
+   <ITEM CMPNAME="TS_LIMITS" EXPOSURE="2" CMPTYPE="3" REFCLSNAME="YGPL_MT_TYPESPOOL" REFCMPNAME="TS_LIMITS"/>
+  </ALIASES>
+  <ATTRIBUTS>
+   <ITEM CMPNAME="CATEGORIES_DATA" EXPOSURE="1" STATE="1" TYPTYPE="1" TYPE="TD_SERIALIZED">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Categories serialized informations"/>
+    </TEXTS>
+   </ITEM>
+   <ITEM CMPNAME="DESERIALIZED_OBJECT" EXPOSURE="1" STATE="1" TYPTYPE="3" TYPE="OBJECT">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="deserialized object"/>
+    </TEXTS>
+   </ITEM>
+   <ITEM CMPNAME="F_CONFIRM_AUTHORIZED" STATE="1" TYPTYPE="1" TYPE="TD_BOOLEAN">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Confirm Event could be raised"/>
+    </TEXTS>
+   </ITEM>
+   <ITEM CMPNAME="F_HAS_CHANGED" EXPOSURE="1" STATE="1" TYPTYPE="1" TYPE="TD_BOOLEAN">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Conditions has change flag"/>
+    </TEXTS>
+   </ITEM>
+   <ITEM CMPNAME="O_CATEGORIES" EXPOSURE="2" STATE="1" ATTRDONLY="X" TYPTYPE="1" TYPE="TO_CATEGORIES">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="MT Categories"/>
+    </TEXTS>
+   </ITEM>
+   <ITEM CMPNAME="O_STATUS" EXPOSURE="2" STATE="1" ATTRDONLY="X" TYPTYPE="1" TYPE="TO_STATUS">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Status for Process/Bloc/Objects"/>
+    </TEXTS>
+   </ITEM>
+   <ITEM CMPNAME="STATUS_DATA" EXPOSURE="1" STATE="1" TYPTYPE="1" TYPE="TD_SERIALIZED">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Status serialized informations"/>
+    </TEXTS>
+   </ITEM>
+  </ATTRIBUTS>
+  <EVENTS>
+   <ITEM CMPNAME="CONFIRMED" EXPOSURE="2" STATE="1">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Conditions changes have been confirmed"/>
+    </TEXTS>
+    <PARAMETERS>
+     <ITEM SCONAME="CONDITIONS" CMPTYPE="2" PARDECLTYP="1" TYPTYPE="1" TYPE="TO_ME">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="Run conditions"/>
+      </TEXTS>
+     </ITEM>
+    </PARAMETERS>
+   </ITEM>
+  </EVENTS>
+  <FRIENDS>
+   <ITEM STATE="1"/>
+  </FRIENDS>
+  <INTERFACES>
+   <ITEM REFCLSNAME="YGPLIMT_JOB_MONI_CONDITIONS" EXPOSURE="2" STATE="1" RELTYPE="1">
+    <COMPONENTS>
+     <ITEM MTDNAME="SET_JOB_PRIORITY">
+      <SOURCE>`
+  ygplimt_runconditions_4task~set_job_priority( value ).</SOURCE>
+     </ITEM>
+     <ITEM MTDNAME="SET_SERVERS">
+      <SOURCE>`
+  ygplimt_runconditions_4task~set_servers( value ).</SOURCE>
+     </ITEM>
+    </COMPONENTS>
+   </ITEM>
+   <ITEM REFCLSNAME="YGPLIMT_RUNCONDITIONS_4TASK" EXPOSURE="2" STATE="1" RELTYPE="1">
+    <COMPONENTS>
+     <ITEM MTDNAME="CONFIRM">
+      <SOURCE>`
+  CHECK f_has_changed  IS NOT INITIAL OR f_confirm_authorized IS NOT INITIAL.
+  RAISE EVENT confirmed EXPORTING conditions = me.
+  CLEAR f_confirm_authorized.</SOURCE>
+     </ITEM>
+     <ITEM MTDNAME="SET_BATCH_RATE">
+      <SOURCE>`
+  CHECK batch_rate &lt;&gt; value.
+  CHECK value &gt; 0 AND value &lt;= 100.
+  f_has_changed = abap_true.
+  batch_rate = value.</SOURCE>
+     </ITEM>
+     <ITEM MTDNAME="SET_CATEGORIES">
+      <SOURCE>`
+  ASSERT value IS BOUND.
+  CHECK value &lt;&gt; categories.
+  f_has_changed = abap_true.
+  categories = value.
+  o_categories ?= value.</SOURCE>
+     </ITEM>
+     <ITEM MTDNAME="SET_JOB_PRIORITY">
+      <SOURCE>`
+  CHECK ygplimt_runconditions_4task~job_priority &lt;&gt; value.
+  CHECK value = &apos;C&apos; OR value = &apos;B&apos; OR value = &apos;A&apos;.
+  f_has_changed = abap_true.
+  ygplimt_job_moni_conditions~job_priority = ygplimt_runconditions_4task~job_priority = value.</SOURCE>
+     </ITEM>
+     <ITEM MTDNAME="SET_MAXIMUM_BATCH_SIZE">
+      <SOURCE>`
+  CHECK maximum_batch_size &lt;&gt; value.
+  CHECK value &gt; 0.
+  f_has_changed = abap_true.
+  maximum_batch_size = value.</SOURCE>
+     </ITEM>
+     <ITEM MTDNAME="SET_MAXIMUM_MEMORY">
+      <SOURCE>`
+  CHECK maximum_memory &lt;&gt; value.
+  f_has_changed = abap_true.
+  maximum_memory = value.</SOURCE>
+     </ITEM>
+     <ITEM MTDNAME="SET_MESSAGE_LOOKUP_TIME">
+      <SOURCE>`
+  CHECK message_lookup_time &lt;&gt; value.
+  CHECK value &gt; 0.
+  f_has_changed = abap_true.
+  message_lookup_time = value.</SOURCE>
+     </ITEM>
+     <ITEM MTDNAME="SET_PROGRESSION">
+      <SOURCE>`
+  CHECK progression &lt;&gt; value.
+  CHECK value-progress-maxi &lt;= 100.
+  CHECK value-progress-mini &gt; 0.
+  CHECK value-time-mini &gt; 0.
+  f_has_changed = abap_true.
+  progression = value.</SOURCE>
+     </ITEM>
+     <ITEM MTDNAME="SET_SERVERS">
+      <SOURCE>`
+  CHECK ygplimt_runconditions_4task~servers &lt;&gt; value.
+  ygpl_mt_job_monitoring=&gt;check_as_condition( value ).
+  f_has_changed = abap_true.
+  ygplimt_job_moni_conditions~servers = ygplimt_runconditions_4task~servers = value.</SOURCE>
+     </ITEM>
+     <ITEM MTDNAME="SET_STATUS">
+      <SOURCE>`
+  ASSERT value IS BOUND.
+  CHECK value &lt;&gt; status.
+  f_has_changed = abap_true.
+  status = value.
+  o_status ?= value.</SOURCE>
+     </ITEM>
+     <ITEM MTDNAME="SET_STOP_REQUESTED">
+      <SOURCE>`
+  CHECK ygplimt_runconditions_4task~stop_requested &lt;&gt; value.
+  f_has_changed = abap_true.
+  ygplimt_runconditions_4task~stop_requested = value.</SOURCE>
+     </ITEM>
+    </COMPONENTS>
+   </ITEM>
+   <ITEM REFCLSNAME="YGPL_MT_INTERFACES" EXPOSURE="2" STATE="1" RELTYPE="1"/>
+  </INTERFACES>
+  <LOCAL>
+   <TYPES>`
+*&quot;* use this source file for any type declarations (class
+*&quot;* definitions, interfaces or data types) you need for method
+*&quot;* implementation or private method&apos;s signature</TYPES>
+   <IMPLEMENTATIONS>`
+*&quot;* local class implementation for public class
+*&quot;* use this source file for the implementation part of
+*&quot;* local helper classes</IMPLEMENTATIONS>
+   <MACROS>`
+*&quot;* use this source file for any macro definitions you need
+*&quot;* in the implementation part of the class
+INCLUDE ygpl_mt_conditions_macros.</MACROS>
+  </LOCAL>
+  <METHODS>
+   <ITEM CMPNAME="CHANGES_SAVED" EXPOSURE="2" STATE="1">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Mark changes as saved"/>
+    </TEXTS>
+    <PARAMETERS>
+     <ITEM SCONAME="RESULT" CMPTYPE="1" PARDECLTYP="3" TYPTYPE="1" TYPE="TD_BOOLEAN">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="Conditions have changed"/>
+      </TEXTS>
+     </ITEM>
+    </PARAMETERS>
+    <SOURCE>`
+  f_confirm_authorized = abap_true.
+  CLEAR f_has_changed.
+  o_status-&gt;changes_saved( ).
+  o_categories-&gt;changes_saved( ).</SOURCE>
+   </ITEM>
+   <ITEM CMPNAME="COMPARE_PROGRESSION" EXPOSURE="1" STATE="1" MTDFINAL="X">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Compare progression"/>
+    </TEXTS>
+    <PARAMETERS>
+     <ITEM SCONAME="FROM" CMPTYPE="1" PARPASSTYP="1" TYPTYPE="1" TYPE="TS_LIMITS"/>
+     <ITEM SCONAME="WITH" CMPTYPE="1" PARPASSTYP="1" TYPTYPE="1" TYPE="TS_LIMITS"/>
+    </PARAMETERS>
+    <SOURCE>`
+  simple_compare text-act from-active with-active.
+  simple_compare text-tmi from-time-mini with-time-mini.
+  simple_compare text-tma from-time-maxi with-time-maxi.
+  simple_compare text-pmi from-progress-mini with-progress-mini.
+  simple_compare text-pma from-progress-maxi with-progress-maxi.</SOURCE>
+   </ITEM>
+   <ITEM CMPNAME="COMPARE_WITH" EXPOSURE="2" STATE="1" MTDNEWEXC="X">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Compare with an other conditions"/>
+    </TEXTS>
+    <PARAMETERS>
+     <ITEM SCONAME="CONDITIONS" CMPTYPE="1" PARPASSTYP="1" TYPTYPE="1" TYPE="TI_CONDITIONS">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="Conditions"/>
+      </TEXTS>
+     </ITEM>
+    </PARAMETERS>
+    <EXCEPTIONS>
+     <ITEM SCONAME="YGPL_MT_CX" LANGU="E">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="MultyThread : Root exception class"/>
+      </TEXTS>
+     </ITEM>
+    </EXCEPTIONS>
+    <SOURCE>`
+  DATA i_conditions TYPE ti_task_conditions.
+  TRY.
+      i_conditions ?= conditions.
+      simple_compare text-str me-&gt;stop_requested i_conditions-&gt;stop_requested.
+      simple_compare text-mem me-&gt;maximum_memory i_conditions-&gt;maximum_memory.
+      complex_compare text-srv me-&gt;servers i_conditions-&gt;servers.
+      simple_compare text-jbp me-&gt;job_priority i_conditions-&gt;job_priority.
+      simple_compare text-btr me-&gt;batch_rate i_conditions-&gt;batch_rate.
+      simple_compare text-mbs me-&gt;maximum_batch_size i_conditions-&gt;maximum_batch_size.
+      simple_compare text-mlt me-&gt;message_lookup_time i_conditions-&gt;message_lookup_time.
+      IF i_conditions-&gt;progression &lt;&gt; me-&gt;progression.
+        MESSAGE i017 WITH text-prg.
+        compare_progression( from = me-&gt;progression
+                             with = i_conditions-&gt;progression ).
+      ENDIF.
+*      set_categories( i_conditions-&gt;categories ).
+*      set_status( i_conditions-&gt;status ).
+    CATCH cx_sy_move_cast_error.
+* Ignore this error
+  ENDTRY.</SOURCE>
+   </ITEM>
+   <ITEM CMPNAME="CONSTRUCTOR" EXPOSURE="2" STATE="1" MTDTYPE="2" MTDNEWEXC="X">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="CONSTRUCTOR"/>
+    </TEXTS>
+    <EXCEPTIONS>
+     <ITEM SCONAME="YGPL_MT_CX" LANGU="E" MTDTYPE="2">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="MultyThread : Root exception class"/>
+      </TEXTS>
+     </ITEM>
+    </EXCEPTIONS>
+    <SOURCE>`
+  DATA o_categories TYPE to_categories.
+  DATA o_status     TYPE to_status.
+
+  maximum_memory = 0.
+*  SERVERS
+  job_priority = &apos;C&apos;.
+  progression-active = abap_true.
+  progression-time-mini = 15.     &quot; Seconds
+  progression-progress-mini = 1.  &quot; %
+*  progression-progress-maxi = 5.
+  batch_rate = 50.                &quot; %
+  message_lookup_time = 5.        &quot; Seconds
+  o_categories ?= ygpl_mt_factories=&gt;get_categories( ).
+  set_categories( o_categories ).
+  o_status ?= ygpl_mt_factories=&gt;get_status( ).
+  set_status( o_status ).</SOURCE>
+   </ITEM>
+   <ITEM CMPNAME="HAS_CHANGED" EXPOSURE="2" STATE="1">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Do conditions have been modified"/>
+    </TEXTS>
+    <PARAMETERS>
+     <ITEM SCONAME="RESULT" CMPTYPE="1" PARDECLTYP="3" TYPTYPE="1" TYPE="TD_BOOLEAN">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="Conditions have changed"/>
+      </TEXTS>
+     </ITEM>
+    </PARAMETERS>
+    <SOURCE>`
+  result = f_has_changed.
+  CHECK result IS INITIAL.
+  result = o_categories-&gt;has_changed( ).
+  CHECK result IS INITIAL.
+  result = o_status-&gt;has_changed( ).</SOURCE>
+   </ITEM>
+   <ITEM CMPNAME="MERGE_WITH" EXPOSURE="2" STATE="1" MTDNEWEXC="X">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Merge with an other conditions"/>
+    </TEXTS>
+    <PARAMETERS>
+     <ITEM SCONAME="CONDITIONS" CMPTYPE="1" PARPASSTYP="1" TYPTYPE="1" TYPE="TI_CONDITIONS">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="Conditions"/>
+      </TEXTS>
+     </ITEM>
+    </PARAMETERS>
+    <EXCEPTIONS>
+     <ITEM SCONAME="YGPL_MT_CX" LANGU="E">
+      <TEXTS>
+       <ITEM LANG="E" TEXT="MultyThread : Root exception class"/>
+      </TEXTS>
+     </ITEM>
+    </EXCEPTIONS>
+    <SOURCE>`
+  DATA i_conditions TYPE ti_task_conditions.
+  TRY.
+      i_conditions ?= conditions.
+      set_stop_requested( i_conditions-&gt;stop_requested ).
+      set_maximum_memory( i_conditions-&gt;maximum_memory ).
+      set_servers( i_conditions-&gt;servers ).
+      set_job_priority( i_conditions-&gt;job_priority ).
+      set_progression( i_conditions-&gt;progression ).
+      set_batch_rate( i_conditions-&gt;batch_rate ).
+      set_maximum_batch_size( i_conditions-&gt;maximum_batch_size ).
+      set_categories( i_conditions-&gt;categories ).
+      set_status( i_conditions-&gt;status ).
+      set_message_lookup_time( i_conditions-&gt;message_lookup_time ).
+    CATCH cx_sy_move_cast_error.
+* Ignore this error
+  ENDTRY.</SOURCE>
+   </ITEM>
+  </METHODS>
+  <TEXTSPOOL>
+   <ITEM ID="I" KEY="ACT">
+    <TEXTS>
+     <ITEM LANGU="E" ENTRY="Active" LENGTH="40 "/>
+    </TEXTS>
+   </ITEM>
+   <ITEM ID="I" KEY="BTR">
+    <TEXTS>
+     <ITEM LANGU="E" ENTRY="Batch Rate" LENGTH="40 "/>
+    </TEXTS>
+   </ITEM>
+   <ITEM ID="I" KEY="JBP">
+    <TEXTS>
+     <ITEM LANGU="E" ENTRY="Job Priority" LENGTH="40 "/>
+    </TEXTS>
+   </ITEM>
+   <ITEM ID="I" KEY="MBS">
+    <TEXTS>
+     <ITEM LANGU="E" ENTRY="Maximum Batch Size" LENGTH="40 "/>
+    </TEXTS>
+   </ITEM>
+   <ITEM ID="I" KEY="MEM">
+    <TEXTS>
+     <ITEM LANGU="E" ENTRY="Maximum Memory" LENGTH="40 "/>
+    </TEXTS>
+   </ITEM>
+   <ITEM ID="I" KEY="MLT">
+    <TEXTS>
+     <ITEM LANGU="E" ENTRY="Message lookup Time (Minimum in Second)" LENGTH="40 "/>
+    </TEXTS>
+   </ITEM>
+   <ITEM ID="I" KEY="PMA">
+    <TEXTS>
+     <ITEM LANGU="E" ENTRY="Maximum Progression(%) between messages" LENGTH="40 "/>
+    </TEXTS>
+   </ITEM>
+   <ITEM ID="I" KEY="PMI">
+    <TEXTS>
+     <ITEM LANGU="E" ENTRY="Minimum Progression(%) between messages" LENGTH="40 "/>
+    </TEXTS>
+   </ITEM>
+   <ITEM ID="I" KEY="PRG">
+    <TEXTS>
+     <ITEM LANGU="E" ENTRY="Task Progression" LENGTH="40 "/>
+    </TEXTS>
+   </ITEM>
+   <ITEM ID="I" KEY="SRV">
+    <TEXTS>
+     <ITEM LANGU="E" ENTRY="Allowed Servers" LENGTH="40 "/>
+    </TEXTS>
+   </ITEM>
+   <ITEM ID="I" KEY="STR">
+    <TEXTS>
+     <ITEM LANGU="E" ENTRY="Stop Request Flag" LENGTH="40 "/>
+    </TEXTS>
+   </ITEM>
+   <ITEM ID="I" KEY="TMA">
+    <TEXTS>
+     <ITEM LANGU="E" ENTRY="Maximum Time between messages" LENGTH="40 "/>
+    </TEXTS>
+   </ITEM>
+   <ITEM ID="I" KEY="TMI">
+    <TEXTS>
+     <ITEM LANGU="E" ENTRY="Minimum Time between messages" LENGTH="40 "/>
+    </TEXTS>
+   </ITEM>
+  </TEXTSPOOL>
+  <TYPES>
+   <ITEM CMPNAME="TO_CATEGORIES" EXPOSURE="2" STATE="1" EDITORDER="1 " TYPTYPE="3" TYPE="YGPL_MT_CATEGORIES">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="MT Categories"/>
+    </TEXTS>
+   </ITEM>
+   <ITEM CMPNAME="TO_ME" EXPOSURE="2" STATE="1" EDITORDER="1 " TYPTYPE="3" TYPE="YGPL_MT_CONDITIONS_TASK">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Run conditions"/>
+    </TEXTS>
+   </ITEM>
+   <ITEM CMPNAME="TO_STATUS" EXPOSURE="2" STATE="1" EDITORDER="2 " TYPTYPE="3" TYPE="YGPL_MT_STATUS">
+    <TEXTS>
+     <ITEM LANG="E" TEXT="Status for Process/Bloc/Objects"/>
+    </TEXTS>
+   </ITEM>
+  </TYPES>
+ </RAW>
+</ZL_OBJECT>

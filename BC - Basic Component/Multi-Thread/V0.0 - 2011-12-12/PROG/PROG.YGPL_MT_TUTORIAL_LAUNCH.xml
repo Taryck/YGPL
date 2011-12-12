@@ -1,0 +1,608 @@
+<?xml version="1.0" encoding="utf-16"?>
+<ZL_OBJECT CHECKSUM="FE1840BC2C9264855D7D2BA83DDFB7F1" CODE_SIGNATURE="FFEA240F3610F4DCBA7D98746D9C4E11" CONNECTOR="AAAD0A4B07A5A05AE1000000AC120173" NAME="YGPL_MT_TUTORIAL_LAUNCH" TYPE="PROG" VERSION="1.0">
+ <DIRECTORY DEVCLASS="YGPL-MULTITHREAD.TUTORIAL" MASTERLANG="E"/>
+ <RAW>
+  <A0_MAINDATA VARCL="X" SUBC="1" APPL="Y" RSTAT="T" RMAND="060" RLOAD="E" FIXPT="X" UCCHECK="X"/>
+  <SOURCE>`
+*---------------------------------------------------------------------*
+* Report  Multi Thread Tutorial
+*---------------------------------------------------------------------*
+**********************************************************************
+* Author : Al&apos;oustaz Taryck BENSIALI (taryck.bensiali@gmail.com)     *
+* Date : 2008-2010
+**********************************************************************
+
+REPORT  ygpl_mt_tutorial_launch.
+
+TYPE-POOLS: abap.
+TABLES: ygpl_mt_workprocess_infos.
+
+SELECTION-SCREEN BEGIN OF BLOCK mode WITH FRAME TITLE text-trm.
+PARAMETERS :
+  p_gen   TYPE abap_bool RADIOBUTTON GROUP mode,
+  p_sub   TYPE abap_bool RADIOBUTTON GROUP mode,
+  p_spe   TYPE abap_bool RADIOBUTTON GROUP mode.
+SELECTION-SCREEN END OF BLOCK mode.
+
+SELECTION-SCREEN BEGIN OF BLOCK load WITH FRAME TITLE text-tlp.
+PARAMETERS :
+  wait_t TYPE ygpl_mt_my_run=&gt;td_waittime DEFAULT 3,
+  obj_c TYPE i DEFAULT 5 OBLIGATORY.
+SELECTION-SCREEN END OF BLOCK load.
+
+SELECTION-SCREEN BEGIN OF TABBED BLOCK tabb FOR 40 LINES.
+SELECTION-SCREEN TAB (17) text-trj USER-COMMAND tb_jobs DEFAULT SCREEN 110.
+SELECTION-SCREEN TAB (17) text-tro USER-COMMAND tb_objs DEFAULT SCREEN 120.
+SELECTION-SCREEN TAB (17) text-tms USER-COMMAND tb_msgs DEFAULT SCREEN 130.
+SELECTION-SCREEN END OF BLOCK tabb.
+
+SELECTION-SCREEN BEGIN OF SCREEN 110 AS SUBSCREEN.
+*SELECTION-SCREEN BEGIN OF BLOCK jobs WITH FRAME TITLE .
+PARAMETERS:
+  thread TYPE ygpl_mt_typespool=&gt;td_count DEFAULT 2 OBLIGATORY.
+SELECT-OPTIONS:
+  s_server FOR ygpl_mt_workprocess_infos-wp_server.   &quot; ygpl_mt_typespool=&gt;ts_wp_info-wp_server.
+PARAMETERS:
+  p_job_p TYPE ygpl_mt_typespool=&gt;td_priority.
+*SELECTION-SCREEN END OF BLOCK jobs.
+SELECTION-SCREEN END OF SCREEN 110.
+
+SELECTION-SCREEN BEGIN OF SCREEN 120 AS SUBSCREEN.
+*SELECTION-SCREEN BEGIN OF BLOCK objs WITH FRAME TITLE .
+PARAMETERS :
+  p_b_rate TYPE ygpl_mt_typespool=&gt;td_batch_rate,
+  bloc_s   TYPE ygpl_mt_typespool=&gt;td_count DEFAULT 10 OBLIGATORY,
+  max_size TYPE ygpl_mt_typespool=&gt;td_count,
+  mem_size TYPE ygpl_mt_typespool=&gt;td_memory_size DEFAULT 0.
+*SELECTION-SCREEN END OF BLOCK objs.
+SELECTION-SCREEN END OF SCREEN 120.
+
+SELECTION-SCREEN BEGIN OF SCREEN 130 AS SUBSCREEN.
+*SELECTION-SCREEN BEGIN OF BLOCK msgs WITH FRAME TITLE .
+SELECTION-SCREEN BEGIN OF BLOCK msgt WITH FRAME TITLE text-mta.
+PARAMETERS :
+  lu_time  TYPE ygpl_mt_typespool=&gt;td_count DEFAULT 15 OBLIGATORY,
+  t_act    TYPE ygpl_mt_typespool=&gt;td_boolean AS CHECKBOX.
+SELECTION-SCREEN BEGIN OF BLOCK msgt_p WITH FRAME TITLE text-tmp.
+PARAMETERS :
+  tp_min TYPE ygpl_mt_typespool=&gt;td_progress,
+  tp_max TYPE ygpl_mt_typespool=&gt;td_progress.
+SELECTION-SCREEN END OF BLOCK msgt_p.
+SELECTION-SCREEN BEGIN OF BLOCK msgt_t WITH FRAME TITLE text-tmt.
+PARAMETERS :
+  tt_min TYPE ygpl_mt_typespool=&gt;td_time,
+  tt_max TYPE ygpl_mt_typespool=&gt;td_time.
+SELECTION-SCREEN END OF BLOCK msgt_t.
+SELECTION-SCREEN END OF BLOCK msgt.
+
+SELECTION-SCREEN BEGIN OF BLOCK msgr WITH FRAME TITLE text-mru.
+PARAMETERS :
+  r_act    TYPE ygpl_mt_typespool=&gt;td_boolean AS CHECKBOX.
+SELECTION-SCREEN BEGIN OF BLOCK msgr_p WITH FRAME TITLE text-tmp.
+PARAMETERS :
+  rp_min TYPE ygpl_mt_typespool=&gt;td_progress,
+  rp_max TYPE ygpl_mt_typespool=&gt;td_progress.
+SELECTION-SCREEN END OF BLOCK msgr_p.
+SELECTION-SCREEN BEGIN OF BLOCK msgr_t WITH FRAME TITLE text-tmt.
+PARAMETERS :
+  rt_min TYPE ygpl_mt_typespool=&gt;td_time,
+  rt_max TYPE ygpl_mt_typespool=&gt;td_time.
+SELECTION-SCREEN END OF BLOCK msgr_t.
+SELECTION-SCREEN END OF BLOCK msgr.
+*SELECTION-SCREEN END OF BLOCK msgs.
+SELECTION-SCREEN END OF SCREEN 130.
+
+TYPES:
+  BEGIN OF ts_ctrl,
+    msg TYPE t100a-arbgb,
+    msg_ctrl TYPE string,
+  END OF ts_ctrl,
+  tt_ctrl TYPE STANDARD TABLE OF ts_ctrl.
+
+DATA my_run  TYPE REF TO ygpl_mt_my_run.
+DATA it_objects TYPE ygpl_mt_my_run=&gt;tt_data.
+DATA it_dep TYPE ygpl_mt_typespool=&gt;tt_dependencies.
+
+AT SELECTION-SCREEN ON VALUE-REQUEST FOR s_server-low.
+  PERFORM show_target_server IN PROGRAM ygpl_mt_routine_pool CHANGING s_server-low.
+
+AT SELECTION-SCREEN ON VALUE-REQUEST FOR s_server-high.
+  PERFORM show_target_server IN PROGRAM ygpl_mt_routine_pool CHANGING s_server-high.
+
+AT SELECTION-SCREEN.
+  PERFORM control_server_range IN PROGRAM ygpl_mt_routine_pool USING s_server[].
+
+START-OF-SELECTION.
+  DATA o_conditions TYPE ygpl_mt_interfaces=&gt;ti_full_conditions.
+  DATA s_param      TYPE ygpl_mt_my_run=&gt;ts_my_run_parameters.
+  DATA o_cx         TYPE REF TO ygpl_mt_cx.
+  DATA msg          TYPE string.
+  DATA s_limits     TYPE ygpl_mt_typespool=&gt;ts_limits.
+*  IF NOT clr_all IS INITIAL.
+*    CALL METHOD ygpl_mt_typespool=&gt;delete_all.
+*  ENDIF.
+
+  TRY.
+      o_conditions = ygpl_mt_factories=&gt;create_new_start_conditions( ).
+      o_conditions-&gt;set_threads( thread ).
+      IF NOT max_size IS INITIAL.   o_conditions-&gt;set_maximum_batch_size( max_size ).   ENDIF.
+      IF NOT s_server IS INITIAL.   o_conditions-&gt;set_servers( s_server[] ).   ENDIF.
+      IF NOT p_job_p IS INITIAL.   o_conditions-&gt;set_job_priority( p_job_p ).   ENDIF.
+      IF NOT p_b_rate IS INITIAL.   o_conditions-&gt;set_batch_rate( p_b_rate ).   ENDIF.
+      o_conditions-&gt;set_maximum_memory( mem_size ).
+      o_conditions-&gt;set_bloc_size( bloc_s ).
+      PERFORM set_limits IN PROGRAM ygpl_mt_routine_pool USING t_act tp_min tp_max tt_min tt_max
+                                                      CHANGING s_limits.
+      o_conditions-&gt;set_progression( s_limits ).
+      PERFORM set_limits IN PROGRAM ygpl_mt_routine_pool USING r_act rp_min rp_max rt_min rt_max
+                                                      CHANGING s_limits.
+      o_conditions-&gt;set_global_progression( s_limits ).
+
+      CREATE OBJECT my_run
+        EXPORTING
+          conditions = o_conditions.
+
+      s_param-wait_time = wait_t.
+      s_param-obj_count = obj_c.
+      my_run-&gt;set_parameters( s_param ).
+
+      PERFORM create_worklist.
+
+* Prepare MT
+      CALL METHOD my_run-&gt;add_objects
+        EXPORTING
+          OBJECTS      = it_objects
+          dependencies = it_dep.
+
+* Before starting Clear Controle table
+      DELETE FROM ygpl_t100t.                           &quot;#EC CI_NOWHERE
+      COMMIT WORK AND WAIT.
+
+      CASE abap_true.
+        WHEN p_gen.
+          my_run-&gt;start_threads_generic( ) .
+        WHEN p_sub.
+          my_run-&gt;start_threads( ) .
+        WHEN p_spe.
+          my_run-&gt;start_threads_debug( ) .
+* OR if you want to specify your own Job Names
+*      PERFORM launch_theards_manually.
+        WHEN OTHERS.
+          ASSERT 0 = 1.
+      ENDCASE.
+
+* Watching Threads.
+      my_run-&gt;wait_progress( ).
+    CATCH ygpl_mt_cx INTO o_cx.
+      msg = o_cx-&gt;get_text( ).
+      MESSAGE msg TYPE &apos;A&apos;.
+  ENDTRY.
+
+END-OF-SELECTION.
+
+  PERFORM display_progress.
+
+  PERFORM check_insertion.
+
+*---------------------------------------------------------------------*
+*      Form  LAUNCH_THEARDS_MANUALLY
+*---------------------------------------------------------------------*
+FORM launch_theards_manually .
+  DATA _jobname  TYPE tbtcjob-jobname.
+  DATA _jobcount TYPE tbtcjob-jobcount.
+
+  CLEAR bloc_s.
+  DO thread TIMES.
+    ADD 1 TO bloc_s.
+    _jobname = bloc_s.
+    CONDENSE _jobname.
+    CONCATENATE sy-cprog &apos; MT N°&apos;(i01) _jobname INTO _jobname.
+    CALL FUNCTION &apos;JOB_OPEN&apos;
+      EXPORTING
+*     DELANFREP              = &apos; &apos;
+*     JOBGROUP               = &apos; &apos;
+        jobname                = _jobname
+*     SDLSTRTDT              = NO_DATE
+*     SDLSTRTTM              = NO_TIME
+*     JOBCLASS               =
+      IMPORTING
+        jobcount               = _jobcount
+*   CHANGING
+*     RET                    =
+     EXCEPTIONS
+       cant_create_job        = 1
+       invalid_job_data       = 2
+       jobname_missing        = 3
+       OTHERS                 = 4.
+    IF sy-subrc &lt;&gt; 0.
+      MESSAGE e069(/bdl/d-) WITH &apos;JOB_OPEN&apos;(e02).
+    ENDIF.
+
+    CALL METHOD my_run-&gt;add_thread
+      EXPORTING
+        jobname = _jobname
+        jobid   = _jobcount.
+
+    SUBMIT ygpl_mt_tutorial
+      WITH run_id = my_run-&gt;process_id
+*      WITH wait_t = wait_t
+*      WITH obj_c = obj_c
+*      WITH mem_size = mem_size
+      VIA JOB _jobname NUMBER _jobcount
+      AND RETURN.
+    IF sy-subrc &lt;&gt; 0.
+      MESSAGE e069(/bdl/d-) WITH &apos;SUBMIT&apos;(e03).
+    ENDIF.
+
+    CALL FUNCTION &apos;JOB_CLOSE&apos;
+      EXPORTING
+*     AT_OPMODE                         = &apos; &apos;
+*     AT_OPMODE_PERIODIC                = &apos; &apos;
+*     CALENDAR_ID                       = &apos; &apos;
+*     EVENT_ID                          = &apos; &apos;
+*     EVENT_PARAM                       = &apos; &apos;
+*     EVENT_PERIODIC                    = &apos; &apos;
+        jobcount                          = _jobcount
+        jobname                           = _jobname
+*     LASTSTRTDT                        = NO_DATE
+*     LASTSTRTTM                        = NO_TIME
+*     PRDDAYS                           = 0
+*     PRDHOURS                          = 0
+*     PRDMINS                           = 0
+*     PRDMONTHS                         = 0
+*     PRDWEEKS                          = 0
+*     PREDJOB_CHECKSTAT                 = &apos; &apos;
+*     PRED_JOBCOUNT                     = &apos; &apos;
+*     PRED_JOBNAME                      = &apos; &apos;
+*     SDLSTRTDT                         = NO_DATE
+*     SDLSTRTTM                         = NO_TIME
+*     STARTDATE_RESTRICTION             = BTC_PROCESS_ALWAYS
+      strtimmed                         = abap_false
+*     TARGETSYSTEM                      = &apos; &apos;
+*     START_ON_WORKDAY_NOT_BEFORE       = SY-DATUM
+*     START_ON_WORKDAY_NR               = 0
+*     WORKDAY_COUNT_DIRECTION           = 0
+*     RECIPIENT_OBJ                     =
+*     TARGETSERVER                      = &apos; &apos;
+      dont_release                      = abap_true
+*     TARGETGROUP                       = &apos; &apos;
+*     DIRECT_START                      =
+*   IMPORTING
+*     JOB_WAS_RELEASED                  =
+*   CHANGING
+*     RET                               =
+     EXCEPTIONS
+       cant_start_immediate              = 1
+       invalid_startdate                 = 2
+       jobname_missing                   = 3
+       job_close_failed                  = 4
+       job_nosteps                       = 5
+       job_notex                         = 6
+       lock_failed                       = 7
+       invalid_target                    = 8
+       OTHERS                            = 9.
+    IF sy-subrc &gt; 1.
+      MESSAGE e069(/bdl/d-) WITH &apos;JOB_CLOSE&apos;(e04).
+    ENDIF.
+
+  ENDDO.
+
+ENDFORM.                    &quot; LAUNCH_THEARDS_MANUALLY
+*---------------------------------------------------------------------*
+*      Form  CREATE_WORKLIST
+*---------------------------------------------------------------------*
+FORM create_worklist .
+  TYPES:
+    BEGIN OF ts_data,
+        msg TYPE t100a-arbgb,
+        langu TYPE t100t-sprsl,
+        text TYPE string,
+      END OF ts_data .
+  TYPES:
+    tt_data TYPE STANDARD TABLE OF ts_data WITH NON-UNIQUE KEY msg .
+  DATA it_data  TYPE tt_data.
+  DATA c_line   TYPE i.
+  DATA w_obj    LIKE LINE OF it_objects.
+  DATA 1st_c    TYPE c.
+  DATA line     TYPE i.
+  DATA w_lang   LIKE LINE OF w_obj-lang.
+  DATA int      TYPE i.
+  DATA w_dep    LIKE LINE OF it_dep.
+
+  FIELD-SYMBOLS:
+    &lt;wa&gt; LIKE LINE OF it_data.
+
+* GET worklist
+  SELECT t~arbgb l~sprsl l~stext
+    INTO TABLE it_data
+    FROM t100a AS t LEFT JOIN t100t AS l ON l~arbgb = t~arbgb
+*  where arbgb &lt; &apos;D&apos;
+    .
+
+  SORT it_data BY msg langu.
+  LOOP AT it_data ASSIGNING &lt;wa&gt;.
+    AT NEW msg.
+      ADD 1 TO c_line.
+      CLEAR w_obj.
+      w_obj-msg = &lt;wa&gt;-msg.
+      IF 1st_c &lt;&gt; w_obj-msg(1).
+        1st_c = w_obj-msg(1).
+        line = c_line.
+      ENDIF.
+      IF 1st_c &gt; &apos;A&apos;. CLEAR 1st_c. ENDIF.
+    ENDAT.
+
+    w_lang-langu = &lt;wa&gt;-langu.
+    w_lang-text = &lt;wa&gt;-text.
+    int = STRLEN( w_lang-text ).
+    ADD int TO w_obj-weight.
+    APPEND w_lang TO w_obj-lang.
+
+    AT END OF msg.
+      APPEND w_obj TO it_objects.
+      IF line &lt;&gt; c_line AND NOT 1st_c IS INITIAL.
+        w_dep-obj1 = line.
+        w_dep-obj2 = c_line.
+        INSERT w_dep INTO TABLE it_dep.
+      ELSEIF 1st_c CO &apos;123456789&apos;. &quot; regouper 0 à 9 ensemble
+        w_dep-obj1 = line - 1.
+        w_dep-obj2 = c_line.
+        INSERT w_dep INTO TABLE it_dep.
+      ENDIF.
+    ENDAT.
+  ENDLOOP.
+ENDFORM.                    &quot; CREATE_WORKLIST
+*---------------------------------------------------------------------*
+*      Form  DISPLAY_PROGRESS
+*---------------------------------------------------------------------*
+FORM display_progress .
+  DATA s_progress  TYPE ygpl_mt_typespool=&gt;ts_progression.
+  FIELD-SYMBOLS &lt;st&gt; LIKE LINE OF s_progress-global_status.
+
+  s_progress = my_run-&gt;get_progression( ).
+  LOOP AT s_progress-global_status ASSIGNING &lt;st&gt;.
+    WRITE:/ &lt;st&gt;-status, &lt;st&gt;-count.
+  ENDLOOP.
+ENDFORM.                    &quot; DISPLAY_PROGRESS
+*---------------------------------------------------------------------*
+*      Form  CHECK_INSERTION
+*---------------------------------------------------------------------*
+FORM check_insertion .
+  DATA it_ctrl TYPE tt_ctrl.
+  FIELD-SYMBOLS &lt;msg&gt; LIKE LINE OF it_ctrl.
+
+* Clear Controle table
+  SELECT t~arbgb c~arbgb
+    INTO TABLE it_ctrl
+    FROM t100a AS t LEFT JOIN ygpl_t100t AS c ON c~arbgb = t~arbgb.
+
+  DELETE it_ctrl WHERE NOT msg_ctrl IS INITIAL.
+  IF NOT it_ctrl IS INITIAL.
+    DESCRIBE TABLE it_ctrl LINES obj_c.
+    WRITE:/ &apos;list of missing objects&apos;(i03), obj_c.
+    LOOP AT it_ctrl ASSIGNING &lt;msg&gt;.
+      WRITE:/ &lt;msg&gt;-msg.
+    ENDLOOP.
+  ENDIF.
+
+ENDFORM.                    &quot; CHECK_INSERTION</SOURCE>
+  <TEXTSPOOL>
+   <ITEM ID="I" KEY="E02">
+    <TEXTS>
+     <ITEM LANGU="E" ENTRY="JOB_OPEN" LENGTH="40 "/>
+    </TEXTS>
+   </ITEM>
+   <ITEM ID="I" KEY="E03">
+    <TEXTS>
+     <ITEM LANGU="E" ENTRY="SUBMIT" LENGTH="40 "/>
+    </TEXTS>
+   </ITEM>
+   <ITEM ID="I" KEY="E04">
+    <TEXTS>
+     <ITEM LANGU="E" ENTRY="JOB_CLOSE" LENGTH="40 "/>
+    </TEXTS>
+   </ITEM>
+   <ITEM ID="I" KEY="I01">
+    <TEXTS>
+     <ITEM LANGU="E" ENTRY=" MT N°" LENGTH="10 "/>
+    </TEXTS>
+   </ITEM>
+   <ITEM ID="I" KEY="I03">
+    <TEXTS>
+     <ITEM LANGU="E" ENTRY="list of missing objects" LENGTH="40 "/>
+    </TEXTS>
+   </ITEM>
+   <ITEM ID="I" KEY="MRU">
+    <TEXTS>
+     <ITEM LANGU="E" ENTRY="Progression :" LENGTH="40 "/>
+    </TEXTS>
+   </ITEM>
+   <ITEM ID="I" KEY="MTA">
+    <TEXTS>
+     <ITEM LANGU="E" ENTRY="For tasks :" LENGTH="60 "/>
+    </TEXTS>
+   </ITEM>
+   <ITEM ID="I" KEY="TLP">
+    <TEXTS>
+     <ITEM LANGU="E" ENTRY="Load simulation parameters :" LENGTH="40 "/>
+    </TEXTS>
+   </ITEM>
+   <ITEM ID="I" KEY="TMP">
+    <TEXTS>
+     <ITEM LANGU="E" ENTRY="Progression (%) limits :" LENGTH="60 "/>
+    </TEXTS>
+   </ITEM>
+   <ITEM ID="I" KEY="TMS">
+    <TEXTS>
+     <ITEM LANGU="E" ENTRY="Communications" LENGTH="60 "/>
+    </TEXTS>
+   </ITEM>
+   <ITEM ID="I" KEY="TMT">
+    <TEXTS>
+     <ITEM LANGU="E" ENTRY="Time (seconds) limits :" LENGTH="60 "/>
+    </TEXTS>
+   </ITEM>
+   <ITEM ID="I" KEY="TRJ">
+    <TEXTS>
+     <ITEM LANGU="E" ENTRY="Jobs definitions :" LENGTH="60 "/>
+    </TEXTS>
+   </ITEM>
+   <ITEM ID="I" KEY="TRM">
+    <TEXTS>
+     <ITEM LANGU="E" ENTRY="Run mode : Generic, specific or manual (allow debug)" LENGTH="60 "/>
+    </TEXTS>
+   </ITEM>
+   <ITEM ID="I" KEY="TRO">
+    <TEXTS>
+     <ITEM LANGU="E" ENTRY="Object Blocs definitions" LENGTH="60 "/>
+    </TEXTS>
+   </ITEM>
+   <ITEM ID="R">
+    <TEXTS>
+     <ITEM LANGU="E" ENTRY="MultiThread Tutorial : Launch threads to consume a certain work load" LENGTH="68 "/>
+     <ITEM LANGU="F" ENTRY="MT tutorial (test obj *_MT_TEMPLATE) - Lanceur" LENGTH="46 "/>
+    </TEXTS>
+   </ITEM>
+   <ITEM ID="S" KEY="BLOC_S">
+    <TEXTS>
+     <ITEM LANGU="E" ENTRY="        Size of standard bloc" LENGTH="29 "/>
+     <ITEM LANGU="F" ENTRY="        Taille des blocs" LENGTH="24 "/>
+    </TEXTS>
+   </ITEM>
+   <ITEM ID="S" KEY="CLR_ALL">
+    <TEXTS>
+     <ITEM LANGU="F" ENTRY="        Purge tout les RUN" LENGTH="26 "/>
+    </TEXTS>
+   </ITEM>
+   <ITEM ID="S" KEY="IMMED">
+    <TEXTS>
+     <ITEM LANGU="F" ENTRY="        Lancer les Thread" LENGTH="25 "/>
+    </TEXTS>
+   </ITEM>
+   <ITEM ID="S" KEY="LU_TIME">
+    <TEXTS>
+     <ITEM LANGU="E" ENTRY="        Msg Lookup Interval in seconds" LENGTH="38 "/>
+    </TEXTS>
+   </ITEM>
+   <ITEM ID="S" KEY="MAX_SIZE">
+    <TEXTS>
+     <ITEM LANGU="E" ENTRY="        Requested maximum batch size" LENGTH="36 "/>
+    </TEXTS>
+   </ITEM>
+   <ITEM ID="S" KEY="MEM_SIZE">
+    <TEXTS>
+     <ITEM LANGU="E" ENTRY="        Requested maximum memory size" LENGTH="37 "/>
+     <ITEM LANGU="F" ENTRY="        Taille limite batch en octets" LENGTH="37 "/>
+    </TEXTS>
+   </ITEM>
+   <ITEM ID="S" KEY="OBJ_C">
+    <TEXTS>
+     <ITEM LANGU="E" ENTRY="        Count of object before waiting" LENGTH="38 "/>
+     <ITEM LANGU="F" ENTRY="        Nb d&apos;objet par temps d&apos;attente" LENGTH="38 "/>
+    </TEXTS>
+   </ITEM>
+   <ITEM ID="S" KEY="PROG_M">
+    <TEXTS>
+     <ITEM LANGU="F" ENTRY="        Min. Progression entre 2 msgs" LENGTH="37 "/>
+    </TEXTS>
+   </ITEM>
+   <ITEM ID="S" KEY="P_B_RATE">
+    <TEXTS>
+     <ITEM LANGU="E" ENTRY="        Batch Rate" LENGTH="18 "/>
+    </TEXTS>
+   </ITEM>
+   <ITEM ID="S" KEY="P_GEN">
+    <TEXTS>
+     <ITEM LANGU="E" ENTRY="        Use Generic task Launcher" LENGTH="33 "/>
+    </TEXTS>
+   </ITEM>
+   <ITEM ID="S" KEY="P_JOB_P">
+    <TEXTS>
+     <ITEM LANGU="E" ENTRY="D       ." LENGTH="17 "/>
+    </TEXTS>
+   </ITEM>
+   <ITEM ID="S" KEY="P_SPE">
+    <TEXTS>
+     <ITEM LANGU="E" ENTRY="        Manual Job creation (4 debug)" LENGTH="37 "/>
+    </TEXTS>
+   </ITEM>
+   <ITEM ID="S" KEY="P_SUB">
+    <TEXTS>
+     <ITEM LANGU="E" ENTRY="        Use dedicated program + event" LENGTH="37 "/>
+    </TEXTS>
+   </ITEM>
+   <ITEM ID="S" KEY="RP_MAX">
+    <TEXTS>
+     <ITEM LANGU="E" ENTRY="        Maximum Progress. between 2msg" LENGTH="38 "/>
+    </TEXTS>
+   </ITEM>
+   <ITEM ID="S" KEY="RP_MIN">
+    <TEXTS>
+     <ITEM LANGU="E" ENTRY="        Miximum Progress. between 2msg" LENGTH="38 "/>
+    </TEXTS>
+   </ITEM>
+   <ITEM ID="S" KEY="RT_MAX">
+    <TEXTS>
+     <ITEM LANGU="E" ENTRY="        Maximum Time between 2 msgs" LENGTH="35 "/>
+    </TEXTS>
+   </ITEM>
+   <ITEM ID="S" KEY="RT_MIN">
+    <TEXTS>
+     <ITEM LANGU="E" ENTRY="        Miximum Time between 2 msgs" LENGTH="35 "/>
+    </TEXTS>
+   </ITEM>
+   <ITEM ID="S" KEY="R_ACT">
+    <TEXTS>
+     <ITEM LANGU="E" ENTRY="        Progression messages active ?" LENGTH="37 "/>
+    </TEXTS>
+   </ITEM>
+   <ITEM ID="S" KEY="S_SERVER">
+    <TEXTS>
+     <ITEM LANGU="E" ENTRY="D       ." LENGTH="19 "/>
+    </TEXTS>
+   </ITEM>
+   <ITEM ID="S" KEY="THREAD">
+    <TEXTS>
+     <ITEM LANGU="E" ENTRY="        Number of thread to start" LENGTH="33 "/>
+     <ITEM LANGU="F" ENTRY="        Nombre de Thread" LENGTH="24 "/>
+    </TEXTS>
+   </ITEM>
+   <ITEM ID="S" KEY="TP_MAX">
+    <TEXTS>
+     <ITEM LANGU="E" ENTRY="        Maximum Progress. between 2msg" LENGTH="38 "/>
+    </TEXTS>
+   </ITEM>
+   <ITEM ID="S" KEY="TP_MIN">
+    <TEXTS>
+     <ITEM LANGU="E" ENTRY="        Miximum Progress. between 2msg" LENGTH="38 "/>
+    </TEXTS>
+   </ITEM>
+   <ITEM ID="S" KEY="TT_MAX">
+    <TEXTS>
+     <ITEM LANGU="E" ENTRY="        Maximum Time between 2 msgs" LENGTH="35 "/>
+    </TEXTS>
+   </ITEM>
+   <ITEM ID="S" KEY="TT_MIN">
+    <TEXTS>
+     <ITEM LANGU="E" ENTRY="        Miximum Time between 2 msgs" LENGTH="35 "/>
+    </TEXTS>
+   </ITEM>
+   <ITEM ID="S" KEY="T_ACT">
+    <TEXTS>
+     <ITEM LANGU="E" ENTRY="        Progression messages active ?" LENGTH="37 "/>
+    </TEXTS>
+   </ITEM>
+   <ITEM ID="S" KEY="WAIT_M">
+    <TEXTS>
+     <ITEM LANGU="F" ENTRY="        Attente mini entre 2 messages" LENGTH="37 "/>
+    </TEXTS>
+   </ITEM>
+   <ITEM ID="S" KEY="WAIT_T">
+    <TEXTS>
+     <ITEM LANGU="E" ENTRY="        Wait time (4 load simulation)" LENGTH="37 "/>
+     <ITEM LANGU="F" ENTRY="        Temps d&apos;attente en S pour nb O" LENGTH="38 "/>
+    </TEXTS>
+   </ITEM>
+  </TEXTSPOOL>
+ </RAW>
+</ZL_OBJECT>
